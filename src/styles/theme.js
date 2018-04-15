@@ -4,14 +4,14 @@ import {moderateScale as normalize} from 'react-native-size-matters';
 const color = {
     black: "#3B3031",
     light_black: "#414141",
-    main: "rgb(99,139,250)",
+    main: "#FF553F",
     white: "#ffffff",
     light_grey: "#eaeaea",
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    tab_active: '#3b5998',
-    tab_inactive: '#93a8d5',
+    tab_active: '#FF553F',
+    tab_inactive: '#ffb2a8',
 };
 
 const fontSize = {

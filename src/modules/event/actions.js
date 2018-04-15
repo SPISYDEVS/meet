@@ -15,3 +15,14 @@ export function createEvent(event, successCB, errorCB) {
             });
     };
 }
+
+export function loadEvents(eventIds, successCB, errorCB) {
+    return (dispatch) => {
+            api.loadEvents(eventIds, function (success, data, error) {
+                if (success) {
+                    dispatch({type: t.MY_EVENTS_LOADED, data: data});
+                    successCB();
+                } else if (error) errorCB(error)
+            });
+    };
+}

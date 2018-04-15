@@ -4,11 +4,14 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {actions as auth} from "../../index"
+import {actions as event} from "../../../event/index"
 
 import Form from "../../../../components/Form"
 import {validate} from '../../utils/validate'
 
 const {login} = auth;
+const {loadEvents} = event;
+
 
 const fields = [
     {
@@ -47,6 +50,7 @@ class Login extends React.Component {
         }
 
         this.onSubmit = this.onSubmit.bind(this);
+        this.onLogin = this.onLogin.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
     }
@@ -57,13 +61,18 @@ class Login extends React.Component {
 
     onSubmit(data) {
         this.setState({error: error}); //clear out error messages
-
-        this.props.login(data, this.onSuccess, this.onError)
+        this.props.login(data, this.onLogin, this.onError)
     }
 
-    onSuccess({exists, user}) {
-        if (exists) Actions.Main();
+    onLogin({exists, user}){
+        console.log(user);
+        if (exists) this.props.loadEvents(Object.keys(user.events), this.onSuccess, () => {});
         else Actions.CompleteProfile({user});
+
+    }
+
+    onSuccess() {
+        Actions.Main();
     }
 
     onError(error) {
@@ -93,4 +102,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, {login})(Login);
+export default connect(null, {login, loadEvents})(Login);

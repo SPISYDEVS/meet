@@ -1,4 +1,4 @@
-import {Scene, Router, ActionConst, Stack, Modal, Tabs} from 'react-native-router-flux';
+import {Scene, Router, ActionConst, Stack, Modal, Tabs, Actions} from 'react-native-router-flux';
 
 import React from 'react';
 import {
@@ -19,7 +19,7 @@ import CompleteProfile from '../modules/auth/containers/CompleteProfile';
 import Login from '../modules/auth/containers/Login';
 import ForgotPassword from '../modules/auth/containers/ForgotPassword';
 import Profile from '../modules/profile/containers/Profile';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Import Store, actions
 import {store} from '../redux/store'
@@ -46,8 +46,8 @@ class TabIcon extends React.Component {
                 alignSelf: 'center',
                 justifyContent: 'center'
             }}>
-                <Icon color={tabColor} style={{height: 18, width: 18}} name={this.props.iconName || "circle"}
-                      size={18}/>
+                <Icon color={tabColor} style={{height: 24, width: 24}} name={this.props.iconName || "bomb"}
+                      size={24}/>
             </View>
         );
     }
@@ -88,18 +88,34 @@ export default class extends React.Component {
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
                     </Stack>
 
-                    <Scene key="Main" initial={this.state.isLoggedIn} default="Profile" tabs={true}
+                    <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}>
-                        <Scene key="Events" component={Events} iconName="tags"
-                               icon={({focused}) => <TabIcon focused={focused} iconName="ios-planet"/>}
-                               title="Feed"
-                               initial={true}
-                               type={ActionConst.REPLACE}/>
-                        <Scene key="Event" component={EventForm}
+
+                        <Scene key="Feed"
+                               component={EventForm}
                                icon={({focused}) => <TabIcon focused={focused} iconName="ios-planet"/>}
                                title="My Events"
                                type={ActionConst.REPLACE}/>
-                        <Scene key="Profile" component={Profile} title="Profile" type={ActionConst.REPLACE}/>
+
+                        <Scene key="Event" default="Events"
+                               icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
+                            <Scene key="Events"
+                                   component={Events}
+                                   title="Events"
+                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 5}} size={32} onPress={() => Actions.push('EventForm')}/>}
+                                   type={ActionConst.REPLACE}/>
+                            <Scene key="EventForm"
+                                   component={EventForm}
+                                   title="Create an Event"
+                                   type={ActionConst.REPLACE}/>
+                        </Scene>
+
+                        <Scene key="Profile"
+                               component={Profile}
+                               icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}
+                               title="Profile"
+                               type={ActionConst.REPLACE}/>
+
                     </Scene>
                 </Scene>
             </Router>
