@@ -9,6 +9,7 @@ import {isEmpty} from '../../utils/validate'
 import styles from "./styles"
 
 import TextInput from "../TextInput"
+import DatePicker from "react-native-datepicker";
 
 class Form extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class Form extends React.Component {
         });
 
         state["error"] = error;
+
         return state;
     }
 
@@ -75,19 +77,55 @@ class Form extends React.Component {
 
                     {
                         fields.map((data, idx) => {
-                            let {key, label, placeholder, autoFocus, secureTextEntry, multiline} = data;
-                            return (
-                                <TextInput key={key}
-                                           label={label}
-                                           showLabel={showLabel}
-                                           placeholder={placeholder}
-                                           autoFocus={autoFocus}
-                                           onChangeText={(text) => this.onChange(key, text)}
-                                           secureTextEntry={secureTextEntry}
-                                           multiline={multiline}
-                                           value={this.state[key]['value']}
-                                           error={this.state.error[key]}/>
-                            )
+
+                            if(data.input === "text") {
+                                let {key, label, placeholder, autoFocus, secureTextEntry, multiline} = data;
+                                return (
+                                    <TextInput key={key}
+                                               label={label}
+                                               showLabel={showLabel}
+                                               placeholder={placeholder}
+                                               autoFocus={autoFocus}
+                                               onChangeText={(text) => this.onChange(key, text)}
+                                               secureTextEntry={secureTextEntry}
+                                               multiline={multiline}
+                                               value={this.state[key]['value']}
+                                               error={this.state.error[key]}/>
+                                )
+                            } else if(data.input === "date"){
+                                let {key, options} = data;
+                                return (
+                                    <DatePicker
+                                        key={key}
+                                        style={{width: 200}}
+                                        date={this.state[key]['value']}
+                                        mode="date"
+                                        placeholder="select date"
+                                        // format={dateOption.format !== undefined ? dateOption.format : "YYYY-MM-DD"}
+                                        format="YYYY-MM-DD"
+                                        minDate="2010-01-01"
+                                        maxDate="2060-01-01"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        customStyles={{
+                                            dateIcon: {
+                                                position: 'absolute',
+                                                left: 0,
+                                                top: 4,
+                                                marginLeft: 0
+                                            },
+                                            dateInput: {
+                                                marginLeft: 18
+                                            }
+                                            // ... You can check the source to find the other keys.
+                                        }}
+                                        onDateChange={(date) => {
+                                            this.onChange(key, date)
+                                        }}
+                                        {...options}
+                                    />
+                                )
+                            }
                         })
                     }
 
@@ -117,7 +155,7 @@ Form.propTypes = {
     showLabel: PropTypes.bool,
     buttonTitle: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    error: PropTypes.object
+    error: PropTypes.object,
 };
 
 

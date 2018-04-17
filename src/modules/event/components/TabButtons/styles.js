@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         minHeight: 30,
+        maxHeight: 30,
         flexDirection: 'row',
         backgroundColor: color.white,
         borderWidth: 1,
@@ -21,7 +22,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: color.main,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRightWidth: 0.75,
+        borderRightColor: color.main
     },
     selectedText:{
         color: color.white
@@ -30,7 +33,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: color.white,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRightWidth: 0.5,
+        borderRightColor: color.main
     },
     text:{
         color: color.main,

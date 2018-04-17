@@ -1,7 +1,7 @@
 import React from 'react';
 const { View, StyleSheet, Alert } = require('react-native');
 
-import {Button} from 'react-native-elements'
+import {SearchBar, Button} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
@@ -12,40 +12,25 @@ const { signOut } = auth;
 
 const { color } = theme;
 
-class Profile extends React.Component {
+class Home extends React.Component {
     constructor(){
         super();
-        this.state = { };
-
-        this.onSignOut = this.onSignOut.bind(this);
+        this.state = {search: ''};
     }
 
-    onSignOut() {
-        this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
-    }
 
-    onSuccess() {
-        Actions.reset("Auth")
-    }
-
-    onError(error) {
-        Alert.alert('Oops!', error.message);
-    }
 
     render() {
         return (
             <View style={styles.container}>
-                <Button
-                    raised
-                    borderRadius={4}
-                    title={'LOG OUT'}
-                    containerViewStyle={[styles.containerView]}
-                    buttonStyle={[styles.button]}
-                    textStyle={styles.buttonText}
-                    onPress={this.onSignOut}/>
+                <SearchBar
+                    lightTheme
+                    onChangeText={(search) => this.setState({search: search})}
+                    onClearText={() => this.setState({search: ''})}
+                    placeholder='Type Here...' />
             </View>
         );
     }
 }
 
-export default connect(null, { signOut })(Profile);
+export default connect(null, { signOut })(Home);

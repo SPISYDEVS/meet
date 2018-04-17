@@ -27,14 +27,17 @@
     "moment": "^2.22.0",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",
+    "react-native-datepicker": "^1.7.1",
     "react-native-elements": "^0.19.1",
     "react-native-router-flux": "4.0.0-beta.27",
     "react-native-size-matters": "^0.1.0",
+    "react-native-step-indicator": "0.0.8",
     "react-native-vector-icons": "^4.6.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-persist": "^5.9.1",
+    "redux-promise-middleware": "latest",
     "redux-thunk": "^2.2.0",
-    "redux-promise-middleware": "latest"
+    "rn-viewpager": "^1.2.9"
   }
 }

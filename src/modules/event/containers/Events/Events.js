@@ -21,32 +21,35 @@ class Events extends Component {
         const buttons = [
             {
                 title: 'Managing',
-                callback: this.setToManaging.bind(this),
-                initialTab: true,
+                callback: this.setToTab.bind(this),
+                selected: true,
             },
             {
                 title: 'Attending',
-                callback: this.setToAttending.bind(this),
-                initialTab: false
+                callback: this.setToTab.bind(this),
+                selected: false
             }
         ];
 
         this.state = {
             buttons: buttons,
-            managingTab: true,
-            attendingTab: false
         };
 
-        this.setToManaging = this.setToManaging.bind(this);
-        this.setToAttending = this.setToAttending.bind(this);
+        this.setToTab = this.setToTab.bind(this);
     }
 
-    setToManaging() {
-        this.setState({managingTab: true, attendingTab: false});
-    }
+    setToTab(tabKey) {
+        const state = {...this.state};
+        state.buttons = [];
 
-    setToAttending() {
-        this.setState({managingTab: false, attendingTab: true});
+        this.state.buttons.forEach((button) => {
+            state.buttons.push({
+                title: button.title,
+                callback: this.setToTab.bind(this),
+                selected: button.title === tabKey
+            })
+        });
+        this.setState(state);
     }
 
     render() {
@@ -56,8 +59,8 @@ class Events extends Component {
         return (
             <View>
                 <TabButtons buttons={this.state.buttons}/>
-                {this.state.managingTab && <MyEvents/>}
-                {this.state.attendingTab && <AttendingEvents/>}
+                {this.state.buttons[0].selected && <MyEvents/>}
+                {this.state.buttons[1].selected && <AttendingEvents/>}
             </View>
         );
     }

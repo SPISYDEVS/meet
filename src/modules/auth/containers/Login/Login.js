@@ -22,7 +22,8 @@ const fields = [
         secureTextEntry: false,
         value: "",
         multiline: false,
-        type: "email"
+        type: "email",
+        input: "text"
     },
     {
         key: 'password',
@@ -32,7 +33,8 @@ const fields = [
         secureTextEntry: true,
         value: "",
         multiline: false,
-        type: "password"
+        type: "password",
+        input: "text"
     }
 ];
 

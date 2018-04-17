@@ -27,7 +27,8 @@ import {checkLoginStatus} from "../modules/auth/actions";
 
 import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";
-import Events from "../modules/event/containers/Events/Events";
+import Events from "../modules/event/containers/Events";
+import Home from "../modules/home/containers/Home";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -92,17 +93,17 @@ export default class extends React.Component {
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}>
 
                         <Scene key="Feed"
-                               component={EventForm}
-                               icon={({focused}) => <TabIcon focused={focused} iconName="ios-planet"/>}
-                               title="My Events"
+                               component={Home}
+                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
+                               title="Explore"
                                type={ActionConst.REPLACE}/>
 
-                        <Scene key="Event" default="Events"
+                        <Scene key="Event" default="Events" title="My Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 5}} size={32} onPress={() => Actions.push('EventForm')}/>}
+                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 8}} size={32} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
                                    component={EventForm}

@@ -19,7 +19,8 @@ const fields = [
         secureTextEntry: false,
         value: "",
         multiline: false,
-        type: "email"
+        type: "email",
+        input: "text"
     }
 ];
 

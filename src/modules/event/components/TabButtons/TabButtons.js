@@ -11,7 +11,7 @@ class TabButtons extends React.Component {
 
         const {buttons} = this.props;
         this.state = this.createState(buttons);
-
+        console.log(this.state);
         //bind functions
         this.onSelect = this.onSelect.bind(this);
     }
@@ -21,8 +21,8 @@ class TabButtons extends React.Component {
         const state = {};
 
         buttons.forEach((button) => {
-            let {title, callback, initialTab} = button;
-            state[title] = {title: title, selected: initialTab, callback: callback};
+            let {title, callback, selected} = button;
+            state[title] = {title: title, selected: selected, callback: callback};
         });
 
         return state;
@@ -31,26 +31,27 @@ class TabButtons extends React.Component {
     onSelect(key){
         let {callback} = this.state[key];
 
-        const state = {};
+        // const state = {};
+        //
+        // const stateKeys = Object.keys(this.state);
+        //
+        // stateKeys.forEach((button) => (state[button] = {...this.state[button], selected: key === button}));
+        //
+        // this.setState(state);
 
-        const stateKeys = Object.keys(this.state);
-
-        stateKeys.forEach((button) => (state[button] = {...this.state[button], selected: key === button}));
-
-        this.setState(state);
-        callback();
+        callback(key);
     }
 
     render() {
-        const keys = Object.keys(this.state);
+        const {buttons} = this.props;
 
         return (
             <View style={styles.container}>
                 {
-                    keys.map((key, idx) => {
-                        let {title, selected} = this.state[key];
+                    buttons.map((button, idx) => {
+                        let {title, selected} = button;
                         return (
-                            <TouchableOpacity key={key} style={selected ? styles.selectedButton : styles.button} onPress={() => this.onSelect(key)}>
+                            <TouchableOpacity key={title} style={selected ? styles.selectedButton : styles.button} onPress={() => this.onSelect(title)}>
                                 <Text style={selected ? styles.selectedText : styles.text}>{title}</Text>
                             </TouchableOpacity>
                         );
