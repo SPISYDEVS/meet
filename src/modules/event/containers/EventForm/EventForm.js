@@ -3,123 +3,101 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
-
-const {createEvent} = event;
-
-import Form from "../../../../components/Form"
-import {isEmpty, validate} from '../../utils/validate'
+import {isEmpty} from '../../utils/validate'
 import {View} from "react-native";
 import styles, {indicatorStyles} from "./styles";
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import StepIndicator from "react-native-step-indicator";
 import {ViewPager} from 'rn-viewpager';
 import moment from "moment";
+import DatePicker from "../../../../components/DatePicker/DatePicker";
+import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import TextInput from "../../../../components/TextInput/TextInput";
+import Button from "react-native-elements/src/buttons/Button";
+import formStyles from "../../../../styles/formStyles";
+
+const {createEvent} = event;
+
+const generalPage = "General";
+const invitationsPage = "Invitations";
+const PAGES = [generalPage, invitationsPage];
 
 class EventForm extends React.Component {
     constructor() {
         super();
 
-        const forms = [{
-            key: 'general',
-            fields: [
-                {
-                    key: 'title',
-                    label: "Title",
-                    placeholder: "Title",
-                    autoFocus: false,
-                    secureTextEntry: false,
-                    value: "",
-                    multiline: false,
-                    type: "text",
-                    input: "text"
-                },
-                {
-                    key: 'description',
-                    label: "Description",
-                    placeholder: "Description",
-                    autoFocus: false,
-                    secureTextEntry: false,
-                    value: "",
-                    multiline: true,
-                    type: "text",
-                    input: "text"
-                },
-                {
-                    key: 'date',
-                    value: moment(),
-                    options: {
-                        format: 'MMMM Do YYYY, h:mm a',
-                        minuteInterval: 5,
-                        mode: 'datetime',
+        this.forms = {
+            [generalPage]: {
+                fields: {
+                    'title': {
+                        placeholder: "Title",
+                        type: "text",
+                        validator: (title) => !isEmpty(title),
+                        errorMessage: 'Event title is required'
                     },
-                    type: 'date',
-                    input: "date"
+                    'description': {
+                        placeholder: "Description",
+                        multiline: true,
+                        type: "text",
+                    },
+                    'date': {
+                        value: moment(),
+                        options: {
+                            format: 'MMMM Do YYYY, h:mm a',
+                            minuteInterval: 5,
+                            mode: 'datetime',
+                        },
+                        type: 'date',
+                    }
                 }
-            ],
-            error: {
-                general: "",
-                title: "",
-                description: "",
-                date: ""
+            },
+
+            [invitationsPage]: {
+                fields: {
+                    'name': {
+                        placeholder: "Name",
+                        autoFocus: true,
+                        type: "text",
+                        validator: (name) => !isEmpty(name),
+                        errorMessage: 'Invitee name is required'
+                    },
+                }
+
             }
-        }, {
-            key: 'invites',
-            fields: [
-                {
-                    key: 'name',
-                    label: "Name",
-                    placeholder: "Name",
-                    autoFocus: false,
-                    secureTextEntry: false,
-                    value: "",
-                    multiline: false,
-                    type: "text",
-                    input: "text"
-                },
-            ],
-            error: {
-                general: "",
-                name: "",
-            }
-        }];
+        };
 
-        this.state = this.createState(forms);
+        const formKeys = Object.keys(this.forms);
 
-        //bind functions
-        this.setToTab = this.setToTab.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-        this.onError = this.onError.bind(this);
-    }
-
-    createState = (forms) => {
         const state = {};
 
-        forms.forEach((form) => {
-            state[form.key] = form;
+        formKeys.forEach((key) => {
+            state[key] = createState(this.forms[key].fields);
         });
 
         state['currentPage'] = 0;
 
-        return state;
-    };
+        this.state = state;
+        console.log(state);
 
-    setToTab(tabKey) {
-        const state = {...this.state};
-        state.buttons = [];
-
-        this.state.buttons.forEach((button) => {
-            state.buttons.push({
-                title: button.title,
-                callback: this.setToTab.bind(this),
-                selected: button.title === tabKey
-            })
-        });
-        this.setState(state);
+        //bind functions
+        this.onSuccess = this.onSuccess.bind(this);
+        this.onError = this.onError.bind(this);
     }
 
-    onSubmit = (data) => {
-        const nextPage = this.state.currentPage + 1;
-        this.toPage(nextPage);
+    onSubmit = (page) => {
+
+        const form = this.state[page];
+        const data = extractData(form);
+
+        if (hasErrors(data['error'])) {
+            const newState = {...this.state};
+            newState[page]['error'] = data['error'];
+            this.setState(newState);
+        } else {
+            const nextPage = this.state.currentPage + 1;
+            this.toPage(nextPage);
+        }
+
     };
 
     toPage = (page) => {
@@ -129,7 +107,8 @@ class EventForm extends React.Component {
 
     onSuccess() {
         Actions.Main()
-    };
+    }
+    ;
 
     onError(error) {
         let errObj = this.state.error;
@@ -153,21 +132,66 @@ class EventForm extends React.Component {
         }
     }
 
+    onChange = (form, key, text) => {
+        const state = {...this.state};
+        state[form][key]['value'] = text;
+        this.setState(state);
+    };
+
     renderViewPagerPage = (page) => {
 
-        const form = this.state[page];
+        const form = this.forms[page];
 
-        console.log(form);
-        return (
-            <View key={form.key}>
-                <Form fields={form.fields}
-                      showLabel={false}
-                      onSubmit={this.onSubmit}
-                      buttonTitle={"NEXT"}
-                      error={this.state[form.key].error}
-                      validate={validate}/>
-            </View>
-        )
+        if (page === generalPage) {
+
+            const [title, description, date] = Object.keys(form.fields);
+
+            return (
+                <View key={page}>
+                    <TextInput
+                        {...form.fields[title]}
+                        onChangeText={(text) => this.onChange(page, title, text)}
+                        value={this.state[page][title]['value']}
+                        error={this.state[page]['error'][title]}/>
+
+                    <TextInput
+                        {...form.fields[description]}
+                        onChangeText={(text) => this.onChange(page, description, text)}
+                        value={this.state[page][description]['value']}
+                        error={this.state[page]['error'][description]}/>
+
+                    <DatePicker
+                        {...form.fields[date]}
+                        value={this.state[page][date]['value']}
+                        onDateChange={(newDate) => this.onChange(page, date, newDate)}
+                    />
+
+                    <Button
+                        raised
+                        title='Next'
+                        borderRadius={4}
+                        containerViewStyle={formStyles.containerView}
+                        buttonStyle={formStyles.button}
+                        textStyle={formStyles.buttonText}
+                        onPress={() => this.onSubmit(page)}/>
+
+                </View>
+            )
+        } else if (page === invitationsPage) {
+
+            const [name] = Object.keys(form.fields);
+
+            return (
+                <View key={page}>
+                    <TextInput
+                        {...form.fields[name]}
+                        onChangeText={(text) => this.onChange(page, name, text)}
+                        value={this.state[page][name]['value']}
+                        error={this.state[page]['error'][name]}/>
+                </View>
+            )
+        }
+
     };
 
     renderStepIndicator = params => {
@@ -206,7 +230,6 @@ class EventForm extends React.Component {
     }
 }
 
-const PAGES = ['general', 'invites'];
 
 const getStepIndicatorIconConfig = ({position, stepStatus}) => {
     const iconConfig = {

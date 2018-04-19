@@ -5,101 +5,125 @@ import {connect} from 'react-redux';
 
 import {actions as auth} from "../../index"
 import {actions as event} from "../../../event/index"
-
-import Form from "../../../../components/Form"
-import {validate} from '../../utils/validate'
+import {isEmpty} from '../../utils/validate'
+import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import formStyles from "../../../../styles/formStyles";
+import Button from "react-native-elements/src/buttons/Button";
+import {Text, TouchableOpacity, View} from "react-native";
+import TextInput from "../../../../components/TextInput/TextInput";
 
 const {login} = auth;
 const {loadEvents} = event;
 
-
-const fields = [
-    {
-        key: 'email',
-        label: "Email Address",
-        placeholder: "Email Address",
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        multiline: false,
-        type: "email",
-        input: "text"
-    },
-    {
-        key: 'password',
-        label: "Password",
-        placeholder: "Password",
-        autoFocus: false,
-        secureTextEntry: true,
-        value: "",
-        multiline: false,
-        type: "password",
-        input: "text"
-    }
-];
-
-const error = {
-    general: "",
-    email: "",
-    password: ""
-}
-
 class Login extends React.Component {
     constructor() {
         super();
-        this.state = {
-            error: error
-        }
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onLogin = this.onLogin.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-        this.onError = this.onError.bind(this);
+        this.fields = {
+            'email': {
+                label: 'email',
+                placeholder: 'Email',
+                type: 'text',
+                validator: (email) => !isEmpty(email),
+                errorMessage: 'Email is required'
+            },
+            'password': {
+                label: 'password',
+                placeholder: 'Password',
+                type: "text",
+                secureTextEntry: true,
+                validator: (password) => !isEmpty(password),
+                errorMessage: 'Password is required'
+            },
+        };
+
+        this.state = createState(this.fields);
     }
 
-    onForgotPassword() {
+    onForgotPassword = () => {
         Actions.ForgotPassword()
-    }
+    };
 
-    onSubmit(data) {
-        this.setState({error: error}); //clear out error messages
-        this.props.login(data, this.onLogin, this.onError)
-    }
+    onSubmit = () => {
+        const data = extractData(this.state);
+        this.setState({error: data['error']});
 
-    onLogin({exists, user}){
-        console.log(user);
-        if (exists) this.props.loadEvents(Object.keys(user.events), this.onSuccess, () => {});
+        if (!hasErrors(data['error'])) {
+            this.props.login(data['data'], this.onLogin, this.onError)
+        }
+    };
+
+    onLogin = ({exists, user}) => {
+        if (exists) {
+            if (user.events === undefined) {
+                user.events = [];
+            }
+            this.props.loadEvents(Object.keys(user.events), this.onSuccess, () => {
+            });
+        }
         else Actions.CompleteProfile({user});
 
     }
 
-    onSuccess() {
+    onSuccess = () => {
         Actions.Main();
     }
 
-    onError(error) {
+    onError = (error) => {
         let errObj = this.state.error;
 
         if (error.hasOwnProperty("message")) {
-            errObj['general'] = error.message;
-        } else {
-            let keys = Object.keys(error);
-            keys.map((key, index) => {
-                errObj[key] = error[key];
-            })
+            errObj['general'] = 'These credentials do not match any of our records';
         }
+
         this.setState({error: errObj});
-    }
+    };
+
+    onChange = (key, text) => {
+        const state = {...this.state};
+        state[key]['value'] = text;
+        this.setState(state);
+    };
 
     render() {
+
+        const [email, password] = Object.keys(this.fields);
+
         return (
-            <Form fields={fields}
-                  showLabel={false}
-                  onSubmit={this.onSubmit}
-                  buttonTitle={"LOG IN"}
-                  error={this.state.error}
-                  onForgotPassword={this.onForgotPassword}
-                  validate={validate}/>
+            <View style={formStyles.container}>
+
+                {
+                    (!isEmpty(this.state.error['general'])) &&
+                    <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
+                }
+
+                <TextInput
+                    {...this.fields[email]}
+                    onChangeText={(text) => this.onChange(email, text)}
+                    value={this.state[email]['value']}
+                    error={this.state.error[email]}/>
+
+                <TextInput
+                    {...this.fields[password]}
+                    onChangeText={(text) => this.onChange(password, text)}
+                    value={this.state[password]['value']}
+                    error={this.state.error[password]}/>
+
+                <Button
+                    raised
+                    title='Complete'
+                    borderRadius={4}
+                    containerViewStyle={formStyles.containerView}
+                    buttonStyle={formStyles.button}
+                    textStyle={formStyles.buttonText}
+                    onPress={this.onSubmit}/>
+
+                <TouchableOpacity
+                    onPress={this.onForgotPassword}>
+                    <Text style={formStyles.forgotText}>Forgot Password?</Text>
+                </TouchableOpacity>
+
+            </View>
         );
     }
 }

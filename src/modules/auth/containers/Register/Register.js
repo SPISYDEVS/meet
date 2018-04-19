@@ -4,78 +4,68 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {actions as auth} from "../../index"
+import {confirmPassword, isEmpty} from '../../utils/validate'
+import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import formStyles from "../../../../styles/formStyles";
+import TextInput from "../../../../components/TextInput/TextInput";
+import {Text, View} from "react-native";
+import Button from "react-native-elements/src/buttons/Button";
 
 const {register} = auth;
-
-import Form from "../../../../components/Form"
-import {validate} from '../../utils/validate'
-
-const fields = [
-    {
-        key: 'email',
-        label: "Email Address",
-        placeholder: "Email Address",
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        multiline: false,
-        type: "email",
-        input: "text"
-    },
-    {
-        key: 'password',
-        label: "Password",
-        placeholder: "Password",
-        autoFocus: false,
-        secureTextEntry: true,
-        value: "",
-        multiline: false,
-        type: "password",
-        input: "text"
-    },
-    {
-        key: 'confirm_password',
-        label: "Confirm Password",
-        placeholder: "Confirm Password",
-        autoFocus: false,
-        secureTextEntry: true,
-        value: "",
-        multiline: false,
-        type: "confirm_password",
-        input: "text"
-    }
-];
-
-const error = {
-    general: "",
-    email: "",
-    password: "",
-    confirm_password: ""
-}
 
 class Register extends React.Component {
     constructor() {
         super();
-        this.state = {
-            error: error
+
+        this.fields = {
+            'email': {
+                label: 'email',
+                placeholder: 'Email',
+                type: 'text',
+                validator: (email) => !isEmpty(email),
+                errorMessage: 'Email is required'
+            },
+            'password': {
+                label: 'password',
+                placeholder: 'Password',
+                type: "text",
+                secureTextEntry: true,
+                validator: (password) => !isEmpty(password),
+                errorMessage: 'Password is required'
+            },
+            'confirmPassword': {
+                label: 'confirmPassword',
+                placeholder: 'Confirm Password',
+                type: "text",
+                secureTextEntry: true,
+            },
+        };
+
+        this.state = createState(this.fields);
+    }
+
+    onSubmit = () => {
+        const data = extractData(this.state);
+
+        const password = data['data']['password'];
+        const confPassword = data['data']['confirmPassword'];
+
+        if(!confirmPassword(confPassword, password)){
+            data['error']['confirmPassword'] = 'Confirmation password must match'
         }
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-        this.onError = this.onError.bind(this);
-    }
+        this.setState({error: data['error']});
 
-    onSubmit(data) {
-        this.setState({error: error}); //clear out error messages
+        if (!hasErrors(data['error'])) {
+            this.props.register(data['data'], this.onSuccess, this.onError)
+        }
+    };
 
-        this.props.register(data, this.onSuccess, this.onError)
-    }
+    onSuccess = () => {
+        Actions.Login()
+    };
 
-    onSuccess(user) {
-        Actions.CompleteProfile({user})
-    }
-
-    onError(error) {
+    onError = (error) => {
         let errObj = this.state.error;
 
         if (error.hasOwnProperty("message")) {
@@ -87,16 +77,54 @@ class Register extends React.Component {
             })
         }
         this.setState({error: errObj});
-    }
+    };
+
+    onChange = (key, text) => {
+        const state = {...this.state};
+        state[key]['value'] = text;
+        this.setState(state);
+    };
 
     render() {
+
+        const [email, password, confirmPassword] = Object.keys(this.fields);
+
         return (
-            <Form fields={fields}
-                  showLabel={false}
-                  onSubmit={this.onSubmit}
-                  buttonTitle={"SIGN UP"}
-                  error={this.state.error}
-                  validate={validate}/>
+            <View style={formStyles.container}>
+
+                {
+                    (!isEmpty(this.state.error['general'])) &&
+                    <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
+                }
+
+                <TextInput
+                    {...this.fields[email]}
+                    onChangeText={(text) => this.onChange(email, text)}
+                    value={this.state[email]['value']}
+                    error={this.state.error[email]}/>
+
+                <TextInput
+                    {...this.fields[password]}
+                    onChangeText={(text) => this.onChange(password, text)}
+                    value={this.state[password]['value']}
+                    error={this.state.error[password]}/>
+
+                <TextInput
+                    {...this.fields[confirmPassword]}
+                    onChangeText={(text) => this.onChange(confirmPassword, text)}
+                    value={this.state[confirmPassword]['value']}
+                    error={this.state.error[confirmPassword]}/>
+
+                <Button
+                    raised
+                    title='Complete'
+                    borderRadius={4}
+                    containerViewStyle={formStyles.containerView}
+                    buttonStyle={formStyles.button}
+                    textStyle={formStyles.buttonText}
+                    onPress={this.onSubmit}/>
+
+            </View>
         );
     }
 }

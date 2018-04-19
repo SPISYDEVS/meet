@@ -55,7 +55,8 @@ TextInput.propTypes = {
 
 TextInput.defaultProps = {
     autoFocus: false,
-    secureTextEntry: false
+    secureTextEntry: false,
+    multiline: false,
 };
 
 export default TextInput;

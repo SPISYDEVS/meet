@@ -7,73 +7,81 @@ import {actions as auth} from "../../index"
 
 const {resetPassword} = auth;
 
-import Form from "../../../../components/Form"
-import {validate} from '../../utils/validate'
+import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import {View} from "react-native";
+import TextInput from "../../../../components/TextInput/TextInput";
+import Button from "react-native-elements/src/buttons/Button";
+import formStyles from "../../../../styles/formStyles";
 
-const fields = [
-    {
-        key: 'email',
-        label: "Email Address",
-        placeholder: "Email",
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        multiline: false,
-        type: "email",
-        input: "text"
-    }
-];
-
-const error = {
-    general: "",
-    email: ""
-}
 
 class ForgotPassword extends React.Component {
     constructor() {
         super();
-        this.state = {
-            error: error
+        this.fields = {
+            'email': {
+                label: "Email Address",
+                placeholder: "Email",
+                type: "email",
+                validator: (email) => !isEmpty(email),
+                errorMessage: 'Email is required'
+            }
+        };
+        this.state = createState(this.fields);
+    }
+
+    onSubmit = () => {
+        const data = extractData(this.state);
+        this.setState({error: data['error']});
+
+        if (!hasErrors(data['error'])) {
+            this.props.resetPassword(data['data'], this.onSuccess, this.onError)
         }
+    };
 
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-        this.onError = this.onError.bind(this);
-    }
-
-    onSubmit(data) {
-        this.setState({error: error}); //clear out error messages
-
-        this.props.resetPassword(data, this.onSuccess, this.onError)
-    }
-
-    onSuccess() {
-        alert("Password Reminder Sent")
+    onSuccess = () => {
+        alert("Password Reminder Sent");
         Actions.pop();
-    }
+    };
 
-    onError(error) {
+    onError = (error) => {
         let errObj = this.state.error;
 
         if (error.hasOwnProperty("message")) {
             errObj['general'] = error.message;
-        } else {
-            let keys = Object.keys(error);
-            keys.map((key, index) => {
-                errObj[key] = error[key];
-            })
         }
 
         this.setState({error: errObj});
-    }
+    };
+
+    onChange = (key, text) => {
+        const state = {...this.state};
+        state[key]['value'] = text;
+        this.setState(state);
+    };
 
     render() {
+
+        const [email] = Object.keys(this.fields);
+
         return (
-            <Form fields={fields}
-                  onSubmit={this.onSubmit}
-                  buttonTitle={"SUBMIT"}
-                  error={this.state.error}
-                  validate={validate}/>
+            <View style={formStyles.container}>
+
+                <TextInput
+                    {...this.fields[email]}
+                    onChangeText={(text) => this.onChange(email, text)}
+                    value={this.state[email]['value']}
+                    error={this.state.error[email]}/>
+
+                <Button
+                    raised
+                    title='Complete'
+                    borderRadius={4}
+                    containerViewStyle={formStyles.containerView}
+                    buttonStyle={formStyles.button}
+                    textStyle={formStyles.buttonText}
+                    onPress={this.onSubmit}/>
+
+            </View>
         );
     }
 }

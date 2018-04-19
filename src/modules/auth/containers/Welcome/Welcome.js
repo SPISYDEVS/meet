@@ -1,14 +1,14 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
-import {Button, SocialIcon, Divider} from 'react-native-elements'
+import {Button, Divider, SocialIcon} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux'
 import {connect} from 'react-redux';
 
 import {actions as auth} from "../../index"
-const {} = auth;
-
 import styles from "./styles"
+
+const {} = auth;
 
 class Welcome extends React.Component {
     constructor() {
@@ -21,7 +21,7 @@ class Welcome extends React.Component {
             <View style={styles.container}>
                 <View style={styles.topContainer}>
                     <Image style={styles.image} source={{uri: ""}}/>
-                    <Text style={styles.title}>Meetup</Text>
+                    <Text style={styles.title}>LetsMeet</Text>
                 </View>
 
                 <View style={styles.bottomContainer}>

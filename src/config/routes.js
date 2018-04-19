@@ -29,6 +29,7 @@ import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";
 import Events from "../modules/event/containers/Events";
 import Home from "../modules/home/containers/Home";
+import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -92,18 +93,19 @@ export default class extends React.Component {
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}>
 
-                        <Scene key="Feed"
+                        <Scene key="FeedScreen"
                                component={Home}
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
                                title="Explore"
                                type={ActionConst.REPLACE}/>
 
-                        <Scene key="Event" default="Events" title="My Events"
+                        <Scene key="EventScreen" default="Events" title="My Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 8}} size={32} onPress={() => Actions.push('EventForm')}/>}
+                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 8}}
+                                                            size={32} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
                                    component={EventForm}
@@ -111,11 +113,22 @@ export default class extends React.Component {
                                    type={ActionConst.REPLACE}/>
                         </Scene>
 
-                        <Scene key="Profile"
-                               component={Profile}
-                               icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}
-                               title="Profile"
-                               type={ActionConst.REPLACE}/>
+                        <Scene key="ProfileScreen" default="Events" title="My Events"
+                               icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}>
+
+                            <Scene key="Profile"
+                                   component={Profile}
+                                   title="Profile"
+                                   renderRightButton={<Icon name="pencil" color={color.main} style={{paddingRight: 8}}
+                                                            size={32} onPress={() => Actions.push('EditProfile')}/>}
+                                   type={ActionConst.REPLACE}/>
+
+                            <Scene key="EditProfile"
+                                   component={EditProfile}
+                                   title="Edit Profile"
+                                   type={ActionConst.REPLACE}/>
+
+                        </Scene>
 
                     </Scene>
                 </Scene>

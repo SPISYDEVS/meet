@@ -1,28 +1,37 @@
 import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-
-import {actions as auth} from "../../index"
-import {isEmpty} from '../../utils/validate'
+import {isEmpty} from '../../../auth/utils/validate'
 import TextInput from "../../../../components/TextInput";
 import ItemSelector from "../../../../components/ItemSelector";
-import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import {extractData, createState, hasErrors} from "../../../../components/utils/formUtils";
 
 import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-const {createUser} = auth;
+import {actions as auth} from "../../index"
 
-class CompleteProfile extends React.Component {
-    constructor() {
-        super();
+const {updateProfile} = auth;
+
+const mapStateToProps = (state) => {
+    return {
+        authReducer: state.authReducer
+    }
+};
+
+class EditProfile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        const user = this.props.authReducer.user;
 
         this.fields = {
             'firstName': {
                 label: 'firstName',
                 placeholder: 'First Name',
                 type: 'text',
+                value: user.firstName,
                 validator: (name) => !isEmpty(name),
                 errorMessage: 'First name is required'
             },
@@ -30,6 +39,7 @@ class CompleteProfile extends React.Component {
                 label: 'lastName',
                 placeholder: 'Last Name',
                 type: "text",
+                value: user.lastName,
                 validator: (name) => !isEmpty(name),
                 errorMessage: 'Last name is required'
             },
@@ -53,6 +63,7 @@ class CompleteProfile extends React.Component {
                     },
                 ],
                 searchHint: 'Choose a school',
+                value: user.school,
                 callback: (value) => this.onChange('school', value),
                 validator: (value) => !isEmpty(value) && value !== 'Choose a school',
                 errorMessage: 'You must choose a school'
@@ -65,34 +76,19 @@ class CompleteProfile extends React.Component {
 
     onSubmit = () => {
         const data = extractData(this.state);
-        this.setState({error: data['error']});
 
-        if (!hasErrors(data['error'])) {
+        if (hasErrors(data['error'])) {
+            this.setState({error: data['error']});
+        } else {
             //attach user id
-            const {user} = this.props;
+            const user = this.props.authReducer.user;
             data['data']['uid'] = user.uid;
-
-            this.props.createUser(data['data'], this.onSuccess, this.onError)
+            this.props.updateProfile(data['data'], this.onSuccess, () => {})
         }
     };
 
     onSuccess = () => {
-        Actions.Main()
-    };
-
-    onError = (error) => {
-        let errObj = {};
-
-        if (error.hasOwnProperty("message")) {
-            errObj['general'] = error.message;
-        } else {
-            let keys = Object.keys(error);
-            keys.map((key, index) => {
-                errObj[key] = error[key];
-            })
-        }
-
-        this.setState({error: errObj});
+        Actions.Profile()
     };
 
     onChange = (key, text) => {
@@ -127,7 +123,7 @@ class CompleteProfile extends React.Component {
 
                 <Button
                     raised
-                    title='Complete'
+                    title='Update'
                     borderRadius={4}
                     containerViewStyle={formStyles.containerView}
                     buttonStyle={formStyles.button}
@@ -140,4 +136,4 @@ class CompleteProfile extends React.Component {
     }
 }
 
-export default connect(null, {createUser})(CompleteProfile);
+export default connect(mapStateToProps, {updateProfile})(EditProfile);
