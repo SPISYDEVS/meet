@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'react-native-elements'
-import {ListView} from 'react-native';
+import {ListView, ScrollView} from 'react-native';
 
 const mapStateToProps = (state) => {
     return {
@@ -12,26 +12,24 @@ const mapStateToProps = (state) => {
 
 import {isEmpty} from '../../../auth/utils/validate'
 import styles from "./styles"
+import Event from "../../components/Event/Event";
 
 class AttendingEvents extends Component {
 
     render() {
-        const events = Object.values(this.props.eventReducer.byId);
+        // const events = Object.values(this.props.eventReducer.byId);
+        const events = [{}, {}, {}];
         return (
-            <List>
+            <ScrollView style={styles.container}>
                 {
-                    events.map((item, i) => (
-                        <ListItem
-                            roundAvatar
-                            key={i}
+                    events.map((item) => (
+                        <Event
                             title={item.title}
-                            subtitle={item.description}
-                            subtitleNumberOfLines={3}
-                            leftIcon={{name: 'av-timer'}}
+                            description={item.description}
                         />
                     ))
                 }
-            </List>
+            </ScrollView>
         );
     }
 }

@@ -8,10 +8,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        paddingHorizontal: 5,
-        marginBottom: 10,
-        borderBottomWidth: 0.33,
-        borderBottomColor: color.accent_light
+        padding: 10
     },
     info: {
         marginBottom: 7.5,
@@ -39,10 +36,6 @@ const styles = StyleSheet.create({
     hostName: {
         paddingLeft: 10,
         alignSelf: 'center'
-    },
-    detailsModal: {
-        flex: 1,
-        backgroundColor: color.white,
     }
 });
 

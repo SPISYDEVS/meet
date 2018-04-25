@@ -5,6 +5,9 @@ import {persistor, store} from './src/redux/store';
 import Root from './src/index';
 import {Provider} from "react-redux";
 
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['Warning:']);
+
 function cacheFonts(fonts) {
     return fonts.map(font => Font.loadAsync(font));
 }

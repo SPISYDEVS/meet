@@ -36,7 +36,7 @@ class EventForm extends React.Component {
                         placeholder: "Title",
                         type: "text",
                         validator: (title) => !isEmpty(title),
-                        errorMessage: 'Event title is required'
+                        errorMessage: 'EventDetails title is required'
                     },
                     'description': {
                         placeholder: "Description",
