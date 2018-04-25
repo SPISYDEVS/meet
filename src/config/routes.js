@@ -118,7 +118,7 @@ export default class extends React.Component {
 
                             <Scene key="Profile"
                                    component={Profile}
-                                   title="Profile"
+                                   title={null}
                                    renderRightButton={<Icon name="pencil" color={color.main} style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EditProfile')}/>}
                                    type={ActionConst.REPLACE}/>
