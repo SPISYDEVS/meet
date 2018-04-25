@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        padding: 10
     },
     info: {
         marginBottom: 7.5,

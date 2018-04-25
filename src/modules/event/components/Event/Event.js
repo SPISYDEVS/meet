@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {Text, View, TouchableOpacity} from 'react-native';
 
 import styles from "./styles"
-import {Avatar, Button} from "react-native-elements";
+import {Avatar, Icon} from "react-native-elements";
 
 import Modal from "react-native-modal";
 import EventDetails from "../EventDetails"
@@ -29,40 +29,43 @@ class Event extends React.Component {
         const {title, description, date, location, hostPic, hostName} = this.props;
 
         return (
-            <TouchableOpacity style={styles.container} onPress={this.handlePress}>
-                <View style={styles.info}>
-                    <Text style={styles.title}>
-                        {title}
-                    </Text>
-                    <Text style={styles.subtitle}>
-                        {date + " | " + location}
-                    </Text>
-                </View>
-                <View style={styles.details}>
-                    <Text style={styles.description}>
-                        {description}
-                    </Text>
-                </View>
-                <View style={styles.hostContainer}>
-                    <Avatar
-                        small
-                        rounded
-                        source={{uri: hostPic}}
-                        onPress={() => console.log("Works!")}
-                        activeOpacity={0.7}
-                    />
-                    <Text style={styles.hostName}>
-                        {hostName}
-                    </Text>
-                </View>
+            <View style={{flex: 1}}>
+                <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+                    <View style={styles.info}>
+                        <Text style={styles.title}>
+                            {title}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            {date + " | " + location}
+                        </Text>
+                    </View>
+                    <View style={styles.details}>
+                        <Text style={styles.description}>
+                            {description}
+                        </Text>
+                    </View>
+                    <View style={styles.hostContainer}>
+                        <Avatar
+                            small
+                            rounded
+                            source={{uri: hostPic}}
+                            onPress={() => console.log("Works!")}
+                            activeOpacity={0.7}
+                        />
+                        <Text style={styles.hostName}>
+                            {hostName}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
                 <Modal isVisible={this.state.eventDetails}>
-                    <View style={styles.detailsModal}>
-                        {/*<Icon*/}
-                            {/*onPress={this.closeModal}*/}
-                            {/*buttonStyle={styles.detailsModalButton}*/}
-                            {/*title="Press to close."*/}
-                        {/*/>*/}
+                    <View style={styles.modal}>
+                        <View style={styles.modalHeader}>
+                            <Icon
+                                onPress={this.closeModal}
+                                name='close'
+                            />
+                        </View>
                         <EventDetails
                             title={title}
                             date={date}
@@ -73,7 +76,7 @@ class Event extends React.Component {
                         />
                     </View>
                 </Modal>
-            </TouchableOpacity>
+            </View>
         );
     }
 }

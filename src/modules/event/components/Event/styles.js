@@ -40,9 +40,16 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         alignSelf: 'center'
     },
-    detailsModal: {
+    modal: {
         flex: 1,
         backgroundColor: color.white,
+    },
+    modalHeader: {
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        paddingTop: 10,
+        paddingRight: 10,
+        backgroundColor: color.main
     }
 });
 
