@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'react-native-elements'
-import {ListView} from 'react-native';
+import {ListView, ScrollView, View} from 'react-native';
 
 const mapStateToProps = (state) => {
     return {
@@ -12,26 +12,51 @@ const mapStateToProps = (state) => {
 
 import {isEmpty} from '../../../auth/utils/validate'
 import styles from "./styles"
+import Event from "../../components/Event/Event";
+
+// <ListItem
+// roundAvatar
+// key={i}
+// title={item.title}
+// subtitle={item.description}
+// subtitleNumberOfLines={3}
+// leftIcon={{name: 'av-timer'}}
+// />
+
 
 class MyEvents extends Component {
 
     render() {
-        const events = this.props.eventReducer.myIds.map((id) => this.props.eventReducer.byId[id]);
+        // const events = this.props.eventReducer.myIds.map((id) => this.props.eventReducer.byId[id]);
+
+        const events = [{},{},{},{}];
         return (
-            <List>
+            <ScrollView style={styles.container}>
                 {
                     events.map((item, i) => (
-                        <ListItem
-                            roundAvatar
-                            key={i}
+                        <Event
                             title={item.title}
-                            subtitle={item.description}
-                            subtitleNumberOfLines={3}
-                            leftIcon={{name: 'av-timer'}}
+                            description={item.description}
                         />
                     ))
                 }
-            </List>
+                {
+                    events.map((item, i) => (
+                        <Event
+                            title={item.title}
+                            description={item.description}
+                        />
+                    ))
+                }
+                {
+                    events.map((item, i) => (
+                        <Event
+                            title={item.title}
+                            description={item.description}
+                        />
+                    ))
+                }
+            </ScrollView>
         );
     }
 }

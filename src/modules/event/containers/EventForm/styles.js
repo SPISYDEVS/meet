@@ -16,6 +16,37 @@ const styles = StyleSheet.create({
     }
 });
 
+export const mapStyles = {
+    container: {
+        zIndex: 10,
+        overflow: 'visible',
+        height: 50,
+        flexGrow: 0,
+        flexShrink: 0
+    },
+    textInputContainer: {
+        width: '100%',
+        backgroundColor: color.white
+    },
+    listView: {
+        position: 'absolute',
+        top: 42,
+        // left: 10,
+        // right: 10,
+        backgroundColor: color.white,
+        // borderRadius: 5,
+        flex: 1,
+        // elevation: 3,
+        zIndex: 10
+    },
+    description: {
+        color: color.black
+    },
+    predefinedPlacesDescription: {
+        color: color.black
+    }
+};
+
 export const indicatorStyles = {
     stepIndicatorSize: 30,
     currentStepIndicatorSize:40,

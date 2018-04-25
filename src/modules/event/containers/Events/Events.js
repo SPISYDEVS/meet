@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 };
 
 import TabButtons from "../../components/TabButtons";
+import styles from "./styles";
 
 
 class Events extends Component {
@@ -57,7 +58,7 @@ class Events extends Component {
         const events = Object.values(this.props.eventReducer.byId);
 
         return (
-            <View>
+            <View style={styles.container}>
                 <TabButtons buttons={this.state.buttons}/>
                 {this.state.buttons[0].selected && <MyEvents/>}
                 {this.state.buttons[1].selected && <AttendingEvents/>}

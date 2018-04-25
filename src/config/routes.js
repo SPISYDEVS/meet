@@ -79,7 +79,7 @@ export default class extends React.Component {
             <Router>
 
                 <Scene key="root" hideNavBar
-                       navigationBarStyle={{backgroundColor: "#fff"}}
+                       navigationBarStyle={{backgroundColor: color.main}}
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.black}>
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>

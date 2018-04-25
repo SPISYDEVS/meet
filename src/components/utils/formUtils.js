@@ -29,6 +29,7 @@ export const extractData = (data) => {
     return retData;
 };
 
+//returns true if the passed in array object as errors
 export const hasErrors = (errors) => {
     const keys = Object.keys(errors);
 

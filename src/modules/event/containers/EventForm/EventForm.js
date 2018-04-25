@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
-import {View} from "react-native";
-import styles, {indicatorStyles} from "./styles";
+import {SafeAreaView, ScrollView, Text, View} from "react-native";
+import styles, {indicatorStyles, mapStyles} from "./styles";
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import StepIndicator from "react-native-step-indicator";
 import {ViewPager} from 'rn-viewpager';
@@ -15,12 +15,15 @@ import {createState, extractData, hasErrors} from "../../../../components/utils/
 import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import MapView, {Marker} from "react-native-maps";
 
 const {createEvent} = event;
 
 const generalPage = "General";
+const wherePage = "Where";
 const invitationsPage = "Invitations";
-const PAGES = [generalPage, invitationsPage];
+const PAGES = [generalPage, wherePage, invitationsPage];
 
 class EventForm extends React.Component {
     constructor() {
@@ -51,7 +54,24 @@ class EventForm extends React.Component {
                     }
                 }
             },
-
+            [wherePage]: {
+                fields: {
+                    'map': {
+                        placeholder: 'Search',
+                        minLength: 2,
+                        fetchDetails: true,
+                        // nearbyPlacesAPI: 'GoogleReverseGeocoding',
+                        debounce: 200,
+                        query: {
+                            // available options: https://developers.google.com/places/web-service/autocomplete
+                            key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
+                            language: 'en', // language of the results
+                        },
+                        currentLocation:true, // Will add a 'Current location' button at the top of the predefined places list
+                        currentLocationLabel:"Current location"
+                    }
+                }
+            },
             [invitationsPage]: {
                 fields: {
                     'name': {
@@ -177,6 +197,33 @@ class EventForm extends React.Component {
 
                 </View>
             )
+        } else if (page === wherePage) {
+
+            const [map] = Object.keys(form.fields);
+
+            return <View key={page} style={{flex: 1}}>
+                <GooglePlacesAutocomplete
+                    {...form.fields[map]}
+                    onPress={(place, details) => {console.log(place);console.log(details);this.onChange(page, map, place);}}
+                    styles={mapStyles}
+                />
+
+                <MapView
+                    style={{flex: 1}}
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}>
+                    {/*{this.state[wherePage][map]['value'].length >0 &&*/}
+                    {/*<Marker draggable*/}
+                            {/*coordinate={this.state[wherePage][map]['value']}*/}
+                            {/*onDragEnd={(e) => this.setState({x: e.nativeEvent.coordinate})}*/}
+                    {/*/>}*/}
+                </MapView>
+            </View>
+
         } else if (page === invitationsPage) {
 
             const [name] = Object.keys(form.fields);
@@ -209,7 +256,7 @@ class EventForm extends React.Component {
                 <View style={styles.stepIndicator}>
                     <StepIndicator renderStepIndicator={this.renderStepIndicator} customStyles={indicatorStyles}
                                    currentPosition={this.state.currentPage}
-                                   labels={["Cart", "Delivery Address", "Order Summary", "Payment Method", "Track"]}/>
+                                   labels={["What", "Where", "When", "Who", "Review"]}/>
                 </View>
                 <ViewPager
                     style={styles.viewPager}

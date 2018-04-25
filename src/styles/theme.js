@@ -2,16 +2,21 @@ import {Dimensions, Platform} from 'react-native';
 import {moderateScale as normalize} from 'react-native-size-matters';
 
 const color = {
+    main: '#ED8F5B',
+    secondary: '#E36D60',
+    accent_light: '#9C4368',
+    accent: '#33223B',
+    accent_dark: '#211E2B',
+    background: 'white',
     black: "#3B3031",
     light_black: "#414141",
-    main: "#FF553F",
     white: "#ffffff",
     light_grey: "#eaeaea",
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    tab_active: '#FF553F',
-    tab_inactive: '#ffb2a8',
+    tab_active: '#E36D60',
+    tab_inactive: '#ED8F5B',
 };
 
 const fontSize = {
@@ -33,6 +38,10 @@ const navbarHeight = (Platform.OS === 'ios') ? 64 : 54;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+const lineHeight = {
+    paragraph: 15,
+};
+
 const tabColor = (Platform.OS === "ios") ? "rgba(73,75,76, .5)" : "rgba(255,255,255,.8)";
 const selectedTabColor = (Platform.OS === "ios") ? "rgb(73,75,76)" : "#fff";
 
@@ -49,5 +58,6 @@ export {
     windowHeight,
     tabIconStyle,
     navTitleStyle,
+    lineHeight,
     normalize
 }
