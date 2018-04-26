@@ -58,23 +58,21 @@ class Event extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Modal isVisible={this.state.eventDetails}>
-                    <View style={styles.modal}>
-                        <View style={styles.modalHeader}>
-                            <Icon
-                                onPress={this.closeModal}
-                                name='close'
-                            />
-                        </View>
-                        <EventDetails
-                            title={title}
-                            date={date}
-                            location={location}
-                            hostPic={hostPic}
-                            hostName={hostName}
-                            description={description}
+                <Modal isVisible={this.state.eventDetails} style={styles.modal}>
+                    <View style={styles.modalHeader}>
+                        <Icon
+                            onPress={this.closeModal}
+                            name='close'
                         />
                     </View>
+                    <EventDetails
+                        title={title}
+                        date={date}
+                        location={location}
+                        hostPic={hostPic}
+                        hostName={hostName}
+                        description={description}
+                    />
                 </Modal>
             </View>
         );
@@ -87,12 +85,12 @@ Event.propTypes = {
 };
 
 Event.defaultProps = {
-    title: 'Event',
+    title: 'Really Long Event Title',
     description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',
-    date: 'Today',
+    date: 'Today, 12:30pm',
     location: 'Warren College',
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    hostName: "Jennifer"
+    hostName: "Jane"
 };
 
 export default Event;

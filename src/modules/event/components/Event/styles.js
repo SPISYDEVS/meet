@@ -38,18 +38,19 @@ const styles = StyleSheet.create({
     },
     hostName: {
         paddingLeft: 10,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        fontFamily: fontFamily.bold
     },
     modal: {
-        flex: 1,
-        backgroundColor: color.white,
+        margin: 0,
+        padding: 10,
+        backgroundColor: color.white
     },
     modalHeader: {
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        paddingTop: 10,
+        paddingTop: 35,
         paddingRight: 10,
-        backgroundColor: color.main
     }
 });
 

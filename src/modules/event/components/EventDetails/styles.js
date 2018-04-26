@@ -8,33 +8,48 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
+        padding: 15
     },
-    info: {
-        marginBottom: 7.5,
+    header: {
+        marginBottom: 25,
     },
     title: {
-        fontSize: fontSize.large,
-        fontFamily: fontFamily.bold
+        fontSize: fontSize.header,
+        fontFamily: fontFamily.bold,
+        marginBottom: 10
     },
     subtitle: {
-        fontSize: fontSize.regular,
+        fontSize: 18,
+        lineHeight: 30
     },
     details: {
-        marginBottom: 7.5,
+        marginBottom: 25,
     },
     description: {
         fontSize: fontSize.regular,
         lineHeight: lineHeight.paragraph
     },
     hostContainer: {
-        flex: 1,
         flexDirection: 'row',
-        alignContent: 'center',
-        paddingBottom: 5
+        justifyContent: 'flex-start',
+        marginBottom: 25
     },
     hostName: {
         paddingLeft: 10,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        fontFamily: fontFamily.bold
+    },
+    boldSubtitle: {
+        fontSize: 18,
+        fontFamily: fontFamily.bold,
+    },
+    attendeesContainer: {
+        marginBottom: 10
+    },
+    attendees: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        paddingVertical: 10
     }
 });
 
