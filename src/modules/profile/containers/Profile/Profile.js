@@ -11,6 +11,7 @@ import styles from "./styles"
 import {actions as auth, theme} from "../../../auth/index"
 import {Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
+import Notifications from "../Notifications/Notifications";
 
 const {signOut} = auth;
 
@@ -92,17 +93,19 @@ class Profile extends React.Component {
                 <View style={styles.body}>
                     <TabButtons buttons={this.state.buttons}/>
 
-                    {this.state.buttons[0].selected && <Text> NOTIFICATIONS </Text>}
-                    {this.state.buttons[1].selected && <Text> FRIENDS </Text>}
+                    <View style={styles.bottomContent}>
+                        {this.state.buttons[0].selected && <Notifications/>}
+                        {this.state.buttons[1].selected && <Text> FRIENDS </Text>}
 
-                    <Button
-                        raised
-                        borderRadius={4}
-                        title={'LOG OUT'}
-                        containerViewStyle={[styles.containerView]}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSignOut}/>
+                        <Button
+                            raised
+                            borderRadius={4}
+                            title={'LOG OUT'}
+                            containerViewStyle={[styles.containerView]}
+                            buttonStyle={[styles.button]}
+                            textStyle={styles.buttonText}
+                            onPress={this.onSignOut}/>
+                    </View>
                 </View>
             </View>
         );
