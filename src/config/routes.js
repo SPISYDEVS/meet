@@ -80,7 +80,7 @@ export default class extends React.Component {
             <Router>
 
                 <Scene key="root" hideNavBar
-                       navigationBarStyle={{backgroundColor: color.main}}
+                       navigationBarStyle={{backgroundColor: color.background, borderBottomWidth: 0}}
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.black}>
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
@@ -115,7 +115,7 @@ export default class extends React.Component {
                                    type={ActionConst.REPLACE}/>
                         </Scene>
 
-                        <Scene key="ProfileScreen" default="Events" title="My Events"
+                        <Scene key="ProfileScreen" default="Events" title="Profile"
                                icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}>
 
                             <Scene key="Profile"

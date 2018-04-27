@@ -1,16 +1,24 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
-import {List, ListItem, SearchBar} from 'react-native-elements'
+import {Icon, List, ListItem, SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
 class Search extends Component {
     constructor(props) {
         super(props);
+        this.state =
+            {
+                showSearch: false,
+            }
     }
+
+    resetSearch = () => {
+        this.textInputRef.clear();
+    };
 
     render() {
 
@@ -19,30 +27,52 @@ class Search extends Component {
         return (
             <SafeAreaView style={styles.container}>
 
-                <SearchBar
-                    onChangeText={(text) => this.search(text)}
-                    onClearText={() => this.reset()}
-                    placeholder={searchHint}
-                    rounded
-                    lightTheme
-                    containerStyle={styles.searchBar}
-                />
+                <View style={styles.cappedContainer}>
+                    {!this.state.showSearch &&
+                    <View style={[styles.padded, styles.rowContainer]}>
+                        <Text style={styles.headerText}>Feed</Text>
 
-                {/*<List>*/}
+                        <Icon name="search" size={35} color={"#000"} onPress={() => this.setState({showSearch: true})}/>
+                    </View>
+                    }
+
+                    {
+                        this.state.showSearch &&
+
+                        <View style={[styles.searchContainer, styles.rowContainer]}>
+
+                            <SearchBar
+                                // onChangeText={(text) => {}}
+                                placeholder={searchHint}
+                                rounded
+                                lightTheme
+                                inputStyle={styles.searchInput}
+                                containerStyle={styles.searchBar}
+                                noIcon
+                            />
+
+                            <TouchableOpacity onPress={() => this.setState({showSearch: false})}>
+                                <Text style={styles.headerText}>Cancel</Text>
+                            </TouchableOpacity>
+
+                        </View>
+                    }
+
+                    {/*<List>*/}
                     {/*{*/}
-                        {/*this.state.results.slice(0, 10).map((item, i) => (*/}
-                            {/*<ListItem*/}
-                                {/*roundAvatar*/}
-                                {/*key={i}*/}
-                                {/*title={'Blank'}*/}
-                                {/*leftIcon={{name: 'av-timer'}}*/}
-                                {/*onPress={() => callback(item.value)}*/}
-                                {/*{...item}*/}
-                            {/*/>*/}
-                        {/*))*/}
+                    {/*this.state.results.slice(0, 10).map((item, i) => (*/}
+                    {/*<ListItem*/}
+                    {/*roundAvatar*/}
+                    {/*key={i}*/}
+                    {/*title={'Blank'}*/}
+                    {/*leftIcon={{name: 'av-timer'}}*/}
+                    {/*onPress={() => callback(item.value)}*/}
+                    {/*{...item}*/}
+                    {/*/>*/}
+                    {/*))*/}
                     {/*}*/}
-                {/*</List>*/}
-
+                    {/*</List>*/}
+                </View>
             </SafeAreaView>
         );
     }

@@ -1,9 +1,6 @@
 import React from 'react';
+const {ScrollView, StyleSheet, Alert} = require('react-native');
 
-const {View, StyleSheet, Alert} = require('react-native');
-
-import {SearchBar, Button} from 'react-native-elements'
-import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import styles from "./styles"
@@ -26,12 +23,11 @@ class Home extends React.Component {
         const events = [{}, {}];
 
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 {events.map((item) => (
-                    <Event
-                    />
+                    <Event/>
                 ))}
-            </View>
+            </ScrollView>
         );
     }
 }
