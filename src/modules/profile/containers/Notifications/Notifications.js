@@ -9,26 +9,31 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {actions as auth, theme} from "../../../auth/index"
-import {Text} from "react-native";
+import {ScrollView, Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
+import Notification from "../../components/Notification/Notification";
 
 const {signOut} = auth;
 
 const {color} = theme;
 
-class Notification extends React.Component {
+class Notifications extends React.Component {
     constructor() {
         super();
     }
 
     render() {
+
+        const notifications = [0, 1, 2];
+
         return (
-            <View style={styles.container}>
-                <Text>Notification!</Text>
-                <Text>description</Text>
-            </View>
+            <ScrollView style={styles.container}>
+                {
+                    notifications.map(not => <Notification/>)
+                }
+            </ScrollView>
         );
     }
 }
 
-export default connect(null, {signOut})(Notification);
+export default connect(null, {signOut})(Notifications);

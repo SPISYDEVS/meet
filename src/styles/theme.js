@@ -15,8 +15,8 @@ const color = {
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    tab_active: '#E36D60',
-    tab_inactive: '#ED8F5B',
+    tab_active: '#3B3031',
+    tab_inactive: '#bbb',
 };
 
 const fontSize = {
