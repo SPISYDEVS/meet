@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         overflow: 'hidden',
         marginVertical: 5,
+        marginHorizontal: 15
     },
     selectedButton:{
         flex: 1,

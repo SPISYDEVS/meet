@@ -15,17 +15,15 @@ class EventDetails extends React.Component {
         const {title, date, location, hostPic, hostName, description, actualAttendees, plannedAttendees} = this.props;
         return (
             <View style={styles.container}>
-                <View style={styles.info}>
+                <View style={styles.header}>
                     <Text style={styles.title}>
                         {title}
                     </Text>
 
                     <Text style={styles.subtitle}>
-                        {date}
-                    </Text>
-
-                    <Text style={styles.subtitle}>
-                        {location}
+                        {date
+                        + "\n"
+                        + location}
                     </Text>
                 </View>
 
@@ -48,13 +46,13 @@ class EventDetails extends React.Component {
                     </Text>
                 </View>
 
-                <Text>
+                <Text style={styles.boldSubtitle}>
                     Who's Here ({actualAttendees.length})
                 </Text>
-                <View>
+                <View style={styles.attendeesContainer}>
                     {
                         actualAttendees.map((item, i) => (
-                            <View key={i} style={styles.hostContainer}>
+                            <View key={i} style={styles.attendees}>
                                 <Avatar
                                     small
                                     rounded
@@ -71,13 +69,13 @@ class EventDetails extends React.Component {
                 </View>
 
 
-                <Text>
+                <Text style={styles.boldSubtitle}>
                     Who's Going ({plannedAttendees.length})
                 </Text>
-                <View>
+                <View style={styles.attendeesContainer}>
                     {
                         plannedAttendees.map((item, i) => (
-                            <View key={i} style={styles.hostContainer}>
+                            <View key={i} style={styles.attendees}>
                                 <Avatar
                                     small
                                     rounded
@@ -107,7 +105,7 @@ EventDetails.defaultProps = {
     date: 'Today, 12:30pm',
     location: 'Warren College',
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    hostName: "Bobby Dickems",
+    hostName: "Jane",
     description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',
     actualAttendees: [
         {picture: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg", name: "Jane"},

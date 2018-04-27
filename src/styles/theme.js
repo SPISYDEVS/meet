@@ -22,7 +22,8 @@ const color = {
 const fontSize = {
     small: normalize(12),
     regular: normalize(14),
-    large: normalize(21)
+    large: normalize(21),
+    header: normalize(27),
 };
 
 const fontFamily = {
