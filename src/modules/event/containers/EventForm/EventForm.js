@@ -62,9 +62,9 @@ class EventForm extends React.Component {
         this.onError = this.onError.bind(this);
     }
 
-    onSubmit = (page) => {
+    onSubmit = () => {
 
-        const form = this.state[page];
+        const form = this.form;
         const data = extractData(form);
 
         if (hasErrors(data['error'])) {
@@ -96,32 +96,36 @@ class EventForm extends React.Component {
         this.setState({error: errObj});
     }
 
-    onChange = (form, key, data) => {
+    onChange = (key, data) => {
         const state = {...this.state};
-        state[form][key]['value'] = data;
+        state[key]['value'] = data;
         this.setState(state);
     };
 
     render() {
+
+        const form = this.form;
+        const [title, description, date] = Object.keys(this.form.fields);
+
         return (
             <View style={styles.container}>
                 <View key={page}>
                     <TextInput
                         {...form.fields[title]}
-                        onChangeText={(text) => this.onChange(page, title, text)}
-                        value={this.state[page][title]['value']}
-                        error={this.state[page]['error'][title]}/>
+                        onChangeText={(text) => this.onChange(title, text)}
+                        value={this.state[title]['value']}
+                        error={this.state['error'][title]}/>
 
                     <TextInput
                         {...form.fields[description]}
-                        onChangeText={(text) => this.onChange(page, description, text)}
-                        value={this.state[page][description]['value']}
-                        error={this.state[page]['error'][description]}/>
+                        onChangeText={(text) => this.onChange(description, text)}
+                        value={this.state[description]['value']}
+                        error={this.state['error'][description]}/>
 
                     <DatePicker
                         {...form.fields[date]}
-                        value={this.state[page][date]['value']}
-                        onDateChange={(newDate) => this.onChange(page, date, newDate)}
+                        value={this.state[date]['value']}
+                        onDateChange={(newDate) => this.onChange(date, newDate)}
                     />
 
                     <Button
@@ -131,7 +135,7 @@ class EventForm extends React.Component {
                         containerViewStyle={formStyles.containerView}
                         buttonStyle={formStyles.button}
                         textStyle={formStyles.buttonText}
-                        onPress={() => this.onSubmit(page)}/>
+                        onPress={() => this.onSubmit()}/>
 
                 </View>
             </View>
