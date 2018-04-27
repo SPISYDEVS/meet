@@ -7,7 +7,7 @@ const color = {
     accent_light: '#9C4368',
     accent: '#33223B',
     accent_dark: '#211E2B',
-    background: 'white',
+    background: '#fcfcfc',
     black: "#3B3031",
     light_black: "#414141",
     white: "#ffffff",

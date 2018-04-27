@@ -22,8 +22,9 @@ class AttendingEvents extends Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    events.map((item) => (
+                    events.map((item, i) => (
                         <Event
+                            key={i}
                             title={item.title}
                             description={item.description}
                         />

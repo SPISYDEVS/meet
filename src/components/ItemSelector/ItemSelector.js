@@ -27,7 +27,8 @@ class ItemSelector extends Component {
             <View style={styles.container}>
 
                 <TouchableOpacity onPress={() => this.setState({visibleModal: true})}>
-                    <FormLabel>{this.props.value.length > 0 ? this.props.value : this.props.searchHint}
+                    <FormLabel>
+                        {this.props.value.length > 0 ? this.props.value : this.props.searchHint}
                     </FormLabel>
                 </TouchableOpacity>
 

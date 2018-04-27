@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: color.white,
         borderWidth: 1,
-        borderColor: color.main,
+        borderColor: color.accent_dark,
         borderRadius: 6,
         overflow: 'hidden',
         marginVertical: 5,
@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
     },
     selectedButton:{
         flex: 1,
-        backgroundColor: color.main,
+        backgroundColor: color.accent_dark,
         justifyContent: 'center',
         alignItems: 'center',
         borderRightWidth: 0.75,
-        borderRightColor: color.main
+        borderRightColor: color.accent_dark
     },
     selectedText:{
         color: color.white
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRightWidth: 0.5,
-        borderRightColor: color.main
+        borderRightColor: color.accent_dark
     },
     text:{
-        color: color.main,
+        color: color.accent_dark,
     },
 });
 
