@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Date from "react-native-datepicker";
 import moment from "moment";
+import styles from "./styles";
 
 class DatePicker extends React.Component {
     constructor(props) {
@@ -13,7 +14,8 @@ class DatePicker extends React.Component {
 
         return (
             <Date
-                style={{width: 200}}
+                style={styles.containerView}
+                showIcon={false}
                 date={value.length > 0 ? value : moment()}
                 mode="date"
                 placeholder="select date"
@@ -24,12 +26,6 @@ class DatePicker extends React.Component {
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
-                    dateIcon: {
-                        position: 'absolute',
-                        left: 0,
-                        top: 4,
-                        marginLeft: 0
-                    },
                     dateInput: {
                         marginLeft: 18
                     }

@@ -5,13 +5,15 @@ import {connect} from 'react-redux';
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
 import {View} from "react-native";
-import styles from "./styles";
+import styles, {indicatorStyles, mapStyles} from "./styles";
 import moment from "moment";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+
 
 const {createEvent} = event;
 
@@ -43,6 +45,27 @@ class EventForm extends React.Component {
                         mode: 'datetime',
                     },
                     type: 'date',
+                },
+                'location': {
+                    placeholder: "Location",
+                    type: "location",
+                    validator: (location) => !isEmpty(location),
+                    errorMessage: "Location is required"
+                },
+                'map': {
+                    placeholder: 'Search',
+                    minLength: 2,
+                    fetchDetails: true,
+                    // nearbyPlacesAPI: 'GoogleReverseGeocoding',
+                    debounce: 200,
+                    query: {
+                        // available options: https://developers.google.com/places/web-service/autocomplete
+                        key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
+                        language: 'en', // language of the results
+                    },
+                    currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
+                    currentLocationLabel: "Current location",
+                    value: {lat: 0.0, long: 0.0}
                 }
             }
         };
@@ -96,7 +119,7 @@ class EventForm extends React.Component {
     render() {
 
         const form = this.form;
-        const [title, description, date] = Object.keys(this.form.fields);
+        const [title, description, date, map] = Object.keys(this.form.fields);
 
         return (
             <View style={styles.container}>
@@ -104,18 +127,43 @@ class EventForm extends React.Component {
                         {...form.fields[title]}
                         onChangeText={(text) => this.onChange(title, text)}
                         value={this.state[title]['value']}
-                        error={this.state['error'][title]}/>
+                        error={this.state['error'][title]}
+                    />
 
-                    <TextInput
-                        {...form.fields[description]}
-                        onChangeText={(text) => this.onChange(description, text)}
-                        value={this.state[description]['value']}
-                        error={this.state['error'][description]}/>
+                    <GooglePlacesAutocomplete
+                        {...form.fields[map]}
+                        query={{
+                            key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
+                            language: 'en'
+                        }}
+                        onPress={(place, details) => {
+                            console.log(place);
+                            console.log(details);
+                            const region = {
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                            };
+                            {/* region.latitudeDelta = this.state['map']['value'].latitudeDelta;
+                            region.longitudeDelta = this.state['map']['value'].longitudeDelta;
+                            console.log(region);
+                            console.log(this.state['map']['value']); */}
+                            this.onChange(map, region);
+                        }}
+                        styles={mapStyles}
+                        fetchDetails={true}
+                    />
 
                     <DatePicker
                         {...form.fields[date]}
                         value={this.state[date]['value']}
                         onDateChange={(newDate) => this.onChange(date, newDate)}
+                    />
+
+                    <TextInput
+                        {...form.fields[description]}
+                        onChangeText={(text) => this.onChange(description, text)}
+                        value={this.state[description]['value']}
+                        error={this.state['error'][description]}
                     />
 
                     <Button
@@ -125,8 +173,8 @@ class EventForm extends React.Component {
                         containerViewStyle={formStyles.containerView}
                         buttonStyle={formStyles.button}
                         textStyle={formStyles.buttonText}
-                        onPress={() => this.onSubmit()}/>
-
+                        onPress={() => this.onSubmit()}
+                    />
             </View>
         );
     }

@@ -106,7 +106,7 @@ export default class extends React.Component {
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon name="plus" color={color.main} style={{paddingRight: 8}}
+                                   renderRightButton={<Icon name="plus" color={color.accent_light} style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
