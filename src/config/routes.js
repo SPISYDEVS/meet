@@ -115,7 +115,7 @@ export default class extends React.Component {
                                    type={ActionConst.REPLACE}/>
                         </Scene>
 
-                        <Scene key="ProfileScreen" default="Events" title="My Events"
+                        <Scene key="ProfileScreen" default="Events" title="Profile"
                                icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}>
 
                             <Scene key="Profile"
