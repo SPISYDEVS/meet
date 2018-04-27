@@ -30,6 +30,7 @@ import EventForm from "../modules/event/containers/EventForm";
 import Events from "../modules/event/containers/Events";
 import Home from "../modules/home/containers/Home";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
+import Search from "../modules/home/components/Search/Search";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -97,6 +98,7 @@ export default class extends React.Component {
                                component={Home}
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
                                title="Explore"
+                               navBar={Search}
                                type={ActionConst.REPLACE}/>
 
                         <Scene key="EventScreen" default="Events" title="My Events"
@@ -118,7 +120,7 @@ export default class extends React.Component {
 
                             <Scene key="Profile"
                                    component={Profile}
-                                   title="Profile"
+                                   title={null}
                                    renderRightButton={<Icon name="pencil" color={color.main} style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EditProfile')}/>}
                                    type={ActionConst.REPLACE}/>

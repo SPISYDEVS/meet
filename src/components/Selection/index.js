@@ -1,3 +1,3 @@
-import TextInput from './TextInput'
+import Selection from './Selection'
 
-export default TextInput;
+export default Selection;

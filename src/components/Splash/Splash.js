@@ -9,7 +9,7 @@ export default class extends React.Component {
             <View style={styles.container}>
                 <View style={styles.wrapper}>
                     <Image style={styles.image} source={{uri: ""}}/>
-                    <Text style={styles.title}>Quotes</Text>
+                    <Text style={styles.title}>LetsMeet</Text>
                 </View>
                 <View style={styles.activityIndicatorContainer}>
                     <ActivityIndicator animating={true}/>
