@@ -1,18 +1,34 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
-const { windowWidth, fontSize, fontFamily, normalize, color } = theme;
+
+const {windowWidth, fontSize, fontFamily, normalize, color} = theme;
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         backgroundColor: color.white,
         height: '100%'
     },
     stepIndicator: {
-        marginVertical:20,
+        marginVertical: 20,
     },
     viewPager: {
         flex: 1,
+    },
+    markerContainer:{
+        position: 'absolute',
+        flex: 1,
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    marker: {
+        height: 40,
+        width: 40,
+        // backgroundColor: 'transparent'
     }
 });
 
@@ -49,7 +65,7 @@ export const mapStyles = {
 
 export const indicatorStyles = {
     stepIndicatorSize: 30,
-    currentStepIndicatorSize:40,
+    currentStepIndicatorSize: 40,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
     stepStrokeCurrentColor: color.main,

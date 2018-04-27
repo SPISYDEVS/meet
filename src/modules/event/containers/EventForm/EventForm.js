@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
-import {SafeAreaView, ScrollView, Text, View} from "react-native";
+import {SafeAreaView, ScrollView, Text, View, Platform, Keyboard} from "react-native";
+import {Icon} from 'react-native-elements';
 import styles, {indicatorStyles, mapStyles} from "./styles";
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import StepIndicator from "react-native-step-indicator";
@@ -17,6 +18,7 @@ import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import MapView, {Marker} from "react-native-maps";
+import {Constants, Location, Permissions} from 'expo';
 
 const {createEvent} = event;
 
@@ -67,10 +69,11 @@ class EventForm extends React.Component {
                             key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
                             language: 'en', // language of the results
                         },
-                        currentLocation:true, // Will add a 'Current location' button at the top of the predefined places list
-                        currentLocationLabel:"Current location"
+                        currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
+                        currentLocationLabel: "Current location",
+                        value: {lat: 0.0, long: 0.0}
                     }
-                }
+                },
             },
             [invitationsPage]: {
                 fields: {
@@ -94,10 +97,10 @@ class EventForm extends React.Component {
             state[key] = createState(this.forms[key].fields);
         });
 
+
         state['currentPage'] = 0;
 
         this.state = state;
-        console.log(state);
 
         //bind functions
         this.onSuccess = this.onSuccess.bind(this);
@@ -152,10 +155,16 @@ class EventForm extends React.Component {
         }
     }
 
-    onChange = (form, key, text) => {
+    onChange = (form, key, data) => {
         const state = {...this.state};
-        state[form][key]['value'] = text;
+        state[form][key]['value'] = data;
         this.setState(state);
+    };
+
+    onRegionChange = (region) => {
+        console.log(region);
+        // const location = {latitude: region.latitude + region.latitudeDelta/2, longitude: region.longitude + region.longitudeDelta/2}
+        this.onChange(wherePage, 'map', region);
     };
 
     renderViewPagerPage = (page) => {
@@ -202,26 +211,39 @@ class EventForm extends React.Component {
             const [map] = Object.keys(form.fields);
 
             return <View key={page} style={{flex: 1}}>
+
+
                 <GooglePlacesAutocomplete
                     {...form.fields[map]}
-                    onPress={(place, details) => {console.log(place);console.log(details);this.onChange(page, map, place);}}
+                    onPress={(place, details) => {
+                        console.log(place);
+                        console.log(details);
+                        const region = {
+                            latitude: details.geometry.location.lat,
+                            longitude: details.geometry.location.lng,
+                        };
+                        region.latitudeDelta = this.state[page]['map']['value'].latitudeDelta;
+                        region.longitudeDelta = this.state[page]['map']['value'].longitudeDelta;
+                        console.log(region);
+                        console.log(this.state[page]['map']['value']);
+                        this.onChange(page, map, region);
+                    }}
                     styles={mapStyles}
+                    fetchDetails={true}
                 />
 
-                <MapView
-                    style={{flex: 1}}
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}>
-                    {/*{this.state[wherePage][map]['value'].length >0 &&*/}
-                    {/*<Marker draggable*/}
-                            {/*coordinate={this.state[wherePage][map]['value']}*/}
-                            {/*onDragEnd={(e) => this.setState({x: e.nativeEvent.coordinate})}*/}
-                    {/*/>}*/}
-                </MapView>
+                <View style={{flex: 1}}>
+                    <MapView
+                        style={{flex: 1}}
+                        showsUserLocation
+                        showsMyLocationButton={true}
+                        region={this.state[page][map]['value']}
+                        onRegionChangeComplete={(region) => this.onRegionChange(region)}
+                    />
+                    <View pointerEvents="none" style={styles.markerContainer}>
+                        <Icon type="material-community" style={styles.marker} size={40} name="map-marker"/>
+                    </View>
+                </View>
             </View>
 
         } else if (page === invitationsPage) {
@@ -276,7 +298,6 @@ class EventForm extends React.Component {
         );
     }
 }
-
 
 const getStepIndicatorIconConfig = ({position, stepStatus}) => {
     const iconConfig = {
