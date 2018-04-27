@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Date from "react-native-datepicker";
+import moment from "moment";
 
 class DatePicker extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class DatePicker extends React.Component {
         return (
             <Date
                 style={{width: 200}}
-                date={value}
+                date={value.length > 0 ? value : moment()}
                 mode="date"
                 placeholder="select date"
                 // format={dateOption.format !== undefined ? dateOption.format : "YYYY-MM-DD"}

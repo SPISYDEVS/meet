@@ -37,7 +37,6 @@ class EventForm extends React.Component {
                     type: "text",
                 },
                 'date': {
-                    value: moment(),
                     options: {
                         format: 'MMMM Do YYYY, h:mm a',
                         minuteInterval: 5,
@@ -57,16 +56,15 @@ class EventForm extends React.Component {
 
     onSubmit = () => {
 
-        const form = this.form;
-        const data = extractData(form);
+        const data = extractData(this.state);
 
         if (hasErrors(data['error'])) {
             const newState = {...this.state};
             newState['error'] = data['error'];
             this.setState(newState);
         } else {
-            this.props.createEvent(data['data']);
-            this.onSuccess();
+            console.log(data['data']);
+            this.props.createEvent(data['data'], this.onSuccess, this.onError);
         }
 
     };
