@@ -4,21 +4,14 @@ import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
-import {SafeAreaView, ScrollView, Text, View, Platform, Keyboard} from "react-native";
-import {Icon} from 'react-native-elements';
-import styles, {indicatorStyles, mapStyles} from "./styles";
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import StepIndicator from "react-native-step-indicator";
-import {ViewPager} from 'rn-viewpager';
+import {View} from "react-native";
+import styles from "./styles";
 import moment from "moment";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
-import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
-import MapView, {Marker} from "react-native-maps";
-import {Constants, Location, Permissions} from 'expo';
 
 const {createEvent} = event;
 
@@ -69,7 +62,7 @@ class EventForm extends React.Component {
 
         if (hasErrors(data['error'])) {
             const newState = {...this.state};
-            newState[page]['error'] = data['error'];
+            newState['error'] = data['error'];
             this.setState(newState);
         } else {
             this.props.createEvent(data['data']);
@@ -109,7 +102,6 @@ class EventForm extends React.Component {
 
         return (
             <View style={styles.container}>
-                <View key={page}>
                     <TextInput
                         {...form.fields[title]}
                         onChangeText={(text) => this.onChange(title, text)}
@@ -137,7 +129,6 @@ class EventForm extends React.Component {
                         textStyle={formStyles.buttonText}
                         onPress={() => this.onSubmit()}/>
 
-                </View>
             </View>
         );
     }
