@@ -106,7 +106,8 @@ export default class extends React.Component {
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon name="plus" color={color.accent_dark} style={{paddingRight: 8}}
+                                   renderRightButton={<Icon name="plus" color={color.accent_dark}
+                                                            style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
@@ -121,7 +122,8 @@ export default class extends React.Component {
                             <Scene key="Profile"
                                    component={Profile}
                                    title={null}
-                                   renderRightButton={<Icon name="pencil" color={color.accent_dark} style={{paddingRight: 8}}
+                                   renderRightButton={<Icon name="pencil" color={color.accent_dark}
+                                                            style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EditProfile')}/>}
                                    type={ActionConst.REPLACE}/>
 
