@@ -12,10 +12,15 @@ import {actions as auth, theme} from "../../../auth/index"
 import {Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
 import Notifications from "../Notifications/Notifications";
+import Friends from "../Friends/Friends";
 
 const {signOut} = auth;
 
-const {color} = theme;
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducer.user
+    }
+};
 
 class Profile extends React.Component {
     constructor() {
@@ -72,6 +77,9 @@ class Profile extends React.Component {
     }
 
     render() {
+
+        const {user} = this.props;
+
         return (
             <View style={styles.container}>
                 <View style={styles.infoContainer}>
@@ -85,8 +93,8 @@ class Profile extends React.Component {
                             activeOpacity={0.7}
                         />
                         <View style={styles.detailsContainer}>
-                            <Text style={styles.username}>Jennifer</Text>
-                            <Text style={styles.school}>University of California, San Diego</Text>
+                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                            <Text style={styles.school}>{user.school}</Text>
                         </View>
                     </View>
                 </View>
@@ -95,7 +103,7 @@ class Profile extends React.Component {
 
                     <View style={styles.bottomContent}>
                         {this.state.buttons[0].selected && <Notifications/>}
-                        {this.state.buttons[1].selected && <Text> FRIENDS </Text>}
+                        {this.state.buttons[1].selected && <Friends/>}
 
                         <Button
                             raised
@@ -112,4 +120,4 @@ class Profile extends React.Component {
     }
 }
 
-export default connect(null, {signOut})(Profile);
+export default connect(mapStateToProps, {signOut})(Profile);
