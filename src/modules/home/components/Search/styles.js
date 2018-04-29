@@ -6,7 +6,7 @@ const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: color.main,
+        backgroundColor: color.background,
         opacity: 1,
         // justifyContent: 'center',
     },
@@ -32,19 +32,20 @@ const styles = StyleSheet.create({
     searchBar: {
         padding: 0,
         margin: 0,
-        backgroundColor: color.main,
+        backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
         flex: 1
     },
     searchInput: {
         borderRadius: 12,
-        backgroundColor: color.white,
+        borderWidth: 0.5,
+        backgroundColor: color.background,
     },
     headerText: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
-        color: color.white
+        color: color.black
     }
 });
 

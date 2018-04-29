@@ -32,7 +32,7 @@ class Search extends Component {
                     <View style={[styles.padded, styles.rowContainer]}>
                         <Text style={styles.headerText}>Feed</Text>
 
-                        <Icon name="search" size={35} color={"#fff"} onPress={() => this.setState({showSearch: true})}/>
+                        <Icon name="search" size={35} color={"#000"} onPress={() => this.setState({showSearch: true})}/>
                     </View>
                     }
 
@@ -48,6 +48,7 @@ class Search extends Component {
                                 lightTheme
                                 inputStyle={styles.searchInput}
                                 containerStyle={styles.searchBar}
+                                noIcon
                             />
 
                             <TouchableOpacity onPress={() => this.setState({showSearch: false})}>

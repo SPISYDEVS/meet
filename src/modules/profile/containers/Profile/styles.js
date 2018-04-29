@@ -6,11 +6,13 @@ const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        flex: 1,
+        backgroundColor: color.background,
+        paddingHorizontal: 25,
     },
     infoContainer: {
         flex: 1,
-        padding: 25,
+        paddingVertical: 25,
         justifyContent: 'center',
     },
     infoContent: {
@@ -32,16 +34,9 @@ const styles = StyleSheet.create({
     body: {
         flex: 5
     },
-    bottomContainer:{
-        backgroundColor:"white",
-        paddingVertical: padding * 3,
-        shadowColor: "#000000",
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 1,
-            width: 0
-        }
+    bottomContent:{
+        flex: 1,
+        marginTop: 15,
     },
 
     buttonContainer:{

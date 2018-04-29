@@ -11,10 +11,16 @@ import styles from "./styles"
 import {actions as auth, theme} from "../../../auth/index"
 import {Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
+import Notifications from "../Notifications/Notifications";
+import Friends from "../Friends/Friends";
 
 const {signOut} = auth;
 
-const {color} = theme;
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducer.user
+    }
+};
 
 class Profile extends React.Component {
     constructor() {
@@ -71,6 +77,9 @@ class Profile extends React.Component {
     }
 
     render() {
+
+        const {user} = this.props;
+
         return (
             <View style={styles.container}>
                 <View style={styles.infoContainer}>
@@ -84,29 +93,31 @@ class Profile extends React.Component {
                             activeOpacity={0.7}
                         />
                         <View style={styles.detailsContainer}>
-                            <Text style={styles.username}>Jennifer</Text>
-                            <Text style={styles.school}>University of California, San Diego</Text>
+                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                            <Text style={styles.school}>{user.school}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={styles.body}>
                     <TabButtons buttons={this.state.buttons}/>
 
-                    {this.state.buttons[0].selected && <Text> NOTIFICATIONS </Text>}
-                    {this.state.buttons[1].selected && <Text> FRIENDS </Text>}
+                    <View style={styles.bottomContent}>
+                        {this.state.buttons[0].selected && <Notifications/>}
+                        {this.state.buttons[1].selected && <Friends/>}
 
-                    <Button
-                        raised
-                        borderRadius={4}
-                        title={'LOG OUT'}
-                        containerViewStyle={[styles.containerView]}
-                        buttonStyle={[styles.button]}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSignOut}/>
+                        <Button
+                            raised
+                            borderRadius={4}
+                            title={'LOG OUT'}
+                            containerViewStyle={[styles.containerView]}
+                            buttonStyle={[styles.button]}
+                            textStyle={styles.buttonText}
+                            onPress={this.onSignOut}/>
+                    </View>
                 </View>
             </View>
         );
     }
 }
 
-export default connect(null, {signOut})(Profile);
+export default connect(mapStateToProps, {signOut})(Profile);

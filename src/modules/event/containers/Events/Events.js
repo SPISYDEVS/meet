@@ -60,8 +60,10 @@ class Events extends Component {
         return (
             <View style={styles.container}>
                 <TabButtons buttons={this.state.buttons}/>
-                {this.state.buttons[0].selected && <MyEvents/>}
-                {this.state.buttons[1].selected && <AttendingEvents/>}
+                <View style={styles.content}>
+                    {this.state.buttons[0].selected && <MyEvents/>}
+                    {this.state.buttons[1].selected && <AttendingEvents/>}
+                </View>
             </View>
         );
     }

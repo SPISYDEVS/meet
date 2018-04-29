@@ -7,7 +7,7 @@ const color = {
     accent_light: '#9C4368',
     accent: '#33223B',
     accent_dark: '#211E2B',
-    background: 'white',
+    background: '#fcfcfc',
     black: "#3B3031",
     light_black: "#414141",
     white: "#ffffff",
@@ -15,8 +15,8 @@ const color = {
     grey: "#ccc",
     red: "red",
     underlayColor: "#ddd",
-    tab_active: '#E36D60',
-    tab_inactive: '#ED8F5B',
+    tab_active: '#3B3031',
+    tab_inactive: '#bbb',
 };
 
 const fontSize = {

@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         marginBottom: 10,
         borderBottomWidth: 0.33,
-        borderBottomColor: color.accent_light
+        borderBottomColor: color.accent_dark
     },
     info: {
-        marginBottom: 7.5,
+        marginBottom: 10,
     },
     title: {
         fontSize: fontSize.large,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignContent: 'center',
-        paddingBottom: 5
+        paddingBottom: 10
     },
     hostName: {
         paddingLeft: 10,
