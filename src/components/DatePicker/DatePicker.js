@@ -16,7 +16,7 @@ class DatePicker extends React.Component {
             <Date
                 style={styles.containerView}
                 showIcon={false}
-                date={value.length > 0 ? value : moment()}
+                date={value}
                 mode="date"
                 placeholder="select date"
                 // format={dateOption.format !== undefined ? dateOption.format : "YYYY-MM-DD"}

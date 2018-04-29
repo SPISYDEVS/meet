@@ -29,7 +29,7 @@ class Friends extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    friends.map(not => <Friend/>)
+                    friends.map((friend, i) => <Friend key={i}/>)
                 }
             </ScrollView>
         );

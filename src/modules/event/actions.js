@@ -5,8 +5,14 @@ import {auth} from "../../config/firebase";
 import {AsyncStorage} from 'react-native';
 
 export function createEvent(event, successCB, errorCB) {
+
+    const user = auth.currentUser;
+
+    event['userId'] = user.uid;
+    event['hostName'] = user.firstName + " " + user.lastName;
+
     return (dispatch) => {
-            api.createEvent(event, auth.currentUser, function (success, data, error) {
+            api.createEvent(event, user, function (success, data, error) {
                 if (success) {
                     event['id'] = data;
                     dispatch({type: t.EVENT_CREATED, data: event});

@@ -29,7 +29,7 @@ class Notifications extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    notifications.map(not => <Notification/>)
+                    notifications.map((not, i) => <Notification key={i}/>)
                 }
             </ScrollView>
         );

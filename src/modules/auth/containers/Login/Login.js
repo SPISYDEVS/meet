@@ -63,11 +63,11 @@ class Login extends React.Component {
         }
         else Actions.CompleteProfile({user});
 
-    }
+    };
 
     onSuccess = () => {
         Actions.Main();
-    }
+    };
 
     onError = (error) => {
         let errObj = this.state.error;
