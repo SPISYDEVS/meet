@@ -80,6 +80,10 @@ class Profile extends React.Component {
 
         const {user} = this.props;
 
+        if(user === null){
+            return <View/>
+        }
+
         return (
             <View style={styles.container}>
                 <View style={styles.infoContainer}>

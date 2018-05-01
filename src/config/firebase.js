@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import * as c from './constants';
+const geofire = require('geofire');
 
 // Initialize Firebase
 const config = {
@@ -13,6 +14,7 @@ const config = {
 
 firebase.initializeApp(config);
 
+export const geofireRef = new geofire(firebase.database().ref('geofire'));
 export const database = firebase.database();
 export const auth = firebase.auth();
 export const provider = new firebase.auth.FacebookAuthProvider();

@@ -44,6 +44,7 @@ class MyEvents extends Component {
                 {
                     events.map((item, i) => (
                         <Event
+                            key={i}
                             title={item.title}
                             description={item.description}
                         />
@@ -52,6 +53,7 @@ class MyEvents extends Component {
                 {
                     events.map((item, i) => (
                         <Event
+                            key={i}
                             title={item.title}
                             description={item.description}
                         />
