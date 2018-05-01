@@ -43,7 +43,7 @@ class EventForm extends React.Component {
                         minuteInterval: 5,
                         mode: 'datetime',
                     },
-                    value: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                    value: moment().format("MMMM Do YYYY, h:mm a"),
                     type: 'date',
                 },
                 'location': {

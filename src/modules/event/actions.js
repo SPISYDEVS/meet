@@ -9,7 +9,6 @@ export function createEvent(event, successCB, errorCB) {
     const user = auth.currentUser;
 
     event['userId'] = user.uid;
-    event['hostName'] = user.firstName + " " + user.lastName;
 
     return (dispatch) => {
             api.createEvent(event, user, function (success, data, error) {
