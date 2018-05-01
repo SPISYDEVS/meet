@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     modalHeader: {
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        paddingTop: 35,
+        paddingTop: 25,
         paddingRight: 10,
     }
 });

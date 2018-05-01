@@ -92,7 +92,8 @@ export default class extends React.Component {
                     </Stack>
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
-                           activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}>
+                           activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
+                           tabBarPosition="bottom">
 
                         <Scene key="FeedScreen"
                                component={Home}

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
+
+import Modal from 'react-native-modal';
 
 import styles from "./styles"
 import {Avatar, Icon} from "react-native-elements";
 
-import Modal from "react-native-modal";
+//import Modal from "react-native-modal";
 import EventDetails from "../EventDetails"
 
 class Event extends React.Component {
@@ -31,6 +33,8 @@ class Event extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+
+                    <StatusBar hidden={true}/>
                     <View style={styles.info}>
                         <Text style={styles.title}>
                             {title}
@@ -59,12 +63,12 @@ class Event extends React.Component {
                 </TouchableOpacity>
 
                 <Modal isVisible={this.state.eventDetails} style={styles.modal}>
-                    <View style={styles.modalHeader}>
+                    <TouchableOpacity style={styles.modalHeader}
+                      onPress={() => this.closeModal()}>
                         <Icon
-                            onPress={this.closeModal}
                             name='close'
                         />
-                    </View>
+                    </TouchableOpacity>
                     <EventDetails
                         title={title}
                         date={date}

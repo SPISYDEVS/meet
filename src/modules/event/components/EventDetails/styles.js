@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
         padding: 15
     },
     header: {
-        marginBottom: 25,
     },
     title: {
         fontSize: fontSize.header,
@@ -20,7 +19,8 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 18,
-        lineHeight: 30
+        lineHeight: 30,
+        marginBottom: 5,
     },
     details: {
         marginBottom: 25,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     hostContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        marginBottom: 25
+        marginBottom: 10,
     },
     hostName: {
         paddingLeft: 10,
