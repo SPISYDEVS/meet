@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
 
 import styles from "./styles"
 import {Avatar} from "react-native-elements";
+
 
 class EventDetails extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class EventDetails extends React.Component {
     render() {
         const {title, date, location, hostPic, hostName, description, actualAttendees, plannedAttendees} = this.props;
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.title}>
                         {title}
@@ -90,7 +91,7 @@ class EventDetails extends React.Component {
                         ))
                     }
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
