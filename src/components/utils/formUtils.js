@@ -59,8 +59,8 @@ export const createState = (fields) => {
 
     fieldKeys.forEach((key) => {
         const field = fields[key];
-        let {type, validator, errorMessage, value} = field;
-        state[key] = {type: type, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''};
+        let {type, validator, errorMessage, value, other} = field;
+        state[key] = {type: type, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : '', other: other};
         state['error'][key] = '';
     });
 

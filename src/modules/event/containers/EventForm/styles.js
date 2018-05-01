@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     viewPager: {
         flex: 1,
     },
-    markerContainer:{
+    markerContainer: {
         position: 'absolute',
         flex: 1,
         top: 0,
@@ -29,6 +29,11 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         // backgroundColor: 'transparent'
+    },
+    modal: {
+        margin: 0,
+        paddingTop: 35,
+        backgroundColor: color.white
     }
 });
 

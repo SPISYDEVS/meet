@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
-import {View} from "react-native";
+import {SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import styles, {indicatorStyles, mapStyles} from "./styles";
 import moment from "moment";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
@@ -13,8 +13,12 @@ import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import Modal from "react-native-modal";
+import PlacePicker from "../../components/PlacePicker/PlacePicker";
+import {GOOGLE_MAPS_API_KEY} from "../../../../config/constants";
 
 const {createEvent} = event;
+const queryString = require('query-string');
 
 const generalPage = "General";
 const wherePage = "Where";
@@ -47,22 +51,31 @@ class EventForm extends React.Component {
                     type: 'date',
                 },
                 'location': {
-                    placeholder: "Location",
-                    type: "location",
-                    minLength: 2,
-                    fetchDetails: true,
-                    // nearbyPlacesAPI: 'GoogleReverseGeocoding',
-                    debounce: 200,
-                    query: {
-                        // available options: https://developers.google.com/places/web-service/autocomplete
-                        key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
-                        language: 'en', // language of the results
+                    options: {
+                        placeholder: "Location",
+                        type: "location",
+                        minLength: 2,
+                        fetchDetails: true,
+                        // nearbyPlacesAPI: 'GoogleReverseGeocoding',
+                        debounce: 200,
+                        query: {
+                            // available options: https://developers.google.com/places/web-service/autocomplete
+                            key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
+                            language: 'en', // language of the results
+                        },
+                        currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
+                        currentLocationLabel: "Current location",
                     },
-                    currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
-                    currentLocationLabel: "Current location",
-                    value: {lat: 0.0, long: 0.0},
+                    value: {
+                        latitude: 37.78825,
+                        longitude: -122.4324
+                    },
                     validator: (location) => !isEmpty(location),
-                    errorMessage: "Location is required"
+                    errorMessage: "Location is required",
+                    other: {
+                        address: '',
+                        modalVisible: false
+                    }
                 },
             }
         };
@@ -84,6 +97,7 @@ class EventForm extends React.Component {
             this.setState(newState);
         } else {
             console.log(data['data']);
+            data['data']['address'] = this.state['location']['other']['address'];
             this.props.createEvent(data['data'], this.onSuccess, this.onError);
         }
 
@@ -106,6 +120,51 @@ class EventForm extends React.Component {
 
         this.setState({error: errObj});
     }
+    
+    openLocationModal = () => {
+        const state = {...this.state};
+        state['location']['other']['modalVisible'] = true;
+        this.setState(state);
+    };
+    
+    closeLocationModal = () => {
+        const state = {...this.state};
+        state['location']['other']['modalVisible'] = false;
+        this.setState(state);
+    };
+
+    onLocationChange = (data) => {
+
+        const state = {...this.state};
+
+        state['location']['value'] = data;
+
+        //query the google maps api
+        let params = {
+            key: GOOGLE_MAPS_API_KEY,
+            latlng: `${data.latitude},${data.longitude}`,
+        };
+
+        let qs = queryString.stringify(params);
+
+        //make a get request (we want to reverse geolookup an address given a latlng)
+        //we then update the state with the returned value
+        fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?${qs}`)
+            .then((res) => res.json())
+            .then((json) => {
+                if (json.status !== 'OK') {
+                    throw new Error(`Geocode error: ${json.status}`);
+                }
+
+                //retrieve the first result and assign it to the address property
+                //('other' stores everything that value doesn't in a form field)
+                state['location']['other']['address'] = json.results[0].formatted_address;
+
+                this.setState(state);
+            });
+
+    };
 
     onChange = (key, data) => {
         const state = {...this.state};
@@ -117,9 +176,12 @@ class EventForm extends React.Component {
 
         const form = this.form;
         const [title, description, date, location] = Object.keys(this.form.fields);
+        const address = this.state[location]['other']['address'];
 
         return (
             <View style={styles.container}>
+
+                {/*input for the form title*/}
                 <TextInput
                     {...form.fields[title]}
                     onChangeText={(text) => this.onChange(title, text)}
@@ -127,36 +189,37 @@ class EventForm extends React.Component {
                     error={this.state['error'][title]}
                 />
 
-                <GooglePlacesAutocomplete
-                    {...form.fields[location]}
-                    query={{
-                        key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
-                        language: 'en'
-                    }}
-                    onPress={(place, details) => {
-                        console.log(place);
-                        console.log(details);
-                        const region = {
-                            latitude: details.geometry.location.lat,
-                            longitude: details.geometry.location.lng,
-                        };
-                        {/* region.latitudeDelta = this.state['map']['value'].latitudeDelta;
-                            region.longitudeDelta = this.state['map']['value'].longitudeDelta;
-                            console.log(region);
-                            console.log(this.state['map']['value']); */
-                        }
-                        this.onChange(location, region);
-                    }}
-                    styles={mapStyles}
-                    fetchDetails={true}
-                />
+                {/* Below is the input for the location field, which opens a modal when clicked*/}
+                <View style={[formStyles.wrapper, formStyles.containerView]}>
+                    <TouchableOpacity onPress={() => this.openLocationModal()}>
+                        <Text>{address.length > 0 ? address : 'Choose a location'}</Text>
+                    </TouchableOpacity>
+                </View>
 
+                {/*location input modal*/}
+                <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>
+                    <PlacePicker location={this.state[location]['value']}
+                                 onLocationChange={this.onLocationChange}
+                                 options={this.form.options}/>
+                    <Button
+                        raised
+                        title='Complete'
+                        borderRadius={4}
+                        containerViewStyle={formStyles.containerView}
+                        buttonStyle={formStyles.button}
+                        textStyle={formStyles.buttonText}
+                        onPress={() => this.closeLocationModal()}
+                    />
+                </Modal>
+
+                {/*input for the date*/}
                 <DatePicker
                     {...form.fields[date]}
                     value={this.state[date]['value']}
                     onDateChange={(newDate) => this.onChange(date, newDate)}
                 />
 
+                {/*input for the description of the event*/}
                 <TextInput
                     {...form.fields[description]}
                     onChangeText={(text) => this.onChange(description, text)}
@@ -164,9 +227,10 @@ class EventForm extends React.Component {
                     error={this.state['error'][description]}
                 />
 
+                {/*submit button to create the event*/}
                 <Button
                     raised
-                    title='Next'
+                    title='Complete'
                     borderRadius={4}
                     containerViewStyle={formStyles.containerView}
                     buttonStyle={formStyles.button}
