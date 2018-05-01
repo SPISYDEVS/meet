@@ -28,7 +28,7 @@ class Event extends React.Component {
     };
 
     render() {
-        const {title, description, date, location, hostPic, hostName} = this.props;
+        const {title, description, date, hostPic, hostName, distance, address} = this.props;
 
         return (
             <View style={{flex: 1}}>
@@ -40,7 +40,7 @@ class Event extends React.Component {
                             {title}
                         </Text>
                         <Text style={styles.subtitle}>
-                            {date + " | " + location}
+                            {date + " | " + distance + " miles"}
                         </Text>
                     </View>
                     <View style={styles.details}>
@@ -72,7 +72,7 @@ class Event extends React.Component {
                     <EventDetails
                         title={title}
                         date={date}
-                        location={location}
+                        location={address}
                         hostPic={hostPic}
                         hostName={hostName}
                         description={description}
@@ -92,7 +92,8 @@ Event.defaultProps = {
     title: 'Really Long Event Title',
     description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',
     date: 'Today, 12:30pm',
-    location: 'Warren College',
+    distance: '0',
+    address: 'Warren College',
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     hostName: "Jane"
 };

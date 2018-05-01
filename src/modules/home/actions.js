@@ -15,3 +15,9 @@ export function fetchFeed(location, successCB, errorCB) {
         });
     };
 }
+
+export function updateLocation(location) {
+    return (dispatch) => {
+        dispatch({type: t.LOCATION_FETCHED, data: location});
+    };
+}

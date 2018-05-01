@@ -96,7 +96,6 @@ class EventForm extends React.Component {
             newState['error'] = data['error'];
             this.setState(newState);
         } else {
-            console.log(data['data']);
             data['data']['address'] = this.state['location']['other']['address'];
             this.props.createEvent(data['data'], this.onSuccess, this.onError);
         }
