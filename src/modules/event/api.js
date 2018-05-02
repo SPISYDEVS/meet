@@ -28,3 +28,12 @@ export function loadEvents(eventIds, callback) {
             callback(false, null, {message: error})
         });
 }
+
+export function rsvpEvent(eventId, user, callback) {
+
+    database.ref('events').child(eventId).child('plannedAttendees').on('value', function(snapshot) {
+        callback(true, {eventId: eventId, plannedAttendees: snapshot.val()}, null);
+    });
+
+    database.ref('events').child(eventId).child('plannedAttendees').update({[user.uid]: true});
+}

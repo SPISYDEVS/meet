@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 import {isEmpty} from '../../../auth/utils/validate'
 import styles from "./styles"
 import Event from "../../components/Event/Event";
+import {rsvpEvent} from "../../actions";
 
 // <ListItem
 // roundAvatar
@@ -64,4 +65,4 @@ class MyEvents extends Component {
     }
 }
 
-export default connect(mapStateToProps, {})(MyEvents);
+export default connect(mapStateToProps, {rsvpEvent})(MyEvents);

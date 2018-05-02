@@ -28,7 +28,7 @@ class Event extends React.Component {
     };
 
     render() {
-        const {title, description, date, hostPic, hostName, distance, address} = this.props;
+        const {title, description, date, hostPic, hostName, distance, address, plannedAttendees} = this.props;
 
         return (
             <View style={{flex: 1}}>
@@ -76,6 +76,8 @@ class Event extends React.Component {
                         hostPic={hostPic}
                         hostName={hostName}
                         description={description}
+                        plannedAttendees={plannedAttendees}
+                        handleRsvp={this.props.handleRsvp}
                     />
                 </Modal>
             </View>
@@ -95,7 +97,9 @@ Event.defaultProps = {
     distance: '0',
     address: 'Warren College',
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    hostName: "Jane"
+    hostName: "Jane",
+    plannedAttendees: [],
+    handleRsvp: () => {}
 };
 
 export default Event;

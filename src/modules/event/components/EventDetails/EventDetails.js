@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
 
 import styles from "./styles"
-import {Avatar} from "react-native-elements";
+import {Avatar, Button} from "react-native-elements";
+import formStyles from "../../../../styles/formStyles";
+import {rsvpEvent} from "../../actions";
+import {connect} from "react-redux";
 
 
 class EventDetails extends React.Component {
@@ -80,17 +83,30 @@ class EventDetails extends React.Component {
                                 <Avatar
                                     small
                                     rounded
-                                    source={{uri: item.picture}}
+                                    source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}
+                                    // source={{uri: item.picture}}
                                     onPress={() => console.log("Works!")}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
-                                    {item.name}
+                                    {/*{item.name}*/}
+                                    {item}
                                 </Text>
                             </View>
                         ))
                     }
                 </View>
+
+                <Button
+                    raised
+                    title='TEMPORARY RSVP'
+                    borderRadius={4}
+                    containerViewStyle={formStyles.containerView}
+                    buttonStyle={formStyles.button}
+                    textStyle={formStyles.buttonText}
+                    onPress={() => this.props.handleRsvp()}
+                />
+
             </ScrollView>
         );
     }

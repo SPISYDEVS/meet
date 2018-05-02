@@ -33,6 +33,30 @@ const eventReducer = (state = initialState, action) => {
                 myIds: [...state.myIds].concat(eventIds.filter(id => !state.myIds.includes(id)))
             }
         }
+        case t.EVENT_RSVP: {
+
+            //expect object with keys plannedAttendees and eventId
+            const {plannedAttendees, eventId} = action.data;
+            const event = state.byId[eventId];
+
+            //update the event plannedAttendees with the new data
+            if (event.plannedAttendees !== undefined) {
+                event.plannedAttendees = {
+                    ...event.plannedAttendees,
+                    ...plannedAttendees
+                }
+            } else {
+                event.plannedAttendees = plannedAttendees;
+            }
+
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [eventId]: event
+                }
+            }
+        }
         case feedT.FEED_FETCHED: {
             const events = action.data;
             const eventIds = Object.keys(events);

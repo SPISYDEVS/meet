@@ -12,16 +12,11 @@ import moment from "moment";
 import haversine from "haversine";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
+import {actions as event} from "../../../event/index";
 
+const {rsvpEvent} = event;
 const {fetchFeed, updateLocation} = home;
 const {signOut} = auth;
-
-const mapStateToProps = (state) => {
-    return {
-        eventReducer: state.eventReducer,
-        homeReducer: state.homeReducer,
-    }
-};
 
 class Home extends React.Component {
     constructor(props) {
@@ -78,8 +73,14 @@ class Home extends React.Component {
             <ScrollView style={styles.container}>
                 {filteredEventIds.map((id) => {
 
-                    //pull the values with the keys 'title', 'description', ...
-                    const {title, description, date, userId, location, address} = events[id];
+                    //pull the values with the keys 'title', 'description', etc... from the corresponding event
+                    const {title, description, date, userId, location, address, plannedAttendees} = events[id];
+
+                    let listOfPlannedAttendees = [];
+
+                    if (plannedAttendees !== undefined) {
+                        listOfPlannedAttendees = Object.keys(plannedAttendees);
+                    }
 
                     //gets the distance between the user and the location of an event, truncates to 1 decimal place
                     const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
@@ -93,11 +94,32 @@ class Home extends React.Component {
                         date={formattedDate}
                         distance={distance}
                         address={address}
-                        hostName={userId}/>
+                        hostName={userId}
+                        plannedAttendees={listOfPlannedAttendees}
+                        handleRsvp={() => this.props.rsvpEvent(id, () => {
+                        }, () => {
+                        })}
+                    />
                 })}
             </ScrollView>
         );
     }
 }
 
-export default connect(mapStateToProps, {signOut, fetchFeed, updateLocation})(Home);
+//allows the component to use props as specified by reducers
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer,
+        homeReducer: state.homeReducer,
+    }
+};
+
+//allows the component to use actions as props
+const mapActionsToProps = {
+    rsvpEvent,
+    fetchFeed,
+    updateLocation,
+    signOut,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Home);
