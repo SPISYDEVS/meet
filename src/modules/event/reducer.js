@@ -49,9 +49,7 @@ const eventReducer = (state = initialState, action) => {
             let keys = ['user'];
             AsyncStorage.multiRemove(keys);
 
-            state = Object.assign({}, state, {byId: {}, allIds: [], myIds: []});
-
-            return state;
+            return {byId: {}, allIds: [], myIds: []};
         }
 
         default:

@@ -10,6 +10,7 @@ import {actions as home} from "../../index"
 import Event from "../../../event/components/Event/Event";
 import moment from "moment";
 import haversine from "haversine";
+import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
 
 const {fetchFeed, updateLocation} = home;
@@ -29,6 +30,7 @@ class Home extends React.Component {
     }
 
     componentWillMount() {
+        // this.props.signOut();
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {
@@ -48,11 +50,13 @@ class Home extends React.Component {
         const lat = location.coords.latitude;
         const lng = location.coords.longitude;
 
+        //update location in store
         this.props.updateLocation({latitude: lat, longitude: lng});
 
+        //load events into store
         this.props.fetchFeed([lat, lng], () => {
         }, () => {
-        });
+        })
     };
 
     render() {
@@ -61,9 +65,18 @@ class Home extends React.Component {
         const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;
 
+        //only select from events with dates later than "now"
+        const now = Date.now();
+        const filteredEventIds = eventIds.filter(id => now < events[id].date);
+
+        //from the remaining events, get the ones with dates closest to "now"
+        filteredEventIds.sort(function (a, b) {
+            return events[a].date - events[b].date;
+        });
+
         return (
             <ScrollView style={styles.container}>
-                {eventIds.map((id) => {
+                {filteredEventIds.map((id) => {
 
                     //pull the values with the keys 'title', 'description', ...
                     const {title, description, date, userId, location, address} = events[id];
@@ -71,7 +84,7 @@ class Home extends React.Component {
                     //gets the distance between the user and the location of an event, truncates to 1 decimal place
                     const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
 
-                    const formattedDate = moment(date, 'MMMM Do YYYY, h:mm a').calendar();
+                    const formattedDate = moment(date).calendar();
 
                     return <Event
                         key={id}

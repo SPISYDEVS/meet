@@ -4,25 +4,21 @@ import {connect} from 'react-redux';
 
 import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
-import {SafeAreaView, Text, TouchableOpacity, View} from "react-native";
-import styles, {indicatorStyles, mapStyles} from "./styles";
+import {Text, TouchableOpacity, View} from "react-native";
+import styles from "./styles";
 import moment from "moment";
 import DatePicker from "../../../../components/DatePicker/DatePicker";
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
-import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Modal from "react-native-modal";
 import PlacePicker from "../../components/PlacePicker/PlacePicker";
-import {GOOGLE_MAPS_API_KEY} from "../../../../config/constants";
+import {DATE_FORMAT, GOOGLE_MAPS_API_KEY} from "../../../../config/constants";
+import {momentFromDate} from "../../../../components/utils/dateUtils";
 
 const {createEvent} = event;
 const queryString = require('query-string');
-
-const generalPage = "General";
-const wherePage = "Where";
-const invitationsPage = "Invitations";
 
 class EventForm extends React.Component {
     constructor() {
@@ -43,11 +39,11 @@ class EventForm extends React.Component {
                 },
                 'date': {
                     options: {
-                        format: 'MMMM Do YYYY, h:mm a',
+                        format: DATE_FORMAT,
                         minuteInterval: 5,
                         mode: 'datetime',
                     },
-                    value: moment().format("MMMM Do YYYY, h:mm a"),
+                    value: moment().format(DATE_FORMAT),
                     type: 'date',
                 },
                 'location': {
@@ -96,6 +92,7 @@ class EventForm extends React.Component {
             newState['error'] = data['error'];
             this.setState(newState);
         } else {
+            data['data']['date'] = momentFromDate(data['data']['date']).valueOf();
             data['data']['address'] = this.state['location']['other']['address'];
             this.props.createEvent(data['data'], this.onSuccess, this.onError);
         }

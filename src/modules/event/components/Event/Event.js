@@ -40,7 +40,7 @@ class Event extends React.Component {
                             {title}
                         </Text>
                         <Text style={styles.subtitle}>
-                            {date + " | " + distance + " miles"}
+                            {date + " | " + distance + " miles away"}
                         </Text>
                     </View>
                     <View style={styles.details}>
