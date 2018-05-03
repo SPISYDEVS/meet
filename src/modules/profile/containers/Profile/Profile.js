@@ -9,11 +9,16 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {actions as auth, theme} from "../../../auth/index"
+import { auth as firebaseAuth } from "../../../../config/firebase";
 import {Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../Friends/Friends";
+import { ImagePicker } from 'expo';
+import { actions as authUpdate } from "../../index";
 
+
+const {updateProfile} = authUpdate;
 const {signOut} = auth;
 
 const mapStateToProps = (state) => {
@@ -45,6 +50,7 @@ class Profile extends React.Component {
 
         this.setToTab = this.setToTab.bind(this);
         this.onSignOut = this.onSignOut.bind(this);
+        this.getImagePermAsync = this.getImagePermAsync.bind(this);
     }
 
     setToTab(tabKey) {
@@ -64,6 +70,29 @@ class Profile extends React.Component {
         this.setState(state);
     }
 
+    async getImagePermAsync(callback) {
+        const { Permissions } = Expo;
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === 'granted') {
+            this._pickImage(callback);
+        } else {
+            throw new Error('Location permission not granted');
+        }
+    }
+
+
+    _pickImage = async (callback) => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [4, 4],
+            base64: true
+        });
+
+        if (!result.cancelled) {
+            callback(result);
+        }
+    };
+
     onSignOut() {
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }
@@ -72,16 +101,43 @@ class Profile extends React.Component {
         Actions.reset("Auth")
     }
 
+    onUpdateProfile = () => {
+        console.log("done");
+    };
+
+
     onError(error) {
         Alert.alert('Oops!', error.message);
     }
 
+    onProfilePicPressed = () => {
+        this.getImagePermAsync((result) => {
+            let source = 'data:image/jpeg;base64, ' + result.base64;
+            let user = firebaseAuth.currentUser;
+            let data = {
+                uid: user.uid,
+                profile: {
+                    source: source,
+                    width: result.width,
+                    height: result.height
+                }
+            };
+
+            this.props.updateProfile(data, this.onUpdateProfile, () => {});
+        });
+    };
+
     render() {
 
         const {user} = this.props;
+        var source = '';
 
         if(user === null){
             return <View/>
+        }
+
+        if (user.profile) {
+            source = user.profile.source;
         }
 
         return (
@@ -92,8 +148,8 @@ class Profile extends React.Component {
                             height={100}
                             width={100}
                             rounded
-                            source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
-                            onPress={() => console.log("Works!")}
+                            source={{uri: source}}
+                            onPress={() => this.onProfilePicPressed()}
                             activeOpacity={0.7}
                         />
                         <View style={styles.detailsContainer}>
@@ -122,6 +178,8 @@ class Profile extends React.Component {
             </View>
         );
     }
+
+
 }
 
-export default connect(mapStateToProps, {signOut})(Profile);
+export default connect(mapStateToProps, {signOut, updateProfile})(Profile);
