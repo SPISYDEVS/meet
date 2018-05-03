@@ -21,6 +21,7 @@ class EventDetails extends React.Component {
 
     componentDidMount() {
 
+        //handle lazily loading user data from firebase if the users aren't loaded into the client yet
         const plannedAttendees = this.props.plannedAttendees;
         let usersToFetch = [];
 
@@ -42,6 +43,7 @@ class EventDetails extends React.Component {
 
         let {title, date, address, hostPic, hostName, hostId, description, actualAttendees, plannedAttendees, eventId} = this.props;
 
+        //pull the user objects using their associated ids
         plannedAttendees = plannedAttendees.map(id => {
             if (id in this.props.peopleReducer.byId) {
                 return this.props.peopleReducer.byId[id];
@@ -175,8 +177,13 @@ EventDetails.defaultProps = {
 const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
-        peopleReducer: state.peopleReducer
+        peopleReducer: state.peopleReducer,
     }
 };
 
-export default connect(mapStateToProps, {fetchUsers, rsvpEvent})(EventDetails);
+const actions = {
+    fetchUsers,
+    rsvpEvent
+};
+
+export default connect(mapStateToProps, actions)(EventDetails);

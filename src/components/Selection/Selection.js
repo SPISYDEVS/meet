@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {View} from 'react-native';
 
 import {List, ListItem, SearchBar} from 'react-native-elements'
-import {isEmpty} from '../../utils/validate'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
@@ -75,7 +74,7 @@ Selection.propTypes = {
 };
 
 Selection.defaultProps = {
-    callback: () => {
+    callback: (item) => {
     }
 };
 

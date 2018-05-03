@@ -20,25 +20,28 @@ class SomeonesProfile extends React.Component {
     render() {
 
         const currentUser = this.props.currentUser;
-
-        //checks to see if the user is already a friend or has been requested to be a friend already
-        //true means they're friends
-        //false means current user has requested friendship
-        //null means they're literally strangers
+        const user = this.props.people.byId[this.props.userId];
         let friendshipStatus = null;
 
-        if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
-            friendshipStatus = currentUser.friends[this.props.userId];
-        }
+        if (currentUser.uid !== user.uid) {
 
-        const user = this.props.people.byId[this.props.userId];
+            //checks to see if the user is already a friend or has been requested to be a friend already
+            //true means they're friends
+            //false means current user has requested friendship
+            //null means they're literally strangers
+            if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
+                friendshipStatus = currentUser.friends[this.props.userId];
+            }
 
-        //lazily load the person's profile
-        if (user === undefined) {
-            this.props.fetchUsers([this.props.userId], () => {
-            }, () => {
-            });
-            return <View/>
+
+            //lazily load the person's profile
+            if (user === undefined) {
+                this.props.fetchUsers([this.props.userId], () => {
+                }, () => {
+                });
+                return <View/>
+            }
+
         }
 
         return (
@@ -59,6 +62,7 @@ class SomeonesProfile extends React.Component {
                         </View>
                     </View>
                 </View>
+                {currentUser.uid !== user.uid &&
                 <Button
                     raised
                     title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
@@ -70,6 +74,7 @@ class SomeonesProfile extends React.Component {
                     }, () => {
                     })}
                 />
+                }
             </View>
         );
     }
