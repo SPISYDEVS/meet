@@ -1,17 +1,26 @@
 import {AsyncStorage} from 'react-native';
 
 import * as t from './actionTypes';
-import * as eventT from '../event/actionTypes';
-import * as homeT from '../home/actionTypes';
+import * as authT from "../auth/actionTypes";
 
-let initialState = {people: {}};
+let initialState = {byId: {}, allIds: []};
 
 const peopleReducer = (state = initialState, action) => {
     switch (action.type) {
-        case eventT.MY_EVENTS_LOADED:{
+        case t.USERS_FETCHED: {
+            const users = action.data;
+            const userIds = Object.keys(users);
             return {
-
+                ...state,
+                byId: {
+                    ...state.byId,
+                    ...users
+                },
+                allIds: [...state.allIds].concat(userIds.filter(id => !state.allIds.includes(id))),
             }
+        }
+        case authT.LOGGED_OUT: {
+            return {byId: {}, allIds: []};
         }
         default:
             return state;

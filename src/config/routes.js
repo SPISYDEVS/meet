@@ -31,6 +31,7 @@ import Events from "../modules/event/containers/Events";
 import Home from "../modules/home/containers/Home";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
+import EventDetails from "../modules/event/components/EventDetails/EventDetails";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -91,14 +92,20 @@ export default class extends React.Component {
                         <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
                     </Stack>
 
+                    <Scene key="EventDetails"
+                           clone
+                           title={null}
+                           component={EventDetails}
+                           type={ActionConst.REPLACE}/>
+
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
                            tabBarPosition="bottom">
 
                         <Scene key="FeedScreen"
-                               component={Home}
-                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
                                title="Explore"
+                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
+                               component={Home}
                                navBar={Search}
                                type={ActionConst.REPLACE}/>
 
@@ -115,6 +122,7 @@ export default class extends React.Component {
                                    component={EventForm}
                                    title="Create an Event"
                                    type={ActionConst.REPLACE}/>
+
                         </Scene>
 
                         <Scene key="ProfileScreen" default="Events" title="Profile"

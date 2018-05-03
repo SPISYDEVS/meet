@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        padding: 15
+        padding: 15,
+        backgroundColor: color.background,
     },
     header: {
     },

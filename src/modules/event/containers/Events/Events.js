@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {ListView, View} from 'react-native';
+import {View} from 'react-native';
 import AttendingEvents from '../AttendingEvents'
 import MyEvents from '../MyEvents'
 
-const mapStateToProps = (state) => {
-    return {
-        eventReducer: state.eventReducer
-    }
-};
 
 import TabButtons from "../../components/TabButtons";
 import styles from "./styles";
@@ -68,5 +63,11 @@ class Events extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer
+    }
+};
 
 export default connect(mapStateToProps, {})(Events);

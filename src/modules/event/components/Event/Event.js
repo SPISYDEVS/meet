@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 import Modal from 'react-native-modal';
 
@@ -14,21 +15,19 @@ import EventDetails from "../EventDetails"
 class Event extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            eventDetails: false
-        };
     }
 
     handlePress = () => {
-        this.setState({eventDetails: true});
+        Actions.push('EventDetails', {...this.props});
+        // this.setState({eventDetails: true});
     };
 
-    closeModal = () => {
-        this.setState({eventDetails: false});
-    };
+    // closeModal = () => {
+    //     this.setState({eventDetails: false});
+    // };
 
     render() {
-        const {title, description, date, hostPic, hostName, distance, address, plannedAttendees} = this.props;
+        const {title, description, date, hostPic, hostName, distance, address, plannedAttendees, eventId} = this.props;
 
         return (
             <View style={{flex: 1}}>
@@ -62,24 +61,25 @@ class Event extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Modal isVisible={this.state.eventDetails} style={styles.modal}>
-                    <TouchableOpacity style={styles.modalHeader}
-                      onPress={() => this.closeModal()}>
-                        <Icon
-                            name='close'
-                        />
-                    </TouchableOpacity>
-                    <EventDetails
-                        title={title}
-                        date={date}
-                        location={address}
-                        hostPic={hostPic}
-                        hostName={hostName}
-                        description={description}
-                        plannedAttendees={plannedAttendees}
-                        handleRsvp={this.props.handleRsvp}
-                    />
-                </Modal>
+                {/*<Modal isVisible={this.state.eventDetails} style={styles.modal}>*/}
+                    {/*<TouchableOpacity style={styles.modalHeader}*/}
+                                      {/*onPress={() => this.closeModal()}>*/}
+                        {/*<Icon*/}
+                            {/*name='close'*/}
+                        {/*/>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<EventDetails*/}
+                        {/*title={title}*/}
+                        {/*date={date}*/}
+                        {/*location={address}*/}
+                        {/*hostPic={hostPic}*/}
+                        {/*hostName={hostName}*/}
+                        {/*description={description}*/}
+                        {/*plannedAttendees={plannedAttendees}*/}
+                        {/*eventId={eventId}*/}
+                    {/*/>*/}
+                {/*</Modal>*/}
+
             </View>
         );
     }
@@ -99,7 +99,6 @@ Event.defaultProps = {
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     hostName: "Jane",
     plannedAttendees: [],
-    handleRsvp: () => {}
 };
 
 export default Event;

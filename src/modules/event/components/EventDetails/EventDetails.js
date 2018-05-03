@@ -6,17 +6,35 @@ import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
 import styles from "./styles"
 import {Avatar, Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
-import {rsvpEvent} from "../../actions";
 import {connect} from "react-redux";
 
+import {actions as people} from "../../../people/index";
+import {rsvpEvent} from "../../actions";
+
+const {fetchUsers} = people;
 
 class EventDetails extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        this.props.fetchUsers(this.props.plannedAttendees, () => {
+        }, () => {
+        });
+    }
+
     render() {
-        const {title, date, location, hostPic, hostName, description, actualAttendees, plannedAttendees} = this.props;
+
+        let {title, date, location, hostPic, hostName, description, actualAttendees, plannedAttendees, eventId} = this.props;
+
+        plannedAttendees = plannedAttendees.map(id => {
+            if (id in this.props.peopleReducer.byId) {
+                return this.props.peopleReducer.byId[id];
+            }
+            return {}
+        });
+
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.header}>
@@ -90,7 +108,7 @@ class EventDetails extends React.Component {
                                 />
                                 <Text style={styles.hostName}>
                                     {/*{item.name}*/}
-                                    {item}
+                                    {item.firstName + " " + item.lastName}
                                 </Text>
                             </View>
                         ))
@@ -104,7 +122,9 @@ class EventDetails extends React.Component {
                     containerViewStyle={formStyles.containerView}
                     buttonStyle={formStyles.button}
                     textStyle={formStyles.buttonText}
-                    onPress={() => this.props.handleRsvp()}
+                    onPress={() => this.props.rsvpEvent(eventId, () => {
+                    }, () => {
+                    })}
                 />
 
             </ScrollView>
@@ -135,4 +155,12 @@ EventDetails.defaultProps = {
     ]
 };
 
-export default EventDetails;
+//allows the component to use props as specified by reducers
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer,
+        peopleReducer: state.peopleReducer
+    }
+};
+
+export default connect(mapStateToProps, {fetchUsers, rsvpEvent})(EventDetails);

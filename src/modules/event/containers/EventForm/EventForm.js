@@ -94,7 +94,7 @@ class EventForm extends React.Component {
         } else {
             data['data']['date'] = momentFromDate(data['data']['date']).valueOf();
             data['data']['address'] = this.state['location']['other']['address'];
-            this.props.createEvent(data['data'], this.onSuccess, this.onError);
+            this.props.createEvent(data['data'], this.props.authReducer.user, this.onSuccess, this.onError);
         }
 
     };
@@ -238,4 +238,11 @@ class EventForm extends React.Component {
     }
 }
 
-export default connect(null, {createEvent})(EventForm);
+//allows the component to use props as specified by reducers
+const mapStateToProps = (state) => {
+    return {
+        authReducer: state.authReducer,
+    }
+};
+
+export default connect(mapStateToProps, {createEvent})(EventForm);

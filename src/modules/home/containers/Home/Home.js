@@ -7,21 +7,20 @@ import styles from "./styles"
 
 import {actions as auth} from "../../../auth/index"
 import {actions as home} from "../../index"
+import {actions as event} from "../../../event/index";
+import {actions as people} from "../../../people/index";
 import Event from "../../../event/components/Event/Event";
 import moment from "moment";
 import haversine from "haversine";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
-import {actions as event} from "../../../event/index";
 
-const {rsvpEvent} = event;
 const {fetchFeed, updateLocation} = home;
 const {signOut} = auth;
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
     componentWillMount() {
@@ -54,6 +53,7 @@ class Home extends React.Component {
         })
     };
 
+
     render() {
 
         const userLocation = this.props.homeReducer.location;
@@ -74,7 +74,7 @@ class Home extends React.Component {
                 {filteredEventIds.map((id) => {
 
                     //pull the values with the keys 'title', 'description', etc... from the corresponding event
-                    const {title, description, date, userId, location, address, plannedAttendees} = events[id];
+                    const {title, description, date, hostName, location, address, plannedAttendees} = events[id];
 
                     let listOfPlannedAttendees = [];
 
@@ -94,11 +94,9 @@ class Home extends React.Component {
                         date={formattedDate}
                         distance={distance}
                         address={address}
-                        hostName={userId}
+                        hostName={hostName}
                         plannedAttendees={listOfPlannedAttendees}
-                        handleRsvp={() => this.props.rsvpEvent(id, () => {
-                        }, () => {
-                        })}
+                        eventId={id}
                     />
                 })}
             </ScrollView>
@@ -116,7 +114,6 @@ const mapStateToProps = (state) => {
 
 //allows the component to use actions as props
 const mapActionsToProps = {
-    rsvpEvent,
     fetchFeed,
     updateLocation,
     signOut,
