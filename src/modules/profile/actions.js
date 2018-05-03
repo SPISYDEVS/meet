@@ -5,6 +5,7 @@ import {auth} from "../../config/firebase";
 import {AsyncStorage} from 'react-native';
 
 export function updateProfile(user, successCB, errorCB) {
+    console.log(user);
     return (dispatch) => {
         api.editUser(user, function (success, data, error) {
             if (success) {
@@ -14,3 +15,4 @@ export function updateProfile(user, successCB, errorCB) {
         });
     };
 }
+

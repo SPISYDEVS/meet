@@ -18,3 +18,4 @@ export const geofireRef = new geofire(firebase.database().ref('geofire'));
 export const database = firebase.database();
 export const auth = firebase.auth();
 export const provider = new firebase.auth.FacebookAuthProvider();
+export const storage = new firebase.storage();

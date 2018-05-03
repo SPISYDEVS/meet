@@ -10,7 +10,7 @@ import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-import {actions as auth} from "../../index"
+import {actions as auth} from "../../index";
 
 const {updateProfile} = auth;
 
