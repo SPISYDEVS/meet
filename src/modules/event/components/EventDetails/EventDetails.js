@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 
 import {actions as people} from "../../../people/index";
 import {rsvpEvent} from "../../actions";
+import handleViewProfile from "../../../people/utils/handleViewProfile";
 
 const {fetchUsers} = people;
 
@@ -70,7 +71,7 @@ class EventDetails extends React.Component {
                         small
                         rounded
                         source={{uri: hostPic}}
-                        onPress={() => Actions.push('SomeonesProfile', {userId: hostId})}
+                        onPress={() => handleViewProfile(hostId)}
                         activeOpacity={0.7}
                     />
                     <Text style={styles.hostName}>
@@ -95,7 +96,7 @@ class EventDetails extends React.Component {
                                     small
                                     rounded
                                     source={{uri: item.picture}}
-                                    onPress={() => Actions.push('SomeonesProfile', {userId: item.uid})}
+                                    onPress={() => handleViewProfile(hostId)}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
@@ -119,7 +120,7 @@ class EventDetails extends React.Component {
                                     rounded
                                     source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}
                                     // source={{uri: item.picture}}
-                                    onPress={() => Actions.push('SomeonesProfile', {userId: item.uid})}
+                                    onPress={() => handleViewProfile(hostId)}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>

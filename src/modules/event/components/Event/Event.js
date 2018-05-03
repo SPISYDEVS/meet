@@ -11,6 +11,7 @@ import {Avatar, Icon} from "react-native-elements";
 
 //import Modal from "react-native-modal";
 import EventDetails from "../EventDetails"
+import handleViewProfile from "../../../people/utils/handleViewProfile";
 
 class Event extends React.Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class Event extends React.Component {
                             small
                             rounded
                             source={{uri: hostPic}}
-                            onPress={() => Actions.push('SomeonesProfile', {userId: hostId})}
+                            onPress={() => handleViewProfile(hostId)}
                             activeOpacity={0.7}
                         />
                         <Text style={styles.hostName}>

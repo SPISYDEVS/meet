@@ -2,6 +2,7 @@ import React from 'react';
 import {Avatar} from 'react-native-elements'
 import {connect} from 'react-redux';
 
+import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
 import {Text} from "react-native";
 import PropTypes from 'prop-types';
@@ -20,28 +21,24 @@ class SomeonesProfile extends React.Component {
     render() {
 
         const currentUser = this.props.currentUser;
-        const user = this.props.people.byId[this.props.userId];
         let friendshipStatus = null;
 
-        if (currentUser.uid !== user.uid) {
+        //checks to see if the user is already a friend or has been requested to be a friend already
+        //true means they're friends
+        //false means current user has requested friendship
+        //null means they're literally strangers
+        if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
+            friendshipStatus = currentUser.friends[this.props.userId];
+        }
 
-            //checks to see if the user is already a friend or has been requested to be a friend already
-            //true means they're friends
-            //false means current user has requested friendship
-            //null means they're literally strangers
-            if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
-                friendshipStatus = currentUser.friends[this.props.userId];
-            }
+        const user = this.props.people.byId[this.props.userId];
 
-
-            //lazily load the person's profile
-            if (user === undefined) {
-                this.props.fetchUsers([this.props.userId], () => {
-                }, () => {
-                });
-                return <View/>
-            }
-
+        //lazily load the person's profile
+        if (user === undefined) {
+            this.props.fetchUsers([this.props.userId], () => {
+            }, () => {
+            });
+            return <View/>
         }
 
         return (
@@ -62,7 +59,7 @@ class SomeonesProfile extends React.Component {
                         </View>
                     </View>
                 </View>
-                {currentUser.uid !== user.uid &&
+
                 <Button
                     raised
                     title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
@@ -74,7 +71,6 @@ class SomeonesProfile extends React.Component {
                     }, () => {
                     })}
                 />
-                }
             </View>
         );
     }
