@@ -32,6 +32,7 @@ import Home from "../modules/home/containers/Home";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/components/EventDetails/EventDetails";
+import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -96,6 +97,12 @@ export default class extends React.Component {
                            clone
                            title={null}
                            component={EventDetails}
+                           type={ActionConst.REPLACE}/>
+
+                    <Scene key="SomeonesProfile"
+                           clone
+                           title={null}
+                           component={SomeonesProfile}
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}

@@ -16,7 +16,7 @@ import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
 
 const {fetchFeed, updateLocation} = home;
-const {signOut} = auth;
+const {signOut, persistUser} = auth;
 
 class Home extends React.Component {
     constructor(props) {
@@ -31,6 +31,12 @@ class Home extends React.Component {
             this._getLocationAsync();
         }
     }
+
+    componentDidMount() {
+        this.props.persistUser(this.props.user, () => {
+        }, () => {
+        });
+    };
 
     _getLocationAsync = async () => {
         let {status} = await Permissions.askAsync(Permissions.LOCATION);
@@ -74,7 +80,7 @@ class Home extends React.Component {
                 {filteredEventIds.map((id) => {
 
                     //pull the values with the keys 'title', 'description', etc... from the corresponding event
-                    const {title, description, date, hostName, location, address, plannedAttendees} = events[id];
+                    const {title, description, date, hostName, hostId, location, address, plannedAttendees} = events[id];
 
                     let listOfPlannedAttendees = [];
 
@@ -96,6 +102,7 @@ class Home extends React.Component {
                         address={address}
                         hostName={hostName}
                         plannedAttendees={listOfPlannedAttendees}
+                        hostId={hostId}
                         eventId={id}
                     />
                 })}
@@ -109,14 +116,16 @@ const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
         homeReducer: state.homeReducer,
+        user: state.authReducer.user
     }
 };
 
 //allows the component to use actions as props
-const mapActionsToProps = {
+const actions = {
     fetchFeed,
     updateLocation,
     signOut,
+    persistUser
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(Home);
+export default connect(mapStateToProps, actions)(Home);

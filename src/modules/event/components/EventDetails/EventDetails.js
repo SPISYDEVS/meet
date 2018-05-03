@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 
+import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
 import {Avatar, Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
@@ -19,14 +20,27 @@ class EventDetails extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchUsers(this.props.plannedAttendees, () => {
-        }, () => {
+
+        const plannedAttendees = this.props.plannedAttendees;
+        let usersToFetch = [];
+
+        plannedAttendees.forEach(id => {
+            if(!(id in this.props.peopleReducer.byId)){
+                usersToFetch.push(id);
+            }
         });
+
+        if(usersToFetch.length > 0) {
+            this.props.fetchUsers(usersToFetch, () => {
+            }, () => {
+            });
+        }
+
     }
 
     render() {
 
-        let {title, date, location, hostPic, hostName, description, actualAttendees, plannedAttendees, eventId} = this.props;
+        let {title, date, address, hostPic, hostName, hostId, description, actualAttendees, plannedAttendees, eventId} = this.props;
 
         plannedAttendees = plannedAttendees.map(id => {
             if (id in this.props.peopleReducer.byId) {
@@ -45,7 +59,7 @@ class EventDetails extends React.Component {
                     <Text style={styles.subtitle}>
                         {date
                         + "\n"
-                        + location}
+                        + address}
                     </Text>
                 </View>
 
@@ -54,7 +68,7 @@ class EventDetails extends React.Component {
                         small
                         rounded
                         source={{uri: hostPic}}
-                        onPress={() => console.log("Works!")}
+                        onPress={() => Actions.push('SomeonesProfile', {userId: hostId})}
                         activeOpacity={0.7}
                     />
                     <Text style={styles.hostName}>
@@ -79,7 +93,7 @@ class EventDetails extends React.Component {
                                     small
                                     rounded
                                     source={{uri: item.picture}}
-                                    onPress={() => console.log("Works!")}
+                                    onPress={() => Actions.push('SomeonesProfile', {userId: item.uid})}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
@@ -103,7 +117,7 @@ class EventDetails extends React.Component {
                                     rounded
                                     source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}
                                     // source={{uri: item.picture}}
-                                    onPress={() => console.log("Works!")}
+                                    onPress={() => Actions.push('SomeonesProfile', {userId: item.uid})}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
@@ -135,12 +149,14 @@ class EventDetails extends React.Component {
 EventDetails.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
+    plannedAttendees: PropTypes.list
 };
 
 EventDetails.defaultProps = {
     title: 'Event Title',
     date: 'Today, 12:30pm',
-    location: 'Warren College',
+    address: 'Warren College',
+    hostId: null,
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     hostName: "Jane",
     description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',

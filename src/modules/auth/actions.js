@@ -35,6 +35,17 @@ export function login(data, successCB, errorCB) {
     };
 }
 
+export function persistUser(user, successCB, errorCB) {
+    return (dispatch) => {
+        api.persistUser(user, function (success, data, error) {
+            if (success) {
+                if (data.exists) dispatch({type: t.USER_UPDATED, data: data.user});
+                successCB(data);
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
 export function resetPassword(data, successCB, errorCB) {
     return (dispatch) => {
         api.resetPassword(data, function (success, data, error) {

@@ -72,7 +72,7 @@ class CompleteProfile extends React.Component {
             const {user} = this.props;
             data['data']['uid'] = user.uid;
 
-            this.props.createUser(data['data'], this.onSuccess, this.onError)
+            this.props.createUser(data['data'], this.onSuccess, this.onError);
         }
     };
 

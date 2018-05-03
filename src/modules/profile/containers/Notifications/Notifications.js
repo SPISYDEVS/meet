@@ -1,39 +1,69 @@
 import React from 'react';
-
-const {View, StyleSheet, Alert} = require('react-native');
-
-import {Avatar, Button} from 'react-native-elements'
-import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {actions as auth, theme} from "../../../auth/index"
-import {ScrollView, Text} from "react-native";
-import TabButtons from "../../../event/components/TabButtons/TabButtons";
+import {ScrollView} from "react-native";
 import Notification from "../../components/Notification/Notification";
-
-const {signOut} = auth;
-
-const {color} = theme;
+import {fetchUsers} from "../../../people/actions";
 
 class Notifications extends React.Component {
     constructor() {
         super();
     }
 
+    componentDidMount() {
+
+        if (this.props.user.requestsFrom === undefined) {
+            return;
+        }
+
+        const receivedFriendRequests = Object.keys(this.props.user.requestsFrom);
+
+        let usersToFetch = [];
+
+        receivedFriendRequests.forEach(id => {
+            if (!(id in this.props.peopleReducer.byId)) {
+                usersToFetch.push(id);
+            }
+        });
+
+        if (usersToFetch.length > 0) {
+            this.props.fetchUsers(usersToFetch, () => {
+            }, () => {
+            });
+        }
+
+    }
+
     render() {
 
-        const notifications = [0, 1, 2];
+        // const notifications = [0, 1, 2];
+        let notifications = this.props.user.requestsFrom === undefined ? [] : Object.keys(this.props.user.requestsFrom);
+
+        notifications = notifications.map(id => {
+            if (id in this.props.peopleReducer.byId) {
+                return this.props.peopleReducer.byId[id];
+            }
+            return {}
+        });
 
         return (
             <ScrollView style={styles.container}>
                 {
-                    notifications.map((not, i) => <Notification key={i}/>)
+                    notifications.map((not, i) => <Notification key={i} title={"Friend Request!"}
+                                                                description={not.firstName + " " + not.lastName + " wants to be your friend!"}/>)
                 }
             </ScrollView>
         );
     }
 }
 
-export default connect(null, {signOut})(Notifications);
+const mapStateToProps = (state) => {
+    return {
+        peopleReducer: state.peopleReducer,
+        user: state.authReducer.user
+    }
+};
+
+export default connect(mapStateToProps, {fetchUsers})(Notifications);

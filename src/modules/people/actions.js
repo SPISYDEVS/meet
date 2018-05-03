@@ -15,3 +15,17 @@ export function fetchUsers(userIds, successCB, errorCB) {
         });
     };
 }
+
+export function sendFriendRequest(requestedFriendId, successCB, errorCB) {
+
+    const userId = auth.currentUser.uid;
+
+    return (dispatch) => {
+        api.sendFriendRequest(userId, requestedFriendId, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.FRIEND_REQUEST_SENT, data: data});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}

@@ -6,7 +6,7 @@ import {AsyncStorage} from 'react-native';
 
 export function createEvent(event, user, successCB, errorCB) {
 
-    event['userId'] = user.uid;
+    event['hostId'] = user.uid;
     event['hostName'] = user.firstName + " " + user.lastName;
 
     return (dispatch) => {
