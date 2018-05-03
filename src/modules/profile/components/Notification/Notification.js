@@ -23,7 +23,7 @@ class Notification extends React.Component {
     }
 }
 
-Event.propTypes = {
+Notification.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
 };

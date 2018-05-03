@@ -89,7 +89,7 @@ const actions = {
     sendFriendRequest,
 };
 
-Event.propTypes = {
+SomeonesProfile.propTypes = {
     userId: PropTypes.string.isRequired
 };
 
