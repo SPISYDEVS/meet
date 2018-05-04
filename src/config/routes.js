@@ -27,7 +27,7 @@ import {checkLoginStatus} from "../modules/auth/actions";
 
 import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";
-import Events from "../modules/event/containers/Events";
+import Events from "../modules/event/containers/MyEvents";
 import Home from "../modules/home/containers/Home";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";

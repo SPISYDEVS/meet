@@ -1,8 +1,66 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {List, ListItem} from 'react-native-elements'
-import {ListView, ScrollView, View} from 'react-native';
+import {View} from 'react-native';
+import AttendingEvents from '../AttendingEvents'
+import ManagingEvents from '../ManagingEvents'
+
+import TabButtons from "../../components/TabButtons";
+import styles from "./styles";
+
+class MyEvents extends Component {
+    constructor() {
+        super();
+
+        const buttons = [
+            {
+                title: 'Managing',
+                callback: this.setToTab.bind(this),
+                selected: true,
+            },
+            {
+                title: 'Attending',
+                callback: this.setToTab.bind(this),
+                selected: false
+            }
+        ];
+
+        this.state = {
+            buttons: buttons,
+        };
+
+        this.setToTab = this.setToTab.bind(this);
+    }
+
+    setToTab(tabKey) {
+        const state = {...this.state};
+        state.buttons = [];
+
+        this.state.buttons.forEach((button) => {
+            state.buttons.push({
+                title: button.title,
+                callback: this.setToTab.bind(this),
+                selected: button.title === tabKey
+            })
+        });
+        this.setState(state);
+    }
+
+    render() {
+
+        const events = Object.values(this.props.eventReducer.byId);
+
+        return (
+            <View style={styles.container}>
+                <TabButtons buttons={this.state.buttons}/>
+                <View style={styles.content}>
+                    {this.state.buttons[0].selected && <ManagingEvents/>}
+                    {this.state.buttons[1].selected && <AttendingEvents/>}
+                </View>
+            </View>
+        );
+    }
+}
 
 const mapStateToProps = (state) => {
     return {
@@ -10,59 +68,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-import {isEmpty} from '../../../auth/utils/validate'
-import styles from "./styles"
-import Event from "../../components/Event/Event";
-import {rsvpEvent} from "../../actions";
-
-// <ListItem
-// roundAvatar
-// key={i}
-// title={item.title}
-// subtitle={item.description}
-// subtitleNumberOfLines={3}
-// leftIcon={{name: 'av-timer'}}
-// />
-
-
-class MyEvents extends Component {
-
-    render() {
-        // const events = this.props.eventReducer.myIds.map((id) => this.props.eventReducer.byId[id]);
-
-        const events = [{},{},{},{}];
-        return (
-            <ScrollView style={styles.container}>
-                {
-                    events.map((item, i) => (
-                        <Event
-                            key={i}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    ))
-                }
-                {
-                    events.map((item, i) => (
-                        <Event
-                            key={i}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    ))
-                }
-                {
-                    events.map((item, i) => (
-                        <Event
-                            key={i}
-                            title={item.title}
-                            description={item.description}
-                        />
-                    ))
-                }
-            </ScrollView>
-        );
-    }
-}
-
-export default connect(mapStateToProps, {rsvpEvent})(MyEvents);
+export default connect(mapStateToProps, {})(MyEvents);
