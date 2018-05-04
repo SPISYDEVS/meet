@@ -22,8 +22,16 @@ class EventDetails extends React.Component {
 
     componentDidMount() {
 
+        //lazily load attendee information
+        const event = this.props.eventReducer.byId[this.props.eventId];
+
+        if(event.plannedAttendees === undefined){
+            return;
+        }
+
+        const plannedAttendees = Object.keys(event.plannedAttendees);
+
         //handle lazily loading user data from firebase if the users aren't loaded into the client yet
-        const plannedAttendees = this.props.plannedAttendees;
         let usersToFetch = [];
 
         plannedAttendees.forEach(id => {
@@ -42,10 +50,20 @@ class EventDetails extends React.Component {
 
     render() {
 
-        let {title, date, address, hostPic, hostName, hostId, description, actualAttendees, plannedAttendees, eventId} = this.props;
+        const event = this.props.eventReducer.byId[this.props.eventId];
+
+        if(event.plannedAttendees === undefined){
+            event.plannedAttendees = [];
+        }
+
+        if(event.actualAttendees === undefined){
+            event.actualAttendees = [];
+        }
+
+        let {title, date, address, description, hostPic, hostName, plannedAttendees, actualAttendees} = event;
 
         //pull the user objects using their associated ids
-        plannedAttendees = plannedAttendees.map(id => {
+        plannedAttendees = Object.keys(plannedAttendees).map(id => {
             if (id in this.props.peopleReducer.byId) {
                 return this.props.peopleReducer.byId[id];
             }
@@ -70,7 +88,7 @@ class EventDetails extends React.Component {
                     <Avatar
                         small
                         rounded
-                        source={{uri: hostPic}}
+                        source={{uri: hostPic !== undefined ? hostPic : this.props.hostPic}}
                         onPress={() => handleViewProfile(hostId)}
                         activeOpacity={0.7}
                     />
@@ -120,7 +138,7 @@ class EventDetails extends React.Component {
                                     rounded
                                     source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}
                                     // source={{uri: item.picture}}
-                                    onPress={() => handleViewProfile(hostId)}
+                                    onPress={() => handleViewProfile(item.uid)}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
@@ -139,7 +157,7 @@ class EventDetails extends React.Component {
                     containerViewStyle={formStyles.containerView}
                     buttonStyle={formStyles.button}
                     textStyle={formStyles.buttonText}
-                    onPress={() => this.props.rsvpEvent(eventId, () => {
+                    onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
                     }, () => {
                     })}
                 />
@@ -152,7 +170,7 @@ class EventDetails extends React.Component {
 EventDetails.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
-    plannedAttendees: PropTypes.list
+    // plannedAttendees: PropTypes.list
 };
 
 EventDetails.defaultProps = {

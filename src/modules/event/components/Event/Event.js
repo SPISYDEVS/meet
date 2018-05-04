@@ -21,7 +21,7 @@ class Event extends React.Component {
     handlePress = () => {
         // const {title, description, date, hostPic, hostName, distance, address, plannedAttendees, eventId} = this.props;
 
-        Actions.push('EventDetails', {...this.props});
+        Actions.push('EventDetails', {eventId: this.props.eventId});
         // this.setState({eventDetails: true});
     };
 

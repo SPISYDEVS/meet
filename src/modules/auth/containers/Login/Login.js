@@ -13,7 +13,7 @@ import {Text, TouchableOpacity, View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 
 const {login} = auth;
-const {loadEvents} = event;
+const {fetchMyEvents} = event;
 
 class Login extends React.Component {
     constructor() {
@@ -58,7 +58,7 @@ class Login extends React.Component {
             if (user.events === undefined) {
                 user.events = [];
             }
-            this.props.loadEvents(Object.keys(user.events), this.onSuccess, () => {
+            this.props.fetchMyEvents(Object.keys(user.events), this.onSuccess, () => {
             });
         }
         else Actions.CompleteProfile({user});
@@ -128,4 +128,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, {login, loadEvents})(Login);
+export default connect(null, {login, fetchMyEvents})(Login);

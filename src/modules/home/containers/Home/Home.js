@@ -80,13 +80,7 @@ class Home extends React.Component {
                 {filteredEventIds.map((id) => {
 
                     //pull the values with the keys 'title', 'description', etc... from the corresponding event
-                    const {title, description, date, hostName, hostId, location, address, plannedAttendees} = events[id];
-
-                    let listOfPlannedAttendees = [];
-
-                    if (plannedAttendees !== undefined) {
-                        listOfPlannedAttendees = Object.keys(plannedAttendees);
-                    }
+                    const {title, description, date, hostName, hostId, location, address} = events[id];
 
                     //gets the distance between the user and the location of an event, truncates to 1 decimal place
                     const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
@@ -101,7 +95,6 @@ class Home extends React.Component {
                         distance={distance}
                         address={address}
                         hostName={hostName}
-                        plannedAttendees={listOfPlannedAttendees}
                         hostId={hostId}
                         eventId={id}
                     />

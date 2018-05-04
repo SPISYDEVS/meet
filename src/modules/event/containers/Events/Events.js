@@ -33,6 +33,28 @@ class Events extends Component {
 
         this.setToTab = this.setToTab.bind(this);
     }
+    //
+    // componentDidMount() {
+    //
+    //     const myEvents = this.props.user.events;
+    //
+    //     //handle lazily loading user data from firebase if the users aren't loaded into the client yet
+    //     const plannedAttendees = this.props.plannedAttendees;
+    //     let usersToFetch = [];
+    //
+    //     plannedAttendees.forEach(id => {
+    //         if(!(id in this.props.peopleReducer.byId)){
+    //             usersToFetch.push(id);
+    //         }
+    //     });
+    //
+    //     if(usersToFetch.length > 0) {
+    //         this.props.fetchUsers(usersToFetch, () => {
+    //         }, () => {
+    //         });
+    //     }
+    //
+    // }
 
     setToTab(tabKey) {
         const state = {...this.state};
@@ -66,6 +88,7 @@ class Events extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.authReducer.user,
         eventReducer: state.eventReducer
     }
 };

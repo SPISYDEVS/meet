@@ -4,7 +4,7 @@ import * as t from './actionTypes';
 import * as authT from '../auth/actionTypes';
 import * as feedT from '../home/actionTypes';
 
-let initialState = {byId: {}, allIds: [], myIds: []};
+let initialState = {byId: {}, allIds: []};
 
 const eventReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -17,7 +17,6 @@ const eventReducer = (state = initialState, action) => {
                     [event.id]: event
                 },
                 allIds: [...state.allIds, event.id],
-                myIds: [...state.myIds, event.id]
             };
         }
         case t.MY_EVENTS_LOADED: {
@@ -30,7 +29,6 @@ const eventReducer = (state = initialState, action) => {
                     ...events
                 },
                 allIds: [...state.allIds].concat(eventIds.filter(id => !state.allIds.includes(id))),
-                myIds: [...state.myIds].concat(eventIds.filter(id => !state.myIds.includes(id)))
             }
         }
         case t.EVENT_RSVP: {
