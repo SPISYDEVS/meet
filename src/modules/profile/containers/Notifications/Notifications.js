@@ -6,6 +6,7 @@ import styles from "./styles"
 import {ScrollView} from "react-native";
 import Notification from "../../components/Notification/Notification";
 import {fetchUsers} from "../../../people/actions";
+import FriendRequest from "../../components/FriendRequest/FriendRequest";
 
 class Notifications extends React.Component {
     constructor() {
@@ -51,8 +52,7 @@ class Notifications extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    notifications.map((not, i) => <Notification key={i} title={"Friend Request!"}
-                                                                description={not.firstName + " " + not.lastName + " wants to be your friend!"}/>)
+                    notifications.map((not, i) => <FriendRequest key={i} user={not}/>)
                 }
             </ScrollView>
         );

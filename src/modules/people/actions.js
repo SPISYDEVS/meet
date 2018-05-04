@@ -23,9 +23,24 @@ export function sendFriendRequest(requestedFriendId, successCB, errorCB) {
     return (dispatch) => {
         api.sendFriendRequest(userId, requestedFriendId, function (success, data, error) {
             if (success) {
-                dispatch({type: t.FRIEND_REQUEST_SENT, data: data});
+                // dispatch({type: t.FRIEND_REQUEST_SENT});
                 successCB();
             } else if (error) errorCB(error)
         });
     };
 }
+
+export function respondToFriendRequest(requesteeFriendId, accept, successCB, errorCB) {
+
+    const userId = auth.currentUser.uid;
+
+    return (dispatch) => {
+        api.respondToFriendRequest(userId, requesteeFriendId, accept, function (success, data, error) {
+            if (success) {
+                // dispatch({type: t.FRIEND_REQUEST_ACCEPTED});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+

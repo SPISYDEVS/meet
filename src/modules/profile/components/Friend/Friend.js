@@ -4,14 +4,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {actions as auth, theme} from "../../../auth/index"
-import {Text} from "react-native";
-
-const {View, StyleSheet, Alert} = require('react-native');
-
-const {signOut} = auth;
-
-const {color} = theme;
+import {Text, View} from "react-native";
 
 class Friend extends React.Component {
     constructor() {
@@ -19,6 +12,9 @@ class Friend extends React.Component {
     }
 
     render() {
+
+        const {user} = this.props;
+
         return (
             <View style={styles.container}>
 
@@ -27,8 +23,8 @@ class Friend extends React.Component {
                         onPress={() => console.log("Works!")}
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
-                    <Text>Friend!</Text>
-                    <Text>School!</Text>
+                    <Text>{user.firstName + " " + user.lastName}</Text>
+                    <Text>{user.school}</Text>
                 </View>
 
             </View>
@@ -36,4 +32,4 @@ class Friend extends React.Component {
     }
 }
 
-export default connect(null, {signOut})(Friend);
+export default connect(null, null)(Friend);
