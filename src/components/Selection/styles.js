@@ -10,9 +10,6 @@ const styles = StyleSheet.create({
         opacity: 1,
         // justifyContent: 'center',
     },
-    cappedContainer: {
-        maxHeight: 47
-    },
     padded: {
         paddingHorizontal: 20,
         paddingVertical: 7.5,
@@ -32,6 +29,7 @@ const styles = StyleSheet.create({
     searchBar: {
         padding: 0,
         margin: 0,
+        marginBottom: 25,
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
