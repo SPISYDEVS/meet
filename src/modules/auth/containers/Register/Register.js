@@ -3,7 +3,7 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
+
 import {confirmPassword, isEmpty} from '../../utils/validate'
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
@@ -11,7 +11,8 @@ import TextInput from "../../../../components/TextInput/TextInput";
 import {Text, View} from "react-native";
 import Button from "react-native-elements/src/buttons/Button";
 
-const {register} = auth;
+import {register} from '../../../../network/firebase/Auth/actions';
+
 
 class Register extends React.Component {
     constructor() {

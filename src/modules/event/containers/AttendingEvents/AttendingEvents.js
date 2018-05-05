@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {List, ListItem} from 'react-native-elements'
-import {ListView, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 
 const mapStateToProps = (state) => {
     return {
@@ -10,8 +9,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-import {isEmpty} from '../../../auth/utils/validate'
-import styles from "./styles"
+import styles from "./styles";
 import Event from "../../components/Event/Event";
 
 class AttendingEvents extends Component {

@@ -23,7 +23,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Import Store, actions
 import {store} from '../redux/store'
-import {checkLoginStatus} from "../modules/auth/actions";
+import {checkLoginStatus} from '../network/firebase/Auth/actions';
+
 
 import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";

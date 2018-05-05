@@ -5,8 +5,11 @@ import styles from "./styles"
 
 import {Text, TouchableOpacity, View} from "react-native";
 import {Icon} from "react-native-elements";
-import {respondToFriendRequest} from "../../../people/actions";
 import {connect} from "react-redux";
+
+
+import {respondToFriendRequest} from "../../../../network/firebase/User/actions";
+
 
 class FriendRequest extends React.Component {
     constructor() {

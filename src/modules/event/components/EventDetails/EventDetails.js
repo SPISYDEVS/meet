@@ -3,18 +3,16 @@ import PropTypes from 'prop-types'
 
 import {ScrollView, Text, View} from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
 import {Avatar, Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
 
-import {actions as people} from "../../../people/index";
-import {rsvpEvent} from "../../actions";
+import {fetchUsers} from '../../../../network/firebase/User/actions';
+import {rsvpEvent} from '../../../../network/firebase/Event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 
-const {fetchUsers} = people;
 
 class EventDetails extends React.Component {
     constructor(props) {

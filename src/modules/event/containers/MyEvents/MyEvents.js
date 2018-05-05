@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {View} from 'react-native';
-import AttendingEvents from '../AttendingEvents'
-import ManagingEvents from '../ManagingEvents'
+import AttendingEvents from '../AttendingEvents';
+import ManagingEvents from '../ManagingEvents';
 
 import TabButtons from "../../components/TabButtons";
 import styles from "./styles";
+
 
 class MyEvents extends Component {
     constructor() {

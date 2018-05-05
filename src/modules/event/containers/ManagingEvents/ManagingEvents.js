@@ -11,10 +11,11 @@ const mapStateToProps = (state) => {
     }
 };
 
-import {isEmpty} from '../../../auth/utils/validate'
-import styles from "./styles"
+import styles from "./styles";
 import Event from "../../components/Event/Event";
-import {rsvpEvent} from "../../actions";
+
+
+import {rsvpEvent} from "../../../../network/firebase/Event/actions";
 
 class ManagingEvents extends Component {
 

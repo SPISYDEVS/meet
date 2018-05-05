@@ -1,7 +1,7 @@
-import {reducer as authReducer} from "../modules/auth";
-import {reducer as eventReducer} from "../modules/event";
-import {reducer as homeReducer} from "../modules/home";
-import {reducer as peopleReducer} from "../modules/people";
+import authReducer from "../network/firebase/Auth/reducer";
+import eventReducer from "../network/firebase/Event/reducer";
+import homeReducer from "../network/firebase/Feed/reducer";
+import peopleReducer from "../network/firebase/User/reducer";
 
 const rehydrated = (state = false, action) => {
     switch (action.type) {

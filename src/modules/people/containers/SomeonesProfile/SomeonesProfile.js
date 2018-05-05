@@ -6,11 +6,14 @@ import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
 import {Text} from "react-native";
 import PropTypes from 'prop-types';
-import {fetchUsers, sendFriendRequest} from "../../actions";
+
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
 
 const {View, StyleSheet, Alert} = require('react-native');
+
+
+import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/User/actions";
 
 
 class SomeonesProfile extends React.Component {
