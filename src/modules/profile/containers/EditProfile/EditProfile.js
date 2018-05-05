@@ -10,8 +10,8 @@ import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-import * as authActions from "../../../../network/firebase/Auth/actions";
-const {updateProfile} = authActions;
+import {updateProfile} from "../../../../network/firebase/User/actions";
+
 
 const mapStateToProps = (state) => {
     return {

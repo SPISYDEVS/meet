@@ -11,8 +11,8 @@ import TextInput from "../../../../components/TextInput/TextInput";
 import {Text, View} from "react-native";
 import Button from "react-native-elements/src/buttons/Button";
 
-import * as authActions from '../../../../network/firebase/Auth/actions';
-const {register} = authActions;
+import {register} from '../../../../network/firebase/Auth/actions';
+
 
 class Register extends React.Component {
     constructor() {

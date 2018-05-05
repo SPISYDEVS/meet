@@ -16,10 +16,9 @@ import Friends from "../Friends/Friends";
 import { ImagePicker } from 'expo';
 
 
-import * as userActions from "../../../../network/firebase/User/actions";
-import * as authActions from '../../../../network/firebase/Auth/actions';
-const {updateProfile} = userActions;
-const {signOut} = authActions;
+import {updateProfile} from "../../../../network/firebase/User/actions";
+import {signOut} from '../../../../network/firebase/Auth/actions';
+
 
 const mapStateToProps = (state) => {
     return {

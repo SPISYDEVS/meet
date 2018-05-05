@@ -11,8 +11,7 @@ import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 
 
-import * as authActions from '../../../../network/firebase/Auth/actions';
-const {resetPassword} = authActions;
+import {resetPassword} from '../../../../network/firebase/Auth/actions';
 
 
 class ForgotPassword extends React.Component {

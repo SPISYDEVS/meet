@@ -11,10 +11,9 @@ import haversine from "haversine";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
 
-import * as authActions from '../../../../network/firebase/Auth/actions';
-import * as feedActions from '../../../../network/firebase/Feed/actions';
-const {fetchFeed, updateLocation} = feedActions;
-const {signOut, persistUser} = authActions;
+import {signOut, persistUser} from '../../../../network/firebase/Auth/actions';
+import {fetchFeed, updateLocation} from '../../../../network/firebase/Feed/actions';
+
 
 class Home extends React.Component {
     constructor(props) {

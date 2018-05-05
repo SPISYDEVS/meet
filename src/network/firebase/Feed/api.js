@@ -35,6 +35,4 @@ export function fetchFeed(location, callback) {
         console.log(error);
         callback(false, null, {message: error})
     });
-
-
 }

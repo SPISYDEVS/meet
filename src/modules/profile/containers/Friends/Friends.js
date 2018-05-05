@@ -7,8 +7,8 @@ import {ScrollView} from "react-native";
 
 import Friend from "../../components/Friend/Friend";
 
-import * as userActions from "../../../../network/firebase/User/actions";
-const {fetchUsers} = userActions;
+import {fetchUsers} from "../../../../network/firebase/User/actions";
+
 
 class Friends extends React.Component {
     constructor() {

@@ -8,11 +8,10 @@ import {Avatar, Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
 
-import * as userActions from '../../../../network/firebase/User/actions';
+import {fetchUsers} from '../../../../network/firebase/User/actions';
 import {rsvpEvent} from '../../../../network/firebase/Event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 
-const {fetchUsers} = userActions;
 
 class EventDetails extends React.Component {
     constructor(props) {

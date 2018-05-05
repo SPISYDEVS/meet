@@ -4,12 +4,10 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {ScrollView} from "react-native";
-import Notification from "../../components/Notification/Notification";
 
 import FriendRequest from "../../components/FriendRequest/FriendRequest";
 
-import * as userActions from "../../../../network/firebase/User/actions";
-const {fetchUsers} = userActions;
+import {fetchUsers} from "../../../../network/firebase/User/actions";
 
 
 class Notifications extends React.Component {
