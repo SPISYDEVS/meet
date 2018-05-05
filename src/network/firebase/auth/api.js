@@ -1,4 +1,6 @@
-import {auth, database} from "../../../config/firebase";
+import {auth, database, fbAuthProvider} from "../../../config/firebase";
+import {facebookLogin} from "../../facebookapi/oauth";
+
 
 //Register the user using email and password
 export function register(data, callback) {
@@ -67,4 +69,22 @@ export function signOut(callback) {
         .catch((error) => {
             if (callback) callback(false, null, error)
         });
+}
+
+export function oauthRegister(data, callback) {
+
+}
+
+export function oauthLogin(type, callback) {
+    console.log("api");
+    facebookLogin((token) => {
+        let credential = fbAuthProvider.credential(token);
+        auth.signInWithCredential(credential)
+            .then((user) => getUser(user, callback))
+            .catch((error) => {
+                if (callback) callback(false, null, error)
+            });
+    }, (error) => {
+        if (callback) callback(false, null, error)
+    });
 }
