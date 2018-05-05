@@ -8,18 +8,18 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {actions as auth, theme} from "../../../auth/index"
 import { auth as firebaseAuth } from "../../../../config/firebase";
 import {Text} from "react-native";
 import TabButtons from "../../../event/components/TabButtons/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../Friends/Friends";
 import { ImagePicker } from 'expo';
-import { actions as authUpdate } from "../../index";
 
 
-const {updateProfile} = authUpdate;
-const {signOut} = auth;
+import * as userActions from "../../../../network/firebase/User/actions";
+import * as authActions from '../../../../network/firebase/Auth/actions';
+const {updateProfile} = userActions;
+const {signOut} = authActions;
 
 const mapStateToProps = (state) => {
     return {

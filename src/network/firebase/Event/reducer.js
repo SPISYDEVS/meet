@@ -1,8 +1,8 @@
 import {AsyncStorage} from 'react-native';
 
 import * as t from './actionTypes';
-import * as authT from '../auth/actionTypes';
-import * as feedT from '../home/actionTypes';
+import * as authT from '../Auth/actionTypes';
+import * as feedT from '../Feed/actionTypes';
 
 let initialState = {byId: {}, allIds: []};
 

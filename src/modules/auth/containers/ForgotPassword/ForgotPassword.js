@@ -3,15 +3,16 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
-
-const {resetPassword} = auth;
 
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import {View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
+
+
+import * as authActions from '../../../../network/firebase/Auth/actions';
+const {resetPassword} = authActions;
 
 
 class ForgotPassword extends React.Component {

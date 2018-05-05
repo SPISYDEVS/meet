@@ -8,4 +8,7 @@ export const FIREBASE_MESSAGING_SENDER_ID = '472038597943';
 export const GOOGLE_MAPS_API_KEY = 'AIzaSyAd3KucV9ap_X0cJmIHl37P4Hw0VI9eHQQ';
 export const GOOGLE_MAPS_PLACE_API_KEY = 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY';
 
+
+export const FACEBOOK_APP_ID = '585122455198052';
+
 export const DATE_FORMAT = 'MMMM Do YYYY, h:mm a';

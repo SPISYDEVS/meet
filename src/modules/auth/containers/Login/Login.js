@@ -3,17 +3,18 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
-import {actions as event} from "../../../event/index"
-import {isEmpty} from '../../utils/validate'
+import {isEmpty} from '../../utils/validate';
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
 import {Text, TouchableOpacity, View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 
-const {login} = auth;
-const {fetchMyEvents} = event;
+import * as authActions from '../../../../network/firebase/Auth/actions';
+import * as eventActions from '../../../../network/firebase/Event/actions';
+
+const {login} = authActions;
+const {fetchMyEvents} = eventActions;
 
 class Login extends React.Component {
     constructor() {

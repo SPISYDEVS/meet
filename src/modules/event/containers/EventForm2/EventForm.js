@@ -2,8 +2,7 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as event} from "../../index"
-import {isEmpty} from '../../utils/validate'
+import {isEmpty} from '../../utils/validate';
 import {SafeAreaView, ScrollView, Text, View, Platform, Keyboard} from "react-native";
 import {Icon} from 'react-native-elements';
 import styles, {indicatorStyles, mapStyles} from "./styles";
@@ -20,7 +19,9 @@ import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete"
 import MapView, {Marker} from "react-native-maps";
 import {Constants, Location, Permissions} from 'expo';
 
-const {createEvent} = event;
+
+import * as eventActions from "../../../../network/firebase/Event/actions";
+const {createEvent} = eventActions;
 
 const generalPage = "General";
 const wherePage = "Where";

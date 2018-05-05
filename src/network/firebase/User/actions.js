@@ -1,8 +1,7 @@
 import * as t from './actionTypes';
 import * as api from './api';
-import {auth} from "../../config/firebase";
+import {auth} from "../../../config/firebase";
 
-import {AsyncStorage} from 'react-native';
 
 //actions --> fire when on event details or friends tab, lazily load (only when user needs the data)
 export function fetchUsers(userIds, successCB, errorCB) {
@@ -44,3 +43,14 @@ export function respondToFriendRequest(requesteeFriendId, accept, successCB, err
     };
 }
 
+export function updateProfile(user, successCB, errorCB) {
+    console.log(user);
+    return (dispatch) => {
+        api.editUser(user, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.PROFILE_UPDATED, data: user});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}

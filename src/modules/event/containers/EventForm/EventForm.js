@@ -2,7 +2,7 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as event} from "../../index"
+
 import {isEmpty} from '../../utils/validate'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
@@ -17,7 +17,8 @@ import PlacePicker from "../../components/PlacePicker/PlacePicker";
 import {DATE_FORMAT, GOOGLE_MAPS_API_KEY} from "../../../../config/constants";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 
-const {createEvent} = event;
+import * as eventActions from "../../../../network/firebase/Event/actions";
+const {createEvent} = eventActions;
 const queryString = require('query-string');
 
 class EventForm extends React.Component {

@@ -4,8 +4,11 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {ScrollView} from "react-native";
-import {fetchUsers} from "../../../people/actions";
+
 import Friend from "../../components/Friend/Friend";
+
+import * as userActions from "../../../../network/firebase/User/actions";
+const {fetchUsers} = userActions;
 
 class Friends extends React.Component {
     constructor() {

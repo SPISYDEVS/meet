@@ -5,18 +5,16 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {actions as auth} from "../../../auth/index"
-import {actions as home} from "../../index"
-import {actions as event} from "../../../event/index";
-import {actions as people} from "../../../people/index";
 import Event from "../../../event/components/Event/Event";
 import moment from "moment";
 import haversine from "haversine";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
 
-const {fetchFeed, updateLocation} = home;
-const {signOut, persistUser} = auth;
+import * as authActions from '../../../../network/firebase/Auth/actions';
+import * as feedActions from '../../../../network/firebase/Feed/actions';
+const {fetchFeed, updateLocation} = feedActions;
+const {signOut, persistUser} = authActions;
 
 class Home extends React.Component {
     constructor(props) {

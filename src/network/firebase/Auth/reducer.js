@@ -1,9 +1,6 @@
 import {AsyncStorage} from 'react-native';
 
 import * as t from './actionTypes';
-import * as eventT from '../profile/actionTypes';
-import * as peopleT from '../people/actionTypes';
-import * as homeT from '../home/actionTypes';
 
 let initialState = {isLoggedIn: false, user: null};
 

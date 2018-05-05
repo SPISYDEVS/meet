@@ -1,4 +1,4 @@
-import {auth, database, provider, geofireRef} from "../../config/firebase";
+import {auth, database, provider, geofireRef} from "../../../config/firebase";
 
 //Create the event object in realtime database
 export function fetchFeed(location, callback) {
