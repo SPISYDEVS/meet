@@ -48,22 +48,47 @@ class MyEvents extends Component {
     }
 
     componentDidMount(){
-        let eventsAsHost = this.props.user.eventsAsHost;
+        let {eventsAsHost, eventsAsAttendee} = this.props.currentUser;
 
+        eventsAsHost = eventsAsHost === undefined ? {} : eventsAsHost;
+        eventsAsAttendee = eventsAsAttendee === undefined ? {} : eventsAsAttendee;
+
+        eventsAsHost = Object.keys(eventsAsHost);
+        eventsAsAttendee = Object.keys(eventsAsAttendee);
+
+        const eventIds = eventsAsHost.concat(eventsAsAttendee.filter(id => !eventsAsHost.includes(id)));
+        this.fetchEvents(eventIds);
     }
+
+    fetchEvents = (eventIds) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+        let eventsToFetch = [];
+
+        eventIds.forEach(id => {
+            if(!(id in this.props.eventReducer.byId)){
+                eventsToFetch.push(id);
+            }
+        });
+
+        if(eventsToFetch.length > 0) {
+            this.props.fetchUsers(eventsToFetch, () => {
+            }, () => {
+            });
+        }
+
+    };
 
     render() {
 
-        const events = Object.values(this.props.eventReducer.byId);
-        let eventsAsHost = this.props.user.eventsAsHost;
+        // const events = Object.values(this.props.eventReducer.byId);
+        let {eventsAsHost, eventsAsAttendee} = this.props.currentUser;
 
-        if(eventsAsHost === undefined){
-            eventsAsHost = [];
-        }
+        eventsAsHost = eventsAsHost === undefined ? {} : eventsAsHost;
+        eventsAsAttendee = eventsAsAttendee === undefined ? {} : eventsAsAttendee;
 
-        if(eventsAsAttendee === undefined){
-            eventsAsAttendee
-        }
+        eventsAsHost = Object.keys(eventsAsHost);
+        eventsAsAttendee = Object.keys(eventsAsAttendee);
 
         return (
             <View style={styles.container}>
@@ -79,7 +104,8 @@ class MyEvents extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        eventReducer: state.eventReducer
+        eventReducer: state.eventReducer,
+        currentUser: state.authReducer.user
     }
 };
 

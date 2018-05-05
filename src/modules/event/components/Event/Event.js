@@ -7,7 +7,7 @@ import {Actions} from 'react-native-router-flux';
 import styles from "./styles";
 import {Avatar, Icon} from "react-native-elements";
 
-import EventDetails from "../EventDetails";
+import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 
 

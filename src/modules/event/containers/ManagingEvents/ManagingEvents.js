@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {ScrollView} from 'react-native';
+import styles from "./styles";
+import Event from "../../components/Event/Event";
 
-import {List, ListItem} from 'react-native-elements'
-import {ListView, ScrollView, View} from 'react-native';
+
+import {rsvpEvent} from "../../../../network/firebase/Event/actions";
 
 const mapStateToProps = (state) => {
     return {
@@ -10,12 +13,6 @@ const mapStateToProps = (state) => {
         eventReducer: state.eventReducer
     }
 };
-
-import styles from "./styles";
-import Event from "../../components/Event/Event";
-
-
-import {rsvpEvent} from "../../../../network/firebase/Event/actions";
 
 class ManagingEvents extends Component {
 

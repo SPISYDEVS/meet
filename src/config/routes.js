@@ -32,7 +32,7 @@ import Events from "../modules/event/containers/MyEvents";
 import Home from "../modules/home/containers/Home";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
-import EventDetails from "../modules/event/components/EventDetails/EventDetails";
+import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
 
 class TabIcon extends React.Component {
