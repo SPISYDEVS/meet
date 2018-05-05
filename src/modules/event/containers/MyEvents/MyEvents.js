@@ -46,9 +46,23 @@ class MyEvents extends Component {
         this.setState(state);
     }
 
+    componentDidMount(){
+        let eventsAsHost = this.props.user.eventsAsHost;
+
+    }
+
     render() {
 
         const events = Object.values(this.props.eventReducer.byId);
+        let eventsAsHost = this.props.user.eventsAsHost;
+
+        if(eventsAsHost === undefined){
+            eventsAsHost = [];
+        }
+
+        if(eventsAsAttendee === undefined){
+            eventsAsAttendee
+        }
 
         return (
             <View style={styles.container}>

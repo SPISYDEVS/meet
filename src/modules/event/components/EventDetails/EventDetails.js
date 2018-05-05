@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {actions as people} from "../../../people/index";
 import {rsvpEvent} from "../../actions";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
+import moment from "moment";
 
 const {fetchUsers} = people;
 
@@ -61,6 +62,8 @@ class EventDetails extends React.Component {
         }
 
         let {title, date, address, description, hostPic, hostName, plannedAttendees, actualAttendees} = event;
+
+        date = moment(date).calendar();
 
         //pull the user objects using their associated ids
         plannedAttendees = Object.keys(plannedAttendees).map(id => {

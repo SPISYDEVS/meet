@@ -6,6 +6,7 @@ import {ListView, ScrollView, View} from 'react-native';
 
 const mapStateToProps = (state) => {
     return {
+        user: state.authReducer.user,
         eventReducer: state.eventReducer
     }
 };
@@ -15,20 +16,11 @@ import styles from "./styles"
 import Event from "../../components/Event/Event";
 import {rsvpEvent} from "../../actions";
 
-// <ListItem
-// roundAvatar
-// key={i}
-// title={item.title}
-// subtitle={item.description}
-// subtitleNumberOfLines={3}
-// leftIcon={{name: 'av-timer'}}
-// />
-
-
 class ManagingEvents extends Component {
 
     render() {
         // const events = this.props.eventReducer.myIds.map((id) => this.props.eventReducer.byId[id]);
+
 
         const events = [{},{},{},{}];
         return (
