@@ -11,11 +11,12 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
     cappedContainer: {
-        maxHeight: 47
+        maxHeight: 62
     },
     padded: {
         paddingHorizontal: 20,
-        paddingVertical: 7.5,
+        paddingTop: 15,
+        paddingBottom: 15,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
         paddingVertical: 0.5,
     },
     searchBar: {
-        padding: 0,
+        paddingHorizontal: 0,
+        paddingVertical: 9,
         margin: 0,
         backgroundColor: color.background,
         borderTopWidth: 0,

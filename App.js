@@ -6,7 +6,10 @@ import Root from './src/index';
 import {Provider} from "react-redux";
 
 import {YellowBox} from 'react-native';
-YellowBox.ignoreWarnings(['Warning:']);
+
+// TODO: REMOVE THIS WHEN WE'RE DONE TESTING
+console.disableYellowBox = true;
+
 
 function cacheFonts(fonts) {
     return fonts.map(font => Font.loadAsync(font));

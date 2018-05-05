@@ -7,7 +7,7 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         backgroundColor: color.background,
-        flex:1,
+        flex: 1,
         paddingHorizontal: 15
     },
 
