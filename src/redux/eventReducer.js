@@ -60,6 +60,14 @@ const eventReducer = (state = initialState, action) => {
 
             return {byId: {}, allIds: [], myIds: []};
         }
+        case t.HOST_OBJ_FETCHED: {
+            const user = action.data;
+            AsyncStorage.multiSet([
+                ['user', JSON.stringify(user)]
+            ]);
+            state = Object.assign({}, state, {eventUser: user});
+            return state;
+        }
 
         default:
             return state;

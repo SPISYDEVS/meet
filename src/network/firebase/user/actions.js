@@ -1,4 +1,5 @@
 import * as t from './actionTypes';
+import * as eventT from '../event/actionTypes';
 import * as api from './api';
 import {auth} from "../../../config/firebase";
 
@@ -43,13 +44,25 @@ export function respondToFriendRequest(requesteeFriendId, accept, successCB, err
 }
 
 export function updateProfile(user, successCB, errorCB) {
-    console.log(user);
     return (dispatch) => {
         api.editUser(user, function (success, data, error) {
             if (success) {
                 dispatch({type: t.PROFILE_UPDATED, data: user});
                 successCB();
             } else if (error) errorCB(error)
+        });
+    };
+}
+
+
+export function getUser(userId, successCB, errorCB) {
+    return (dispatch) => {
+        api.getUser(userId, function(success, data, error) {
+            if (success) {
+                dispatch({type: eventT.HOST_OBJ_FETCHED, data: data})
+                successCB(data);
+            }
+            else if (error) errorCB(error)
         });
     };
 }
