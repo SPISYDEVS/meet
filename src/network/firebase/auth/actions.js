@@ -86,3 +86,17 @@ export function checkLoginStatus(callback) {
         });
     };
 }
+
+export function oauthLogin(type, successCB, errorCB) {
+    return (dispatch) => {
+        api.oauthLogin(type, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.LOGGED_IN, data: data.user});
+                successCB(data);
+            }
+            else if (error) {
+                errorCB(error);
+            }
+        });
+    };
+}

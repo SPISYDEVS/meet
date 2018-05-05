@@ -138,6 +138,9 @@ class Profile extends React.Component {
         if (user.profile) {
             source = user.profile.source;
         }
+        else if (user.photoURL) {
+            source = user.photoURL;
+        }
 
         return (
             <View style={styles.container}>

@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native';
 
 import * as t from '../network/firebase/auth/actionTypes';
 
-let initialState = {isLoggedIn: false, user: null};
+let initialState = {isLoggedIn: false, user: {}};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -33,7 +33,7 @@ const authReducer = (state = initialState, action) => {
             let keys = ['user'];
             AsyncStorage.multiRemove(keys);
 
-            state = Object.assign({}, state, {isLoggedIn: false, user: null});
+            state = Object.assign({}, state, {isLoggedIn: false, user: {}});
 
             return state;
         }
