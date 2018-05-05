@@ -24,7 +24,7 @@ class EventDetails extends React.Component {
         //lazily load attendee information
         const event = this.props.eventReducer.byId[this.props.eventId];
 
-        if(event === undefined || event.plannedAttendees === undefined){
+        if (event === undefined || event.plannedAttendees === undefined) {
             return;
         }
 
@@ -34,12 +34,12 @@ class EventDetails extends React.Component {
         let usersToFetch = [];
 
         plannedAttendees.forEach(id => {
-            if(!(id in this.props.peopleReducer.byId)){
+            if (!(id in this.props.peopleReducer.byId)) {
                 usersToFetch.push(id);
             }
         });
 
-        if(usersToFetch.length > 0) {
+        if (usersToFetch.length > 0) {
             this.props.fetchUsers(usersToFetch, () => {
             }, () => {
             });
@@ -51,15 +51,15 @@ class EventDetails extends React.Component {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
 
-        if(event === undefined){
+        if (event === undefined) {
             return <View/>
         }
 
-        if(event.plannedAttendees === undefined){
+        if (event.plannedAttendees === undefined) {
             event.plannedAttendees = [];
         }
 
-        if(event.actualAttendees === undefined){
+        if (event.actualAttendees === undefined) {
             event.actualAttendees = [];
         }
 
@@ -89,6 +89,13 @@ class EventDetails extends React.Component {
                     </Text>
                 </View>
 
+
+                <View style={styles.details}>
+                    <Text style={styles.description}>
+                        {description}
+                    </Text>
+                </View>
+
                 <View style={styles.hostContainer}>
                     <Avatar
                         small
@@ -101,13 +108,6 @@ class EventDetails extends React.Component {
                         {hostName}
                     </Text>
                 </View>
-
-                <View style={styles.details}>
-                    <Text style={styles.description}>
-                        {description}
-                    </Text>
-                </View>
-
                 <Text style={styles.boldSubtitle}>
                     Who's Here ({actualAttendees.length})
                 </Text>

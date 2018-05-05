@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         paddingBottom: padding * 2,
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor: "#FF553F",
+        backgroundColor: color.main,
     },
 
     image:{
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
 
     button:{
-        backgroundColor: "#FF553F",
+        backgroundColor: color.main,
         height: normalize(55)
     },
 

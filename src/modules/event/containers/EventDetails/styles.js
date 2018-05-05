@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     subtitle: {
-        fontSize: 18,
-        lineHeight: 30,
+        fontSize: fontSize.regular,
+        lineHeight: 15,
+        opacity: 0.75,
         marginBottom: 5,
     },
     details: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     hostContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        marginBottom: 10,
+        marginVertical: 10,
     },
     hostName: {
         paddingLeft: 10,
