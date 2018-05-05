@@ -93,11 +93,12 @@ class Profile extends React.Component {
     };
 
     onSignOut() {
+        Actions.reset("Auth");
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }
 
     onSuccess() {
-        Actions.reset("Auth")
+        // Actions.reset("Auth")
     }
 
     onUpdateProfile = () => {

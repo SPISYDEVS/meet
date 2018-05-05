@@ -17,15 +17,8 @@ class Event extends React.Component {
     }
 
     handlePress = () => {
-        // const {title, description, date, hostPic, hostName, distance, address, plannedAttendees, eventId} = this.props;
-
         Actions.push('EventDetails', {eventId: this.props.eventId});
-        // this.setState({eventDetails: true});
     };
-
-    // closeModal = () => {
-    //     this.setState({eventDetails: false});
-    // };
 
     render() {
         const {title, description, date, hostPic, hostId, hostName, distance} = this.props;
@@ -61,25 +54,6 @@ class Event extends React.Component {
                         </Text>
                     </View>
                 </TouchableOpacity>
-
-                {/*<Modal isVisible={this.state.eventDetails} style={styles.modal}>*/}
-                    {/*<TouchableOpacity style={styles.modalHeader}*/}
-                                      {/*onPress={() => this.closeModal()}>*/}
-                        {/*<Icon*/}
-                            {/*name='close'*/}
-                        {/*/>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*<EventDetails*/}
-                        {/*title={title}*/}
-                        {/*date={date}*/}
-                        {/*location={address}*/}
-                        {/*hostPic={hostPic}*/}
-                        {/*hostName={hostName}*/}
-                        {/*description={description}*/}
-                        {/*plannedAttendees={plannedAttendees}*/}
-                        {/*eventId={eventId}*/}
-                    {/*/>*/}
-                {/*</Modal>*/}
 
             </View>
         );

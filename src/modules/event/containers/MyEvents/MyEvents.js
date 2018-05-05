@@ -46,38 +46,44 @@ class MyEvents extends Component {
         });
         this.setState(state);
     }
-
-    componentDidMount(){
-        let {eventsAsHost, eventsAsAttendee} = this.props.currentUser;
-
-        eventsAsHost = eventsAsHost === undefined ? {} : eventsAsHost;
-        eventsAsAttendee = eventsAsAttendee === undefined ? {} : eventsAsAttendee;
-
-        eventsAsHost = Object.keys(eventsAsHost);
-        eventsAsAttendee = Object.keys(eventsAsAttendee);
-
-        const eventIds = eventsAsHost.concat(eventsAsAttendee.filter(id => !eventsAsHost.includes(id)));
-        this.fetchEvents(eventIds);
-    }
-
-    fetchEvents = (eventIds) => {
-
-        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
-        let eventsToFetch = [];
-
-        eventIds.forEach(id => {
-            if(!(id in this.props.eventReducer.byId)){
-                eventsToFetch.push(id);
-            }
-        });
-
-        if(eventsToFetch.length > 0) {
-            this.props.fetchEvents(eventsToFetch, () => {
-            }, () => {
-            });
-        }
-
-    };
+    //
+    // componentDidMount(){
+    //     let {eventsAsHost, eventsAsAttendee} = this.props.currentUser;
+    //
+    //     eventsAsHost = eventsAsHost === undefined ? {} : eventsAsHost;
+    //     eventsAsAttendee = eventsAsAttendee === undefined ? {} : eventsAsAttendee;
+    //
+    //     eventsAsHost = Object.keys(eventsAsHost);
+    //     eventsAsAttendee = Object.keys(eventsAsAttendee);
+    //
+    //     const eventIds = eventsAsHost.concat(eventsAsAttendee.filter(id => !eventsAsHost.includes(id)));
+    //     console.log("WEEHEEHEEE");
+    //     console.log(eventIds);
+    //     this.fetchEvents(eventIds);
+    // }
+    //
+    // fetchEvents = (eventIds) => {
+    //
+    //     //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+    //     let eventsToFetch = [];
+    //
+    //     eventIds.forEach(id => {
+    //         if(!(id in this.props.eventReducer.byId)){
+    //             eventsToFetch.push(id);
+    //         }
+    //     });
+    //
+    //     if(eventsToFetch.length > 0) {
+    //
+    //         console.log("WOOHOOOO");
+    //         console.log(eventsToFetch);
+    //
+    //         this.props.fetchEvents(eventsToFetch, () => {
+    //         }, () => {
+    //         });
+    //     }
+    //
+    // };
 
     render() {
 

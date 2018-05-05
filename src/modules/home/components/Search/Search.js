@@ -3,8 +3,10 @@ import React, {Component} from 'react';
 
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
-import {Icon, List, ListItem, SearchBar} from 'react-native-elements'
+import {Icon} from 'react-native-elements'
 import styles from "./styles"
+import {connect} from "react-redux";
+import Selection from "../../../../components/Selection/Selection";
 
 
 class Search extends Component {
@@ -13,11 +15,12 @@ class Search extends Component {
         this.state =
             {
                 showSearch: false,
+                selectedValue: '',
             }
     }
 
-    resetSearch = () => {
-        this.textInputRef.clear();
+    handleItemSelect = (value) => {
+        this.setState({value: value});
     };
 
     render() {
@@ -41,15 +44,18 @@ class Search extends Component {
 
                         <View style={[styles.searchContainer, styles.rowContainer]}>
 
-                            <SearchBar
-                                // onChangeText={(text) => {}}
-                                placeholder={searchHint}
-                                rounded
-                                lightTheme
-                                inputStyle={styles.searchInput}
-                                containerStyle={styles.searchBar}
-                                noIcon
-                            />
+                            <Selection list={this.props.eventReducer.allIds}
+                                       callback={(value) => this.handleItemSelect(value)}/>
+
+                            {/*<SearchBar*/}
+                            {/*// onChangeText={(text) => {}}*/}
+                            {/*placeholder={searchHint}*/}
+                            {/*rounded*/}
+                            {/*lightTheme*/}
+                            {/*inputStyle={styles.searchInput}*/}
+                            {/*containerStyle={styles.searchBar}*/}
+                            {/*noIcon*/}
+                            {/*/>*/}
 
                             <TouchableOpacity onPress={() => this.setState({showSearch: false})}>
                                 <Text style={styles.headerText}>Cancel</Text>
@@ -78,4 +84,16 @@ class Search extends Component {
     }
 }
 
-export default Search;
+//allows the component to use props as specified by reducers
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer,
+        homeReducer: state.homeReducer,
+        user: state.authReducer.user
+    }
+};
+
+//allows the component to use actions as props
+const actions = {};
+
+export default connect(mapStateToProps, actions)(Search);

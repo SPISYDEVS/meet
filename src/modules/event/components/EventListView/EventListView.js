@@ -16,6 +16,34 @@ const mapStateToProps = (state) => {
 
 class EventListView extends Component {
 
+    componentDidMount(){
+        const eventIds = this.props.eventIds;
+        this.fetchEvents(eventIds);
+    }
+
+    fetchEvents = (eventIds) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+        let eventsToFetch = [];
+
+        eventIds.forEach(id => {
+            if(!(id in this.props.eventReducer.byId)){
+                eventsToFetch.push(id);
+            }
+        });
+
+        if(eventsToFetch.length > 0) {
+
+            console.log(eventsToFetch);
+
+            this.props.fetchEvents(eventsToFetch, () => {
+            }, () => {
+            });
+
+        }
+
+    };
+
     render() {
 
         const userLocation = this.props.homeReducer.location;
@@ -27,6 +55,10 @@ class EventListView extends Component {
             <ScrollView style={styles.container}>
                 {
                     eventIds.map((id, i) => {
+
+                        if(!(id in events)){
+                            return <View/>
+                        }
 
                         //pull the values with the keys 'title', 'description', etc... from the corresponding event
                         const {title, description, date, hostName, hostId, location, address} = events[id];
