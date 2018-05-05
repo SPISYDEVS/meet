@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import styles from "./styles";
 import Event from "../../components/Event/Event";
 import haversine from "haversine";

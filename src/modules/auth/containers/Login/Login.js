@@ -55,7 +55,7 @@ class Login extends React.Component {
     onLogin = ({exists, user}) => {
         if (exists) {
             if (user.events === undefined) {
-                user.events = [];
+                user.events = {};
             }
             this.props.fetchEvents(Object.keys(user.events), this.onSuccess, () => {
             });

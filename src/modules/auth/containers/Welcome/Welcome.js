@@ -1,11 +1,21 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 
-import {Button, Divider, SocialIcon} from 'react-native-elements'
-import {Actions} from 'react-native-router-flux'
+import {Button, Divider, SocialIcon} from 'react-native-elements';
+import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import styles from "./styles"
+import styles from "./styles";
+
+import {oauthLogin, createUser} from "../../../../network/firebase/auth/actions";
+import {fetchEvents} from "../../../../network/firebase/event/actions";
+
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducer.user
+    }
+};
 
 
 class Welcome extends React.Component {
@@ -13,6 +23,47 @@ class Welcome extends React.Component {
         super();
         this.state = {}
     }
+
+
+    onSignInWithFacebook = async () => {
+        this.props.oauthLogin('facebook', (data) => {
+            if (!data.exists) {
+                let nameArr = data.user.displayName.split(" ");
+                let firstName = nameArr[0];
+                let lastName = nameArr[1];
+
+                let user = {
+                    uid: data.user.uid,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: data.user.email,
+                    photoURL: `${data.user.photoURL}?width=500&height=500`
+                };
+                this.props.createUser(user, this.onFinishedCreatingUser, (error) => {});
+            }
+            else {
+                this.onFinishedCreatingUser();
+            }
+        }, (error) => {
+            console.log(error);
+        });
+    };
+
+
+    onFinishedCreatingUser = () => {
+        let user = this.props.user;
+        if (user.events === undefined) {
+            user.events = {};
+        }
+
+        this.props.fetchEvents(Object.keys(user.events), this.onSuccess, (error) => {});
+    };
+
+
+    onSuccess = () => {
+        Actions.Main();
+    };
+
 
     render() {
         return (
@@ -32,7 +83,7 @@ class Welcome extends React.Component {
                             iconSize={19}
                             style={[styles.containerView, styles.socialButton]}
                             fontStyle={styles.buttonText}
-                            onPress={this.onSignInWithFacebook}/>
+                            onPress={() => this.onSignInWithFacebook()}/>
 
                         <View style={styles.orContainer}>
                             <Divider style={styles.divider}/>
@@ -69,4 +120,4 @@ class Welcome extends React.Component {
 }
 
 
-export default connect(null, {})(Welcome);
+export default connect(mapStateToProps, {oauthLogin, fetchEvents, createUser})(Welcome);

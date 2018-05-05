@@ -24,7 +24,7 @@ class EventDetails extends React.Component {
         //lazily load attendee information
         const event = this.props.eventReducer.byId[this.props.eventId];
 
-        if(event.plannedAttendees === undefined){
+        if(event === undefined || event.plannedAttendees === undefined){
             return;
         }
 
@@ -50,6 +50,10 @@ class EventDetails extends React.Component {
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
+
+        if(event === undefined){
+            return <View/>
+        }
 
         if(event.plannedAttendees === undefined){
             event.plannedAttendees = [];
