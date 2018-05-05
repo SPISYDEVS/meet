@@ -5,6 +5,7 @@ import styles from "./styles";
 import Event from "../../components/Event/Event";
 import haversine from "haversine";
 import moment from "moment";
+import {fetchEvents} from "../../../../network/firebase/event/actions";
 
 const mapStateToProps = (state) => {
     return {
@@ -86,4 +87,4 @@ class EventListView extends Component {
     }
 }
 
-export default connect(mapStateToProps, null)(EventListView);
+export default connect(mapStateToProps, {fetchEvents})(EventListView);
