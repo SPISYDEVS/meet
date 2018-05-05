@@ -23,15 +23,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Import Store, actions
 import {store} from '../redux/store'
-import {checkLoginStatus} from "../modules/auth/actions";
+import {checkLoginStatus} from '../network/firebase/auth/actions';
+
 
 import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";
 import Events from "../modules/event/containers/MyEvents";
-import Home from "../modules/home/containers/Home";
+import Feed from "../modules/home/containers/Feed";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
-import EventDetails from "../modules/event/components/EventDetails/EventDetails";
+import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
 
 class TabIcon extends React.Component {
@@ -112,7 +113,7 @@ export default class extends React.Component {
                         <Scene key="FeedScreen"
                                title="Explore"
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
-                               component={Home}
+                               component={Feed}
                                navBar={Search}
                                type={ActionConst.REPLACE}/>
 

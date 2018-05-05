@@ -2,7 +2,7 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
+
 import {isEmpty} from '../../utils/validate'
 import TextInput from "../../../../components/TextInput";
 import ItemSelector from "../../../../components/ItemSelector";
@@ -12,7 +12,8 @@ import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-const {createUser} = auth;
+import {createUser} from '../../../../network/firebase/auth/actions';
+
 
 class CompleteProfile extends React.Component {
     constructor() {

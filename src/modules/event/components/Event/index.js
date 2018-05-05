@@ -1,3 +1,3 @@
-import TabButtons from './Event'
+import Event from './Event'
 
-export default TabButtons;
+export default Event;
