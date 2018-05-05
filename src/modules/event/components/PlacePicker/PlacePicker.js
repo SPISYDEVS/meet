@@ -52,7 +52,7 @@ class PlacePicker extends React.Component {
                         style={{flex: 1}}
                         showsUserLocation
                         showsMyLocationButton={true}
-                        region={this.state.region}
+                        initialRegion={this.state.region}
                         onRegionChangeComplete={(region) => this.onRegionChange(region)}
                     />
                     <View pointerEvents="none" style={styles.markerContainer}>

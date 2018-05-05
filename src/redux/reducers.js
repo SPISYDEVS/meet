@@ -1,7 +1,8 @@
-import {reducer as authReducer} from "../modules/auth";
-import {reducer as eventReducer} from "../modules/event";
-import {reducer as homeReducer} from "../modules/home";
-import {reducer as peopleReducer} from "../modules/people";
+import authReducer from "./authReducer";
+import eventReducer from "./eventReducer";
+import homeReducer from "./feedReducer";
+import peopleReducer from "./peopleReducer";
+
 
 const rehydrated = (state = false, action) => {
     switch (action.type) {
@@ -11,6 +12,7 @@ const rehydrated = (state = false, action) => {
             return state;
     }
 };
+
 
 export default {
     rehydrated,

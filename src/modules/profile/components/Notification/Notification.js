@@ -5,6 +5,7 @@ import styles from "./styles"
 
 import {Text, View} from "react-native";
 
+
 class Notification extends React.Component {
     constructor() {
         super();

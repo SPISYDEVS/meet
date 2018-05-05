@@ -5,10 +5,8 @@ import {Button, Divider, SocialIcon} from 'react-native-elements'
 import {Actions} from 'react-native-router-flux'
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
 import styles from "./styles"
 
-const {} = auth;
 
 class Welcome extends React.Component {
     constructor() {

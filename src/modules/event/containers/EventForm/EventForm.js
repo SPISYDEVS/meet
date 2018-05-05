@@ -2,7 +2,6 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as event} from "../../index"
 import {isEmpty} from '../../utils/validate'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
@@ -14,11 +13,13 @@ import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 import Modal from "react-native-modal";
 import PlacePicker from "../../components/PlacePicker/PlacePicker";
-import {DATE_FORMAT, GOOGLE_MAPS_API_KEY} from "../../../../config/constants";
+import {DATE_FORMAT, GOOGLE_MAPS_PLACE_API_KEY} from "../../../../config/constants";
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 
-const {createEvent} = event;
-const queryString = require('query-string');
+
+import {createEvent} from "../../../../network/firebase/event/actions";
+import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
+
 
 class EventForm extends React.Component {
     constructor() {
@@ -56,7 +57,7 @@ class EventForm extends React.Component {
                         debounce: 200,
                         query: {
                             // available options: https://developers.google.com/places/web-service/autocomplete
-                            key: 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7ISY',
+                            key: GOOGLE_MAPS_PLACE_API_KEY,
                             language: 'en', // language of the results
                         },
                         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
@@ -94,7 +95,7 @@ class EventForm extends React.Component {
         } else {
             data['data']['date'] = momentFromDate(data['data']['date']).valueOf();
             data['data']['address'] = this.state['location']['other']['address'];
-            this.props.createEvent(data['data'], this.props.authReducer.user, this.onSuccess, this.onError);
+            this.props.createEvent(data['data'], this.props.currentUser, this.onSuccess, this.onError);
         }
 
     };
@@ -135,30 +136,14 @@ class EventForm extends React.Component {
 
         state['location']['value'] = data;
 
-        //query the google maps api
-        let params = {
-            key: GOOGLE_MAPS_API_KEY,
-            latlng: `${data.latitude},${data.longitude}`,
-        };
-
-        let qs = queryString.stringify(params);
-
         //make a get request (we want to reverse geolookup an address given a latlng)
         //we then update the state with the returned value
-        fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?${qs}`)
-            .then((res) => res.json())
-            .then((json) => {
-                if (json.status !== 'OK') {
-                    throw new Error(`Geocode error: ${json.status}`);
-                }
-
-                //retrieve the first result and assign it to the address property
-                //('other' stores everything that value doesn't in a form field)
-                state['location']['other']['address'] = json.results[0].formatted_address;
-
-                this.setState(state);
-            });
+        reverseGeocode(data.latitude, data.longitude, (address) => {
+            state['location']['other']['address'] = address;
+            this.setState(state);
+        }, (error) => {
+            throw error;
+        });
 
     };
 
@@ -241,7 +226,7 @@ class EventForm extends React.Component {
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
     return {
-        authReducer: state.authReducer,
+        currentUser: state.authReducer.user,
     }
 };
 

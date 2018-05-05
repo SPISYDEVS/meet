@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+
 
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 import {Icon, List, ListItem, SearchBar} from 'react-native-elements'
 import styles from "./styles"
-import TrieSearch from 'trie-search';
+
 
 class Search extends Component {
     constructor(props) {

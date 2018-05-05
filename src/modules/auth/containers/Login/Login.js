@@ -3,17 +3,16 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {actions as auth} from "../../index"
-import {actions as event} from "../../../event/index"
-import {isEmpty} from '../../utils/validate'
+import {isEmpty} from '../../utils/validate';
 import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
 import {Text, TouchableOpacity, View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 
-const {login} = auth;
-const {loadEvents} = event;
+import {login} from '../../../../network/firebase/auth/actions';
+import {fetchMyEvents} from '../../../../network/firebase/event/actions';
+
 
 class Login extends React.Component {
     constructor() {
@@ -58,7 +57,7 @@ class Login extends React.Component {
             if (user.events === undefined) {
                 user.events = [];
             }
-            this.props.loadEvents(Object.keys(user.events), this.onSuccess, () => {
+            this.props.fetchMyEvents(Object.keys(user.events), this.onSuccess, () => {
             });
         }
         else Actions.CompleteProfile({user});
@@ -128,4 +127,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, {login, loadEvents})(Login);
+export default connect(null, {login, fetchMyEvents})(Login);

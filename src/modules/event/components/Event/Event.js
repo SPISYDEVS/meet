@@ -4,14 +4,12 @@ import PropTypes from 'prop-types';
 import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
-import Modal from 'react-native-modal';
-
-import styles from "./styles"
+import styles from "./styles";
 import {Avatar, Icon} from "react-native-elements";
 
-//import Modal from "react-native-modal";
-import EventDetails from "../EventDetails"
+import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
+
 
 class Event extends React.Component {
     constructor(props) {
@@ -21,7 +19,7 @@ class Event extends React.Component {
     handlePress = () => {
         // const {title, description, date, hostPic, hostName, distance, address, plannedAttendees, eventId} = this.props;
 
-        Actions.push('EventDetails', {...this.props});
+        Actions.push('EventDetails', {eventId: this.props.eventId});
         // this.setState({eventDetails: true});
     };
 
