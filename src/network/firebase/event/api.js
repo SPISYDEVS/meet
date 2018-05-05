@@ -17,7 +17,7 @@ export function createEvent(event, user, callback) {
         .catch((error) => callback(false, null, {message: error}));
 }
 
-export function fetchMyEvents(eventIds, callback) {
+export function fetchEvents(eventIds, callback) {
 
     Promise.all(eventIds.map(id => {
         return database.ref('events').child(id).once('value');

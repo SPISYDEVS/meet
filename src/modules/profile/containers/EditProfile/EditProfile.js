@@ -10,7 +10,7 @@ import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-import {updateProfile} from "../../../../network/firebase/User/actions";
+import {updateProfile} from "../../../../network/firebase/user/actions";
 
 
 const mapStateToProps = (state) => {

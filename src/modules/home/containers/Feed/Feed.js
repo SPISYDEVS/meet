@@ -8,14 +8,14 @@ import styles from "./styles"
 import Event from "../../../event/components/Event/Event";
 import moment from "moment";
 import haversine from "haversine";
-import {momentFromDate} from "../../../../components/utils/dateUtils";
-import {ScrollView, StyleSheet, Alert, Platform} from "react-native";
+import {Platform, ScrollView} from "react-native";
 
-import {signOut, persistUser} from '../../../../network/firebase/Auth/actions';
-import {fetchFeed, updateLocation} from '../../../../network/firebase/Feed/actions';
+import {persistUser, signOut} from '../../../../network/firebase/auth/actions';
+import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
+import EventListView from "../../../event/components/EventListView/EventListView";
 
 
-class Home extends React.Component {
+class Feed extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -57,9 +57,8 @@ class Home extends React.Component {
     };
 
 
-    render() {
+     render() {
 
-        const userLocation = this.props.homeReducer.location;
         const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;
 
@@ -73,30 +72,7 @@ class Home extends React.Component {
         });
 
         return (
-            <ScrollView style={styles.container}>
-                {filteredEventIds.map((id) => {
-
-                    //pull the values with the keys 'title', 'description', etc... from the corresponding event
-                    const {title, description, date, hostName, hostId, location, address} = events[id];
-
-                    //gets the distance between the user and the location of an event, truncates to 1 decimal place
-                    const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
-
-                    const formattedDate = moment(date).calendar();
-
-                    return <Event
-                        key={id}
-                        title={title}
-                        description={description}
-                        date={formattedDate}
-                        distance={distance}
-                        address={address}
-                        hostName={hostName}
-                        hostId={hostId}
-                        eventId={id}
-                    />
-                })}
-            </ScrollView>
+            <EventListView eventIds={filteredEventIds}/>
         );
     }
 }
@@ -118,4 +94,4 @@ const actions = {
     persistUser
 };
 
-export default connect(mapStateToProps, actions)(Home);
+export default connect(mapStateToProps, actions)(Feed);

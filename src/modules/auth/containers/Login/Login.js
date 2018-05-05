@@ -10,8 +10,8 @@ import Button from "react-native-elements/src/buttons/Button";
 import {Text, TouchableOpacity, View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 
-import {login} from'../../../../network/firebase/Auth/actions';
-import {fetchMyEvents} from '../../../../network/firebase/Event/actions';
+import {login} from '../../../../network/firebase/auth/actions';
+import {fetchMyEvents} from '../../../../network/firebase/event/actions';
 
 
 class Login extends React.Component {

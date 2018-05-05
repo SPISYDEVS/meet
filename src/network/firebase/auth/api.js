@@ -1,4 +1,4 @@
-import {auth, database, provider} from "../../../config/firebase";
+import {auth, database} from "../../../config/firebase";
 
 //Register the user using email and password
 export function register(data, callback) {

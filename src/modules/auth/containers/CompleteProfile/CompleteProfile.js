@@ -12,7 +12,7 @@ import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
-import {createUser} from '../../../../network/firebase/Auth/actions';
+import {createUser} from '../../../../network/firebase/auth/actions';
 
 
 class CompleteProfile extends React.Component {

@@ -1,4 +1,4 @@
-import {auth, database, provider, geofireRef} from "../../../config/firebase";
+import {auth, database} from "../../../config/firebase";
 
 //Create the user object in realtime database
 export function fetchUsers(userIds, callback) {

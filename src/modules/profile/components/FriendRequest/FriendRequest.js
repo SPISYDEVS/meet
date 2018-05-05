@@ -8,7 +8,7 @@ import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 
-import {respondToFriendRequest} from "../../../../network/firebase/User/actions";
+import {respondToFriendRequest} from "../../../../network/firebase/user/actions";
 
 
 class FriendRequest extends React.Component {

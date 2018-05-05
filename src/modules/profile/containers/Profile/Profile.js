@@ -16,8 +16,8 @@ import Friends from "../Friends/Friends";
 import { ImagePicker } from 'expo';
 
 
-import {updateProfile} from "../../../../network/firebase/User/actions";
-import {signOut} from '../../../../network/firebase/Auth/actions';
+import {updateProfile} from "../../../../network/firebase/user/actions";
+import {signOut} from '../../../../network/firebase/auth/actions';
 
 
 const mapStateToProps = (state) => {

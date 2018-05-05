@@ -1,7 +1,7 @@
 import {AsyncStorage} from 'react-native';
 
-import * as t from '../network/firebase/User/actionTypes';
-import * as authT from "../network/firebase/Auth/actionTypes";
+import * as t from '../network/firebase/user/actionTypes';
+import * as authT from "../network/firebase/auth/actionTypes";
 
 let initialState = {byId: {}, allIds: []};
 

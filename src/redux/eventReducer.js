@@ -1,8 +1,7 @@
 import {AsyncStorage} from 'react-native';
 
-import * as t from '../network/firebase/Event/actionTypes';
-import * as authT from '../network/firebase/Auth/actionTypes';
-import * as feedT from '../network/firebase/Feed/actionTypes';
+import * as t from '../network/firebase/event/actionTypes';
+import * as authT from '../network/firebase/auth/actionTypes';
 
 let initialState = {byId: {}, allIds: []};
 
@@ -19,7 +18,7 @@ const eventReducer = (state = initialState, action) => {
                 allIds: [...state.allIds, event.id],
             };
         }
-        case t.MY_EVENTS_LOADED: {
+        case t.EVENTS_FETCHED: {
             const events = action.data;
             const eventIds = Object.keys(events);
             return {
@@ -53,18 +52,6 @@ const eventReducer = (state = initialState, action) => {
                     ...state.byId,
                     [eventId]: event
                 }
-            }
-        }
-        case feedT.FEED_FETCHED: {
-            const events = action.data;
-            const eventIds = Object.keys(events);
-            return {
-                ...state,
-                byId: {
-                    ...state.byId,
-                    ...events
-                },
-                allIds: [...state.allIds].concat(eventIds.filter(id => !state.allIds.includes(id))),
             }
         }
         case authT.LOGGED_OUT: {

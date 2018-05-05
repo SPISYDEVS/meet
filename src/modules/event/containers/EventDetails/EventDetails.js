@@ -8,8 +8,8 @@ import {Avatar, Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
 
-import {fetchUsers} from '../../../../network/firebase/User/actions';
-import {rsvpEvent} from '../../../../network/firebase/Event/actions';
+import {fetchUsers} from '../../../../network/firebase/user/actions';
+import {rsvpEvent} from '../../../../network/firebase/event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 

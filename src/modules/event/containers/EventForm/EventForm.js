@@ -17,7 +17,7 @@ import {DATE_FORMAT, GOOGLE_MAPS_PLACE_API_KEY} from "../../../../config/constan
 import {momentFromDate} from "../../../../components/utils/dateUtils";
 
 
-import {createEvent} from "../../../../network/firebase/Event/actions";
+import {createEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 
 

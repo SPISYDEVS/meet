@@ -1,6 +1,6 @@
 import {AsyncStorage} from 'react-native';
 
-import * as t from '../network/firebase/Feed/actionTypes';
+import * as t from '../network/firebase/feed/actionTypes';
 
 let initialState = {location: {latitude: 0, longitude: 0}};
 

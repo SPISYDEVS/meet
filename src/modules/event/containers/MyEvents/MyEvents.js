@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {View} from 'react-native';
-import AttendingEvents from '../AttendingEvents';
-import ManagingEvents from '../ManagingEvents';
 
 import TabButtons from "../../components/TabButtons";
 import styles from "./styles";
+import {fetchEvents} from "../../../../network/firebase/event/actions";
+import EventListView from "../../components/EventListView/EventListView";
 
 
 class MyEvents extends Component {
@@ -72,7 +72,7 @@ class MyEvents extends Component {
         });
 
         if(eventsToFetch.length > 0) {
-            this.props.fetchUsers(eventsToFetch, () => {
+            this.props.fetchEvents(eventsToFetch, () => {
             }, () => {
             });
         }
@@ -94,8 +94,8 @@ class MyEvents extends Component {
             <View style={styles.container}>
                 <TabButtons buttons={this.state.buttons}/>
                 <View style={styles.content}>
-                    {this.state.buttons[0].selected && <ManagingEvents/>}
-                    {this.state.buttons[1].selected && <AttendingEvents/>}
+                    {this.state.buttons[0].selected && <EventListView eventIds={eventsAsHost}/>}
+                    {this.state.buttons[1].selected && <EventListView eventIds={eventsAsAttendee}/>}
                 </View>
             </View>
         );
@@ -109,4 +109,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {})(MyEvents);
+const actions = {
+    fetchEvents,
+};
+
+export default connect(mapStateToProps, actions)(MyEvents);

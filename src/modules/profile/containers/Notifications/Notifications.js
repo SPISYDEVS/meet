@@ -7,7 +7,7 @@ import {ScrollView} from "react-native";
 
 import FriendRequest from "../../components/FriendRequest/FriendRequest";
 
-import {fetchUsers} from "../../../../network/firebase/User/actions";
+import {fetchUsers} from "../../../../network/firebase/user/actions";
 
 
 class Notifications extends React.Component {

@@ -1,3 +1,3 @@
 export const EVENT_CREATED = 'event/EVENT_CREATED';
-export const MY_EVENTS_LOADED = 'event/MY_EVENTS_LOADED';
+export const EVENTS_FETCHED = 'event/EVENTS_FETCHED';
 export const EVENT_RSVP = 'event/EVENT_RSVP';

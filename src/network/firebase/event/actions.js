@@ -19,11 +19,11 @@ export function createEvent(event, user, successCB, errorCB) {
     };
 }
 
-export function fetchMyEvents(eventIds, successCB, errorCB) {
+export function fetchEvents(eventIds, successCB, errorCB) {
     return (dispatch) => {
-        api.fetchMyEvents(eventIds, function (success, data, error) {
+        api.fetchEvents(eventIds, function (success, data, error) {
             if (success) {
-                dispatch({type: t.MY_EVENTS_LOADED, data: data});
+                dispatch({type: t.EVENTS_FETCHED, data: data});
                 successCB();
             } else if (error) errorCB(error)
         });

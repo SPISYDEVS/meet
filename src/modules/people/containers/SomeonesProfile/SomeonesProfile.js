@@ -13,7 +13,7 @@ import Button from "react-native-elements/src/buttons/Button";
 const {View, StyleSheet, Alert} = require('react-native');
 
 
-import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/User/actions";
+import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/user/actions";
 
 
 class SomeonesProfile extends React.Component {

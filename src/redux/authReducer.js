@@ -1,6 +1,6 @@
 import {AsyncStorage} from 'react-native';
 
-import * as t from '../network/firebase/Auth/actionTypes';
+import * as t from '../network/firebase/auth/actionTypes';
 
 let initialState = {isLoggedIn: false, user: null};
 
