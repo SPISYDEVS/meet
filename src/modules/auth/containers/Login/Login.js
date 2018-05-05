@@ -11,7 +11,7 @@ import {Text, TouchableOpacity, View} from "react-native";
 import TextInput from "../../../../components/TextInput/TextInput";
 
 import {login} from '../../../../network/firebase/auth/actions';
-import {fetchMyEvents} from '../../../../network/firebase/event/actions';
+import {fetchEvents} from '../../../../network/firebase/event/actions';
 
 
 class Login extends React.Component {
@@ -57,7 +57,7 @@ class Login extends React.Component {
             if (user.events === undefined) {
                 user.events = [];
             }
-            this.props.fetchMyEvents(Object.keys(user.events), this.onSuccess, () => {
+            this.props.fetchEvents(Object.keys(user.events), this.onSuccess, () => {
             });
         }
         else Actions.CompleteProfile({user});
@@ -65,7 +65,7 @@ class Login extends React.Component {
     };
 
     onSuccess = () => {
-        Actions.Main();
+        Actions.reset("Main");
     };
 
     onError = (error) => {
@@ -127,4 +127,4 @@ class Login extends React.Component {
     }
 }
 
-export default connect(null, {login, fetchMyEvents})(Login);
+export default connect(null, {login, fetchEvents})(Login);

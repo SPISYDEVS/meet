@@ -43,9 +43,15 @@ class Selection extends Component {
             <View style={styles.container}>
 
                 <SearchBar
+                    placeholder={searchHint}
+                    rounded
+                    lightTheme
+                    inputStyle={styles.searchInput}
+                    containerStyle={styles.searchBar}
                     onChangeText={(text) => this.search(text)}
                     onClearText={() => this.reset()}
-                    placeholder={searchHint}/>
+                    noIcon
+                />
 
                 <List>
                     {
