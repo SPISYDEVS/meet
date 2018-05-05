@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import {Actions} from 'react-native-router-flux';
@@ -9,19 +10,49 @@ import {Avatar, Icon} from "react-native-elements";
 
 import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
+import {getUser} from "../../../../network/firebase/user/actions";
+
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.eventReducer.eventUser
+    }
+};
 
 
 class Event extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            hostPic: ''
+        };
     }
 
     handlePress = () => {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
 
+    componentWillMount() {
+        let hostId = this.props.hostId;
+        this.props.getUser(hostId, this.onSuccess, this.onError);
+    }
+
+
+    onSuccess = (user) => {
+        let source = user.profile === undefined ? user.photoURL : user.profile.source;
+        this.setState({hostPic: source});
+    };
+
+
+    onError = (error) => {
+        console.log(error);
+    };
+
+
     render() {
-        const {title, description, date, hostPic, hostId, hostName, distance} = this.props;
+        const {title, description, date, hostId, hostName, distance} = this.props;
+        const {hostPic} = this.state;
 
         return (
             <View style={{flex: 1}}>
@@ -77,4 +108,4 @@ Event.defaultProps = {
     plannedAttendees: [],
 };
 
-export default Event;
+export default connect(mapStateToProps, {getUser})(Event);

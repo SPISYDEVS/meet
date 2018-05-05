@@ -82,3 +82,15 @@ export async function uploadFile (blob) {
     let ref = storage.ref(filename);
     ref.put(blob);
 }
+
+
+//Get the user object from the realtime database
+export function getUser(userId, callback) {
+    database.ref('users').child(userId).once('value').then((snapshot) => {
+
+        let user = snapshot.val();
+
+        callback(true, user, null);
+    })
+        .catch(error => callback(false, null, error));
+}
