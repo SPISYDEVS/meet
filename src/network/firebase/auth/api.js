@@ -73,7 +73,6 @@ export function signOut(callback) {
 
 
 export function oauthLogin(type, callback) {
-    console.log("api");
     facebookLogin((token) => {
         let credential = fbAuthProvider.credential(token);
         auth.signInWithCredential(credential)
