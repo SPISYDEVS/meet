@@ -72,9 +72,6 @@ export function signOut(callback) {
         });
 }
 
-export function oauthRegister(data, callback) {
-
-}
 
 export function oauthLogin(type, callback) {
     console.log("api");
