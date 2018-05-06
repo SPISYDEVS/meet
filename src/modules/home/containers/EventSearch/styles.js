@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import * as theme from '../../styles/theme';
+import * as theme from '../../../../styles/theme';
 
 const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
 
@@ -11,12 +11,9 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
     },
-    listContainer: {
-        flex: 1,
-    },
     padded: {
         paddingHorizontal: 20,
-        paddingVertical: 7.5,
+        paddingVertical: 4,
     },
     rowContainer: {
         flexDirection: 'row',
@@ -31,9 +28,9 @@ const styles = StyleSheet.create({
         paddingVertical: 0.5,
     },
     searchBar: {
-        padding: 0,
+        paddingHorizontal: 0,
+        paddingVertical: 9,
         margin: 0,
-        marginBottom: 25,
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,

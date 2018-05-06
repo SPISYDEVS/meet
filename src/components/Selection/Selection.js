@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
 import {List, ListItem, SearchBar} from 'react-native-elements'
 import styles from "./styles"
@@ -11,19 +11,19 @@ class Selection extends Component {
     constructor(props) {
         super(props);
 
-        const {list} = this.props;
+        const {objList, searchKey} = this.props;
 
-        this.ts = new TrieSearch('title');
-        this.ts.addAll(list);
+        this.ts = new TrieSearch(searchKey);
+        this.ts.addAll(objList);
 
         this.state = {
-            results: list
+            results: objList
         };
     }
 
     reset = () => {
-        const {list} = this.props;
-        this.setState({results: list});
+        const {objList} = this.props;
+        this.setState({results: objList});
     };
 
     search = (term) => {
@@ -53,20 +53,22 @@ class Selection extends Component {
                     noIcon
                 />
 
-                <List>
-                    {
-                        this.state.results.slice(0, 10).map((item, i) => (
-                            <ListItem
-                                roundAvatar
-                                key={i}
-                                title={'Blank'}
-                                leftIcon={{name: 'av-timer'}}
-                                onPress={() => callback(item.value)}
-                                {...item}
-                            />
-                        ))
-                    }
-                </List>
+                <View style={styles.listContainer}>
+                    <List>
+                        {
+                            this.state.results.slice(0, 10).map((item, i) => (
+                                <ListItem
+                                    roundAvatar
+                                    key={i}
+                                    title={'Blank'}
+                                    leftIcon={{name: 'av-timer'}}
+                                    onPress={() => callback(item.value)}
+                                    {...item}
+                                />
+                            ))
+                        }
+                    </List>
+                </View>
 
             </View>
         );
@@ -74,12 +76,14 @@ class Selection extends Component {
 }
 
 Selection.propTypes = {
-    list: PropTypes.array.isRequired,
+    objList: PropTypes.array.isRequired,
+    searchKey: PropTypes.string,
     searchHint: PropTypes.string,
     callback: PropTypes.func
 };
 
 Selection.defaultProps = {
+    searchKey: 'title',
     callback: (item) => {
     }
 };

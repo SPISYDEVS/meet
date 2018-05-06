@@ -34,6 +34,7 @@ import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
+import EventSearch from "../modules/home/containers/EventSearch/EventSearch";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -110,12 +111,20 @@ export default class extends React.Component {
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
                            tabBarPosition="bottom">
 
-                        <Scene key="FeedScreen"
-                               title="Explore"
-                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
-                               component={Feed}
-                               navBar={Search}
-                               type={ActionConst.REPLACE}/>
+                        <Scene key="FeedScreen" default="Feed" title="Explore"
+                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}>
+
+                            <Scene key="Feed"
+                                   component={Feed}
+                                   navBar={Search}
+                                   type={ActionConst.REPLACE}/>
+
+                            <Scene key="EventSearch"
+                                   component={EventSearch}
+                                   hideNavBar
+                                   type={ActionConst.REPLACE}/>
+
+                        </Scene>
 
                         <Scene key="EventScreen" default="Events" title="My Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>

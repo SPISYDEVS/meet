@@ -35,7 +35,7 @@ class CompleteProfile extends React.Component {
                 errorMessage: 'Last name is required'
             },
             'school': {
-                list: [
+                objList: [
                     {
                         title: 'UCI',
                         value: 'UCI'

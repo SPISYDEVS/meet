@@ -63,7 +63,9 @@ class EventDetails extends React.Component {
             event.actualAttendees = [];
         }
 
-        let {title, date, address, description, hostPic, hostName, plannedAttendees, actualAttendees} = event;
+        let {title, date, address, description, hostId, hostPic, hostName, plannedAttendees, actualAttendees} = event;
+
+        const eventHappening = (moment().unix() * 1000) > parseInt(date);
 
         date = moment(date).calendar();
 
@@ -108,9 +110,13 @@ class EventDetails extends React.Component {
                         {hostName}
                     </Text>
                 </View>
-                <Text style={styles.boldSubtitle}>
-                    Who's Here ({actualAttendees.length})
-                </Text>
+                {
+                    eventHappening &&
+
+                    <Text style={styles.boldSubtitle}>
+                        Who's Here ({actualAttendees.length})
+                    </Text>
+                }
                 <View style={styles.attendeesContainer}>
                     {
                         actualAttendees.map((item, i) => (
