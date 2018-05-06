@@ -14,6 +14,7 @@ import TabButtons from "../../../event/components/TabButtons/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../Friends/Friends";
 import { ImagePicker } from 'expo';
+import {AVATAR_SIZE} from "../../constants";
 
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
@@ -93,16 +94,15 @@ class Profile extends React.Component {
     };
 
     onSignOut() {
-        Actions.reset("Auth");
         this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
     }
 
     onSuccess() {
-        // Actions.reset("Auth")
+        Actions.reset("Auth")
     }
 
     onUpdateProfile = () => {
-        
+
     };
 
 
@@ -146,8 +146,8 @@ class Profile extends React.Component {
                 <View style={styles.infoContainer}>
                     <View style={styles.infoContent}>
                         <Avatar
-                            height={100}
-                            width={100}
+                            height={AVATAR_SIZE}
+                            width={AVATAR_SIZE}
                             rounded
                             source={{uri: source}}
                             onPress={() => this.onProfilePicPressed()}
