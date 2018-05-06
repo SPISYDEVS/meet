@@ -40,7 +40,7 @@ class Event extends React.Component {
 
 
     onSuccess = (user) => {
-        let source = user.profile === undefined ? user.photoURL : user.profile.source;
+        let source = user.profile === undefined ? '' : user.profile.source;
         this.setState({hostPic: source});
     };
 

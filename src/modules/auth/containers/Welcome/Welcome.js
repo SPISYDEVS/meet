@@ -6,6 +6,7 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import styles from "./styles";
+import {PROFILE_SIZE} from "../../constants";
 
 import {oauthLogin, createUser} from "../../../../network/firebase/auth/actions";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
@@ -37,7 +38,11 @@ class Welcome extends React.Component {
                     firstName: firstName,
                     lastName: lastName,
                     email: data.user.email,
-                    photoURL: `${data.user.photoURL}?width=500&height=500`
+                    profile: {
+                        source: `${data.user.photoURL}?width=${PROFILE_SIZE}&height=${PROFILE_SIZE}`,
+                        width: PROFILE_SIZE,
+                        height: PROFILE_SIZE
+                    }
                 };
                 this.props.createUser(user, this.onFinishedCreatingUser, (error) => {});
             }
