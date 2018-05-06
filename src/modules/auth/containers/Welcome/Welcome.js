@@ -37,7 +37,11 @@ class Welcome extends React.Component {
                     firstName: firstName,
                     lastName: lastName,
                     email: data.user.email,
-                    photoURL: `${data.user.photoURL}?width=500&height=500`
+                    profile: {
+                        source: `${data.user.photoURL}?width=500&height=500`,
+                        width: 500,
+                        height: 500
+                    }
                 };
                 this.props.createUser(user, this.onFinishedCreatingUser, (error) => {});
             }

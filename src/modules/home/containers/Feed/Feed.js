@@ -10,7 +10,7 @@ import moment from "moment";
 import haversine from "haversine";
 import {Platform, ScrollView} from "react-native";
 
-import {persistUser, signOut} from '../../../../network/firebase/auth/actions';
+import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventListView from "../../../event/components/EventListView/EventListView";
 
@@ -30,7 +30,7 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
-        this.props.persistUser(this.props.user, () => {
+        this.props.persistCurrentUser(() => {
         }, () => {
         });
     };
@@ -91,7 +91,7 @@ const actions = {
     fetchFeed,
     updateLocation,
     signOut,
-    persistUser
+    persistCurrentUser
 };
 
 export default connect(mapStateToProps, actions)(Feed);

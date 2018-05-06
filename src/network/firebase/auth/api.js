@@ -41,6 +41,7 @@ export function getUser(user, callback) {
 }
 
 export function persistUser(user, callback) {
+    console.log("User Id" + user.uid);
     database.ref('users').child(user.uid).on('value', function (snapshot) {
 
         const exists = (snapshot.val() !== null);

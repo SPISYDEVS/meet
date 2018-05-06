@@ -35,7 +35,9 @@ export function login(data, successCB, errorCB) {
     };
 }
 
-export function persistUser(user, successCB, errorCB) {
+export function persistCurrentUser(successCB, errorCB) {
+    let user = auth.currentUser;
+
     return (dispatch) => {
         api.persistUser(user, function (success, data, error) {
             if (success) {
