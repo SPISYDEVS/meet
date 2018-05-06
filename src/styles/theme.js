@@ -2,7 +2,7 @@ import {Dimensions, Platform} from 'react-native';
 import {moderateScale as normalize} from 'react-native-size-matters';
 
 const color = {
-    main: '#ED8F5B',
+    main: '#FF3320',
     secondary: '#E36D60',
     accent_light: '#9C4368',
     accent: '#33223B',
