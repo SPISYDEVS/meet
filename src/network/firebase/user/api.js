@@ -15,9 +15,9 @@ export function fetchUsers(userIds, callback) {
         });
 }
 
-export function sendFriendRequest(userId, requestedFriendId, callback) {
-
-    database.ref('users').child(userId).child('friends').child(requestedFriendId).once('value', function (snapshot) {
+export function sendFriendRequest(requesteeId, callback) {
+    let currentUser = auth.currentUser;
+    database.ref('users').child(currentUser.uid).child('friendRequestsTo').child(requesteeId).once('value', function (snapshot) {
 
         //check if a friend request has been made already (null means it hasn't)
         if (snapshot.val() === null) {
@@ -25,20 +25,20 @@ export function sendFriendRequest(userId, requestedFriendId, callback) {
             const updates = {};
 
             //make sure the friend receives the request, and the user is known to have made the request
-            updates[requestedFriendId + '/requestsFrom/' + userId] = true;
-            updates[userId + '/friends/' + requestedFriendId] = false;
+            updates[requesteeId + '/friendRequestsFrom/' + currentUser.uid] = true;
+            updates[currentUser.uid + '/friendRequestsTo/' + requesteeId] = true;
             database.ref('users').update(updates);
 
-            callback(true, {requestedFriendId: requestedFriendId}, null);
+            callback(true, {requestedFriendId: requesteeId}, null);
         }
 
 
     });
 }
 
-export function respondToFriendRequest(userId, requesteeFriendId, accept, callback) {
-
-    database.ref('users').child(userId).child('requestsFrom').child(requesteeFriendId).once('value', function (snapshot) {
+export function respondToFriendRequest(requesterId, accept, callback) {
+    let currentUser = auth.currentUser;
+    database.ref('users').child(currentUser.uid).child('friendRequestsFrom').child(requesterId).once('value', function (snapshot) {
 
         //check if a friend request has been made already (null means it hasn't)
         if (snapshot.val() === true) {
@@ -46,16 +46,15 @@ export function respondToFriendRequest(userId, requesteeFriendId, accept, callba
             const updates = {};
 
             //make sure the friend receives the request, and the user is known to have made the request
-            updates[userId + '/requestsFrom/' + requesteeFriendId] = null;
+            updates[currentUser.uid + '/friendRequestsFrom/' + requesterId] = null;
 
             //update firebase to reflect that the two users are now friends
             if(accept) {
-                updates[userId + '/friends/' + requesteeFriendId] = true;
-                updates[requesteeFriendId + '/friends/' + userId] = true;
+                updates[currentUser.uid + '/friends/' + requesterId] = true;
+                updates[requesterId + '/friends/' + currentUser.uid] = true;
             } else {
-
                 //user rejects the friend request
-                updates[requesteeFriendId + '/friends/' + userId] = null;
+                updates[requesterId + '/friendRequestsTo/' + currentUser.uid] = null;
             }
 
             database.ref('users').update(updates);
@@ -68,7 +67,6 @@ export function respondToFriendRequest(userId, requesteeFriendId, accept, callba
 }
 
 export function editUser (user, callback) {
-    console.log('updating');
     database.ref('users').child(user.uid).update({...user})
         .then(() => callback(true, null, null))
         .catch((error) => callback(false, null, {message: error}));

@@ -22,7 +22,6 @@ export function fetchFeed(location, callback) {
 
                 //only save upcoming events that are NEARBY
                 if (key in events) {
-                    console.log(events[key]);
                     callback(true, {[key]: events[key]}, null);
                 }
 
@@ -32,7 +31,6 @@ export function fetchFeed(location, callback) {
         }
 
     }).catch((error) => {
-        console.log(error);
         callback(false, null, {message: error})
     });
 }

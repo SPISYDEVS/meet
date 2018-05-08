@@ -15,12 +15,9 @@ export function fetchUsers(userIds, successCB, errorCB) {
     };
 }
 
-export function sendFriendRequest(requestedFriendId, successCB, errorCB) {
-
-    const userId = auth.currentUser.uid;
-
+export function sendFriendRequest(requesteeId, successCB, errorCB) {
     return (dispatch) => {
-        api.sendFriendRequest(userId, requestedFriendId, function (success, data, error) {
+        api.sendFriendRequest(requesteeId, function (success, data, error) {
             if (success) {
                 // dispatch({type: t.FRIEND_REQUEST_SENT});
                 successCB();
@@ -29,12 +26,9 @@ export function sendFriendRequest(requestedFriendId, successCB, errorCB) {
     };
 }
 
-export function respondToFriendRequest(requesteeFriendId, accept, successCB, errorCB) {
-
-    const userId = auth.currentUser.uid;
-
+export function respondToFriendRequest(requesterId, accept, successCB, errorCB) {
     return (dispatch) => {
-        api.respondToFriendRequest(userId, requesteeFriendId, accept, function (success, data, error) {
+        api.respondToFriendRequest(requesterId, accept, function (success, data, error) {
             if (success) {
                 // dispatch({type: t.FRIEND_REQUEST_ACCEPTED});
                 successCB();
