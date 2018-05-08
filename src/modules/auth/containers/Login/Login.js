@@ -4,11 +4,11 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate';
-import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
 import {Text, TouchableOpacity, View} from "react-native";
-import TextInput from "../../../../components/TextInput/TextInput";
+import TextInput from "../../../common/components/TextInput/TextInput";
 
 import {login} from '../../../../network/firebase/auth/actions';
 import {fetchEvents} from '../../../../network/firebase/event/actions';

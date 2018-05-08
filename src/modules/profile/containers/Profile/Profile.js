@@ -10,9 +10,9 @@ import styles from "./styles"
 
 import { auth as firebaseAuth } from "../../../../config/firebase";
 import {Text} from "react-native";
-import TabButtons from "../../../event/components/TabButtons/TabButtons";
+import TabButtons from "../../../common/components/TabButtons";
 import Notifications from "../Notifications/Notifications";
-import Friends from "../Friends/Friends";
+import Friends from "../../../people/containers/Friends/Friends";
 import { ImagePicker } from 'expo';
 import {AVATAR_SIZE} from "../../constants";
 
@@ -130,7 +130,7 @@ class Profile extends React.Component {
     render() {
 
         const {user} = this.props;
-        var source = '';
+        let source = '';
 
         if(user === null){
             return <View/>

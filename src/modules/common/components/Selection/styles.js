@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import * as theme from '../../styles/theme';
+import * as theme from '../../../../styles/theme';
 
 const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
 

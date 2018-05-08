@@ -2,9 +2,9 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {isEmpty} from '../../../auth/utils/validate'
-import TextInput from "../../../../components/TextInput";
-import ItemSelector from "../../../../components/ItemSelector";
-import {extractData, createState, hasErrors} from "../../../../components/utils/formUtils";
+import TextInput from "../../../common/components/TextInput";
+import ItemSelector from "../../../common/components/ItemSelector";
+import {extractData, createState, hasErrors} from "../../../common/utils/formUtils";
 
 import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';

@@ -4,16 +4,15 @@ import {connect} from 'react-redux';
 
 
 import {isEmpty} from '../../utils/validate'
-import TextInput from "../../../../components/TextInput";
-import ItemSelector from "../../../../components/ItemSelector";
-import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import TextInput from "../../../common/components/TextInput";
+import ItemSelector from "../../../common/components/ItemSelector";
+import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
 import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
 import {createUser} from '../../../../network/firebase/auth/actions';
-
 
 class CompleteProfile extends React.Component {
     constructor() {

@@ -3,10 +3,9 @@ import React, {Component} from 'react';
 
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
-import {Icon, SearchBar} from 'react-native-elements'
+import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import {connect} from "react-redux";
-import Selection from "../../../../components/Selection/Selection";
 import {Actions} from "react-native-router-flux";
 
 

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {View} from 'react-native';
 
-import TabButtons from "../../components/TabButtons";
+import TabButtons from "../../../common/components/TabButtons";
 import styles from "./styles";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventListView from "../../components/EventListView/EventListView";

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 //Splash Component
-import Splash from '../components/Splash/Splash';
+import Splash from '../modules/common/components/Splash';
 
 //Authentication Scenes
 import Welcome from '../modules/auth/containers/Welcome';
