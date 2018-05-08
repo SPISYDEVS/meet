@@ -31,8 +31,12 @@ class SomeonesProfile extends React.Component {
         //false means current user has requested friendship
         //null means they're literally strangers
         if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
-            friendshipStatus = currentUser.friendRequestsTo[this.props.userId];
+            friendshipStatus = false;
         }
+        else if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
+            friendshipStatus = true;
+        }
+
 
         const user = this.props.people.byId[this.props.userId];
 
