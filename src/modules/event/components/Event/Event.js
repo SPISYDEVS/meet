@@ -33,53 +33,38 @@ class Event extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+                    <View style={styles.topContainer}>
+                      <StatusBar hidden={true}/>
+                      <View style={styles.info}>
+                          <Text style={styles.title}>
+                              {title}
+                          </Text>
+                          <Text style={styles.subtitle}>
+                              {date + " | " + distance + " miles away"}
+                          </Text>
+                      </View>
+                      <View style={styles.details}>
+                          <Text style={styles.description}>
+                              {description}
+                          </Text>
+                      </View>
+                      <View style={styles.hostContainer}>
+                          <Avatar
+                              small
+                              rounded
+                              source={{uri: hostPic}}
+                              onPress={() => handleViewProfile(hostId)}
+                              activeOpacity={0.7}
+                          />
+                          <Text style={styles.hostName}>
+                              {hostName}
+                          </Text>
+                      </View>
+                    </View>
+                      <View style={styles.botContainer}>
 
-                    <StatusBar hidden={true}/>
-                    <View style={styles.info}>
-                        <Text style={styles.title}>
-                            {title}
-                        </Text>
-                        <Text style={styles.subtitle}>
-                            {date + " | " + distance + " miles away"}
-                        </Text>
-                    </View>
-                    <View style={styles.details}>
-                        <Text style={styles.description}>
-                            {description}
-                        </Text>
-                    </View>
-                    <View style={styles.hostContainer}>
-                        <Avatar
-                            small
-                            rounded
-                            source={{uri: hostPic}}
-                            onPress={() => handleViewProfile(hostId)}
-                            activeOpacity={0.7}
-                        />
-                        <Text style={styles.hostName}>
-                            {hostName}
-                        </Text>
-                    </View>
+                      </View>
                 </TouchableOpacity>
-
-                {/*<Modal isVisible={this.state.eventDetails} style={styles.modal}>*/}
-                    {/*<TouchableOpacity style={styles.modalHeader}*/}
-                                      {/*onPress={() => this.closeModal()}>*/}
-                        {/*<Icon*/}
-                            {/*name='close'*/}
-                        {/*/>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*<EventDetails*/}
-                        {/*title={title}*/}
-                        {/*date={date}*/}
-                        {/*location={address}*/}
-                        {/*hostPic={hostPic}*/}
-                        {/*hostName={hostName}*/}
-                        {/*description={description}*/}
-                        {/*plannedAttendees={plannedAttendees}*/}
-                        {/*eventId={eventId}*/}
-                    {/*/>*/}
-                {/*</Modal>*/}
 
             </View>
         );

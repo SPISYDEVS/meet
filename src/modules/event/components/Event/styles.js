@@ -6,12 +6,22 @@ const  { color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeigh
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column',
         height: '100%',
         flexWrap: 'wrap',
-        paddingHorizontal: 5,
+        //paddingHorizontal: 5,
+        overflow: 'hidden',
         marginBottom: 10,
-        borderBottomWidth: 0.33,
-        borderBottomColor: color.accent_dark
+        zIndex: 3,
+        elevation: 3,
+        borderRadius: 8,
+    },
+    topContainer: {
+        paddingHorizontal: 5,
+    },
+    botContainer: {
+      height: 3,
+      backgroundColor: 'red',
     },
     info: {
         marginBottom: 10,

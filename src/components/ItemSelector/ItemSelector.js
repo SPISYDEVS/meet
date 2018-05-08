@@ -30,7 +30,7 @@ class ItemSelector extends Component {
                     </FormLabel>
                 </TouchableOpacity>
                 {
-                    (this.props.error && this.props.error.length > 0) &&
+                    !!(this.props.error && this.props.error.length > 0) &&
                     <FormValidationMessage>
                         {this.props.error}
                     </FormValidationMessage>
