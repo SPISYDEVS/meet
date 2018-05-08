@@ -17,11 +17,11 @@ class Notifications extends React.Component {
 
     componentDidMount() {
 
-        if (this.props.user.requestsFrom === undefined) {
+        if (this.props.user.friendRequestsFrom === undefined) {
             return;
         }
 
-        const receivedFriendRequests = Object.keys(this.props.user.requestsFrom);
+        const receivedFriendRequests = Object.keys(this.props.user.friendRequestsFrom);
 
         let usersToFetch = [];
 
@@ -42,7 +42,7 @@ class Notifications extends React.Component {
     render() {
 
         // const notifications = [0, 1, 2];
-        let notifications = this.props.user.requestsFrom === undefined ? [] : Object.keys(this.props.user.requestsFrom);
+        let notifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
 
         notifications = notifications.map(id => {
             if (id in this.props.peopleReducer.byId) {
