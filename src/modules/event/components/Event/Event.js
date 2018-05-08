@@ -55,35 +55,48 @@ class Event extends React.Component {
         const {hostPic} = this.state;
 
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.shadowWrapper}>
                 <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+                    <View style={styles.topContainer}>
+                        {/*<StatusBar hidden={true}/>*/}
+                        <View style={styles.header}>
 
-                    <StatusBar hidden={true}/>
-                    <View style={styles.info}>
-                        <Text style={styles.title}>
-                            {title}
-                        </Text>
-                        <Text style={styles.subtitle}>
-                            {date + " | " + distance + " miles away"}
-                        </Text>
+                            <View style={styles.headerLeft}>
+                                <Text style={styles.title}>
+                                    {title}
+                                </Text>
+                            </View>
+                            <View style={styles.headerRight}>
+                                <Text style={styles.distanceText}>
+                                    {distance + " miles away"}
+                                </Text>
+                                <Text style={styles.dateText}>
+                                    {date}
+                                </Text>
+                            </View>
+
+                        </View>
+
+                        <View style={styles.body}>
+                            <Text style={styles.description} numberOfLines={2}>
+                                {description}
+                            </Text>
+                        </View>
+
+                        <View style={styles.footer}>
+                            <Avatar
+                                size={30}
+                                rounded
+                                source={{uri: hostPic}}
+                                onPress={() => handleViewProfile(hostId)}
+                                activeOpacity={0.7}
+                            />
+                            <Text style={styles.hostName}>
+                                {hostName}
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.details}>
-                        <Text style={styles.description}>
-                            {description}
-                        </Text>
-                    </View>
-                    <View style={styles.hostContainer}>
-                        <Avatar
-                            small
-                            rounded
-                            source={{uri: hostPic}}
-                            onPress={() => handleViewProfile(hostId)}
-                            activeOpacity={0.7}
-                        />
-                        <Text style={styles.hostName}>
-                            {hostName}
-                        </Text>
-                    </View>
+                    <View style={styles.botContainer}/>
                 </TouchableOpacity>
 
             </View>

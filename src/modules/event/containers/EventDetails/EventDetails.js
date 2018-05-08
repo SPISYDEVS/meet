@@ -119,17 +119,17 @@ class EventDetails extends React.Component {
                 }
                 <View style={styles.attendeesContainer}>
                     {
-                        actualAttendees.map((item, i) => (
+                        actualAttendees.map((user, i) => (
                             <View key={i} style={styles.attendees}>
                                 <Avatar
                                     small
                                     rounded
-                                    source={{uri: item.picture}}
+                                    source={{uri: user.profile === undefined ? '' : user.profile.source}}
                                     onPress={() => handleViewProfile(hostId)}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
-                                    {item.name}
+                                    {user.firstName + user.lastName}
                                 </Text>
                             </View>
                         ))
@@ -142,19 +142,19 @@ class EventDetails extends React.Component {
                 </Text>
                 <View style={styles.attendeesContainer}>
                     {
-                        plannedAttendees.map((item, i) => (
+                        plannedAttendees.map((user, i) => (
                             <View key={i} style={styles.attendees}>
                                 <Avatar
                                     small
                                     rounded
-                                    source={{uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}
+                                    source={{uri: user.profile === undefined ? '' : user.profile.source}}
                                     // source={{uri: item.picture}}
-                                    onPress={() => handleViewProfile(item.uid)}
+                                    onPress={() => handleViewProfile(user.uid)}
                                     activeOpacity={0.7}
                                 />
                                 <Text style={styles.hostName}>
                                     {/*{item.name}*/}
-                                    {item.firstName + " " + item.lastName}
+                                    {user.firstName + " " + user.lastName}
                                 </Text>
                             </View>
                         ))

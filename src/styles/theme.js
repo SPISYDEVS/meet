@@ -11,18 +11,22 @@ const color = {
     black: "#3B3031",
     light_black: "#414141",
     white: "#ffffff",
-    light_grey: "#eaeaea",
-    grey: "#ccc",
+    light_grey: "#ccc",
+    grey: "#888",
+    dark_grey: '#555',
     red: "red",
     underlayColor: "#ddd",
     tab_active: '#3B3031',
     tab_inactive: '#bbb',
+    // tab_active: '#FF3320',
+    // tab_inactive: '#FFCCAA',
 };
 
 const fontSize = {
     small: normalize(12),
     regular: normalize(14),
-    large: normalize(21),
+    large: normalize(18),
+    xlarge: normalize(21),
     header: normalize(27),
 };
 

@@ -1,57 +1,87 @@
-import { StyleSheet } from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
-const  { color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight } = theme;
+
+const {color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight} = theme;
 
 const styles = StyleSheet.create({
-    container: {
+
+    shadowWrapper: {
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        paddingHorizontal: 5,
-        marginBottom: 10,
-        borderBottomWidth: 0.33,
-        borderBottomColor: color.accent_dark
+        marginVertical: 5,
+        backgroundColor: color.background,
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOpacity: 0.06,
+                shadowRadius: 5,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
     },
-    info: {
+    container: {
+        flex: 1,
+        borderRadius: 8,
+        overflow: 'hidden',
+        flexDirection: 'column',
+    },
+    topContainer: {
+        padding: 6,
+    },
+    botContainer: {
+        height: 6,
+        backgroundColor: color.main,
+    },
+    header: {
         marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     title: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold
     },
-    subtitle: {
-        fontSize: fontSize.regular,
+    dateText: {
+        fontSize: fontSize.small,
+        color: color.accent_dark
     },
-    details: {
+    distanceText: {
+        fontSize: fontSize.small,
+        fontFamily: fontFamily.bold,
+        color: color.accent_dark
+    },
+    headerLeft: {
+        flex: 1.5,
+    },
+    headerRight: {
+        flex: 1,
+        alignItems: 'flex-end',
+    },
+    body: {
         marginBottom: 7.5,
     },
     description: {
-        fontSize: fontSize.regular,
-        lineHeight: lineHeight.paragraph
+        fontSize: fontSize.small,
+        fontFamily: fontFamily.medium,
+        lineHeight: lineHeight.paragraph,
+        opacity: 0.75,
+        overflow: 'hidden',
     },
-    hostContainer: {
+    footer: {
         flex: 1,
         flexDirection: 'row',
         alignContent: 'center',
-        paddingBottom: 10
+        paddingBottom: 2.5
     },
     hostName: {
         paddingLeft: 10,
         alignSelf: 'center',
         fontFamily: fontFamily.bold
     },
-    modal: {
-        margin: 0,
-        padding: 10,
-        backgroundColor: color.white
-    },
-    modalHeader: {
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        paddingTop: 25,
-        paddingRight: 10,
-    }
 });
 
 
