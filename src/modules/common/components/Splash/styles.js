@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { color, fontFamily, padding, fontSize } from "../../styles/theme"
+import { color, fontFamily, padding, fontSize } from "../../../../styles/theme"
 
 const resizeMode = 'contain';
 

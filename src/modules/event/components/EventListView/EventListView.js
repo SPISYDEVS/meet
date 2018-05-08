@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 class EventListView extends Component {
 
-    componentDidMount(){
+    componentDidMount() {
         const eventIds = this.props.eventIds;
         this.fetchEvents(eventIds);
     }
@@ -28,12 +28,12 @@ class EventListView extends Component {
         let eventsToFetch = [];
 
         eventIds.forEach(id => {
-            if(!(id in this.props.eventReducer.byId)){
+            if (!(id in this.props.eventReducer.byId)) {
                 eventsToFetch.push(id);
             }
         });
 
-        if(eventsToFetch.length > 0) {
+        if (eventsToFetch.length > 0) {
 
             console.log(eventsToFetch);
 
@@ -57,7 +57,7 @@ class EventListView extends Component {
                 {
                     eventIds.map((id, i) => {
 
-                        if(!(id in events)){
+                        if (!(id in events)) {
                             return <View/>
                         }
 
@@ -69,17 +69,21 @@ class EventListView extends Component {
 
                         const formattedDate = moment(date).calendar();
 
-                        return <Event
-                            key={id}
-                            title={title}
-                            description={description}
-                            date={formattedDate}
-                            distance={distance}
-                            address={address}
-                            hostName={hostName}
-                            hostId={hostId}
-                            eventId={id}
-                        />
+                        return (
+
+                            <Event
+                                key={id}
+                                title={title}
+                                description={description}
+                                date={formattedDate}
+                                distance={distance}
+                                address={address}
+                                hostName={hostName}
+                                hostId={hostId}
+                                eventId={id}
+                            />
+
+                        )
                     })
                 }
             </ScrollView>

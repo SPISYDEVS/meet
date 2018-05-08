@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-class EditProfile extends React.Component {
+class Settings extends React.Component {
     constructor(props) {
         super(props);
 
@@ -135,4 +135,4 @@ class EditProfile extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, {updateProfile})(EditProfile);
+export default connect(mapStateToProps, {updateProfile})(Settings);

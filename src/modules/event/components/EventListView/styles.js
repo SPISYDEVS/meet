@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: color.background,
         flex: 1,
-        paddingHorizontal: 15
+        paddingHorizontal: 8,
     },
 
     bottomContainer:{

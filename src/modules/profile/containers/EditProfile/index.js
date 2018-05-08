@@ -1,3 +1,3 @@
-import CompleteProfile from "./EditProfile"
+import EditProfile from "./EditProfile"
 
-export default CompleteProfile;
+export default EditProfile;

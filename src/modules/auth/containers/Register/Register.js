@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 
 
 import {confirmPassword, isEmpty} from '../../utils/validate'
-import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
+import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
-import TextInput from "../../../../components/TextInput/TextInput";
+import TextInput from "../../../common/components/TextInput/TextInput";
 import {Text, View} from "react-native";
 import Button from "react-native-elements/src/buttons/Button";
 

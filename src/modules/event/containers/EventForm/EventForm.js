@@ -6,16 +6,15 @@ import {isEmpty} from '../../utils/validate'
 import {Text, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
 import moment from "moment";
-import DatePicker from "../../../../components/DatePicker/DatePicker";
-import {createState, extractData, hasErrors} from "../../../../components/utils/formUtils";
-import TextInput from "../../../../components/TextInput/TextInput";
+import DatePicker from "../../../common/components/DatePicker/DatePicker";
+import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
+import TextInput from "../../../common/components/TextInput/TextInput";
 import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 import Modal from "react-native-modal";
 import PlacePicker from "../../components/PlacePicker/PlacePicker";
 import {DATE_FORMAT, GOOGLE_MAPS_PLACE_API_KEY} from "../../../../config/constants";
-import {momentFromDate} from "../../../../components/utils/dateUtils";
-
+import {momentFromDate} from "../../../common/utils/dateUtils";
 
 import {createEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";

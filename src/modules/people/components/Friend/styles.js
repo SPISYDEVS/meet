@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
 
     },
     userInfo: {
-            flex: 1
+        paddingLeft: 10,
+        flex: 1
     }
 });
 

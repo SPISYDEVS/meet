@@ -2,18 +2,11 @@ import React from 'react';
 import {Constants, Location, Permissions} from 'expo';
 
 import {connect} from 'react-redux';
-
-import styles from "./styles"
-
-import Event from "../../../event/components/Event/Event";
-import moment from "moment";
-import haversine from "haversine";
-import {Platform, ScrollView} from "react-native";
+import {Platform} from "react-native";
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventListView from "../../../event/components/EventListView/EventListView";
-
 
 class Feed extends React.Component {
     constructor(props) {

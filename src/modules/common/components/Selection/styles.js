@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import * as theme from '../../styles/theme';
+import * as theme from '../../../../styles/theme';
 
 const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
 
@@ -8,7 +8,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: color.background,
         opacity: 1,
+        flex: 1,
         // justifyContent: 'center',
+    },
+    listContainer: {
+        flex: 1,
     },
     padded: {
         paddingHorizontal: 20,

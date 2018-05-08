@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {Text, View} from "react-native";
+import handleViewProfile from "../../utils/handleViewProfile";
 
 class Friend extends React.Component {
     constructor() {
@@ -19,8 +20,8 @@ class Friend extends React.Component {
             <View style={styles.container}>
 
                 <Avatar rounded
-                        source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
-                        onPress={() => console.log("Works!")}
+                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                        onPress={() => handleViewProfile(user.uid)}
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
                     <Text>{user.firstName + " " + user.lastName}</Text>

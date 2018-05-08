@@ -49,7 +49,7 @@ class ItemSelector extends Component {
 }
 
 ItemSelector.propTypes = {
-    list: PropTypes.array.isRequired,
+    objList: PropTypes.array.isRequired,
     value: PropTypes.string.isRequired,
     searchHint: PropTypes.string,
     callback: PropTypes.func
