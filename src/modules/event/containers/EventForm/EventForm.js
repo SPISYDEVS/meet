@@ -29,6 +29,7 @@ class EventForm extends React.Component {
                 'title': {
                     placeholder: "Title",
                     type: "text",
+                    multiline: true,
                     validator: (title) => !isEmpty(title),
                     errorMessage: 'Title is required'
                 },
@@ -116,13 +117,13 @@ class EventForm extends React.Component {
 
         this.setState({error: errObj});
     }
-    
+
     openLocationModal = () => {
         const state = {...this.state};
         state['location']['other']['modalVisible'] = true;
         this.setState(state);
     };
-    
+
     closeLocationModal = () => {
         const state = {...this.state};
         state['location']['other']['modalVisible'] = false;
@@ -152,6 +153,16 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    renderLocation = (location) => {
+
+      if (location.length > 0) {
+          return <Text style={styles.locationPre} > {location} </Text>
+      }
+      else {
+          return <Text style={styles.locationPost} > Choose a location </Text>
+      }
+    };
+
     render() {
 
         const form = this.form;
@@ -163,6 +174,7 @@ class EventForm extends React.Component {
 
                 {/*input for the form title*/}
                 <TextInput
+                    style={styles.title}
                     {...form.fields[title]}
                     onChangeText={(text) => this.onChange(title, text)}
                     value={this.state[title]['value']}
@@ -170,9 +182,9 @@ class EventForm extends React.Component {
                 />
 
                 {/* Below is the input for the location field, which opens a modal when clicked*/}
-                <View style={[formStyles.wrapper, formStyles.containerView]}>
-                    <TouchableOpacity onPress={() => this.openLocationModal()}>
-                        <Text>{address.length > 0 ? address : 'Choose a location'}</Text>
+                <View style={[ formStyles.containerView]}>
+                    <TouchableOpacity style={styles.locationContainer} onPress={() => this.openLocationModal()}>
+                        {this.renderLocation(address)}
                     </TouchableOpacity>
                 </View>
 

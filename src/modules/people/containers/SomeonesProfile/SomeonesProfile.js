@@ -30,7 +30,7 @@ class SomeonesProfile extends React.Component {
         //true means they're friends
         //false means current user has requested friendship
         //null means they're literally strangers
-        if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
+        if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo && !(this.props.userId in currentUser.friends)) {
             friendshipStatus = false;
         }
         else if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
@@ -71,7 +71,6 @@ class SomeonesProfile extends React.Component {
                     raised
                     title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
                     borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
                     buttonStyle={formStyles.button}
                     textStyle={formStyles.buttonText}
                     onPress={() => this.props.sendFriendRequest(this.props.userId, () => {
