@@ -49,7 +49,6 @@ class Profile extends React.Component {
         };
 
         this.setToTab = this.setToTab.bind(this);
-        this.onSignOut = this.onSignOut.bind(this);
         this.getImagePermAsync = this.getImagePermAsync.bind(this);
     }
 
@@ -93,22 +92,9 @@ class Profile extends React.Component {
         }
     };
 
-    onSignOut() {
-        this.props.signOut(this.onSuccess.bind(this), this.onError.bind(this))
-    }
-
-    onSuccess() {
-        Actions.reset("Auth")
-    }
-
     onUpdateProfile = () => {
 
     };
-
-
-    onError(error) {
-        Alert.alert('Oops!', error.message);
-    }
 
     onProfilePicPressed = () => {
         this.getImagePermAsync((result) => {
@@ -165,15 +151,6 @@ class Profile extends React.Component {
                     <View style={styles.bottomContent}>
                         {this.state.buttons[0].selected && <Notifications/>}
                         {this.state.buttons[1].selected && <Friends/>}
-
-                        <Button
-                            raised
-                            borderRadius={4}
-                            title={'LOG OUT'}
-                            containerViewStyle={[styles.containerView]}
-                            buttonStyle={[styles.button]}
-                            textStyle={styles.buttonText}
-                            onPress={this.onSignOut}/>
                     </View>
                 </View>
             </View>

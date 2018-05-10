@@ -1,13 +1,7 @@
-import {Scene, Router, ActionConst, Stack, Modal, Tabs, Actions} from 'react-native-router-flux';
+import {ActionConst, Actions, Router, Scene, Stack} from 'react-native-router-flux';
 
 import React from 'react';
-import {
-    StatusBar,
-    Text,
-    View,
-    StyleSheet,
-    PixelRatio,
-} from 'react-native';
+import {View} from 'react-native';
 
 //Splash Component
 import Splash from '../modules/common/components/Splash';
@@ -19,12 +13,12 @@ import CompleteProfile from '../modules/auth/containers/CompleteProfile';
 import Login from '../modules/auth/containers/Login';
 import ForgotPassword from '../modules/auth/containers/ForgotPassword';
 import Profile from '../modules/profile/containers/Profile';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Icon} from 'react-native-elements';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Import Store, actions
 import {store} from '../redux/store'
 import {checkLoginStatus} from '../network/firebase/auth/actions';
-
 
 import {color, navTitleStyle} from "../styles/theme";
 import EventForm from "../modules/event/containers/EventForm";
@@ -35,6 +29,7 @@ import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
 import EventSearch from "../modules/home/containers/EventSearch/EventSearch";
+import Settings from "../modules/profile/containers/Settings/Settings";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -53,8 +48,7 @@ class TabIcon extends React.Component {
                 alignSelf: 'center',
                 justifyContent: 'center'
             }}>
-                <Icon color={tabColor} style={{height: 24, width: 24}} name={this.props.iconName || "bomb"}
-                      size={24}/>
+                <Material color={tabColor} style={{height: 24, width: 24}} name={this.props.iconName || "bomb"} size={24}/>
             </View>
         );
     }
@@ -131,7 +125,7 @@ export default class extends React.Component {
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon name="plus" color={color.accent_dark}
+                                   renderRightButton={<Icon type='material-community' name="plus" color={color.accent_dark}
                                                             style={{paddingRight: 8}}
                                                             size={32} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
@@ -148,14 +142,23 @@ export default class extends React.Component {
                             <Scene key="Profile"
                                    component={Profile}
                                    title={null}
-                                   renderRightButton={<Icon name="pencil" color={color.accent_dark}
-                                                            style={{paddingRight: 8}}
-                                                            size={32} onPress={() => Actions.push('EditProfile')}/>}
+                                   renderRightButton={<View style={{flexDirection: 'row', paddingRight: 8}}>
+                                       <Icon name="pencil" type='material-community' color={color.accent_dark}
+                                             size={32} onPress={() => Actions.push('EditProfile')}/>
+                                       <Icon name="cog" type='entypo' color={color.accent_dark}
+                                             size={32} onPress={() => Actions.push('Settings')}/>
+
+                                   </View>}
                                    type={ActionConst.REPLACE}/>
 
                             <Scene key="EditProfile"
                                    component={EditProfile}
                                    title="Edit Profile"
+                                   type={ActionConst.REPLACE}/>
+
+                            <Scene key="Settings"
+                                   component={Settings}
+                                   title="Settings"
                                    type={ActionConst.REPLACE}/>
 
                         </Scene>

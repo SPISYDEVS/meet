@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {isEmpty} from '../../../auth/utils/validate'
 import TextInput from "../../../common/components/TextInput";
 import ItemSelector from "../../../common/components/ItemSelector";
-import {extractData, createState, hasErrors} from "../../../common/utils/formUtils";
+import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
 import {View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
