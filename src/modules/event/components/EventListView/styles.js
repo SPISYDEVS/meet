@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         flex: 1,
         paddingHorizontal: 8,
+        paddingTop: 8,
     },
 
     bottomContainer:{

@@ -7,13 +7,13 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        justifyContent: 'center',
         backgroundColor: color.background,
         paddingHorizontal: 25,
+        paddingVertical: 25,
     },
     infoContainer: {
         flex: 1,
-        paddingVertical: 25,
-        justifyContent: 'center',
     },
     infoContent: {
         flexDirection: 'row',

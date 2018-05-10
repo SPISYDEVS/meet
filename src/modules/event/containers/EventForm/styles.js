@@ -34,7 +34,20 @@ const styles = StyleSheet.create({
         margin: 0,
         paddingTop: 35,
         backgroundColor: color.white
-    }
+    },
+    locationContainer: {
+        marginLeft: 10,
+    },
+    locationPre: {
+        color: 'black',
+        fontSize: fontSize.regular + 2,
+        fontFamily: fontFamily.bold,
+    },
+    locationPost: {
+        color: 'gray',
+        fontSize: fontSize.regular + 2,
+        fontFamily: fontFamily.bold,
+    },
 });
 
 export const mapStyles = {
