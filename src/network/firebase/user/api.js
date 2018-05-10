@@ -47,14 +47,12 @@ export function respondToFriendRequest(requesterId, accept, callback) {
 
             //make sure the friend receives the request, and the user is known to have made the request
             updates[currentUser.uid + '/friendRequestsFrom/' + requesterId] = null;
+            updates[requesterId + '/friendRequestsTo/' + currentUser.uid] = null;
 
             //update firebase to reflect that the two users are now friends
             if(accept) {
                 updates[currentUser.uid + '/friends/' + requesterId] = true;
                 updates[requesterId + '/friends/' + currentUser.uid] = true;
-            } else {
-                //user rejects the friend request
-                updates[requesterId + '/friendRequestsTo/' + currentUser.uid] = null;
             }
 
             database.ref('users').update(updates);
