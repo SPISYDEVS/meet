@@ -12,19 +12,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
     listContainer: {
-        flex: 1,
-    },
-    padded: {
-        paddingHorizontal: 20,
-        paddingVertical: 7.5,
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        flexShrink: 1,
     },
     searchContainer:{
         paddingRight: 10,
@@ -37,7 +24,6 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
-        flex: 1
     },
     searchInput: {
         borderRadius: 12,
@@ -48,7 +34,7 @@ const styles = StyleSheet.create({
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
         color: color.black
-    }
+    },
 });
 
 export default styles;

@@ -1,7 +1,5 @@
 import * as t from './actionTypes';
-import * as eventT from '../event/actionTypes';
 import * as api from './api';
-import {auth} from "../../../config/firebase";
 
 //actions --> fire when on event details or friends tab, lazily load (only when user needs the data)
 export function fetchUsers(userIds, successCB, errorCB) {
@@ -48,12 +46,11 @@ export function updateProfile(user, successCB, errorCB) {
     };
 }
 
-
 export function getUser(userId, successCB, errorCB) {
     return (dispatch) => {
         api.getUser(userId, function(success, data, error) {
             if (success) {
-                dispatch({type: eventT.HOST_OBJ_FETCHED, data: data})
+                dispatch({type: t.USER_FETCHED, data: data});
                 successCB(data);
             }
             else if (error) errorCB(error)

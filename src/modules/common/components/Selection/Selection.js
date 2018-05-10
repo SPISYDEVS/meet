@@ -60,7 +60,7 @@ class Selection extends Component {
                                 <ListItem
                                     roundAvatar
                                     key={i}
-                                    title={'Blank'}
+                                    title={'Hello'}
                                     leftIcon={{name: 'av-timer'}}
                                     onPress={() => callback(item.value)}
                                     {...item}
