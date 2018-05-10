@@ -25,18 +25,7 @@ class SomeonesProfile extends React.Component {
 
         const currentUser = this.props.currentUser;
         let friendshipStatus = null;
-
-        //checks to see if the user is already a friend or has been requested to be a friend already
-        //true means they're friends
-        //false means current user has requested friendship
-        //null means they're literally strangers
-        if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
-            friendshipStatus = false;
-        }
-        else if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
-            friendshipStatus = true;
-        }
-
+        let receivingFriendRequest = false;
 
         const user = this.props.people.byId[this.props.userId];
 
@@ -46,6 +35,21 @@ class SomeonesProfile extends React.Component {
             }, () => {
             });
             return <View/>
+        }
+
+        //checks to see if the user is already a friend or has been requested to be a friend already
+        //true means they're friends
+        //false means current user has requested friendship
+        //null means they're literally strangers
+        if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
+            friendshipStatus = true;
+        }
+        else if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
+            friendshipStatus = false;
+        }
+        //user has received a friend request from that person
+        else if (currentUser.friendRequestsFrom !== undefined && this.props.userId in currentUser.friendRequestsFrom) {
+            receivingFriendRequest = true;
         }
 
         return (
@@ -67,17 +71,28 @@ class SomeonesProfile extends React.Component {
                     </View>
                 </View>
 
-                <Button
-                    raised
-                    title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={() => this.props.sendFriendRequest(this.props.userId, () => {
-                    }, () => {
-                    })}
-                />
+                {
+                    receivingFriendRequest &&
+                    <Text>
+                        {user.firstName + " " + user.lastName} has sent you a friend request!
+                    </Text>
+                }
+
+                {
+                    !receivingFriendRequest &&
+                    <Button
+                        raised
+                        title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
+                        borderRadius={4}
+                        containerViewStyle={formStyles.containerView}
+                        buttonStyle={formStyles.button}
+                        textStyle={formStyles.buttonText}
+                        onPress={() => this.props.sendFriendRequest(this.props.userId, () => {
+                        }, () => {
+                        })}
+                    />
+                }
+
             </View>
         );
     }

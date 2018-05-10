@@ -19,12 +19,13 @@ const peopleReducer = (state = initialState, action) => {
                 allIds: [...state.allIds].concat(userIds.filter(id => !state.allIds.includes(id))),
             }
         }
-        case authT.LOGGED_IN: {
+        case authT.LOGGED_IN:
+        case t.USER_FETCHED: {
             const user = action.data;
 
             const newIds = [...state.allIds];
 
-            if(!newIds.includes(user.uid)){
+            if (!newIds.includes(user.uid)) {
                 newIds.push(user.uid);
             }
 

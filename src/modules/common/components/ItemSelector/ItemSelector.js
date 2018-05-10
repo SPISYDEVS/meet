@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 
 import styles from "./styles"
 import Modal from "react-native-modal";
@@ -39,9 +39,10 @@ class ItemSelector extends Component {
                     isVisible={this.state.visibleModal}
                     animationIn="slideInLeft"
                     animationOut="slideOutRight"
+                    style={styles.modal}
                     onBackdropPress={() => this.setState({visibleModal: false})}
                 >
-                    <View><Selection {...this.props} callback={(value) => this.selectItem(value)}/></View>
+                    <SafeAreaView style={styles.modalContainer}><Selection {...this.props} callback={(value) => this.selectItem(value)}/></SafeAreaView>
                 </Modal>
             </View>
         );
