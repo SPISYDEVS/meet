@@ -1,6 +1,5 @@
 import {auth, database} from "../../../config/firebase";
 
-//Create the user object in realtime database
 export function fetchUsers(userIds, callback) {
     Promise.all(userIds.map(id => {
         return database.ref('users').child(id).once('value');

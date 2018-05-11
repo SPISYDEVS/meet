@@ -11,7 +11,7 @@ class TabButtons extends React.Component {
 
         const {buttons} = this.props;
         this.state = this.createState(buttons);
-        console.log(this.state);
+
         //bind functions
         this.onSelect = this.onSelect.bind(this);
     }

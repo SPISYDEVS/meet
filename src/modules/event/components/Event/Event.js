@@ -12,13 +12,11 @@ import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import {getUser} from "../../../../network/firebase/user/actions";
 
-
 const mapStateToProps = (state) => {
     return {
         user: state.eventReducer.eventUser
     }
 };
-
 
 class Event extends React.Component {
     constructor(props) {
@@ -32,27 +30,26 @@ class Event extends React.Component {
     handlePress = () => {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
-
-    componentWillMount() {
-        let hostId = this.props.hostId;
-        this.props.getUser(hostId, this.onSuccess, this.onError);
-    }
-
-
-    onSuccess = (user) => {
-        let source = user.profile === undefined ? '' : user.profile.source;
-        this.setState({hostPic: source});
-    };
-
-
-    onError = (error) => {
-        console.log(error);
-    };
+    //
+    // componentWillMount() {
+    //     let hostId = this.props.hostId;
+    //     this.props.getUser(hostId, this.onSuccess, this.onError);
+    // }
+    //
+    //
+    // onSuccess = (user) => {
+    //     let source = user.profile === undefined ? '' : user.profile.source;
+    //     this.setState({hostPic: source});
+    // };
+    //
+    //
+    // onError = (error) => {
+    //     console.log(error);
+    // };
 
 
     render() {
-        const {title, description, date, hostId, hostName, distance} = this.props;
-        const {hostPic} = this.state;
+        const {title, description, date, hostId, hostName, distance, hostPic} = this.props;
 
         return (
             <View style={styles.shadowWrapper}>
@@ -107,6 +104,11 @@ class Event extends React.Component {
 Event.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
+    hostPic: PropTypes.string,
+    hostName: PropTypes.string,
+    distance: PropTypes.string,
+    hostId: PropTypes.string,
+    date: PropTypes.string,
 };
 
 Event.defaultProps = {

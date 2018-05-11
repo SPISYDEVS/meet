@@ -1,15 +1,19 @@
 import * as t from './actionTypes';
 import * as eventT from '../event/actionTypes';
 import * as api from './api';
+import * as peopleApi from '../user/api';
 
 
 export function fetchFeed(location, successCB, errorCB) {
 
     return (dispatch) => {
-        api.fetchFeed(location, function (success, data, error) {
+        api.fetchFeed(location, function (success, events, error) {
             if (success) {
-                dispatch({type: eventT.EVENTS_FETCHED, data: data});
+
+                dispatch({type: eventT.EVENTS_FETCHED, data: events});
+
                 successCB();
+
             } else if (error) errorCB(error)
         });
     };

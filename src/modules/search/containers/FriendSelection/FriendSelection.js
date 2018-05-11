@@ -11,6 +11,7 @@ class FriendSelection extends Component {
 
     componentDidMount() {
 
+        //fetch necessary users that we don't have objects to
         if (this.props.user.friends === undefined) {
             return;
         }
@@ -33,12 +34,13 @@ class FriendSelection extends Component {
 
     }
 
-
-
     render() {
 
         let friends = this.props.user.friends === undefined ? [] : Object.keys(this.props.user.friends);
 
+        friends = friends.filter(id => !this.props.notIncluded.includes(id));
+
+        //pass in a list of friend objects
         friends = friends.map(id => {
             if (id in this.props.peopleReducer.byId) {
 
@@ -46,6 +48,7 @@ class FriendSelection extends Component {
 
                 let avatar = friend.profile ? {uri: friend.profile.source} : {uri: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"};
                 return {
+                    id: friend.uid,
                     title: friend.firstName + " " + friend.lastName,
                     avatar: avatar
                 }
@@ -65,6 +68,7 @@ FriendSelection.propTypes = {
     searchKey: PropTypes.string,
     searchHint: PropTypes.string,
     callback: PropTypes.func,
+    notIncluded: PropTypes.array,
     onSelectHandler: PropTypes.func.required,
 };
 

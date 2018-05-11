@@ -53,6 +53,7 @@ const eventReducer = (state = initialState, action) => {
                     [eventId]: event
                 }
             }
+
         }
         case authT.LOGGED_OUT: {
             let keys = ['user'];

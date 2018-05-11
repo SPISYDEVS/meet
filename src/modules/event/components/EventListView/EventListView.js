@@ -6,18 +6,26 @@ import Event from "../../components/Event/Event";
 import haversine from "haversine";
 import moment from "moment";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
+import {fetchUsers} from "../../../../network/firebase/user/actions";
 
 const mapStateToProps = (state) => {
     return {
         user: state.authReducer.user,
         eventReducer: state.eventReducer,
+        peopleReducer: state.peopleReducer,
         homeReducer: state.homeReducer,
     }
 };
 
 class EventListView extends Component {
+    constructor(){
+        super();
 
-    componentDidMount() {
+        this.state ={
+            dataLoaded: false,
+        }
+    }
+    componentWillMount() {
         const eventIds = this.props.eventIds;
         this.fetchEvents(eventIds);
     }
@@ -34,35 +42,42 @@ class EventListView extends Component {
         });
 
         if (eventsToFetch.length > 0) {
-
-            console.log(eventsToFetch);
-
-            this.props.fetchEvents(eventsToFetch, () => {
-            }, () => {
-            });
-
+            this.props.fetchEvents(eventIds, () => {this.setState({dataLoaded: true})}, () => {});
+        } else {
+            this.setState({dataLoaded: true});
         }
 
     };
 
     render() {
 
+        if(!this.state.dataLoaded){
+            return <View/>
+        }
+
         const userLocation = this.props.homeReducer.location;
 
         const eventIds = this.props.eventIds;
         const events = this.props.eventReducer.byId;
+        const users = this.props.peopleReducer.byId;
 
         return (
             <ScrollView style={styles.container}>
                 {
                     eventIds.map((id, i) => {
 
-                        if (!(id in events)) {
-                            return <View/>
-                        }
-
                         //pull the values with the keys 'title', 'description', etc... from the corresponding event
-                        const {title, description, date, hostName, hostId, location, address} = events[id];
+                        const {title, description, date, hostId, location, address} = events[id];
+
+                        let firstName = '';
+                        let lastName = '';
+                        let profile = '';
+
+                        if(hostId in users){
+                            firstName = users[hostId].firstName;
+                            lastName = users[hostId].lastName;
+                            profile = users[hostId].profile;
+                        }
 
                         //gets the distance between the user and the location of an event, truncates to 1 decimal place
                         const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
@@ -78,7 +93,8 @@ class EventListView extends Component {
                                 date={formattedDate}
                                 distance={distance}
                                 address={address}
-                                hostName={hostName}
+                                hostName={firstName + " " + lastName}
+                                hostPic={profile ? profile.source : ''}
                                 hostId={hostId}
                                 eventId={id}
                             />
@@ -91,4 +107,4 @@ class EventListView extends Component {
     }
 }
 
-export default connect(mapStateToProps, {fetchEvents})(EventListView);
+export default connect(mapStateToProps, {fetchEvents, fetchUsers})(EventListView);

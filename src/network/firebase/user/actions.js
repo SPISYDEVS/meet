@@ -57,6 +57,7 @@ export function getUser(userId, successCB, errorCB) {
         });
     };
 }
+
 export function getProfilePic(userId, successCB, errorCB) {
     return (dispatch) => {
         api.getProfilePic(userId, function(success, data, error) {

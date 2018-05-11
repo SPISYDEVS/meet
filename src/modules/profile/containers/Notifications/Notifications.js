@@ -3,48 +3,67 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ScrollView} from "react-native";
+import {ScrollView, View} from "react-native";
 
 import FriendRequest from "../../components/FriendRequest/FriendRequest";
 
 import {fetchUsers} from "../../../../network/firebase/user/actions";
+import {fetchEvents} from "../../../../network/firebase/event/actions";
+import EventInvitation from "../../../event/components/EventInvitation/EventInvitation";
 
 
 class Notifications extends React.Component {
     constructor() {
         super();
+        this.state = {
+            dataLoaded: false
+        }
     }
 
-    componentDidMount() {
+    componentWillMount() {
 
-        if (this.props.user.friendRequestsFrom === undefined) {
-            return;
+        let eventInvitations = [];
+        let friendRequestsFrom = [];
+
+        if (this.props.user.eventInvitations) {
+            eventInvitations = Object.keys(this.props.user.eventInvitations);
+        }
+        if (this.props.user.friendRequestsFrom) {
+            friendRequestsFrom = Object.keys(this.props.user.friendRequestsFrom);
         }
 
-        const receivedFriendRequests = Object.keys(this.props.user.friendRequestsFrom);
+        console.log(eventInvitations);
+        console.log(friendRequestsFrom);
 
-        let usersToFetch = [];
-
-        receivedFriendRequests.forEach(id => {
-            if (!(id in this.props.peopleReducer.byId)) {
-                usersToFetch.push(id);
-            }
-        });
-
-        if (usersToFetch.length > 0) {
-            this.props.fetchUsers(usersToFetch, () => {
+        if (eventInvitations && friendRequestsFrom) {
+            this.props.fetchEvents(eventInvitations, () => {
+                this.props.fetchUsers(friendRequestsFrom, () => this.setState({dataLoaded: true}), () => {
+                })
             }, () => {
-            });
+            })
+        } else if (eventInvitations) {
+            this.props.fetchEvents(eventInvitations, () => this.setState({dataLoaded: true}), () => {
+            })
+        } else if (friendRequestsFrom) {
+            this.props.fetchUsers(friendRequestsFrom, () => this.setState({dataLoaded: true}), () => {
+            })
+        } else {
+            this.setState({dataLoaded: true});
         }
 
     }
 
     render() {
 
-        // const notifications = [0, 1, 2];
-        let notifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
+        if (!this.state.dataLoaded) {
+            return <View/>
+        }
 
-        notifications = notifications.map(id => {
+        // const notifications = [0, 1, 2];
+        let friendNotifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
+        let eventNotifications = this.props.user.eventInvitations === undefined ? [] : Object.keys(this.props.user.eventInvitations);
+
+        friendNotifications = friendNotifications.map(id => {
             if (id in this.props.peopleReducer.byId) {
                 return this.props.peopleReducer.byId[id];
             }
@@ -54,7 +73,11 @@ class Notifications extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    notifications.map((not, i) => <FriendRequest key={i} user={not}/>)
+                    friendNotifications.map((user, i) => <FriendRequest key={user.uid} user={user}/>)
+                }
+                {
+                    eventNotifications.map((eventId, i) => <EventInvitation key={eventId}
+                                                                            eventId={eventId}/>)
                 }
             </ScrollView>
         );
@@ -64,8 +87,9 @@ class Notifications extends React.Component {
 const mapStateToProps = (state) => {
     return {
         peopleReducer: state.peopleReducer,
+        eventReducer: state.eventReducer,
         user: state.authReducer.user
     }
 };
 
-export default connect(mapStateToProps, {fetchUsers})(Notifications);
+export default connect(mapStateToProps, {fetchUsers, fetchEvents})(Notifications);
