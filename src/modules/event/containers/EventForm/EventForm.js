@@ -18,6 +18,8 @@ import {momentFromDate} from "../../../common/utils/dateUtils";
 
 import {createEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
+import {Icon} from "react-native-elements";
+import SingleSelection from "../../../common/components/SingleSelection/SingleSelection";
 
 
 class EventForm extends React.Component {
@@ -26,19 +28,23 @@ class EventForm extends React.Component {
 
         this.form = {
             fields: {
-                'title': {
-                    placeholder: "Title",
-                    type: "text",
-                    multiline: true,
+                title: {
+                    options: {
+                        placeholder: "Title",
+                        type: "text",
+                        multiline: true,
+                    },
                     validator: (title) => !isEmpty(title),
                     errorMessage: 'Title is required'
                 },
-                'description': {
-                    placeholder: "Description",
-                    multiline: true,
+                description: {
+                    options: {
+                        placeholder: "Description",
+                        multiline: true,
+                    },
                     type: "text",
                 },
-                'date': {
+                date: {
                     options: {
                         format: DATE_FORMAT,
                         minuteInterval: 5,
@@ -47,7 +53,7 @@ class EventForm extends React.Component {
                     value: moment().format(DATE_FORMAT),
                     type: 'date',
                 },
-                'location': {
+                location: {
                     options: {
                         placeholder: "Location",
                         type: "location",
@@ -74,6 +80,13 @@ class EventForm extends React.Component {
                         modalVisible: false
                     }
                 },
+                invitations: {
+                    options: {},
+                    other: {
+                        objList: [],
+                        modalVisible: false
+                    }
+                }
             }
         };
 
@@ -130,6 +143,18 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    openInvitationsModal = () => {
+        const state = {...this.state};
+        state['invitations']['other']['modalVisible'] = true;
+        this.setState(state);
+    };
+
+    closeInvitationsModal = () => {
+        const state = {...this.state};
+        state['invitations']['other']['modalVisible'] = false;
+        this.setState(state);
+    };
+
     onLocationChange = (data) => {
 
         const state = {...this.state};
@@ -155,18 +180,18 @@ class EventForm extends React.Component {
 
     renderLocation = (location) => {
 
-      if (location.length > 0) {
-          return <Text style={styles.locationPre} > {location} </Text>
-      }
-      else {
-          return <Text style={styles.locationPost} > Choose a location </Text>
-      }
+        if (location.length > 0) {
+            return <Text style={styles.locationPre}> {location} </Text>
+        }
+        else {
+            return <Text style={styles.locationPost}> Choose a location </Text>
+        }
     };
 
     render() {
 
         const form = this.form;
-        const [title, description, date, location] = Object.keys(this.form.fields);
+        const [title, description, date, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
 
         return (
@@ -175,14 +200,14 @@ class EventForm extends React.Component {
                 {/*input for the form title*/}
                 <TextInput
                     style={styles.title}
-                    {...form.fields[title]}
+                    {...form.fields[title]['options']}
                     onChangeText={(text) => this.onChange(title, text)}
                     value={this.state[title]['value']}
                     error={this.state['error'][title]}
                 />
 
                 {/* Below is the input for the location field, which opens a modal when clicked*/}
-                <View style={[ formStyles.containerView]}>
+                <View style={[formStyles.containerView]}>
                     <TouchableOpacity style={styles.locationContainer} onPress={() => this.openLocationModal()}>
                         {this.renderLocation(address)}
                     </TouchableOpacity>
@@ -213,11 +238,27 @@ class EventForm extends React.Component {
 
                 {/*input for the description of the event*/}
                 <TextInput
-                    {...form.fields[description]}
+                    {...form.fields[description]['options']}
                     onChangeText={(text) => this.onChange(description, text)}
                     value={this.state[description]['value']}
                     error={this.state['error'][description]}
                 />
+
+                {/* Below is the input for the invitations, which opens a modal when clicked*/}
+                <View style={[formStyles.containerView]}>
+                    <TouchableOpacity style={styles.invitationsContainer} onPress={() => this.openInvitationsModal()}>
+                        <Icon type='feather' name='plus'/>
+                        <Text>Invite People</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/*modal for inviting ppl*/}
+                <Modal isVisible={this.state[invitations]['other']['modalVisible']} style={styles.modal}>
+                    <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
+                        <Icon type='feather' name='x'/>
+                    </TouchableOpacity>
+                    <SingleSelection objList={this.state[invitations]['other']['objList']}/>
+                </Modal>
 
                 {/*submit button to create the event*/}
                 <Button

@@ -48,7 +48,7 @@ class TabIcon extends React.Component {
                 alignSelf: 'center',
                 justifyContent: 'center'
             }}>
-                <Material color={tabColor} style={{height: 24, width: 24}} name={this.props.iconName || "bomb"} size={24}/>
+                <Icon color={tabColor} type='material-community' containerStyle={{height: 24, width: 24}} name={this.props.iconName || "bomb"} size={24}/>
             </View>
         );
     }
@@ -125,9 +125,10 @@ export default class extends React.Component {
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon type='material-community' name="plus" color={color.accent_dark}
-                                                            style={{paddingRight: 8}}
-                                                            size={32} onPress={() => Actions.push('EventForm')}/>}
+                                   renderRightButton={<Icon type='material-community' name="plus"
+                                                            color={color.accent_dark}
+                                                            containerStyle={{paddingRight: 8}}
+                                                            size={36} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
                                    component={EventForm}
@@ -142,11 +143,15 @@ export default class extends React.Component {
                             <Scene key="Profile"
                                    component={Profile}
                                    title={null}
-                                   renderRightButton={<View style={{flexDirection: 'row', paddingRight: 8}}>
+                                   renderRightButton={<View style={{flexDirection: 'row'}}>
                                        <Icon name="pencil" type='material-community' color={color.accent_dark}
-                                             size={32} onPress={() => Actions.push('EditProfile')}/>
+                                             size={32}
+                                             containerStyle={{paddingRight: 8}}
+                                             onPress={() => Actions.push('EditProfile')}/>
                                        <Icon name="cog" type='entypo' color={color.accent_dark}
-                                             size={32} onPress={() => Actions.push('Settings')}/>
+                                             size={32}
+                                             containerStyle={{paddingRight: 8}}
+                                             onPress={() => Actions.push('Settings')}/>
 
                                    </View>}
                                    type={ActionConst.REPLACE}/>

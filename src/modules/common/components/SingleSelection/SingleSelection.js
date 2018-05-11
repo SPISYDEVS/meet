@@ -7,7 +7,7 @@ import {List, ListItem, SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
-class Selection extends Component {
+class SingleSelection extends Component {
     constructor(props) {
         super(props);
 
@@ -48,7 +48,7 @@ class Selection extends Component {
                     lightTheme
                     inputStyle={styles.searchInput}
                     containerStyle={styles.searchBar}
-                    onChangeText={(text) => this.search(text)}
+                    // onChangeText={(text) => this.search(text)}
                     onClearText={() => this.reset()}
                     onBlur={() => searchFunc === undefined ? {} : searchFunc}
                     noIcon
@@ -76,7 +76,7 @@ class Selection extends Component {
     }
 }
 
-Selection.propTypes = {
+SingleSelection.propTypes = {
     objList: PropTypes.array.isRequired,
     searchKey: PropTypes.string,
     searchHint: PropTypes.string,
@@ -84,10 +84,10 @@ Selection.propTypes = {
     callback: PropTypes.func
 };
 
-Selection.defaultProps = {
+SingleSelection.defaultProps = {
     searchKey: 'title',
     callback: (item) => {
     }
 };
 
-export default Selection;
+export default SingleSelection;

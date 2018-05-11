@@ -44,9 +44,9 @@ export const hasErrors = (errors) => {
 
 /* returns format
     data = {
-        key1: {type: type, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
-        key2: {type: type, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
-        key3: {type: type, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
+        key1: {type: type, other: other, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
+        key2: {type: type, other: other, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
+        key3: {type: type, other: other, validator: validator, errorMessage: errorMessage, value: value !== undefined ? value : ''},
         error: {key1: '', key2: '', key3: ''}
     }
  */

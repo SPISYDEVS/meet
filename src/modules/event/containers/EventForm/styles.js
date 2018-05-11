@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.white
     },
     locationContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
     },
     locationPre: {
         color: 'black',
@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
     },
+    invitationsContainer: {
+        marginLeft: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 });
 
 export const mapStyles = {
