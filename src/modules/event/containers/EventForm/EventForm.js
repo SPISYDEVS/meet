@@ -19,7 +19,7 @@ import {momentFromDate} from "../../../common/utils/dateUtils";
 import {createEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 import {Icon} from "react-native-elements";
-import SingleSelection from "../../../common/components/SingleSelection/SingleSelection";
+import FriendSelection from "../../../search/containers/FriendSelection/FriendSelection";
 
 
 class EventForm extends React.Component {
@@ -32,7 +32,7 @@ class EventForm extends React.Component {
                     options: {
                         placeholder: "Title",
                         type: "text",
-                        multiline: true,
+                        multiline: false,
                     },
                     validator: (title) => !isEmpty(title),
                     errorMessage: 'Title is required'
@@ -257,7 +257,7 @@ class EventForm extends React.Component {
                     <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
                         <Icon type='feather' name='x'/>
                     </TouchableOpacity>
-                    <SingleSelection objList={this.state[invitations]['other']['objList']}/>
+                    <FriendSelection/>
                 </Modal>
 
                 {/*submit button to create the event*/}

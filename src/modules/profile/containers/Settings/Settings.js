@@ -8,6 +8,7 @@ import {Button} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import {Alert} from "react-native";
+import {signOut} from '../../../../network/firebase/auth/actions';
 
 const mapStateToProps = (state) => {
     return {
@@ -52,4 +53,4 @@ class Settings extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, {updateProfile})(Settings);
+export default connect(mapStateToProps, {updateProfile, signOut})(Settings);

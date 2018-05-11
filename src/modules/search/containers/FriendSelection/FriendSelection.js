@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import SingleSelection from "../../../common/components/SingleSelection/SingleSelection";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
+import {connect} from "react-redux";
 
 class FriendSelection extends Component {
     constructor(props) {
@@ -39,8 +40,15 @@ class FriendSelection extends Component {
 
         friends = friends.map(id => {
             if (id in this.props.peopleReducer.byId) {
-                return this.props.peopleReducer.byId[id];
-            
+
+                const friend = this.props.peopleReducer.byId[id];
+
+                return {
+                    title: friend.firstName + " " + friend.lastName,
+                    avatar: {uri: friend.profile.source}
+                }
+
+            }
             return {}
         });
 
