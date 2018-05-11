@@ -32,9 +32,6 @@ class Notifications extends React.Component {
             friendRequestsFrom = Object.keys(this.props.user.friendRequestsFrom);
         }
 
-        console.log(eventInvitations);
-        console.log(friendRequestsFrom);
-
         if (eventInvitations && friendRequestsFrom) {
             this.props.fetchEvents(eventInvitations, () => {
                 this.props.fetchUsers(friendRequestsFrom, () => this.setState({dataLoaded: true}), () => {

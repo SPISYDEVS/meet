@@ -20,17 +20,13 @@ const mapStateToProps = (state) => {
 class EventListView extends Component {
     constructor(){
         super();
-
-        this.state ={
-            dataLoaded: false,
-        }
     }
     componentWillMount() {
-        const eventIds = this.props.eventIds;
-        this.fetchEvents(eventIds);
     }
 
-    fetchEvents = (eventIds) => {
+    fetchEvents = () => {
+
+        const eventIds = this.props.eventIds;
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
         let eventsToFetch = [];
@@ -49,9 +45,26 @@ class EventListView extends Component {
 
     };
 
+    fetchRequired = () => {
+
+        const eventIds = this.props.eventIds;
+
+        let eventsToFetch = [];
+
+        eventIds.forEach(id => {
+            if (!(id in this.props.eventReducer.byId)) {
+                eventsToFetch.push(id);
+            }
+        });
+
+        return (eventsToFetch.length > 0);
+
+    };
+
     render() {
 
-        if(!this.state.dataLoaded){
+        if(this.fetchRequired()) {
+            this.fetchEvents();
             return <View/>
         }
 
