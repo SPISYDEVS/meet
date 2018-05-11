@@ -57,12 +57,12 @@ class SingleSelection extends Component {
                 <View style={styles.listContainer}>
                     <List>
                         {
-                            this.state.results.slice(0, 10).map((item, i) => (
+                            this.state.results.map((item, i) => (
                                 <ListItem
                                     roundAvatar
                                     key={i}
                                     title={'Hello'}
-                                    leftIcon={{name: 'av-timer'}}
+                                    avatar={{name: 'av-timer'}}
                                     onPress={() => callback(item.value)}
                                     {...item}
                                 />

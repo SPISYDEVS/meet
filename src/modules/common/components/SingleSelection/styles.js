@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     searchBar: {
         padding: 0,
         margin: 0,
-        marginBottom: 25,
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
