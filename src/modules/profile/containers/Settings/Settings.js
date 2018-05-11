@@ -7,6 +7,7 @@ import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
+import {signOut} from "../../../../network/firebase/auth/actions";
 import {Alert} from "react-native";
 
 const mapStateToProps = (state) => {
@@ -52,4 +53,4 @@ class Settings extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, {updateProfile})(Settings);
+export default connect(mapStateToProps, {updateProfile, signOut})(Settings);

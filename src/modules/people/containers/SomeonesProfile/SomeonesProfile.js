@@ -11,6 +11,7 @@ import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
 
 const {View, StyleSheet, Alert} = require('react-native');
+import {AVATAR_SIZE} from "../../../profile/constants";
 
 
 import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/user/actions";
@@ -26,6 +27,7 @@ class SomeonesProfile extends React.Component {
         const currentUser = this.props.currentUser;
         let friendshipStatus = null;
         let receivingFriendRequest = false;
+        var source = '';
 
         const user = this.props.people.byId[this.props.userId];
 
@@ -35,6 +37,10 @@ class SomeonesProfile extends React.Component {
             }, () => {
             });
             return <View/>
+        }
+
+        if (user.profile) {
+            source = user.profile.source;
         }
 
         //checks to see if the user is already a friend or has been requested to be a friend already
@@ -57,10 +63,10 @@ class SomeonesProfile extends React.Component {
                 <View style={styles.infoContainer}>
                     <View style={styles.infoContent}>
                         <Avatar
-                            height={100}
-                            width={100}
+                            height={AVATAR_SIZE}
+                            width={AVATAR_SIZE}
                             rounded
-                            source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+                            source={{uri: source}}
                             onPress={() => console.log("Works!")}
                             activeOpacity={0.7}
                         />
