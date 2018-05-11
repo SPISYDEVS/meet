@@ -3,7 +3,7 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
-import {Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import styles from "./styles";
 import moment from "moment";
 import DatePicker from "../../../common/components/DatePicker/DatePicker";
@@ -85,7 +85,8 @@ class EventForm extends React.Component {
                     other: {
                         objList: [],
                         modalVisible: false
-                    }
+                    },
+                    value: [],
                 }
             }
         };
@@ -188,6 +189,12 @@ class EventForm extends React.Component {
         }
     };
 
+    inviteFriend = (friend) => {
+        let inviteList = this.state['invitations']['value'];
+        inviteList.push(friend);
+        this.onChange('invitations', inviteList);
+    };
+
     render() {
 
         const form = this.form;
@@ -257,8 +264,17 @@ class EventForm extends React.Component {
                     <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
                         <Icon type='feather' name='x'/>
                     </TouchableOpacity>
-                    <FriendSelection/>
+                    <FriendSelection onSelectHandler={this.inviteFriend}/>
                 </Modal>
+
+                {/* ScrollView of friends */}
+                <ScrollView>
+                    {this.state['invitations']['value'].map(invitee =>
+                        <Text>
+                            {invitee.title}
+                        </Text>
+                    )}
+                </ScrollView>
 
                 {/*submit button to create the event*/}
                 <Button

@@ -37,7 +37,7 @@ class SingleSelection extends Component {
 
     render() {
 
-        const {searchHint, searchFunc, callback} = this.props;
+        const {searchHint, searchFunc, callback, onSelectHandler} = this.props;
 
         return (
             <View style={styles.container}>
@@ -63,7 +63,7 @@ class SingleSelection extends Component {
                                     key={i}
                                     title={'Hello'}
                                     avatar={{name: 'av-timer'}}
-                                    onPress={() => callback(item.value)}
+                                    onPress={() => onSelectHandler(item)}
                                     {...item}
                                 />
                             ))
