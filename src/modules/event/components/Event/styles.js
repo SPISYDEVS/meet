@@ -30,29 +30,31 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     topContainer: {
-        padding: 6,
+        // backgroundColor: color.afternoon,
+        padding: 15,
     },
     botContainer: {
         height: 6,
         backgroundColor: color.main,
     },
     header: {
-        marginBottom: 10,
+        marginBottom: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
     title: {
         fontSize: fontSize.large,
-        fontFamily: fontFamily.bold
+        fontFamily: fontFamily.bold,
+        color: color.white
     },
     dateText: {
         fontSize: fontSize.small,
-        color: color.accent_dark
+        color: color.white
     },
     distanceText: {
         fontSize: fontSize.small,
         fontFamily: fontFamily.bold,
-        color: color.accent_dark
+        color: color.white
     },
     headerLeft: {
         flex: 1.5,
@@ -62,13 +64,14 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     body: {
-        marginBottom: 7.5,
+        marginBottom: 12,
     },
     description: {
         fontSize: fontSize.small,
         fontFamily: fontFamily.medium,
         lineHeight: lineHeight.paragraph,
-        opacity: 0.75,
+        color: color.white,
+        opacity: 0.9,
         overflow: 'hidden',
     },
     footer: {
@@ -80,7 +83,8 @@ const styles = StyleSheet.create({
     hostName: {
         paddingLeft: 10,
         alignSelf: 'center',
-        fontFamily: fontFamily.bold
+        fontFamily: fontFamily.bold,
+        color: color.white
     },
 });
 

@@ -81,6 +81,7 @@ export default class extends React.Component {
                        navigationBarStyle={{backgroundColor: color.background, borderBottomWidth: 0}}
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.accent_dark}>
+
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
                         <Scene key="Register" component={Register} title="Register" back/>
@@ -103,6 +104,7 @@ export default class extends React.Component {
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
+                           tabBarStyle={{backgroundColor: color.black}}
                            tabBarPosition="bottom">
 
                         <Scene key="FeedScreen" default="Feed" title="Explore"

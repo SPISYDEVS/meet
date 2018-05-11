@@ -40,7 +40,7 @@ class Search extends Component {
                     <View style={[styles.padded, styles.rowContainer]}>
                         <Text style={styles.headerText}>Feed</Text>
 
-                        <Icon name="search" size={35} color={"#000"} onPress={() => Actions.EventSearch()}/>
+                        <Icon name="search" size={35} color={"white"} onPress={() => Actions.EventSearch()}/>
                     </View>
                     }
 

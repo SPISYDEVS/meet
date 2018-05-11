@@ -11,6 +11,9 @@ import {Avatar, Icon} from "react-native-elements";
 import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import {getUser} from "../../../../network/firebase/user/actions";
+import {MORNING_START, AFTERNOON_START, NIGHT_START, LATENIGHT_START} from "../../../../config/constants";
+import {color} from "../../../../styles/theme";
+import moment from "moment";
 
 const mapStateToProps = (state) => {
     return {
@@ -26,6 +29,33 @@ class Event extends React.Component {
             hostPic: ''
         };
     }
+
+    isBetweenTime = (time, startTime, endTime) => {
+        let startHour = moment(startTime, 'HH:mm').hours();
+        let endHour = moment(endTime, 'HH:mm').hours();
+
+        if(startHour > endHour){
+            endHour += 24;
+        }
+
+        const timeHours = moment(time).hours();
+
+        return startHour <= timeHours && timeHours < endHour;
+    };
+
+    fetchBackgroundColor = (date) => {
+        if(this.isBetweenTime(date, MORNING_START, AFTERNOON_START)){
+            return color.morning;
+        }
+        if(this.isBetweenTime(date, AFTERNOON_START, NIGHT_START)){
+            return color.afternoon;
+        }
+        if(this.isBetweenTime(date, NIGHT_START, LATENIGHT_START)){
+            return color.night;
+        }
+
+        return color.latenight;
+    };
 
     handlePress = () => {
         Actions.push('EventDetails', {eventId: this.props.eventId});
@@ -47,14 +77,16 @@ class Event extends React.Component {
     //     console.log(error);
     // };
 
-
     render() {
+
         const {title, description, date, hostId, hostName, distance, hostPic} = this.props;
+        const backgroundColor = this.fetchBackgroundColor(date);
+        const formattedDate = moment(date).calendar();
 
         return (
             <View style={styles.shadowWrapper}>
                 <TouchableOpacity style={styles.container} onPress={this.handlePress}>
-                    <View style={styles.topContainer}>
+                    <View style={[styles.topContainer, {backgroundColor: backgroundColor}]}>
                         {/*<StatusBar hidden={true}/>*/}
                         <View style={styles.header}>
 
@@ -62,14 +94,16 @@ class Event extends React.Component {
                                 <Text style={styles.title}>
                                     {title}
                                 </Text>
+                                <Text style={styles.dateText}>
+                                    {formattedDate}
+                                </Text>
                             </View>
+
                             <View style={styles.headerRight}>
                                 <Text style={styles.distanceText}>
                                     {distance + " miles away"}
                                 </Text>
-                                <Text style={styles.dateText}>
-                                    {date}
-                                </Text>
+
                             </View>
 
                         </View>
@@ -93,7 +127,7 @@ class Event extends React.Component {
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.botContainer}/>
+                    {/*<View style={styles.botContainer}/>*/}
                 </TouchableOpacity>
 
             </View>
@@ -108,7 +142,7 @@ Event.propTypes = {
     hostName: PropTypes.string,
     distance: PropTypes.string,
     hostId: PropTypes.string,
-    date: PropTypes.string,
+    // date: PropTypes.string,
 };
 
 Event.defaultProps = {

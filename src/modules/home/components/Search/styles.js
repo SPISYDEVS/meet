@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
-        color: color.black
+        color: color.text
     }
 });
 

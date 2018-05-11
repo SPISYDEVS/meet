@@ -50,6 +50,34 @@ class Notifications extends React.Component {
 
     }
 
+    fetchEventsRequired = () => {
+
+        const eventInvitations = Object.keys(this.props.user.eventInvitations);
+
+        for(const eventId in eventInvitations){
+            if(!(eventId in this.props.eventReducer.byId)){
+                return true;
+            }
+        }
+
+        return false;
+
+    };
+
+    fetchUsersRequired = () => {
+
+        const friendRequestsFrom = Object.keys(this.props.user.friendRequestsFrom);
+
+        for(const userId in friendRequestsFrom){
+            if(!(userId in this.props.peopleReducer.byId)){
+                return true;
+            }
+        }
+
+        return false;
+
+    };
+
     render() {
 
         if (!this.state.dataLoaded) {

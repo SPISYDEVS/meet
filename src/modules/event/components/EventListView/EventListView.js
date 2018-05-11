@@ -18,14 +18,26 @@ const mapStateToProps = (state) => {
 };
 
 class EventListView extends Component {
-    constructor(){
+    constructor() {
         super();
+        this.state =
+            {
+                dataLoaded: false
+            }
     }
-    componentWillMount() {
+
+    componentDidMount() {
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.profileOrError === null) {
+            // At this point, we're in the "commit" phase, so it's safe to load the new data.
+            this._loadUserData();
+        }
     }
 
     fetchEvents = () => {
-
         const eventIds = this.props.eventIds;
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
@@ -38,10 +50,14 @@ class EventListView extends Component {
         });
 
         if (eventsToFetch.length > 0) {
-            this.props.fetchEvents(eventIds, () => {this.setState({dataLoaded: true})}, () => {});
+            this.props.fetchEvents(eventIds, () => {
+                this.setState({dataLoaded: true})
+            }, () => {
+            });
         } else {
             this.setState({dataLoaded: true});
         }
+
 
     };
 
@@ -63,7 +79,7 @@ class EventListView extends Component {
 
     render() {
 
-        if(this.fetchRequired()) {
+        if (this.fetchRequired()) {
             this.fetchEvents();
             return <View/>
         }
@@ -86,7 +102,7 @@ class EventListView extends Component {
                         let lastName = '';
                         let profile = '';
 
-                        if(hostId in users){
+                        if (hostId in users) {
                             firstName = users[hostId].firstName;
                             lastName = users[hostId].lastName;
                             profile = users[hostId].profile;
@@ -95,7 +111,7 @@ class EventListView extends Component {
                         //gets the distance between the user and the location of an event, truncates to 1 decimal place
                         const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
 
-                        const formattedDate = moment(date).calendar();
+                        // const formattedDate = moment(date).calendar();
 
                         return (
 
@@ -103,7 +119,7 @@ class EventListView extends Component {
                                 key={id}
                                 title={title}
                                 description={description}
-                                date={formattedDate}
+                                date={date}
                                 distance={distance}
                                 address={address}
                                 hostName={firstName + " " + lastName}
