@@ -90,3 +90,14 @@ export function getUser(userId, callback) {
     })
         .catch(error => callback(false, null, error));
 }
+
+
+export function getProfilePic(userId, callback) {
+    database.ref('users').child(userId).child('profile').once('value').then((snapshot) => {
+
+        let profile = snapshot.val();
+
+        callback(true, profile, null);
+    })
+        .catch(error => callback(false, null, error));
+}

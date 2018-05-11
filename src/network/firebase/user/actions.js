@@ -57,3 +57,13 @@ export function getUser(userId, successCB, errorCB) {
         });
     };
 }
+export function getProfilePic(userId, successCB, errorCB) {
+    return (dispatch) => {
+        api.getProfilePic(userId, function(success, data, error) {
+            if (success) {
+                successCB(data);
+            }
+            else if (error) errorCB(error)
+        })
+    }
+}
