@@ -93,6 +93,7 @@ export default class extends React.Component {
                     <Scene key="EventDetails"
                            clone
                            title={null}
+                           hideNavBar
                            component={EventDetails}
                            type={ActionConst.REPLACE}/>
 

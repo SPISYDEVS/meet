@@ -18,44 +18,13 @@ class Notifications extends React.Component {
         super();
         this.state = {
             dataLoaded: false,
-            user: {}
         }
     }
-
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //
-    //     const friendRequestsFrom = Object.keys(prevState.user.friendRequestsFrom);
-    //     const eventInvitations = Object.keys(prevState.user.eventInvitations);
-    //
-    //     const newFriendRequestsFrom = Object.keys(nextProps.user.friendRequestsFrom);
-    //     const newEventInvitations = Object.keys(nextProps.user.eventInvitations);
-    //
-    //     // Store prevId in state so we can compare when props change.
-    //     // Clear out previously-loaded data (so we don't render stale stuff).
-    //     if (!arraysEqual(newFriendRequestsFrom, friendRequestsFrom) || !arraysEqual(newEventInvitations, eventInvitations)) {
-    //         return {
-    //             dataLoaded: false,
-    //             prevId: nextProps.id,
-    //         };
-    //     }
-    //
-    //     // No state update necessary
-    //     return null;
-    //
-    // }
 
     componentDidMount() {
         const friendRequestsFrom = this.props.user.friendRequestsFrom;
         const eventInvitations = this.props.user.eventInvitations;
         this.fetchNotifications(friendRequestsFrom, eventInvitations);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!this.state.dataLoaded) {
-            const friendRequestsFrom = this.props.user.friendRequestsFrom;
-            const eventInvitations = this.props.user.eventInvitations;
-            this.fetchNotifications(friendRequestsFrom, eventInvitations);
-        }
     }
 
     fetchNotifications = (friendRequestsFrom, eventInvitations) => {
@@ -74,6 +43,7 @@ class Notifications extends React.Component {
             }, () => {
             })
         } else if (eventInvitations) {
+            console.log("HELP");
             this.props.fetchEvents(eventInvitations, () => this.setState({dataLoaded: true}), () => {
             })
         } else if (friendRequestsFrom) {

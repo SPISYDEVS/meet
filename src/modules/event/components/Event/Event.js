@@ -1,54 +1,46 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import styles from "./styles";
-import {Avatar, Icon} from "react-native-elements";
+import {Avatar} from "react-native-elements";
 
 import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
-import {getUser} from "../../../../network/firebase/user/actions";
-import {MORNING_START, AFTERNOON_START, NIGHT_START, LATENIGHT_START} from "../../../../config/constants";
-import {color} from "../../../../styles/theme";
 import moment from "moment";
+import {fetchEvent} from "../../../../network/firebase/event/actions";
+import haversine from "haversine";
+import {fetchBackgroundColor} from "../../utils";
 
 class Event extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            hostPic: ''
-        };
+            dataLoaded: false
+        }
     }
 
-    isBetweenTime = (time, startTime, endTime) => {
-        let startHour = moment(startTime, 'HH:mm').hours();
-        let endHour = moment(endTime, 'HH:mm').hours();
+    componentDidMount() {
+        const eventId = this.props.eventId;
+        this.fetchEvent(eventId);
+    }
 
-        if(startHour > endHour){
-            endHour += 24;
+    fetchEvent = (eventId) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+
+        if (!(eventId in this.props.eventReducer.byId)) {
+            console.log("DONT HAVE");
+            this.props.fetchEvent(eventId, () => {
+            }, () => {
+                this.setState({dataLoaded: true});
+            });
+        } else {
+            this.setState({dataLoaded: true});
         }
 
-        const timeHours = moment(time).hours();
-
-        return startHour <= timeHours && timeHours < endHour;
-    };
-
-    fetchBackgroundColor = (date) => {
-        if(this.isBetweenTime(date, MORNING_START, AFTERNOON_START)){
-            return color.morning;
-        }
-        if(this.isBetweenTime(date, AFTERNOON_START, NIGHT_START)){
-            return color.afternoon;
-        }
-        if(this.isBetweenTime(date, NIGHT_START, LATENIGHT_START)){
-            return color.night;
-        }
-
-        return color.latenight;
     };
 
     handlePress = () => {
@@ -57,9 +49,29 @@ class Event extends React.Component {
 
     render() {
 
-        const {title, description, date, hostId, hostName, distance, hostPic} = this.props;
-        const backgroundColor = this.fetchBackgroundColor(date);
+        if(!this.state.dataLoaded){
+            return <View/>
+        }
+
+        const event = this.props.eventReducer.byId[this.props.eventId];
+        const host = this.props.peopleReducer.byId[event.hostId];
+
+        const {title, description, date, hostId, location} = event;
+        const {profile, firstName, lastName} = host;
+
+        //host data
+        const hostPic = profile ? profile.source : '';
+        const hostName = firstName + " " + lastName;
+
+        //get miles away
+        const userLocation = this.props.location;
+        const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
+
+        //date in calendar format
         const formattedDate = moment(date).calendar();
+
+        //card background
+        const backgroundColor = fetchBackgroundColor(date);
 
         return (
             <View style={styles.shadowWrapper}>
@@ -113,26 +125,12 @@ class Event extends React.Component {
     }
 }
 
-Event.propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-    hostPic: PropTypes.string,
-    hostName: PropTypes.string,
-    distance: PropTypes.string,
-    hostId: PropTypes.string,
-    // date: PropTypes.string,
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer,
+        peopleReducer: state.peopleReducer,
+        location: state.homeReducer.location
+    }
 };
 
-Event.defaultProps = {
-    title: 'Really Long Event Title',
-    description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',
-    date: 'Today, 12:30pm',
-    distance: '0',
-    hostId: null,
-    address: 'Warren College',
-    hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    hostName: "Jane",
-    plannedAttendees: [],
-};
-
-export default Event;
+export default connect(mapStateToProps, {fetchEvent})(Event);

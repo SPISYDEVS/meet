@@ -9,19 +9,26 @@ const styles = StyleSheet.create({
         height: '100%',
         flexWrap: 'wrap',
         padding: 15,
-        backgroundColor: color.background,
+    },
+    navBar:{
+        alignItems: 'flex-start',
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 4,
     },
     header: {
     },
     title: {
         fontSize: fontSize.header,
         fontFamily: fontFamily.bold,
+        color: color.text,
         marginBottom: 10
     },
     subtitle: {
         fontSize: fontSize.regular,
+        color: color.text,
         lineHeight: 15,
-        opacity: 0.75,
+        opacity: 0.9,
         marginBottom: 5,
     },
     details: {
@@ -29,6 +36,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: fontSize.regular,
+        color: color.text,
         lineHeight: lineHeight.paragraph
     },
     hostContainer: {
@@ -37,11 +45,13 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     hostName: {
+        color: color.text,
         paddingLeft: 10,
         alignSelf: 'center',
         fontFamily: fontFamily.bold
     },
     boldSubtitle: {
+        color: color.text,
         fontSize: 18,
         fontFamily: fontFamily.bold,
     },

@@ -6,6 +6,7 @@ import * as peopleApi from '../user/api';
 
 export function fetchFeed(location, successCB, errorCB) {
 
+    console.log("ITS A ME");
     return (dispatch) => {
         api.fetchFeed(location, function (success, events, error) {
             if (success) {

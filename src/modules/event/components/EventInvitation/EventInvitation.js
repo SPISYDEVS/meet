@@ -8,7 +8,6 @@ import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 import {fetchEvent, respondToEventInvitation} from "../../../../network/firebase/event/actions";
-import {getUser} from "../../../../network/firebase/user/actions";
 
 
 class EventInvitation extends React.Component {
