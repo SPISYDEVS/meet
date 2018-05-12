@@ -18,27 +18,46 @@ const mapStateToProps = (state) => {
 };
 
 class EventListView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state =
             {
-                dataLoaded: false
+                lastEventId: null,
+                dataLoaded: false,
             }
     }
 
-    componentDidMount() {
+    static getDerivedStateFromProps(nextProps, prevState) {
 
+        const lastEventId = nextProps.eventIds[nextProps.eventIds.length - 1];
+
+        // Store prevId in state so we can compare when props change.
+        // Clear out previously-loaded data (so we don't render stale stuff).
+        if (lastEventId !== prevState.lastEventId) {
+            return {
+                lastEventId: lastEventId,
+                dataLoaded: false,
+            };
+        }
+
+        // No state update necessary
+        return null;
+
+    }
+
+    componentDidMount() {
+        const eventIds = this.props.eventIds;
+        this.fetchEvents(eventIds);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.profileOrError === null) {
-            // At this point, we're in the "commit" phase, so it's safe to load the new data.
-            this._loadUserData();
+        if (!this.state.dataLoaded) {
+            const eventIds = this.props.eventIds;
+            this.fetchEvents(eventIds);
         }
     }
 
-    fetchEvents = () => {
-        const eventIds = this.props.eventIds;
+    fetchEvents = (eventIds) => {
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
         let eventsToFetch = [];
@@ -49,38 +68,20 @@ class EventListView extends Component {
             }
         });
 
-        if (eventsToFetch.length > 0) {
-            this.props.fetchEvents(eventIds, () => {
-                this.setState({dataLoaded: true})
+        if(eventsToFetch.length > 0) {
+            this.props.fetchEvents(eventsToFetch, () => {
             }, () => {
+                this.setState({dataLoaded: true});
             });
         } else {
             this.setState({dataLoaded: true});
         }
 
-
-    };
-
-    fetchRequired = () => {
-
-        const eventIds = this.props.eventIds;
-
-        let eventsToFetch = [];
-
-        eventIds.forEach(id => {
-            if (!(id in this.props.eventReducer.byId)) {
-                eventsToFetch.push(id);
-            }
-        });
-
-        return (eventsToFetch.length > 0);
-
     };
 
     render() {
 
-        if (this.fetchRequired()) {
-            this.fetchEvents();
+        if (!this.state.dataLoaded) {
             return <View/>
         }
 
@@ -93,20 +94,11 @@ class EventListView extends Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    eventIds.map((id, i) => {
+                    eventIds.map((id) => {
 
                         //pull the values with the keys 'title', 'description', etc... from the corresponding event
                         const {title, description, date, hostId, location, address} = events[id];
-
-                        let firstName = '';
-                        let lastName = '';
-                        let profile = '';
-
-                        if (hostId in users) {
-                            firstName = users[hostId].firstName;
-                            lastName = users[hostId].lastName;
-                            profile = users[hostId].profile;
-                        }
+                        const {firstName, lastName, profile} = users[hostId];
 
                         //gets the distance between the user and the location of an event, truncates to 1 decimal place
                         const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);

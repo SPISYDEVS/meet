@@ -15,12 +15,6 @@ import {MORNING_START, AFTERNOON_START, NIGHT_START, LATENIGHT_START} from "../.
 import {color} from "../../../../styles/theme";
 import moment from "moment";
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.eventReducer.eventUser
-    }
-};
-
 class Event extends React.Component {
     constructor(props) {
         super(props);
@@ -60,22 +54,6 @@ class Event extends React.Component {
     handlePress = () => {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
-    //
-    // componentWillMount() {
-    //     let hostId = this.props.hostId;
-    //     this.props.getUser(hostId, this.onSuccess, this.onError);
-    // }
-    //
-    //
-    // onSuccess = (user) => {
-    //     let source = user.profile === undefined ? '' : user.profile.source;
-    //     this.setState({hostPic: source});
-    // };
-    //
-    //
-    // onError = (error) => {
-    //     console.log(error);
-    // };
 
     render() {
 
@@ -157,4 +135,4 @@ Event.defaultProps = {
     plannedAttendees: [],
 };
 
-export default connect(mapStateToProps, {getUser})(Event);
+export default Event;

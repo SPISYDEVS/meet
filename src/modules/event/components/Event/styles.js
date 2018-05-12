@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         color: color.white
     },
     headerLeft: {
-        flex: 1.5,
+        flex: 1.8,
     },
     headerRight: {
         flex: 1,

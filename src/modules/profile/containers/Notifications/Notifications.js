@@ -10,25 +10,60 @@ import FriendRequest from "../../components/FriendRequest/FriendRequest";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventInvitation from "../../../event/components/EventInvitation/EventInvitation";
+import {arraysEqual} from "../../../../utils/comparators";
 
 
 class Notifications extends React.Component {
     constructor() {
         super();
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            user: {}
         }
     }
 
-    componentWillMount() {
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //
+    //     const friendRequestsFrom = Object.keys(prevState.user.friendRequestsFrom);
+    //     const eventInvitations = Object.keys(prevState.user.eventInvitations);
+    //
+    //     const newFriendRequestsFrom = Object.keys(nextProps.user.friendRequestsFrom);
+    //     const newEventInvitations = Object.keys(nextProps.user.eventInvitations);
+    //
+    //     // Store prevId in state so we can compare when props change.
+    //     // Clear out previously-loaded data (so we don't render stale stuff).
+    //     if (!arraysEqual(newFriendRequestsFrom, friendRequestsFrom) || !arraysEqual(newEventInvitations, eventInvitations)) {
+    //         return {
+    //             dataLoaded: false,
+    //             prevId: nextProps.id,
+    //         };
+    //     }
+    //
+    //     // No state update necessary
+    //     return null;
+    //
+    // }
 
-        let eventInvitations = [];
-        let friendRequestsFrom = [];
+    componentDidMount() {
+        const friendRequestsFrom = this.props.user.friendRequestsFrom;
+        const eventInvitations = this.props.user.eventInvitations;
+        this.fetchNotifications(friendRequestsFrom, eventInvitations);
+    }
 
-        if (this.props.user.eventInvitations) {
+    componentDidUpdate(prevProps, prevState) {
+        if (!this.state.dataLoaded) {
+            const friendRequestsFrom = this.props.user.friendRequestsFrom;
+            const eventInvitations = this.props.user.eventInvitations;
+            this.fetchNotifications(friendRequestsFrom, eventInvitations);
+        }
+    }
+
+    fetchNotifications = (friendRequestsFrom, eventInvitations) => {
+
+        if (eventInvitations) {
             eventInvitations = Object.keys(this.props.user.eventInvitations);
         }
-        if (this.props.user.friendRequestsFrom) {
+        if (friendRequestsFrom) {
             friendRequestsFrom = Object.keys(this.props.user.friendRequestsFrom);
         }
 
@@ -47,34 +82,6 @@ class Notifications extends React.Component {
         } else {
             this.setState({dataLoaded: true});
         }
-
-    }
-
-    fetchEventsRequired = () => {
-
-        const eventInvitations = Object.keys(this.props.user.eventInvitations);
-
-        for(const eventId in eventInvitations){
-            if(!(eventId in this.props.eventReducer.byId)){
-                return true;
-            }
-        }
-
-        return false;
-
-    };
-
-    fetchUsersRequired = () => {
-
-        const friendRequestsFrom = Object.keys(this.props.user.friendRequestsFrom);
-
-        for(const userId in friendRequestsFrom){
-            if(!(userId in this.props.peopleReducer.byId)){
-                return true;
-            }
-        }
-
-        return false;
 
     };
 

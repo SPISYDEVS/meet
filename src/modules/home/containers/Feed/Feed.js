@@ -16,17 +16,19 @@ class Feed extends React.Component {
 
     componentWillMount() {
         // this.props.signOut();
-        if (Platform.OS === 'android' && !Constants.isDevice) {
-            console.log("IT DIDN'T WORK");
-        } else {
-            this._getLocationAsync();
-        }
+
     }
 
     componentDidMount() {
         this.props.persistCurrentUser(() => {
         }, () => {
         });
+
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+            console.log("IT DIDN'T WORK");
+        } else {
+            this._getLocationAsync();
+        }
     };
 
     _getLocationAsync = async () => {
@@ -90,6 +92,7 @@ class Feed extends React.Component {
         return (
             <EventListView eventIds={filteredEventIds}/>
         );
+
     }
 }
 
