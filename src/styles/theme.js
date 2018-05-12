@@ -24,13 +24,13 @@ const color = {
     tab_inactive: '#ccc',
 
     //6am-12pm
-    morning: '#62C8DA',
+    morning: '#EE8F55',
 
     //12pm-6pm
-    afternoon: '#FFBC67',
+    afternoon: '#E96A61',
 
     //6pm-12am
-    night: '#B06F86',
+    night: '#AC6C82',
 
     //12am-6am
     latenight: '#455C7B',
