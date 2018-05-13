@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {ScrollView, View} from 'react-native';
+import {View, SafeAreaView, TouchableOpacity, FlatList, Text} from 'react-native';
 
-import {List, ListItem, SearchBar} from 'react-native-elements'
+import {List, ListItem, SearchBar, CheckBox} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
-class SingleSelection extends Component {
+class MultiSelection extends Component {
     constructor(props) {
         super(props);
 
@@ -17,9 +17,25 @@ class SingleSelection extends Component {
         this.ts.addAll(objList);
 
         this.state = {
-            results: objList
+            results: objList,
+            selectedItems: {}
         };
     }
+
+    selectedItem = (item) => {
+        const state = {...this.state};
+        if (this.state.selectedItems[item.id] !== undefined) {
+            delete state.selectedItems[item.id];
+            // Turn off check mark
+        }
+        else {
+            state.selectedItems[item.id] = item;
+            // Turn on check mark
+        }
+
+        this.setState(state);
+    };
+
 
     reset = () => {
         const {objList} = this.props;
@@ -48,7 +64,6 @@ class SingleSelection extends Component {
                     lightTheme
                     inputStyle={styles.searchInput}
                     containerStyle={styles.searchBar}
-                    // onChangeText={(text) => this.search(text)}
                     onClearText={() => this.reset()}
                     onBlur={() => searchFunc === undefined ? {} : searchFunc}
                     noIcon
@@ -61,8 +76,10 @@ class SingleSelection extends Component {
                                 <ListItem
                                     roundAvatar
                                     key={i}
-                                    onPress={() => onSelectHandler(item)}
+                                    onPress={() => {this.selectedItem(item)}}
                                     hideChevron={true}
+                                    rightIcon={{name: this.state.selectedItems[item.id] === undefined ?
+                                        'checkbox-blank-circle-outline' : 'checkbox-marked-circle', type: 'material-community'}}
                                     {...item}
                                 />
                             ))
@@ -70,12 +87,26 @@ class SingleSelection extends Component {
                     </List>
                 </View>
 
+                <SafeAreaView
+                    style={styles.bottomSafeArea}>
+                    <View style={styles.bottomBar}>
+                        <View style={styles.profileScrollView}>
+                            <FlatList/>
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.addButton} onPress={() => onSelectHandler(this.state.selectedItems)}>
+                            <Text style={styles.addButtonText}>Add</Text>>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+
             </View>
         );
     }
 }
 
-SingleSelection.propTypes = {
+MultiSelection.propTypes = {
     objList: PropTypes.array.isRequired,
     searchKey: PropTypes.string,
     searchHint: PropTypes.string,
@@ -83,10 +114,10 @@ SingleSelection.propTypes = {
     callback: PropTypes.func
 };
 
-SingleSelection.defaultProps = {
+MultiSelection.defaultProps = {
     searchKey: 'title',
     callback: (item) => {
     }
 };
 
-export default SingleSelection;
+export default MultiSelection;
