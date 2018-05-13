@@ -52,6 +52,7 @@ class EventDetails extends React.Component {
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
+        const host = this.props.peopleReducer.byId[event.hostId];
 
         if (event === undefined) {
             return <View/>
@@ -65,7 +66,7 @@ class EventDetails extends React.Component {
             event.actualAttendees = [];
         }
 
-        let {title, date, address, description, hostId, hostPic, hostName, plannedAttendees, actualAttendees} = event;
+        let {title, date, address, description, hostId, plannedAttendees, actualAttendees} = event;
 
         const eventHappening = (moment().unix() * 1000) > parseInt(date);
 
@@ -112,12 +113,12 @@ class EventDetails extends React.Component {
                         <Avatar
                             small
                             rounded
-                            source={{uri: hostPic !== undefined ? hostPic : this.props.hostPic}}
+                            source={{uri: host.profile !== undefined ? host.profile.source : ''}}
                             onPress={() => handleViewProfile(hostId)}
                             activeOpacity={0.7}
                         />
                         <Text style={styles.hostName}>
-                            {hostName}
+                            {`${host.firstName} ${host.lastName}`}
                         </Text>
                     </View>
                     {

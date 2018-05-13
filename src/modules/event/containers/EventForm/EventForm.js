@@ -190,18 +190,12 @@ class EventForm extends React.Component {
     };
 
     //callback function used when you select a friend to invite
-    inviteFriend = (friend) => {
+    inviteFriend = (friends) => {
 
         const state = {...this.state};
 
-        //get current invite list
-        let inviteList = state['invitations']['value'];
-
-        //update the list
-        inviteList.push(friend);
-
         //close modal and update state
-        state['invitations']['value'] = inviteList;
+        state['invitations']['value'] = Object.values(friends);
         state['invitations']['other']['modalVisible'] = false;
         this.setState(state);
 
