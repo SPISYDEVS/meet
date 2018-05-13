@@ -85,7 +85,7 @@ export function getUser(userId, callback) {
 
         let user = snapshot.val();
 
-        callback(true, user, null);
+        callback(true, {[snapshot.key]: user}, null);
     })
         .catch(error => callback(false, null, error));
 }

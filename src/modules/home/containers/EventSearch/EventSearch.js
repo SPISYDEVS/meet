@@ -58,7 +58,6 @@ class EventSearch extends Component {
                 <View>
 
 
-
                 </View>
 
 

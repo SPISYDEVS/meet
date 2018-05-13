@@ -22,7 +22,8 @@ const formStyles = StyleSheet.create({
 
     containerView:{
         marginVertical: padding * 3,
-        width: windowWidth - 40
+        alignSelf: 'center',
+        width: (windowWidth - 40)
     },
 
     socialButton:{

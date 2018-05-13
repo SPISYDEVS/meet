@@ -10,6 +10,7 @@ import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actio
 import EventListView from "../../../event/components/EventListView/EventListView";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
+import commonStyles from "../../../../styles/commonStyles";
 import {Icon} from "react-native-elements";
 
 class Feed extends React.Component {
@@ -74,7 +75,7 @@ class Feed extends React.Component {
     render() {
 
         if (!this.state.dataLoaded) {
-            return <View style={styles.container}>
+            return <View style={commonStyles.loadingContainer}>
                 <ActivityIndicator animating color='white' size="large"/>
             </View>
         }
