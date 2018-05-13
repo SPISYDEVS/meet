@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
     content:{
         paddingTop: 15,
         flex: 1
+    },
+    active: {
+        flex: 1,
+    },
+    hidden: {
+        opacity: 0,
+        height: 0,
     }
 });
 

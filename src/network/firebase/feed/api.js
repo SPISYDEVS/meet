@@ -6,14 +6,17 @@ export function fetchFeed(location, callback) {
     //specify location + radius to query by
     const geoQuery = geofireRef.query({
         center: location,
-        radius: 100
+        radius: 500000
     });
 
     const eventIds = [];
 
+    const onKeyEnteredRegistration = geoQuery.on("key_entered", function (key, location, distance) {
+        eventIds.push(key);
+    });
+
     geoQuery.on("ready", function () {
 
-        console.log(eventIds);
         Promise.all(eventIds.map(id => {
             return database.ref('events').child(id).once('value');
         }))
@@ -54,10 +57,5 @@ export function fetchFeed(location, callback) {
         // This will fire once the initial data is loaded, so now we can cancel the "key_entered" event listener
         onKeyEnteredRegistration.cancel();
     });
-
-    const onKeyEnteredRegistration = geoQuery.on("key_entered", function (key, location, distance) {
-        eventIds.push(key);
-    });
-
 
 }

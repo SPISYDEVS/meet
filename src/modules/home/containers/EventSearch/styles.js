@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
+        borderColor: color.text,
         flex: 1
     },
     searchInput: {

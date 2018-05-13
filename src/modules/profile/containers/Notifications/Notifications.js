@@ -5,7 +5,7 @@ import styles from "./styles"
 
 import {ScrollView, View} from "react-native";
 
-import FriendRequest from "../../components/FriendRequest/FriendRequest";
+import FriendRequest from "../../../people/components/FriendRequest/FriendRequest";
 
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
@@ -56,24 +56,17 @@ class Notifications extends React.Component {
 
     render() {
 
-        if (!this.state.dataLoaded) {
+        if(!this.state.dataLoaded){
             return <View/>
         }
 
         let friendNotifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
         let eventNotifications = this.props.user.eventInvitations === undefined ? [] : Object.keys(this.props.user.eventInvitations);
 
-        friendNotifications = friendNotifications.map(id => {
-            if (id in this.props.peopleReducer.byId) {
-                return this.props.peopleReducer.byId[id];
-            }
-            return {}
-        });
-
         return (
             <ScrollView style={styles.container}>
                 {
-                    friendNotifications.map((user, i) => <FriendRequest key={user.uid} user={user}/>)
+                    friendNotifications.map((userId, i) => <FriendRequest key={userId} userId={userId}/>)
                 }
                 {
                     eventNotifications.map((eventId, i) => <EventInvitation key={eventId}

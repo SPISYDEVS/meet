@@ -46,12 +46,12 @@ export function updateProfile(user, successCB, errorCB) {
     };
 }
 
-export function getUser(userId, successCB, errorCB) {
+export function fetchUser(userId, successCB, errorCB) {
     return (dispatch) => {
         api.getUser(userId, function(success, data, error) {
             if (success) {
                 dispatch({type: t.USER_FETCHED, data: data});
-                successCB(data);
+                successCB();
             }
             else if (error) errorCB(error)
         });

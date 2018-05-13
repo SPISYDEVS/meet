@@ -32,6 +32,8 @@ class Friends extends React.Component {
         });
 
         if (usersToFetch.length > 0) {
+            console.log("what th eFUCK");
+
             this.props.fetchUsers(usersToFetch, () => {
             }, () => {
             });

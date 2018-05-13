@@ -2,7 +2,7 @@ import React from 'react';
 import {Constants, Location, Permissions} from 'expo';
 
 import {connect} from 'react-redux';
-import {Platform, SafeAreaView, Text, View} from "react-native";
+import {ActivityIndicator, Platform, SafeAreaView, Text, View} from "react-native";
 import {Actions} from 'react-native-router-flux';
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
@@ -15,6 +15,9 @@ import {Icon} from "react-native-elements";
 class Feed extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            dataLoaded: false
+        }
     }
 
     componentWillMount() {
@@ -51,12 +54,21 @@ class Feed extends React.Component {
 
         //load events into store
         this.props.fetchFeed([lat, lng], () => {
-        }, () => {
+            console.log("hello!");
+            this.setState({dataLoaded: true});
+        }, (error) => {
+            console.log(error);
         })
     };
 
 
-     render() {
+    render() {
+
+        if (!this.state.dataLoaded) {
+            return <View style={styles.container}>
+                <ActivityIndicator animating color='white' size="large"/>
+            </View>
+        }
 
         const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;

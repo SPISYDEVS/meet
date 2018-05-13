@@ -40,10 +40,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 15,
     },
-
     buttonContainer:{
         justifyContent:"center",
         alignItems:"center"
+    },
+    active: {
+        flex: 1,
+    },
+    hidden: {
+        opacity: 0,
+        height: 0,
     }
 });
 

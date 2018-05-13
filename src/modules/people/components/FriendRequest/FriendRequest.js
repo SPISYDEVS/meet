@@ -8,17 +8,49 @@ import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 
-import {respondToFriendRequest} from "../../../../network/firebase/user/actions";
+import {fetchUser, respondToFriendRequest} from "../../../../network/firebase/user/actions";
+import {color} from "../../../../styles/theme";
 
 
 class FriendRequest extends React.Component {
     constructor() {
         super();
+        this.state = {
+            dataLoaded: false
+        }
     }
+
+    componentDidMount() {
+        const userId = this.props.userId;
+        this.fetchUser(userId);
+    }
+
+    fetchUser = (userId) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+        if (!(userId in this.props.peopleReducer.byId)) {
+            this.props.fetchUser(userId, () => {
+                this.setState({dataLoaded: true});
+            }, () => {
+            });
+        } else {
+            this.setState({dataLoaded: true});
+        }
+
+    };
 
     render() {
 
-        const {user} = this.props;
+        if(!this.state.dataLoaded){
+            return <View/>
+        }
+
+        const userId = this.props.userId;
+        const user = this.props.peopleReducer.byId[userId];
+
+        if(user === undefined){
+            return <View/>
+        }
 
         return (
             <View style={styles.container}>
@@ -32,13 +64,13 @@ class FriendRequest extends React.Component {
                                   onPress={() => this.props.respondToFriendRequest(user.uid, true, () => {
                                   }, () => {
                                   })}>
-                    <Icon name="ios-checkmark-circle-outline" type="ionicon" size={30}/>
+                    <Icon name="ios-checkmark-circle-outline" type="ionicon" size={30} color={color.text}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.actionButton}
                                   onPress={() => this.props.respondToFriendRequest(user.uid, false, () => {
                                   }, () => {
                                   })}>
-                    <Icon name="ios-close-circle-outline" type="ionicon" size={30}/>
+                    <Icon name="ios-close-circle-outline" type="ionicon" size={30} color={color.text}/>
                 </TouchableOpacity>
             </View>
         );
@@ -50,8 +82,14 @@ FriendRequest.propTypes = {
 };
 
 const actions = {
-    respondToFriendRequest
+    respondToFriendRequest,
+    fetchUser
 };
 
+const mapStateToProps = (state) => {
+    return {
+        peopleReducer: state.peopleReducer,
+    }
+};
 
-export default connect(null, actions)(FriendRequest);
+export default connect(mapStateToProps, actions)(FriendRequest);

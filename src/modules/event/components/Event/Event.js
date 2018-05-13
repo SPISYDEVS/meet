@@ -30,7 +30,6 @@ class Event extends React.Component {
     fetchEvent = (eventId) => {
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
-
         if (!(eventId in this.props.eventReducer.byId)) {
             console.log("DONT HAVE");
             this.props.fetchEvent(eventId, () => {

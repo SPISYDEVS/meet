@@ -8,12 +8,11 @@ import * as peopleApi from '../user/api';
 export function fetchFeed(location, successCB, errorCB) {
 
     return (dispatch) => {
-        api.fetchFeed(location, function (success, events, error) {
+        api.fetchFeed(location, function (success, data, error) {
             if (success) {
 
                 dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
                 dispatch({type: peopleT.USERS_FETCHED, data: data.hosts});
-
                 successCB();
 
             } else if (error) errorCB(error)

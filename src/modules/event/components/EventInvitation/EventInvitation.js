@@ -8,16 +8,44 @@ import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 import {fetchEvent, respondToEventInvitation} from "../../../../network/firebase/event/actions";
+import {color} from "../../../../styles/theme";
 
 
 class EventInvitation extends React.Component {
     constructor() {
         super();
+        this.state = {
+            dataLoaded: false
+        }
     }
+
+    componentDidMount() {
+        const eventId = this.props.eventId;
+        this.fetchEvent(eventId);
+    }
+
+    fetchEvent = (eventId) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+
+        if (!(eventId in this.props.eventReducer.byId)) {
+            this.props.fetchEvent(eventId, () => {
+                this.setState({dataLoaded: true});
+            }, () => {
+            });
+        } else {
+            this.setState({dataLoaded: true});
+        }
+
+    };
 
     render() {
 
-        const {eventId} = this.props;
+        if(!this.state.dataLoaded){
+            return <View/>
+        }
+
+        const eventId = this.props.eventId;
         const event = this.props.eventReducer.byId[eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
         const hostName = host.firstName + " " + host.lastName;
@@ -34,13 +62,13 @@ class EventInvitation extends React.Component {
                                   onPress={() => this.props.respondToEventInvitation(eventId, true, () => {
                                   }, () => {
                                   })}>
-                    <Icon name="ios-checkmark-circle-outline" type="ionicon" size={30}/>
+                    <Icon name="ios-checkmark-circle-outline" type="ionicon" size={30} color={color.text}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.actionButton}
                                   onPress={() => this.props.respondToEventInvitation(eventId, false, () => {
                                   }, () => {
                                   })}>
-                    <Icon name="ios-close-circle-outline" type="ionicon" size={30}/>
+                    <Icon name="ios-close-circle-outline" type="ionicon" size={30} color={color.text}/>
                 </TouchableOpacity>
             </View>
         );

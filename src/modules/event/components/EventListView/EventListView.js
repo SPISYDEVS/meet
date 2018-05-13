@@ -32,6 +32,7 @@ class EventListView extends Component {
         );
     };
 
+
     render() {
 
         const eventIds = this.props.eventIds;
@@ -42,6 +43,7 @@ class EventListView extends Component {
                 data={eventIds}
                 renderItem={(item) => this.renderItem(item)}
                 ListFooterComponent={this.renderFooter}
+                initialNumToRender={5}
             />
         );
     }
