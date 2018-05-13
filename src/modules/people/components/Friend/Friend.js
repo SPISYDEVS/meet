@@ -24,8 +24,8 @@ class Friend extends React.Component {
                         onPress={() => handleViewProfile(user.uid)}
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
-                    <Text>{user.firstName + " " + user.lastName}</Text>
-                    <Text>{user.school}</Text>
+                    <Text style={styles.text}>{user.firstName + " " + user.lastName}</Text>
+                    <Text style={styles.text}>{user.school}</Text>
                 </View>
 
             </View>

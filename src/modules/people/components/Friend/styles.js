@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
     },
     userInfo: {
         paddingLeft: 10,
-        flex: 1
+        flex: 1,
+    },
+    text: {
+        color: color.text
     }
 });
 

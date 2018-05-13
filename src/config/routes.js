@@ -113,7 +113,7 @@ export default class extends React.Component {
 
                             <Scene key="Feed"
                                    component={Feed}
-                                   navBar={Search}
+                                   hideNavBar
                                    type={ActionConst.REPLACE}/>
 
                             <Scene key="EventSearch"
@@ -147,11 +147,11 @@ export default class extends React.Component {
                                    component={Profile}
                                    title={null}
                                    renderRightButton={<View style={{flexDirection: 'row'}}>
-                                       <Icon name="pencil" type='material-community' color={color.accent_dark}
+                                       <Icon name="pencil" type='material-community' color={color.white}
                                              size={32}
                                              containerStyle={{paddingRight: 8}}
                                              onPress={() => Actions.push('EditProfile')}/>
-                                       <Icon name="cog" type='entypo' color={color.accent_dark}
+                                       <Icon name="cog" type='entypo' color={color.white}
                                              size={32}
                                              containerStyle={{paddingRight: 8}}
                                              onPress={() => Actions.push('Settings')}/>

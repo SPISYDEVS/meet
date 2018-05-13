@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: fontFamily.bold,
-        fontSize: fontSize.large
+        fontSize: fontSize.large,
+        color: color.text
     },
     description: {
         fontFamily: fontFamily.regular,
-        fontSize: fontSize.regular
+        fontSize: fontSize.regular,
+        color: color.text
     }
 });
 

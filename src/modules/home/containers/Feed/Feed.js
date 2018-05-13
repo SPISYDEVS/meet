@@ -2,12 +2,15 @@ import React from 'react';
 import {Constants, Location, Permissions} from 'expo';
 
 import {connect} from 'react-redux';
-import {Platform} from "react-native";
+import {Platform, SafeAreaView, Text, View} from "react-native";
+import {Actions} from 'react-native-router-flux';
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventListView from "../../../event/components/EventListView/EventListView";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
+import styles from "./styles";
+import {Icon} from "react-native-elements";
 
 class Feed extends React.Component {
     constructor(props) {
@@ -68,7 +71,21 @@ class Feed extends React.Component {
         });
 
         return (
-            <EventListView eventIds={filteredEventIds}/>
+            <SafeAreaView style={styles.container}>
+
+                <View style={styles.cappedContainer}>
+
+                    <View style={[styles.padded, styles.rowContainer]}>
+                        <Text style={styles.headerText}>Feed</Text>
+
+                        <Icon name="search" size={35} color={"white"} onPress={() => Actions.push('EventSearch')}/>
+                    </View>
+
+                </View>
+
+                <EventListView eventIds={filteredEventIds}/>
+
+            </SafeAreaView>
         );
 
     }
