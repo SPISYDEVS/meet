@@ -129,7 +129,7 @@ const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
         peopleReducer: state.peopleReducer,
-        location: state.homeReducer.location
+        location: state.feedReducer.location
     }
 };
 

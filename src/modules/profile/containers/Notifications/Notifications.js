@@ -43,7 +43,6 @@ class Notifications extends React.Component {
             }, () => {
             })
         } else if (eventInvitations) {
-            console.log("HELP");
             this.props.fetchEvents(eventInvitations, () => this.setState({dataLoaded: true}), () => {
             })
         } else if (friendRequestsFrom) {
@@ -61,7 +60,6 @@ class Notifications extends React.Component {
             return <View/>
         }
 
-        // const notifications = [0, 1, 2];
         let friendNotifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
         let eventNotifications = this.props.user.eventInvitations === undefined ? [] : Object.keys(this.props.user.eventInvitations);
 

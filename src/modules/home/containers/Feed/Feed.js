@@ -100,7 +100,7 @@ class Feed extends React.Component {
 const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
-        homeReducer: state.homeReducer,
+        feedReducer: state.feedReducer,
         peopleReducer: state.peopleReducer,
         user: state.authReducer.user
     }

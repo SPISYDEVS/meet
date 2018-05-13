@@ -49,7 +49,7 @@ class EventSearch extends Component {
                         noIcon
                     />
 
-                    <TouchableOpacity onPress={() => Actions.Feed()}>
+                    <TouchableOpacity onPress={() => Actions.pop()}>
                         <Text style={styles.headerText}>Cancel</Text>
                     </TouchableOpacity>
 
@@ -71,7 +71,7 @@ class EventSearch extends Component {
 const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
-        homeReducer: state.homeReducer,
+        feedReducer: state.feedReducer,
         user: state.authReducer.user
     }
 };

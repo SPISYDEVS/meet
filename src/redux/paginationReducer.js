@@ -1,15 +1,15 @@
 import {AsyncStorage} from 'react-native';
 
-import * as t from '../network/firebase/feed/actionTypes';
+import * as t from '../network/firebase/actionTypes';
 
-let initialState = {location: {latitude: 0, longitude: 0}};
+let initialState = {feedKey: ''};
 
 const feedReducer = (state = initialState, action) => {
     switch (action.type) {
-        case t.LOCATION_FETCHED: {
+        case t.UPDATE_FEED_PAGE_KEY: {
             return {
                 ...state,
-                location: action.data,
+                feedKey: action.data
             }
         }
         default:

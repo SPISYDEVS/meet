@@ -1,0 +1,1 @@
+export const UPDATE_FEED_PAGE_KEY = 'event/UPDATE_FEED_PAGE_KEY';

@@ -129,7 +129,7 @@ export default class extends React.Component {
                                    component={Events}
                                    title="Events"
                                    renderRightButton={<Icon type='material-community' name="plus"
-                                                            color={color.accent_dark}
+                                                            color={color.text}
                                                             containerStyle={{paddingRight: 8}}
                                                             size={36} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>

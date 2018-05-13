@@ -1,6 +1,6 @@
 import authReducer from "./authReducer";
 import eventReducer from "./eventReducer";
-import homeReducer from "./feedReducer";
+import feedReducer from "./feedReducer";
 import peopleReducer from "./peopleReducer";
 
 
@@ -19,5 +19,5 @@ export default {
     peopleReducer,
     authReducer,
     eventReducer,
-    homeReducer
+    feedReducer
 };

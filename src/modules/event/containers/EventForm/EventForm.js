@@ -309,7 +309,7 @@ class EventForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         currentUser: state.authReducer.user,
-        location: state.homeReducer.location
+        location: state.feedReducer.location
     }
 };
 

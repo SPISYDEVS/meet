@@ -26,6 +26,7 @@ export function fetchFeed(location, callback) {
                 }
 
             });
+
             onKeyEnteredRegistration.cancel();
 
         }
