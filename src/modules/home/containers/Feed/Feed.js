@@ -54,13 +54,22 @@ class Feed extends React.Component {
 
         //load events into store
         this.props.fetchFeed([lat, lng], () => {
-            console.log("hello!");
             this.setState({dataLoaded: true});
         }, (error) => {
             console.log(error);
         })
     };
 
+    fetchFeed = () => {
+        const location = this.props.feedReducer.location;
+        const {latitude, longitude} = location;
+
+        //load events into store
+        this.props.fetchFeed([latitude, longitude], () => {
+        }, (error) => {
+            console.log(error);
+        })
+    };
 
     render() {
 
@@ -95,7 +104,7 @@ class Feed extends React.Component {
 
                 </View>
 
-                <EventListView eventIds={filteredEventIds}/>
+                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}/>
 
             </SafeAreaView>
         );
