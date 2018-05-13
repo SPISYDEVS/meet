@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 
 import {View, SafeAreaView, TouchableOpacity, FlatList, Text} from 'react-native';
 
-import {List, ListItem, SearchBar, CheckBox} from 'react-native-elements'
+import {List, ListItem, SearchBar, CheckBox, Icon} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
+
+const UNDERLAY_COLOR = '#414141';
+const CHECKMARK_COLOR = '#CCC';
 
 class MultiSelection extends Component {
     constructor(props) {
@@ -26,11 +29,9 @@ class MultiSelection extends Component {
         const state = {...this.state};
         if (this.state.selectedItems[item.id] !== undefined) {
             delete state.selectedItems[item.id];
-            // Turn off check mark
         }
         else {
             state.selectedItems[item.id] = item;
-            // Turn on check mark
         }
 
         this.setState(state);
@@ -51,6 +52,20 @@ class MultiSelection extends Component {
         }
     };
 
+
+    renderAvatar = (invitee, i) => {
+        return (
+            <ListItem
+                roundAvatar
+                key={i}
+                containerStyle={styles.avatarListItem}
+                hideChevron={true}
+                avatar={{uri: invitee.item.avatar.uri}}
+            />
+        );
+    };
+
+
     render() {
 
         const {searchHint, searchFunc, callback, onSelectHandler} = this.props;
@@ -69,17 +84,24 @@ class MultiSelection extends Component {
                     noIcon
                 />
 
-                <View style={styles.listContainer}>
-                    <List>
+                <View style={styles.listViewContainer}>
+                    <List containerStyle={styles.listContainer}>
                         {
                             this.state.results.map((item, i) => (
                                 <ListItem
+                                    containerStyle={styles.listItemContainer}
+                                    titleStyle={styles.listItemText}
                                     roundAvatar
                                     key={i}
+                                    underlayColor={UNDERLAY_COLOR}
                                     onPress={() => {this.selectedItem(item)}}
-                                    hideChevron={true}
-                                    rightIcon={{name: this.state.selectedItems[item.id] === undefined ?
-                                        'checkbox-blank-circle-outline' : 'checkbox-marked-circle', type: 'material-community'}}
+                                    rightIcon={
+                                        <Icon name={this.state.selectedItems[item.id] === undefined ?
+                                            'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
+                                              type='material-community'
+                                              color={CHECKMARK_COLOR}
+                                        />
+                                    }
                                     {...item}
                                 />
                             ))
@@ -91,7 +113,11 @@ class MultiSelection extends Component {
                     style={styles.bottomSafeArea}>
                     <View style={styles.bottomBar}>
                         <View style={styles.profileScrollView}>
-                            <FlatList/>
+                            <FlatList
+                                data={Object.values(this.state.selectedItems)}
+                                horizontal
+                                renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
+                            />
                         </View>
 
                         <TouchableOpacity

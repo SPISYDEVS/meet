@@ -11,8 +11,12 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
     },
+    listViewContainer: {
+        flex: 10,
+        backgroundColor: color.background,
+    },
     listContainer: {
-        flex: 10
+        borderTopColor: color.black
     },
     searchContainer:{
         paddingRight: 10,
@@ -24,6 +28,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
+
     },
     searchInput: {
         borderRadius: 12,
@@ -36,11 +41,10 @@ const styles = StyleSheet.create({
         color: color.black
     },
     bottomBar: {
-        height: 30,
         backgroundColor: color.black,
         flex: 1,
-        maxHeight: 30,
-        flexDirection: 'row'
+        maxHeight: 50,
+        flexDirection: 'row',
     },
     bottomSafeArea: {
         backgroundColor: color.black,
@@ -55,7 +59,24 @@ const styles = StyleSheet.create({
         color: '#FCFCFC'
     },
     profileScrollView: {
-        flex: 7
+        flex: 7,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    listItemContainer: {
+        backgroundColor: color.background,
+        borderBottomColor: color.black,
+    },
+    listItemText: {
+        color: color.white
+    },
+    listItemUnderlayColor: {
+        color: color.light_grey
+    },
+    avatarListItem: {
+        maxWidth: 50,
+        maxHeight: 50,
+        borderBottomColor: color.black
     }
 });
 
