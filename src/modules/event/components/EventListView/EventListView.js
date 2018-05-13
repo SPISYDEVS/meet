@@ -47,6 +47,7 @@ class EventListView extends Component {
                 ListFooterComponent={this.renderFooter}
                 initialNumToRender={5}
                 refreshing={this.state.refreshing}
+                onRefresh={() => this.props.onRefresh()}
             />
         );
     }
@@ -54,6 +55,10 @@ class EventListView extends Component {
 
 EventListView.propTypes = {
     onRefresh: PropTypes.func
+};
+
+EventListView.defaultProps = {
+    onRefresh: () => {}
 };
 
 export default EventListView;
