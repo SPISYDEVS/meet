@@ -292,27 +292,29 @@ class EventForm extends React.Component {
                 </Modal>
 
                 {/* ListView of friends */}
-                <List>
-                    {
-                        this.state.invitations.value.map((invitee, i) => (
-                            <ListItem
-                                containerStyle={styles.listItemContainer}
-                                titleStyle={styles.listItemText}
-                                roundAvatar
-                                key={i}
-                                underlayColor={UNDERLAY_COLOR}
-                                rightIcon={
-                                    <Icon name='close'
-                                          type='material-community'
-                                          color={CHECKMARK_COLOR}
-                                          onPress={() => this.removeInvitee(invitee)}
-                                    />
-                                }
-                                {...invitee}
-                            />
-                        ))
-                    }
-                </List>
+                <ScrollView>
+                    <List>
+                        {
+                            this.state.invitations.value.map((invitee, i) => (
+                                <ListItem
+                                    containerStyle={styles.listItemContainer}
+                                    titleStyle={styles.listItemText}
+                                    roundAvatar
+                                    key={i}
+                                    underlayColor={UNDERLAY_COLOR}
+                                    rightIcon={
+                                        <Icon name='close'
+                                              type='material-community'
+                                              color={CHECKMARK_COLOR}
+                                              onPress={() => this.removeInvitee(invitee)}
+                                        />
+                                    }
+                                    {...invitee}
+                                />
+                            ))
+                        }
+                    </List>
+                </ScrollView>
 
                 {/*submit button to create the event*/}
                 <Button
