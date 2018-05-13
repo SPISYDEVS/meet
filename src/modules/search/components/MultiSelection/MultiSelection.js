@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {View, SafeAreaView, TouchableOpacity, FlatList, Text} from 'react-native';
 
-import {List, ListItem, SearchBar, CheckBox} from 'react-native-elements'
+import {List, ListItem, SearchBar, CheckBox, Icon} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
@@ -77,9 +77,11 @@ class MultiSelection extends Component {
                                     roundAvatar
                                     key={i}
                                     onPress={() => {this.selectedItem(item)}}
-                                    hideChevron={true}
-                                    rightIcon={{name: this.state.selectedItems[item.id] === undefined ?
-                                        'checkbox-blank-circle-outline' : 'checkbox-marked-circle', type: 'material-community'}}
+                                    rightIcon={
+                                        <Icon name={this.state.selectedItems[item.id] === undefined ?
+                                            'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
+                                              type='material-community'/>
+                                    }
                                     {...item}
                                 />
                             ))
