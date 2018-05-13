@@ -69,11 +69,13 @@ class MultiSelection extends Component {
                     noIcon
                 />
 
-                <View style={styles.listContainer}>
-                    <List>
+                <View style={styles.listViewContainer}>
+                    <List containerStyle={styles.listContainer}>
                         {
                             this.state.results.map((item, i) => (
                                 <ListItem
+                                    containerStyle={styles.listItemContainer}
+                                    titleStyle={styles.listItemText}
                                     roundAvatar
                                     key={i}
                                     onPress={() => {this.selectedItem(item)}}

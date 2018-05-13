@@ -11,8 +11,12 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
     },
+    listViewContainer: {
+        flex: 10,
+        backgroundColor: color.background,
+    },
     listContainer: {
-        flex: 10
+        borderTopColor: color.black
     },
     searchContainer:{
         paddingRight: 10,
@@ -24,6 +28,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
+
     },
     searchInput: {
         borderRadius: 12,
@@ -56,6 +61,13 @@ const styles = StyleSheet.create({
     },
     profileScrollView: {
         flex: 7
+    },
+    listItemContainer: {
+        backgroundColor: color.background,
+        borderBottomColor: color.black,
+    },
+    listItemText: {
+        color: color.white
     }
 });
 
