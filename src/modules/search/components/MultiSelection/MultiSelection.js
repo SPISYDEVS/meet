@@ -111,6 +111,7 @@ class MultiSelection extends Component {
                     </ScrollView>
                 </View>
 
+                {Object.values(this.state.selectedItems).length !== 0 &&
                 <SafeAreaView
                     style={styles.bottomSafeArea}>
                     <View style={styles.bottomBar}>
@@ -127,7 +128,7 @@ class MultiSelection extends Component {
                             <Text style={styles.addButtonText}>Add</Text>>
                         </TouchableOpacity>
                     </View>
-                </SafeAreaView>
+                </SafeAreaView>}
 
             </View>
         );
