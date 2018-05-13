@@ -5,7 +5,7 @@ const  { color, padding, windowWidth, normalize, fontSize, fontFamily } = theme;
 const formStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.white,
+        backgroundColor: color.background,
     },
 
     wrapper:{

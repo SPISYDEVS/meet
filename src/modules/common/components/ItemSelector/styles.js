@@ -8,11 +8,10 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     inputContainer:{
-        width: windowWidth - 40,
-        height: normalize(55),
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
-        borderBottomColor: "#A5A7A9"
+        borderBottomColor: color.text,
+        color: color.text
     },
     modal:{
         margin: 0,

@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 
 import * as theme from '../../../../styles/theme';
 
-const { windowWidth, fontSize, fontFamily, normalize } = theme;
+const { color, windowWidth, fontSize, fontFamily, normalize } = theme;
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom: 10
+        marginBottom: 10,
     },
 
     inputContainer:{
