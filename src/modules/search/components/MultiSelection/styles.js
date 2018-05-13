@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
         color: '#FCFCFC'
     },
     profileScrollView: {
-        flex: 7
+        flex: 7,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     listItemContainer: {
         backgroundColor: color.background,
@@ -70,6 +72,11 @@ const styles = StyleSheet.create({
     },
     listItemUnderlayColor: {
         color: color.light_grey
+    },
+    avatarListItem: {
+        maxWidth: 50,
+        maxHeight: 50,
+        borderBottomColor: color.black
     }
 });
 

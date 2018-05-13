@@ -29,11 +29,9 @@ class MultiSelection extends Component {
         const state = {...this.state};
         if (this.state.selectedItems[item.id] !== undefined) {
             delete state.selectedItems[item.id];
-            // Turn off check mark
         }
         else {
             state.selectedItems[item.id] = item;
-            // Turn on check mark
         }
 
         this.setState(state);
@@ -53,6 +51,20 @@ class MultiSelection extends Component {
             this.setState({results: results});
         }
     };
+
+
+    renderAvatar = (invitee, i) => {
+        return (
+            <ListItem
+                roundAvatar
+                key={i}
+                containerStyle={styles.avatarListItem}
+                hideChevron={true}
+                avatar={{uri: invitee.item.avatar.uri}}
+            />
+        );
+    };
+
 
     render() {
 
@@ -101,7 +113,11 @@ class MultiSelection extends Component {
                     style={styles.bottomSafeArea}>
                     <View style={styles.bottomBar}>
                         <View style={styles.profileScrollView}>
-                            <FlatList/>
+                            <FlatList
+                                data={Object.values(this.state.selectedItems)}
+                                horizontal
+                                renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
+                            />
                         </View>
 
                         <TouchableOpacity
