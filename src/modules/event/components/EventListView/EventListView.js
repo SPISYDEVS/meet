@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {ActivityIndicator, FlatList, ScrollView, View} from 'react-native';
 import styles from "./styles";
 import Event from "../../components/Event/Event";
@@ -8,6 +9,7 @@ class EventListView extends Component {
         super(props);
         this.state = {
             loading: false,
+            refreshing: false,
         }
     }
 
@@ -44,9 +46,14 @@ class EventListView extends Component {
                 renderItem={(item) => this.renderItem(item)}
                 ListFooterComponent={this.renderFooter}
                 initialNumToRender={5}
+                refreshing={this.state.refreshing}
             />
         );
     }
 }
+
+EventListView.propTypes = {
+    onRefresh: PropTypes.func
+};
 
 export default EventListView;
