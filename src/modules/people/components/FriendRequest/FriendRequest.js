@@ -47,7 +47,7 @@ class FriendRequest extends React.Component {
 
         const userId = this.props.userId;
         const user = this.props.peopleReducer.byId[userId];
-
+        console.log(user);
         if(user === undefined){
             return <View/>
         }

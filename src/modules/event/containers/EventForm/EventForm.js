@@ -116,7 +116,7 @@ class EventForm extends React.Component {
     };
 
     onSuccess() {
-        Actions.FeedScreen();
+        Actions.Events();
     };
 
     onError(error) {
