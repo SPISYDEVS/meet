@@ -41,11 +41,10 @@ const styles = StyleSheet.create({
         color: color.black
     },
     bottomBar: {
-        height: 30,
         backgroundColor: color.black,
         flex: 1,
-        maxHeight: 30,
-        flexDirection: 'row'
+        maxHeight: 50,
+        flexDirection: 'row',
     },
     bottomSafeArea: {
         backgroundColor: color.black,
@@ -68,6 +67,9 @@ const styles = StyleSheet.create({
     },
     listItemText: {
         color: color.white
+    },
+    listItemUnderlayColor: {
+        color: color.light_grey
     }
 });
 

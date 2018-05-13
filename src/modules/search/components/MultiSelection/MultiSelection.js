@@ -7,6 +7,9 @@ import {List, ListItem, SearchBar, CheckBox, Icon} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
+const UNDERLAY_COLOR = '#414141';
+const CHECKMARK_COLOR = '#CCC';
+
 class MultiSelection extends Component {
     constructor(props) {
         super(props);
@@ -78,11 +81,14 @@ class MultiSelection extends Component {
                                     titleStyle={styles.listItemText}
                                     roundAvatar
                                     key={i}
+                                    underlayColor={UNDERLAY_COLOR}
                                     onPress={() => {this.selectedItem(item)}}
                                     rightIcon={
                                         <Icon name={this.state.selectedItems[item.id] === undefined ?
                                             'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
-                                              type='material-community'/>
+                                              type='material-community'
+                                              color={CHECKMARK_COLOR}
+                                        />
                                     }
                                     {...item}
                                 />

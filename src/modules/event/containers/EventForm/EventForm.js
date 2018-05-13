@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
 import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {List, ListItem, Icon} from "react-native-elements";
 import styles from "./styles";
 import moment from "moment";
 import DatePicker from "../../../common/components/DatePicker/DatePicker";
@@ -18,8 +19,12 @@ import {momentFromDate} from "../../../common/utils/dateUtils";
 
 import {createEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
-import {Icon} from "react-native-elements";
 import FriendSelection from "../../../search/containers/FriendSelection/FriendSelection";
+
+
+
+const UNDERLAY_COLOR = '#414141';
+const CHECKMARK_COLOR = '#CCC';
 
 
 class EventForm extends React.Component {
@@ -201,6 +206,17 @@ class EventForm extends React.Component {
 
     };
 
+
+    removeInvitee = (invitee) => {
+        console.log(invitee);
+        const state = {...this.state};
+        let invitees = state.invitations.value;
+        invitees = invitees.filter(user => user.id !== invitee.id);
+        state.invitations.value = invitees;
+        this.setState(state);
+    };
+
+
     render() {
 
         const form = this.form;
@@ -275,14 +291,28 @@ class EventForm extends React.Component {
                     <FriendSelection onSelectHandler={this.inviteFriend} notIncluded={friendsToNotInclude}/>
                 </Modal>
 
-                {/* ScrollView of friends */}
-                <ScrollView>
-                    {this.state['invitations']['value'].map(invitee =>
-                        <Text>
-                            {invitee.title}
-                        </Text>
-                    )}
-                </ScrollView>
+                {/* ListView of friends */}
+                <List>
+                    {
+                        this.state.invitations.value.map((invitee, i) => (
+                            <ListItem
+                                containerStyle={styles.listItemContainer}
+                                titleStyle={styles.listItemText}
+                                roundAvatar
+                                key={i}
+                                underlayColor={UNDERLAY_COLOR}
+                                rightIcon={
+                                    <Icon name='close'
+                                          type='material-community'
+                                          color={CHECKMARK_COLOR}
+                                          onPress={() => this.removeInvitee(invitee)}
+                                    />
+                                }
+                                {...invitee}
+                            />
+                        ))
+                    }
+                </List>
 
                 {/*submit button to create the event*/}
                 <Button

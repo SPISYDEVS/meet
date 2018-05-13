@@ -52,6 +52,16 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    listItemContainer: {
+        backgroundColor: color.white,
+        borderBottomColor: color.white,
+    },
+    listItemText: {
+        color: color.black
+    },
+    listItemUnderlayColor: {
+        color: color.light_grey
     }
 });
 
