@@ -28,8 +28,9 @@ import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
-import EventSearch from "../modules/home/containers/EventSearch/EventSearch";
+import EventSearch from "../modules/home/containers/ExploreSearch/ExploreSearch";
 import Settings from "../modules/profile/containers/Settings/Settings";
+import HomeScreen from "../modules/home/containers/HomeScreen/HomeScreen";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -110,17 +111,10 @@ export default class extends React.Component {
 
                         <Scene key="FeedScreen" default="Feed" title="Explore"
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}>
-
-                            <Scene key="Feed"
-                                   component={Feed}
+                            <Scene key="Home"
+                                   component={HomeScreen}
                                    hideNavBar
                                    type={ActionConst.REPLACE}/>
-
-                            <Scene key="EventSearch"
-                                   component={EventSearch}
-                                   hideNavBar
-                                   type={ActionConst.REPLACE}/>
-
                         </Scene>
 
                         <Scene key="EventScreen" default="Events" title="My Events"

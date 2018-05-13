@@ -7,7 +7,7 @@ import styles from "./styles"
 import {Text, View} from "react-native";
 import handleViewProfile from "../../utils/handleViewProfile";
 
-class Friend extends React.Component {
+class UserListItem extends React.Component {
     constructor() {
         super();
     }
@@ -33,4 +33,4 @@ class Friend extends React.Component {
     }
 }
 
-export default connect(null, null)(Friend);
+export default connect(null, null)(UserListItem);

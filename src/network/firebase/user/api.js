@@ -49,7 +49,7 @@ export function respondToFriendRequest(requesterId, accept, callback) {
             updates[requesterId + '/friendRequestsTo/' + currentUser.uid] = null;
 
             //update firebase to reflect that the two users are now friends
-            if(accept) {
+            if (accept) {
                 updates[currentUser.uid + '/friends/' + requesterId] = true;
                 updates[requesterId + '/friends/' + currentUser.uid] = true;
             }
@@ -63,14 +63,14 @@ export function respondToFriendRequest(requesterId, accept, callback) {
     });
 }
 
-export function editUser (user, callback) {
+export function editUser(user, callback) {
     database.ref('users').child(user.uid).update({...user})
         .then(() => callback(true, null, null))
         .catch((error) => callback(false, null, {message: error}));
 }
 
 
-export async function uploadFile (blob) {
+export async function uploadFile(blob) {
     let user = auth.currentUser;
     let filename = user.uid + "_profile";
 
@@ -80,13 +80,35 @@ export async function uploadFile (blob) {
 
 
 //Get the user object from the realtime database
-export function getUser(userId, callback) {
+export function fetchUser(userId, callback) {
     database.ref('users').child(userId).once('value').then((snapshot) => {
 
         let user = snapshot.val();
 
         callback(true, {[snapshot.key]: user}, null);
     })
+        .catch(error => callback(false, null, error));
+}
+
+//Get the user object from the realtime database
+export function searchUsers(searchTerm, callback) {
+
+    database.ref('users').orderByChild('firstName')
+        .startAt(searchTerm)
+        .endAt(searchTerm + "\uf8ff")
+        .limitToFirst(20)
+        .once('value')
+        .then((snapshot) => {
+
+            let users = snapshot.val();
+
+            if(users === null){
+                users = {}
+            }
+
+            callback(true, users, null);
+
+        })
         .catch(error => callback(false, null, error));
 }
 

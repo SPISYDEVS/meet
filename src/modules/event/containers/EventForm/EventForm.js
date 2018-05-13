@@ -307,4 +307,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {createEvent})(EventForm);
+const actions = {
+    createEvent
+};
+
+export default connect(mapStateToProps, actions)(EventForm);

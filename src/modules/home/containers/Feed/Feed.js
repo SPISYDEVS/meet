@@ -12,6 +12,7 @@ import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
 import {Icon} from "react-native-elements";
+import ExploreSearch from "../ExploreSearch/ExploreSearch";
 
 class Feed extends React.Component {
     constructor(props) {
@@ -21,16 +22,7 @@ class Feed extends React.Component {
         }
     }
 
-    componentWillMount() {
-        // this.props.signOut();
-
-    }
-
     componentDidMount() {
-        this.props.persistCurrentUser(() => {
-        }, () => {
-        });
-
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {
@@ -94,19 +86,7 @@ class Feed extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-
-                <View style={styles.cappedContainer}>
-
-                    <View style={[styles.padded, styles.rowContainer]}>
-                        <Text style={styles.headerText}>Feed</Text>
-
-                        <Icon name="search" size={35} color={"white"} onPress={() => Actions.push('EventSearch')}/>
-                    </View>
-
-                </View>
-
                 <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}/>
-
             </SafeAreaView>
         );
 

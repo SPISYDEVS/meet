@@ -5,7 +5,7 @@ import styles from "./styles"
 
 import {ScrollView} from "react-native";
 
-import Friend from "../../components/Friend/Friend";
+import UserListItem from "../../components/UserListItem/UserListItem";
 
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 
@@ -57,7 +57,7 @@ class Friends extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {
-                    friends.map((friend, i) => <Friend key={i} user={friend}/>)
+                    friends.map((friend, i) => <UserListItem key={i} user={friend}/>)
                 }
             </ScrollView>
         );
