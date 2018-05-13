@@ -2,9 +2,9 @@ import {AsyncStorage} from 'react-native';
 
 import * as t from '../network/firebase/actionTypes';
 
-let initialState = {feedKey: ''};
+let initialState = {feedKey: null};
 
-const feedReducer = (state = initialState, action) => {
+const paginationReducer = (state = initialState, action) => {
     switch (action.type) {
         case t.UPDATE_FEED_PAGE_KEY: {
             return {
@@ -17,4 +17,4 @@ const feedReducer = (state = initialState, action) => {
     }
 };
 
-export default feedReducer;
+export default paginationReducer;

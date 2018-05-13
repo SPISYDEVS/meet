@@ -81,7 +81,7 @@ export function fetchEvent(eventId, callback) {
 
             const data = {
                 host: {[host.uid]: host},
-                event: {[eventSnap.getKey()]: event},
+                event: {[eventSnap.key]: event},
             };
 
             callback(true, data, null);

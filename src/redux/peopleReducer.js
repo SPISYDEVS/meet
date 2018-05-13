@@ -7,6 +7,7 @@ let initialState = {byId: {}, allIds: []};
 
 const peopleReducer = (state = initialState, action) => {
     switch (action.type) {
+        case t.USER_FETCHED:
         case t.USERS_FETCHED: {
             const users = action.data;
             const userIds = Object.keys(users);
@@ -19,8 +20,7 @@ const peopleReducer = (state = initialState, action) => {
                 allIds: [...state.allIds].concat(userIds.filter(id => !state.allIds.includes(id))),
             }
         }
-        case authT.LOGGED_IN:
-        case t.USER_FETCHED: {
+        case authT.LOGGED_IN: {
             const user = action.data;
 
             const newIds = [...state.allIds];

@@ -34,8 +34,8 @@ class Event extends React.Component {
         if (!(eventId in this.props.eventReducer.byId)) {
             console.log("DONT HAVE");
             this.props.fetchEvent(eventId, () => {
-            }, () => {
                 this.setState({dataLoaded: true});
+            }, () => {
             });
         } else {
             this.setState({dataLoaded: true});

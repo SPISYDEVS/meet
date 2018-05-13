@@ -48,28 +48,6 @@ class Feed extends React.Component {
 
         //load events into store
         this.props.fetchFeed([lat, lng], () => {
-
-            //fetches the hosts from each event to pass in to the dumb component Event
-            this.props.eventReducer.allIds.forEach(eventId => {
-
-                let usersToFetch = [];
-
-                const event = this.props.eventReducer.byId[eventId];
-
-                const userId = event.hostId;
-
-                if (!(userId in this.props.peopleReducer.byId)) {
-                    usersToFetch.push(userId);
-                }
-
-                if (usersToFetch.length > 0) {
-                    this.props.fetchUsers(usersToFetch, () => {
-                    }, () => {
-                    });
-                }
-
-            });
-
         }, () => {
         })
     };
