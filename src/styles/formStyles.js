@@ -5,7 +5,7 @@ const  { color, padding, windowWidth, normalize, fontSize, fontFamily } = theme;
 const formStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.white,
+        backgroundColor: color.background,
     },
 
     wrapper:{
@@ -22,7 +22,8 @@ const formStyles = StyleSheet.create({
 
     containerView:{
         marginVertical: padding * 3,
-        width: windowWidth - 40
+        alignSelf: 'center',
+        width: (windowWidth - 40)
     },
 
     socialButton:{

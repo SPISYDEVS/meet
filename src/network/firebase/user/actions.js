@@ -46,17 +46,30 @@ export function updateProfile(user, successCB, errorCB) {
     };
 }
 
-export function getUser(userId, successCB, errorCB) {
+export function fetchUser(userId, successCB, errorCB) {
     return (dispatch) => {
-        api.getUser(userId, function(success, data, error) {
+        api.fetchUser(userId, function(success, data, error) {
             if (success) {
                 dispatch({type: t.USER_FETCHED, data: data});
+                successCB();
+            }
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+export function searchUsers(searchTerm, successCB, errorCB) {
+    return (dispatch) => {
+        api.searchUsers(searchTerm, function(success, data, error) {
+            if (success) {
+                dispatch({type: t.USERS_FETCHED, data: data});
                 successCB(data);
             }
             else if (error) errorCB(error)
         });
     };
 }
+
 export function getProfilePic(userId, successCB, errorCB) {
     return (dispatch) => {
         api.getProfilePic(userId, function(success, data, error) {

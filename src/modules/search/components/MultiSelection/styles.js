@@ -8,36 +8,22 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: color.background,
         opacity: 1,
+        flex: 1,
         // justifyContent: 'center',
     },
-    cappedContainer: {
-        maxHeight: 62
-    },
-    padded: {
-        paddingHorizontal: 20,
-        paddingTop: 15,
-        paddingBottom: 15,
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        flexShrink: 1,
+    listContainer: {
+        flex: 10
     },
     searchContainer:{
         paddingRight: 10,
         paddingVertical: 0.5,
     },
     searchBar: {
-        paddingHorizontal: 0,
-        paddingVertical: 9,
+        padding: 0,
         margin: 0,
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
-        flex: 1
     },
     searchInput: {
         borderRadius: 12,
@@ -47,7 +33,29 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
-        color: color.text
+        color: color.black
+    },
+    bottomBar: {
+        height: 30,
+        backgroundColor: color.black,
+        flex: 1,
+        maxHeight: 30,
+        flexDirection: 'row'
+    },
+    bottomSafeArea: {
+        backgroundColor: color.black,
+        flex: 1,
+    },
+    addButton: {
+        flex: 1,
+        alignSelf: 'center'
+    },
+    addButtonText: {
+        fontSize: fontSize.regular + 2,
+        color: '#FCFCFC'
+    },
+    profileScrollView: {
+        flex: 7
     }
 });
 

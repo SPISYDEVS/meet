@@ -34,17 +34,18 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderTopWidth: 0,
         borderBottomWidth: 0,
+        borderColor: color.text,
         flex: 1
     },
     searchInput: {
         borderRadius: 12,
         borderWidth: 0.5,
-        backgroundColor: color.background,
+        backgroundColor: color.white,
     },
     headerText: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
-        color: color.black
+        color: color.text
     }
 });
 

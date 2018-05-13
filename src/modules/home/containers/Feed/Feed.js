@@ -2,30 +2,32 @@ import React from 'react';
 import {Constants, Location, Permissions} from 'expo';
 
 import {connect} from 'react-redux';
-import {Platform} from "react-native";
+import {ActivityIndicator, Platform, SafeAreaView, Text, View} from "react-native";
+import {Actions} from 'react-native-router-flux';
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventListView from "../../../event/components/EventListView/EventListView";
+import {fetchUsers} from "../../../../network/firebase/user/actions";
+import styles from "./styles";
+import commonStyles from "../../../../styles/commonStyles";
+import {Icon} from "react-native-elements";
+import ExploreSearch from "../ExploreSearch/ExploreSearch";
 
 class Feed extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            dataLoaded: false
+        }
     }
 
-    componentWillMount() {
-        // this.props.signOut();
+    componentDidMount() {
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {
             this._getLocationAsync();
         }
-    }
-
-    componentDidMount() {
-        this.props.persistCurrentUser(() => {
-        }, () => {
-        });
     };
 
     _getLocationAsync = async () => {
@@ -45,12 +47,30 @@ class Feed extends React.Component {
 
         //load events into store
         this.props.fetchFeed([lat, lng], () => {
-        }, () => {
+            this.setState({dataLoaded: true});
+        }, (error) => {
+            console.log(error);
         })
     };
 
+    fetchFeed = () => {
+        const location = this.props.feedReducer.location;
+        const {latitude, longitude} = location;
 
-     render() {
+        //load events into store
+        this.props.fetchFeed([latitude, longitude], () => {
+        }, (error) => {
+            console.log(error);
+        })
+    };
+
+    render() {
+
+        if (!this.state.dataLoaded) {
+            return <View style={commonStyles.loadingContainer}>
+                <ActivityIndicator animating color='white' size="large"/>
+            </View>
+        }
 
         const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;
@@ -65,8 +85,11 @@ class Feed extends React.Component {
         });
 
         return (
-            <EventListView eventIds={filteredEventIds}/>
+            <SafeAreaView style={styles.container}>
+                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}/>
+            </SafeAreaView>
         );
+
     }
 }
 
@@ -74,7 +97,8 @@ class Feed extends React.Component {
 const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
-        homeReducer: state.homeReducer,
+        feedReducer: state.feedReducer,
+        peopleReducer: state.peopleReducer,
         user: state.authReducer.user
     }
 };
@@ -84,6 +108,7 @@ const actions = {
     fetchFeed,
     updateLocation,
     signOut,
+    fetchUsers,
     persistCurrentUser
 };
 

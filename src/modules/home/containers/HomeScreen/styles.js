@@ -1,14 +1,29 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+import * as theme from "../../../../styles/theme";
+const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
-import * as theme from '../../../../styles/theme';
-
-const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
+const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
-    container: {
+    container:{
         backgroundColor: color.background,
-        opacity: 1,
-        // justifyContent: 'center',
+        flex:1,
+        paddingHorizontal: 0,
+    },
+    bottomContainer:{
+        backgroundColor:"white",
+        paddingVertical: padding * 3,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 0
+        }
+    },
+    buttonContainer:{
+        justifyContent:"center",
+        alignItems:"center"
     },
     cappedContainer: {
         maxHeight: 62

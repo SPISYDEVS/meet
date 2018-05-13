@@ -7,16 +7,19 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: color.background,
-        paddingVertical: 10
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 8
     },
-    title: {
-        fontFamily: fontFamily.bold,
-        fontSize: fontSize.large
+    avatar: {
+
     },
-    description: {
-        fontFamily: fontFamily.regular,
-        fontSize: fontSize.regular
+    userInfo: {
+        paddingLeft: 10,
+        flex: 1,
+    },
+    text: {
+        color: color.text
     }
 });
 

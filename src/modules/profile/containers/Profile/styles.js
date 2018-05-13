@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: fontSize.large,
-        fontFamily: fontFamily.bold
+        fontFamily: fontFamily.bold,
+        color: color.text
     },
     school: {
         fontSize: fontSize.regular,
-        fontFamily: fontFamily.regular
+        fontFamily: fontFamily.regular,
+        color: color.text
     },
     body: {
         flex: 5
@@ -38,10 +40,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 15,
     },
-
     buttonContainer:{
         justifyContent:"center",
         alignItems:"center"
+    },
+    active: {
+        flex: 1,
+    },
+    hidden: {
+        opacity: 0,
+        height: 0,
     }
 });
 

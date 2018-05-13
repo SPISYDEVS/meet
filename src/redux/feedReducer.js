@@ -4,7 +4,7 @@ import * as t from '../network/firebase/feed/actionTypes';
 
 let initialState = {location: {latitude: 0, longitude: 0}};
 
-const homeReducer = (state = initialState, action) => {
+const feedReducer = (state = initialState, action) => {
     switch (action.type) {
         case t.LOCATION_FETCHED: {
             return {
@@ -17,4 +17,4 @@ const homeReducer = (state = initialState, action) => {
     }
 };
 
-export default homeReducer;
+export default feedReducer;

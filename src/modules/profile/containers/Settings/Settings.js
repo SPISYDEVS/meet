@@ -9,7 +9,6 @@ import {Button} from "react-native-elements";
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import {signOut} from "../../../../network/firebase/auth/actions";
 import {Alert} from "react-native";
-import {signOut} from '../../../../network/firebase/auth/actions';
 
 const mapStateToProps = (state) => {
     return {

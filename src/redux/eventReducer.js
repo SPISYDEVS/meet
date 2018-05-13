@@ -18,6 +18,7 @@ const eventReducer = (state = initialState, action) => {
                 allIds: [...state.allIds, event.id],
             };
         }
+        case t.EVENT_FETCHED:
         case t.EVENTS_FETCHED: {
             const events = action.data;
             const eventIds = Object.keys(events);
@@ -53,6 +54,7 @@ const eventReducer = (state = initialState, action) => {
                     [eventId]: event
                 }
             }
+
         }
         case authT.LOGGED_OUT: {
             let keys = ['user'];

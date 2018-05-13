@@ -12,3 +12,8 @@ export const GOOGLE_MAPS_PLACE_API_KEY = 'AIzaSyAOkeHdz33iLnUmkyWmoFoZ_B0otaz7IS
 export const FACEBOOK_APP_ID = '585122455198052';
 
 export const DATE_FORMAT = 'MMMM Do YYYY, h:mm a';
+
+export const MORNING_START = '06:00';
+export const AFTERNOON_START = '12:00';
+export const NIGHT_START = '18:00';
+export const LATENIGHT_START = '00:00';

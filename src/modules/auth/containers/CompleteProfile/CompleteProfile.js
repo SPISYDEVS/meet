@@ -77,7 +77,7 @@ class CompleteProfile extends React.Component {
     };
 
     onSuccess = () => {
-        Actions.Main()
+        Actions.reset('Main');
     };
 
     onError = (error) => {

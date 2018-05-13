@@ -7,7 +7,7 @@ import styles from "./styles"
 import {Text, View} from "react-native";
 import handleViewProfile from "../../utils/handleViewProfile";
 
-class Friend extends React.Component {
+class UserListItem extends React.Component {
     constructor() {
         super();
     }
@@ -24,8 +24,8 @@ class Friend extends React.Component {
                         onPress={() => handleViewProfile(user.uid)}
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
-                    <Text>{user.firstName + " " + user.lastName}</Text>
-                    <Text>{user.school}</Text>
+                    <Text style={styles.text}>{user.firstName + " " + user.lastName}</Text>
+                    <Text style={styles.text}>{user.school}</Text>
                 </View>
 
             </View>
@@ -33,4 +33,4 @@ class Friend extends React.Component {
     }
 }
 
-export default connect(null, null)(Friend);
+export default connect(null, null)(UserListItem);

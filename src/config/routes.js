@@ -28,8 +28,9 @@ import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
-import EventSearch from "../modules/home/containers/EventSearch/EventSearch";
+import EventSearch from "../modules/home/containers/ExploreSearch/ExploreSearch";
 import Settings from "../modules/profile/containers/Settings/Settings";
+import HomeScreen from "../modules/home/containers/HomeScreen/HomeScreen";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -81,6 +82,7 @@ export default class extends React.Component {
                        navigationBarStyle={{backgroundColor: color.background, borderBottomWidth: 0}}
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.accent_dark}>
+
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
                         <Scene key="Register" component={Register} title="Register" back/>
@@ -92,6 +94,7 @@ export default class extends React.Component {
                     <Scene key="EventDetails"
                            clone
                            title={null}
+                           hideNavBar
                            component={EventDetails}
                            type={ActionConst.REPLACE}/>
 
@@ -103,21 +106,15 @@ export default class extends React.Component {
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
+                           tabBarStyle={{backgroundColor: color.black}}
                            tabBarPosition="bottom">
 
                         <Scene key="FeedScreen" default="Feed" title="Explore"
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}>
-
-                            <Scene key="Feed"
-                                   component={Feed}
-                                   navBar={Search}
-                                   type={ActionConst.REPLACE}/>
-
-                            <Scene key="EventSearch"
-                                   component={EventSearch}
+                            <Scene key="Home"
+                                   component={HomeScreen}
                                    hideNavBar
                                    type={ActionConst.REPLACE}/>
-
                         </Scene>
 
                         <Scene key="EventScreen" default="Events" title="My Events"
@@ -126,7 +123,7 @@ export default class extends React.Component {
                                    component={Events}
                                    title="Events"
                                    renderRightButton={<Icon type='material-community' name="plus"
-                                                            color={color.accent_dark}
+                                                            color={color.text}
                                                             containerStyle={{paddingRight: 8}}
                                                             size={36} onPress={() => Actions.push('EventForm')}/>}
                                    type={ActionConst.REPLACE}/>
@@ -144,11 +141,11 @@ export default class extends React.Component {
                                    component={Profile}
                                    title={null}
                                    renderRightButton={<View style={{flexDirection: 'row'}}>
-                                       <Icon name="pencil" type='material-community' color={color.accent_dark}
+                                       <Icon name="pencil" type='material-community' color={color.white}
                                              size={32}
                                              containerStyle={{paddingRight: 8}}
                                              onPress={() => Actions.push('EditProfile')}/>
-                                       <Icon name="cog" type='entypo' color={color.accent_dark}
+                                       <Icon name="cog" type='entypo' color={color.white}
                                              size={32}
                                              containerStyle={{paddingRight: 8}}
                                              onPress={() => Actions.push('Settings')}/>

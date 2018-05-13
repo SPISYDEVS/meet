@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {ScrollView, Text, View} from 'react-native';
+import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import styles from "./styles"
-import {Avatar, Button} from "react-native-elements";
+import {Avatar, Button, Icon} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
+import {Actions} from 'react-native-router-flux';
 
 import {fetchUsers} from '../../../../network/firebase/user/actions';
 import {rsvpEvent} from '../../../../network/firebase/event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
+import {fetchBackgroundColor} from "../../utils";
 
 
 class EventDetails extends React.Component {
@@ -50,6 +52,7 @@ class EventDetails extends React.Component {
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
+        const host = this.props.peopleReducer.byId[event.hostId];
 
         if (event === undefined) {
             return <View/>
@@ -63,10 +66,11 @@ class EventDetails extends React.Component {
             event.actualAttendees = [];
         }
 
-        let {title, date, address, description, hostId, hostPic, hostName, plannedAttendees, actualAttendees} = event;
+        let {title, date, address, description, hostId, plannedAttendees, actualAttendees} = event;
 
         const eventHappening = (moment().unix() * 1000) > parseInt(date);
 
+        const backgroundColor = fetchBackgroundColor(date);
         date = moment(date).calendar();
 
         //pull the user objects using their associated ids
@@ -77,103 +81,111 @@ class EventDetails extends React.Component {
             return {}
         });
 
+
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>
-                        {title}
-                    </Text>
-
-                    <Text style={styles.subtitle}>
-                        {date
-                        + "\n"
-                        + address}
-                    </Text>
+            <SafeAreaView style={{backgroundColor: backgroundColor, height: '100%'}}>
+                <View style={styles.navBar}>
+                    <TouchableOpacity onPress={() => Actions.pop()}>
+                        <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>
+                    </TouchableOpacity>
                 </View>
+                <ScrollView style={styles.container}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>
+                            {title}
+                        </Text>
+
+                        <Text style={styles.subtitle}>
+                            {date
+                            + "\n"
+                            + address}
+                        </Text>
+                    </View>
 
 
-                <View style={styles.details}>
-                    <Text style={styles.description}>
-                        {description}
-                    </Text>
-                </View>
+                    <View style={styles.details}>
+                        <Text style={styles.description}>
+                            {description}
+                        </Text>
+                    </View>
 
-                <View style={styles.hostContainer}>
-                    <Avatar
-                        small
-                        rounded
-                        source={{uri: hostPic !== undefined ? hostPic : this.props.hostPic}}
-                        onPress={() => handleViewProfile(hostId)}
-                        activeOpacity={0.7}
-                    />
-                    <Text style={styles.hostName}>
-                        {hostName}
-                    </Text>
-                </View>
-                {
-                    eventHappening &&
+                    <View style={styles.hostContainer}>
+                        <Avatar
+                            small
+                            rounded
+                            source={{uri: host.profile !== undefined ? host.profile.source : ''}}
+                            onPress={() => handleViewProfile(hostId)}
+                            activeOpacity={0.7}
+                        />
+                        <Text style={styles.hostName}>
+                            {`${host.firstName} ${host.lastName}`}
+                        </Text>
+                    </View>
+                    {
+                        eventHappening &&
+
+                        <Text style={styles.boldSubtitle}>
+                            Who's Here ({actualAttendees.length})
+                        </Text>
+                    }
+                    <View style={styles.attendeesContainer}>
+                        {
+                            actualAttendees.map((user, i) => (
+                                <View key={i} style={styles.attendees}>
+                                    <Avatar
+                                        small
+                                        rounded
+                                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                                        onPress={() => handleViewProfile(hostId)}
+                                        activeOpacity={0.7}
+                                    />
+                                    <Text style={styles.hostName}>
+                                        {user.firstName + user.lastName}
+                                    </Text>
+                                </View>
+                            ))
+                        }
+                    </View>
+
 
                     <Text style={styles.boldSubtitle}>
-                        Who's Here ({actualAttendees.length})
+                        Who's Going ({plannedAttendees.length})
                     </Text>
-                }
-                <View style={styles.attendeesContainer}>
-                    {
-                        actualAttendees.map((user, i) => (
-                            <View key={i} style={styles.attendees}>
-                                <Avatar
-                                    small
-                                    rounded
-                                    source={{uri: user.profile === undefined ? '' : user.profile.source}}
-                                    onPress={() => handleViewProfile(hostId)}
-                                    activeOpacity={0.7}
-                                />
-                                <Text style={styles.hostName}>
-                                    {user.firstName + user.lastName}
-                                </Text>
-                            </View>
-                        ))
-                    }
-                </View>
+                    <View style={styles.attendeesContainer}>
+                        {
+                            plannedAttendees.map((user, i) => (
+                                <View key={i} style={styles.attendees}>
+                                    <Avatar
+                                        small
+                                        rounded
+                                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                                        // source={{uri: item.picture}}
+                                        onPress={() => handleViewProfile(user.uid)}
+                                        activeOpacity={0.7}
+                                    />
+                                    <Text style={styles.hostName}>
+                                        {/*{item.name}*/}
+                                        {user.firstName + " " + user.lastName}
+                                    </Text>
+                                </View>
+                            ))
+                        }
+                    </View>
 
+                    <Button
+                        raised
+                        title='TEMPORARY RSVP'
+                        borderRadius={4}
+                        containerViewStyle={formStyles.containerView}
+                        buttonStyle={formStyles.button}
+                        textStyle={formStyles.buttonText}
+                        onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
+                        }, () => {
+                        })}
+                    />
 
-                <Text style={styles.boldSubtitle}>
-                    Who's Going ({plannedAttendees.length})
-                </Text>
-                <View style={styles.attendeesContainer}>
-                    {
-                        plannedAttendees.map((user, i) => (
-                            <View key={i} style={styles.attendees}>
-                                <Avatar
-                                    small
-                                    rounded
-                                    source={{uri: user.profile === undefined ? '' : user.profile.source}}
-                                    // source={{uri: item.picture}}
-                                    onPress={() => handleViewProfile(user.uid)}
-                                    activeOpacity={0.7}
-                                />
-                                <Text style={styles.hostName}>
-                                    {/*{item.name}*/}
-                                    {user.firstName + " " + user.lastName}
-                                </Text>
-                            </View>
-                        ))
-                    }
-                </View>
-
-                <Button
-                    raised
-                    title='TEMPORARY RSVP'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
-                    }, () => {
-                    })}
-                />
-
-            </ScrollView>
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 }

@@ -1,63 +1,81 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {Text, View, TouchableOpacity, StatusBar} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import styles from "./styles";
-import {Avatar, Icon} from "react-native-elements";
+import {Avatar} from "react-native-elements";
 
 import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
-import {getUser} from "../../../../network/firebase/user/actions";
-
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.eventReducer.eventUser
-    }
-};
-
+import moment from "moment";
+import {fetchEvent} from "../../../../network/firebase/event/actions";
+import haversine from "haversine";
+import {fetchBackgroundColor} from "../../utils";
 
 class Event extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            hostPic: ''
-        };
+            dataLoaded: false
+        }
     }
+
+    componentDidMount() {
+        const eventId = this.props.eventId;
+        this.fetchEvent(eventId);
+    }
+
+    fetchEvent = (eventId) => {
+
+        //handle lazily loading event data from firebase if the events aren't loaded into the client yet
+        if (!(eventId in this.props.eventReducer.byId)) {
+            console.log("DONT HAVE");
+            this.props.fetchEvent(eventId, () => {
+                this.setState({dataLoaded: true});
+            }, () => {
+            });
+        } else {
+            this.setState({dataLoaded: true});
+        }
+
+    };
 
     handlePress = () => {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
 
-    componentWillMount() {
-        let hostId = this.props.hostId;
-        this.props.getUser(hostId, this.onSuccess, this.onError);
-    }
-
-
-    onSuccess = (user) => {
-        let source = user.profile === undefined ? '' : user.profile.source;
-        this.setState({hostPic: source});
-    };
-
-
-    onError = (error) => {
-        console.log(error);
-    };
-
-
     render() {
-        const {title, description, date, hostId, hostName, distance} = this.props;
-        const {hostPic} = this.state;
+
+        if(!this.state.dataLoaded){
+            return <View/>
+        }
+
+        const event = this.props.eventReducer.byId[this.props.eventId];
+        const host = this.props.peopleReducer.byId[event.hostId];
+
+        const {title, description, date, hostId, location} = event;
+        const {profile, firstName, lastName} = host;
+
+        //host data
+        const hostPic = profile ? profile.source : '';
+        const hostName = firstName + " " + lastName;
+
+        //get miles away
+        const userLocation = this.props.location;
+        const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
+
+        //date in calendar format
+        const formattedDate = moment(date).calendar();
+
+        //card background
+        const backgroundColor = fetchBackgroundColor(date);
 
         return (
             <View style={styles.shadowWrapper}>
                 <TouchableOpacity style={styles.container} onPress={this.handlePress}>
-                    <View style={styles.topContainer}>
+                    <View style={[styles.topContainer, {backgroundColor: backgroundColor}]}>
                         {/*<StatusBar hidden={true}/>*/}
                         <View style={styles.header}>
 
@@ -65,14 +83,16 @@ class Event extends React.Component {
                                 <Text style={styles.title}>
                                     {title}
                                 </Text>
+                                <Text style={styles.dateText}>
+                                    {formattedDate}
+                                </Text>
                             </View>
+
                             <View style={styles.headerRight}>
                                 <Text style={styles.distanceText}>
                                     {distance + " miles away"}
                                 </Text>
-                                <Text style={styles.dateText}>
-                                    {date}
-                                </Text>
+
                             </View>
 
                         </View>
@@ -96,7 +116,7 @@ class Event extends React.Component {
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.botContainer}/>
+                    {/*<View style={styles.botContainer}/>*/}
                 </TouchableOpacity>
 
             </View>
@@ -104,21 +124,12 @@ class Event extends React.Component {
     }
 }
 
-Event.propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
+const mapStateToProps = (state) => {
+    return {
+        eventReducer: state.eventReducer,
+        peopleReducer: state.peopleReducer,
+        location: state.feedReducer.location
+    }
 };
 
-Event.defaultProps = {
-    title: 'Really Long Event Title',
-    description: 'This is a really thought out description to test our dummy component EventDetails! It has really really long text.',
-    date: 'Today, 12:30pm',
-    distance: '0',
-    hostId: null,
-    address: 'Warren College',
-    hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    hostName: "Jane",
-    plannedAttendees: [],
-};
-
-export default connect(mapStateToProps, {getUser})(Event);
+export default connect(mapStateToProps, {fetchEvent})(Event);

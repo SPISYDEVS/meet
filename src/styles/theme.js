@@ -7,7 +7,7 @@ const color = {
     accent_light: '#9C4368',
     accent: '#33223B',
     accent_dark: '#211E2B',
-    background: '#fcfcfc',
+    background: '#352F3D',
     black: "#3B3031",
     light_black: "#414141",
     white: "#ffffff",
@@ -16,10 +16,27 @@ const color = {
     dark_grey: '#555',
     red: "red",
     underlayColor: "#ddd",
-    tab_active: '#3B3031',
-    tab_inactive: '#bbb',
-    // tab_active: '#FF3320',
-    // tab_inactive: '#FFCCAA',
+
+
+    // tab_active: '#3B3031',
+    // tab_inactive: '#bbb',
+    tab_active: 'white',
+    tab_inactive: '#ccc',
+
+    //6am-12pm
+    morning: '#EE8F55',
+
+    //12pm-6pm
+    afternoon: '#E96A61',
+
+    //6pm-12am
+    night: '#AC6C82',
+
+    //12am-6am
+    latenight: '#455C7B',
+
+    text: 'white'
+
 };
 
 const fontSize = {

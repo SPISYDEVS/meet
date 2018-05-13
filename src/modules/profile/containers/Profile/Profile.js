@@ -8,12 +8,12 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import { auth as firebaseAuth } from "../../../../config/firebase";
+import {auth as firebaseAuth} from "../../../../config/firebase";
 import {Text} from "react-native";
 import TabButtons from "../../../common/components/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../../../people/containers/Friends/Friends";
-import { ImagePicker } from 'expo';
+import {ImagePicker} from 'expo';
 import {AVATAR_SIZE} from "../../constants";
 
 
@@ -70,8 +70,8 @@ class Profile extends React.Component {
     }
 
     async getImagePermAsync(callback) {
-        const { Permissions } = Expo;
-        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        const {Permissions} = Expo;
+        const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (status === 'granted') {
             this._pickImage(callback);
         } else {
@@ -109,7 +109,8 @@ class Profile extends React.Component {
                 }
             };
 
-            this.props.updateProfile(data, this.onUpdateProfile, () => {});
+            this.props.updateProfile(data, this.onUpdateProfile, () => {
+            });
         });
     };
 
@@ -118,7 +119,7 @@ class Profile extends React.Component {
         const {user} = this.props;
         let source = '';
 
-        if(user === null){
+        if (user === null) {
             return <View/>
         }
 
@@ -149,8 +150,13 @@ class Profile extends React.Component {
                     <TabButtons buttons={this.state.buttons}/>
 
                     <View style={styles.bottomContent}>
-                        {this.state.buttons[0].selected && <Notifications/>}
-                        {this.state.buttons[1].selected && <Friends/>}
+                        <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
+                            <Notifications/>
+                        </View>
+
+                        <View style={this.state.buttons[1].selected ? styles.active : styles.hidden}>
+                            <Friends/>
+                        </View>
                     </View>
                 </View>
             </View>

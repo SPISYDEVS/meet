@@ -6,31 +6,56 @@ export function fetchFeed(location, callback) {
     //specify location + radius to query by
     const geoQuery = geofireRef.query({
         center: location,
-        radius: 50000
+        radius: 500000
     });
 
-    //retrieve all upcoming events
-    database.ref('events').orderByChild('date').startAt(Date.now()).once('value').then((snapshot) => {
+    const eventIds = [];
 
-        const events = snapshot.val();
+    const onKeyEnteredRegistration = geoQuery.on("key_entered", function (key, location, distance) {
+        eventIds.push(key);
+    });
 
-        if (events !== null) {
+    geoQuery.on("ready", function () {
 
-            //geo registration variable can be used to cancel location updates
-            //'key_entered' used to retrieve all keys that enter the query criteria
-            const onKeyEnteredRegistration = geoQuery.on("key_entered", function (key, location, distance) {
+        Promise.all(eventIds.map(id => {
+            return database.ref('events').child(id).once('value');
+        }))
+            .then(events => {
+                const eventObject = {};
+                let userIds = [];
 
-                //only save upcoming events that are NEARBY
-                if (key in events) {
-                    callback(true, {[key]: events[key]}, null);
-                }
+                events.forEach(event => {
+                    eventObject[event.key] = event.val();
+                    userIds.push(event.val().hostId);
+                });
 
+                Promise.all(userIds.map(id => {
+                    return database.ref('users').child(id).once('value');
+                }))
+                    .then(users => {
+                        const userObject = {};
+                        users.forEach(user => userObject[user.key] = user.val());
+
+                        const data = {
+                            events: eventObject,
+                            hosts: userObject
+                        };
+
+                        callback(true, data, null)
+
+                    })
+                    .catch((error) => {
+                        callback(false, null, {message: error})
+                    });
+
+            })
+            .catch((error) => {
+                callback(false, null, {message: error})
             });
-            onKeyEnteredRegistration.cancel();
 
-        }
 
-    }).catch((error) => {
-        callback(false, null, {message: error})
+        // This will fire once the initial data is loaded, so now we can cancel the "key_entered" event listener
+        onKeyEnteredRegistration.cancel();
     });
+
 }

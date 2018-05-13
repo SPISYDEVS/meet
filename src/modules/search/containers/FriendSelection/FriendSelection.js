@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import SingleSelection from "../../components/SingleSelection/SingleSelection";
+import MultiSelection from "../../components/MultiSelection/MultiSelection";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import {connect} from "react-redux";
 
@@ -11,6 +11,7 @@ class FriendSelection extends Component {
 
     componentDidMount() {
 
+        //fetch necessary users that we don't have objects to
         if (this.props.user.friends === undefined) {
             return;
         }
@@ -33,19 +34,21 @@ class FriendSelection extends Component {
 
     }
 
-
-
     render() {
 
         let friends = this.props.user.friends === undefined ? [] : Object.keys(this.props.user.friends);
 
+        friends = friends.filter(id => !this.props.notIncluded.includes(id));
+
+        //pass in a list of friend objects
         friends = friends.map(id => {
             if (id in this.props.peopleReducer.byId) {
 
                 const friend = this.props.peopleReducer.byId[id];
 
-                let avatar = friend.profile ? {uri: friend.profile.source} : {uri: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"};
+                let avatar = friend.profile ? {uri: friend.profile.source} : {uri: ""};
                 return {
+                    id: friend.uid,
                     title: friend.firstName + " " + friend.lastName,
                     avatar: avatar
                 }
@@ -55,7 +58,8 @@ class FriendSelection extends Component {
         });
 
         return (
-            <SingleSelection {...this.props} objList={friends}/>
+            <MultiSelection {...this.props} objList={friends}/>
+
         );
 
     }
@@ -65,6 +69,7 @@ FriendSelection.propTypes = {
     searchKey: PropTypes.string,
     searchHint: PropTypes.string,
     callback: PropTypes.func,
+    notIncluded: PropTypes.array,
     onSelectHandler: PropTypes.func.required,
 };
 

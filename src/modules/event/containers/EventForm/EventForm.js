@@ -23,8 +23,8 @@ import FriendSelection from "../../../search/containers/FriendSelection/FriendSe
 
 
 class EventForm extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.form = {
             fields: {
@@ -47,7 +47,7 @@ class EventForm extends React.Component {
                 date: {
                     options: {
                         format: DATE_FORMAT,
-                        minuteInterval: 5,
+                        minuteInterval: 1,
                         mode: 'datetime',
                     },
                     value: moment().format(DATE_FORMAT),
@@ -69,10 +69,7 @@ class EventForm extends React.Component {
                         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
                         currentLocationLabel: "Current location",
                     },
-                    value: {
-                        latitude: 37.78825,
-                        longitude: -122.4324
-                    },
+                    value: this.props.location,
                     validator: (location) => !isEmpty(location),
                     errorMessage: "Location is required",
                     other: {
@@ -107,15 +104,19 @@ class EventForm extends React.Component {
             newState['error'] = data['error'];
             this.setState(newState);
         } else {
+
+            //transform data to pass into firebase
             data['data']['date'] = momentFromDate(data['data']['date']).valueOf();
             data['data']['address'] = this.state['location']['other']['address'];
+            data['data']['invitations'] = data['data']['invitations'].map(invitee => invitee.id);
+
             this.props.createEvent(data['data'], this.props.currentUser, this.onSuccess, this.onError);
         }
 
     };
 
     onSuccess() {
-        Actions.Main()
+        Actions.Events();
     };
 
     onError(error) {
@@ -180,7 +181,6 @@ class EventForm extends React.Component {
     };
 
     renderLocation = (location) => {
-
         if (location.length > 0) {
             return <Text style={styles.locationPre}> {location} </Text>
         }
@@ -189,10 +189,16 @@ class EventForm extends React.Component {
         }
     };
 
-    inviteFriend = (friend) => {
-        let inviteList = this.state['invitations']['value'];
-        inviteList.push(friend);
-        this.onChange('invitations', inviteList);
+    //callback function used when you select a friend to invite
+    inviteFriend = (friends) => {
+
+        const state = {...this.state};
+
+        //close modal and update state
+        state['invitations']['value'] = Object.values(friends);
+        state['invitations']['other']['modalVisible'] = false;
+        this.setState(state);
+
     };
 
     render() {
@@ -200,6 +206,8 @@ class EventForm extends React.Component {
         const form = this.form;
         const [title, description, date, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
+        const invited = this.state['invitations']['value'];
+        const friendsToNotInclude = invited.map(invitee => invitee.id);
 
         return (
             <View style={styles.container}>
@@ -264,7 +272,7 @@ class EventForm extends React.Component {
                     <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
                         <Icon type='feather' name='x'/>
                     </TouchableOpacity>
-                    <FriendSelection onSelectHandler={this.inviteFriend}/>
+                    <FriendSelection onSelectHandler={this.inviteFriend} notIncluded={friendsToNotInclude}/>
                 </Modal>
 
                 {/* ScrollView of friends */}
@@ -295,7 +303,12 @@ class EventForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         currentUser: state.authReducer.user,
+        location: state.feedReducer.location
     }
 };
 
-export default connect(mapStateToProps, {createEvent})(EventForm);
+const actions = {
+    createEvent
+};
+
+export default connect(mapStateToProps, actions)(EventForm);

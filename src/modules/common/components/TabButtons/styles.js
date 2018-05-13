@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         minHeight: 30,
         maxHeight: 30,
         flexDirection: 'row',
-        backgroundColor: color.white,
+        backgroundColor: color.accent_dark,
         borderWidth: 1,
         borderColor: color.accent_dark,
         borderRadius: 6,
@@ -19,25 +19,22 @@ const styles = StyleSheet.create({
     },
     selectedButton:{
         flex: 1,
-        backgroundColor: color.accent_dark,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRightWidth: 0.75,
-        borderRightColor: color.accent_dark
-    },
-    selectedText:{
-        color: color.white
-    },
-    button:{
-        flex: 1,
         backgroundColor: color.white,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRightWidth: 0.5,
-        borderRightColor: color.accent_dark
+        borderRightColor: color.white
+    },
+    selectedText:{
+        color: color.accent_dark
+    },
+    button:{
+        flex: 1,
+        backgroundColor: color.accent_dark,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     text:{
-        color: color.accent_dark,
+        color: color.white,
     },
 });
 
