@@ -26,7 +26,7 @@ class Feed extends React.Component {
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {
-            this._getLocationAsync();
+            this._getLocationAsync().then(() => {this.fetchFeed()});
         }
     };
 
@@ -45,12 +45,12 @@ class Feed extends React.Component {
         //update location in store
         this.props.updateLocation({latitude: lat, longitude: lng});
 
-        //load events into store
-        this.props.fetchFeed([lat, lng], () => {
-            this.setState({dataLoaded: true});
-        }, (error) => {
-            console.log(error);
-        })
+        // //load events into store
+        // this.props.fetchFeed([lat, lng], () => {
+        //     this.setState({dataLoaded: true});
+        // }, (error) => {
+        //     console.log(error);
+        // })
     };
 
     fetchFeed = () => {
@@ -59,6 +59,7 @@ class Feed extends React.Component {
 
         //load events into store
         this.props.fetchFeed([latitude, longitude], () => {
+            this.setState({dataLoaded: true})
         }, (error) => {
             console.log(error);
         })

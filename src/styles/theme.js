@@ -55,7 +55,11 @@ const fontFamily = {
     light: "RobotoLight"
 };
 
-const padding = 8;
+const padding = {
+    horizontal: 10,
+    vertical: 10,
+};
+
 const navbarHeight = (Platform.OS === 'ios') ? 64 : 54;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

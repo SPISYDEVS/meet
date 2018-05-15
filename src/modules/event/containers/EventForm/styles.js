@@ -2,33 +2,15 @@ import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
 
-const {windowWidth, fontSize, fontFamily, normalize, color} = theme;
+const {windowWidth, padding, fontSize, fontFamily, normalize, color} = theme;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: color.white,
+        backgroundColor: color.background,
         height: '100%'
     },
-    stepIndicator: {
-        marginVertical: 20,
-    },
-    viewPager: {
-        flex: 1,
-    },
-    markerContainer: {
-        position: 'absolute',
-        flex: 1,
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    marker: {
-        height: 40,
-        width: 40,
-        // backgroundColor: 'transparent'
+    content: {
+        marginHorizontal: padding.horizontal * 2,
     },
     modal: {
         margin: 0,
@@ -36,20 +18,21 @@ const styles = StyleSheet.create({
         backgroundColor: color.white
     },
     locationContainer: {
-        marginLeft: 15,
+        marginBottom: padding.vertical * 2,
+        borderBottomWidth: 1,
+        borderBottomColor: color.white,
     },
     locationPre: {
-        color: 'black',
+        color: color.text,
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
     },
     locationPost: {
-        color: 'gray',
+        color: color.text,
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
     },
     invitationsContainer: {
-        marginLeft: 15,
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -62,6 +45,9 @@ const styles = StyleSheet.create({
     },
     listItemUnderlayColor: {
         color: color.light_grey
+    },
+    text: {
+        color: color.text
     }
 });
 
@@ -94,31 +80,38 @@ export const mapStyles = {
     },
     predefinedPlacesDescription: {
         color: color.black
-    }
+    },
+    markerContainer: {
+        position: 'absolute',
+        flex: 1,
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    marker: {
+        height: 40,
+        width: 40,
+        // backgroundColor: 'transparent'
+    },
 };
 
-export const indicatorStyles = {
-    stepIndicatorSize: 30,
-    currentStepIndicatorSize: 40,
-    separatorStrokeWidth: 2,
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: color.main,
-    stepStrokeWidth: 3,
-    stepStrokeFinishedColor: color.main,
-    stepStrokeUnFinishedColor: '#aaaaaa',
-    separatorFinishedColor: color.main,
-    separatorUnFinishedColor: '#aaaaaa',
-    stepIndicatorFinishedColor: color.main,
-    stepIndicatorUnFinishedColor: '#ffffff',
-    stepIndicatorCurrentColor: '#ffffff',
-    stepIndicatorLabelFontSize: 13,
-    currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: color.main,
-    stepIndicatorLabelFinishedColor: '#ffffff',
-    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-    labelColor: '#999999',
-    labelSize: 13,
-    currentStepLabelColor: color.main
+export const dateStyles = {
+    dateInput: {
+        padding: 0,
+        borderWidth: 0,
+        alignItems: 'flex-start',
+        borderBottomWidth: 1,
+        borderBottomColor: color.text,
+        marginBottom: padding.vertical * 2,
+    },
+    dateText: {
+        color: color.text,
+        fontSize: fontSize.regular + 2,
+        fontFamily: fontFamily.bold,
+    }
 };
 
 export default styles;

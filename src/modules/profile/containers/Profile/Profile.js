@@ -13,7 +13,7 @@ import {Text} from "react-native";
 import TabButtons from "../../../common/components/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../../../people/containers/Friends/Friends";
-import {ImagePicker} from 'expo';
+import {ImagePicker, ImageManipulator} from 'expo';
 import {AVATAR_SIZE} from "../../constants";
 
 
@@ -87,6 +87,18 @@ class Profile extends React.Component {
             base64: true
         });
 
+        console.log(result);
+        //resize to optimize performance
+        result = await ImageManipulator.manipulate(
+            result.uri,
+            [{resize: {width: 500}}],
+            {
+                format: 'jpg',
+                base64: true
+            }
+        );
+        console.log(result);
+
         if (!result.cancelled) {
             callback(result);
         }
@@ -98,7 +110,9 @@ class Profile extends React.Component {
 
     onProfilePicPressed = () => {
         this.getImagePermAsync((result) => {
+
             let source = 'data:image/jpeg;base64, ' + result.base64;
+
             let user = firebaseAuth.currentUser;
             let data = {
                 uid: user.uid,

@@ -14,7 +14,7 @@ import {fetchEvent} from "../../../../network/firebase/event/actions";
 import haversine from "haversine";
 import {fetchBackgroundColor} from "../../utils";
 
-class Event extends React.Component {
+class Event extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +31,6 @@ class Event extends React.Component {
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
         if (!(eventId in this.props.eventReducer.byId)) {
-            console.log("DONT HAVE");
             this.props.fetchEvent(eventId, () => {
                 this.setState({dataLoaded: true});
             }, () => {
@@ -55,7 +54,7 @@ class Event extends React.Component {
         const event = this.props.eventReducer.byId[this.props.eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
 
-        const {title, description, date, hostId, location} = event;
+        const {title, description, startDate, hostId, location} = event;
         const {profile, firstName, lastName} = host;
 
         //host data
@@ -67,10 +66,10 @@ class Event extends React.Component {
         const distance = haversine(location, userLocation, {unit: 'mile'}).toFixed(1);
 
         //date in calendar format
-        const formattedDate = moment(date).calendar();
+        const formattedDate = moment(startDate).calendar();
 
         //card background
-        const backgroundColor = fetchBackgroundColor(date);
+        const backgroundColor = fetchBackgroundColor(startDate);
 
         return (
             <View style={styles.shadowWrapper}>

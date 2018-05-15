@@ -6,8 +6,8 @@ const formStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.background,
+        paddingHorizontal: padding.horizontal * 2,
     },
-
     wrapper:{
         justifyContent:"center",
         alignItems:"center"
@@ -16,12 +16,13 @@ const formStyles = StyleSheet.create({
     errorText:{
         color: color.red,
         width: (windowWidth - 45),
-        marginTop: 20,
-        marginLeft: 20,
+        marginBottom: padding.vertical*3,
+        marginLeft: 0,
+        marginRight: 0,
     },
 
     containerView:{
-        marginVertical: padding * 3,
+        marginVertical: padding.vertical * 3,
         alignSelf: 'center',
         width: (windowWidth - 40)
     },
@@ -46,7 +47,7 @@ const formStyles = StyleSheet.create({
     forgotText:{
         textAlign:"center",
         color:color.black,
-        marginBottom: padding,
+        marginBottom: padding.vertical,
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
     }

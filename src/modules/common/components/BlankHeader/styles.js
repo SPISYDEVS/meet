@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     forgotText:{
         textAlign:"center",
         color:color.black,
-        marginBottom: padding,
+        marginBottom: padding.vertical,
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
     }

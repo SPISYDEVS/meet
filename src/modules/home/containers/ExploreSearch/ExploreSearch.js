@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 
-import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
@@ -18,7 +18,7 @@ class ExploreSearch extends Component {
             {
                 selectedValue: '',
                 searchValue: '',
-                searchResults: []
+                searchResults: null
             }
     }
 
@@ -28,10 +28,19 @@ class ExploreSearch extends Component {
 
     handleSearch = () => {
         this.props.searchUsers(this.state.searchValue, (users) => {
-            this.setState({searchResults: Object.values(users)});
+            let searchResults = Object.keys(users);
+            if (searchResults.length === 0) {
+                searchResults = null;
+            }
+            this.setState({searchResults: searchResults});
         });
     };
-    
+
+    renderItem = (item) => {
+        const userId = item.item;
+        return <UserListItem userId={userId}/>
+    };
+
     render() {
 
         const {searchHint, callback} = this.props;
@@ -42,7 +51,7 @@ class ExploreSearch extends Component {
         const events = eventIds.map(id => {
             return {id: eventById[id]}
         });
-        
+
         return (
             <SafeAreaView style={styles.container}>
 
@@ -56,7 +65,7 @@ class ExploreSearch extends Component {
                         inputStyle={styles.searchInput}
                         containerStyle={styles.searchBar}
                         onSubmitEditing={(event) => this.handleSearch()}
-                            // onEndEditing={() => {this.props.searchUsers}
+                        // onEndEditing={() => {this.props.searchUsers}
                         noIcon
                     />
 
@@ -66,12 +75,13 @@ class ExploreSearch extends Component {
 
                 </View>
 
-                <ScrollView>
-                    {
-                        this.state.searchResults.map((user, i) => <UserListItem key={i} user={user}/>)
-                    }
-                </ScrollView>
-
+                <FlatList
+                    data={this.state.searchResults}
+                    renderItem={(item) => this.renderItem(item)}
+                    keyExtractor={(userId) => userId}
+                    // refreshing={this.state.refreshing}
+                    // onRefresh={() => this.props.onRefresh()}
+                />
 
             </SafeAreaView>
         );
@@ -84,7 +94,8 @@ ExploreSearch.propTypes = {
 };
 
 ExploreSearch.defaultProps = {
-    onCancel: () => {}
+    onCancel: () => {
+    }
 };
 
 //allows the component to use props as specified by reducers

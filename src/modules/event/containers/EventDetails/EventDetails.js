@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import styles from "./styles"
 import {Avatar, Button, Icon} from "react-native-elements";
@@ -14,11 +14,23 @@ import {rsvpEvent} from '../../../../network/firebase/event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 import {fetchBackgroundColor} from "../../utils";
+import UserListItem from "../../../people/components/UserListItem/UserListItem";
 
 
 class EventDetails extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {}
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("MY UPDATE");
+        console.log(nextProps.eventId !== this.props.eventId);
+        return nextProps.eventId !== this.props.eventId;
+    };
+
+    componentDidUpdate() {
+        console.log("MY UPDATE");
     }
 
     componentDidMount() {
@@ -42,12 +54,18 @@ class EventDetails extends React.Component {
         });
 
         if (usersToFetch.length > 0) {
+            console.log(usersToFetch);
             this.props.fetchUsers(usersToFetch, () => {
             }, () => {
             });
         }
 
     }
+
+    renderItem = (item) => {
+        const userId = item.item;
+        return <UserListItem userId={userId}/>
+    };
 
     render() {
 
@@ -58,29 +76,36 @@ class EventDetails extends React.Component {
             return <View/>
         }
 
-        if (event.plannedAttendees === undefined) {
-            event.plannedAttendees = [];
-        }
+        let {title, startDate, address, description, hostId, plannedAttendees, actualAttendees} = event;
+        let currentUserIsAttending = false;
 
-        if (event.actualAttendees === undefined) {
-            event.actualAttendees = [];
-        }
-
-        let {title, date, address, description, hostId, plannedAttendees, actualAttendees} = event;
-
-        const eventHappening = (moment().unix() * 1000) > parseInt(date);
-
-        const backgroundColor = fetchBackgroundColor(date);
-        date = moment(date).calendar();
-
-        //pull the user objects using their associated ids
-        plannedAttendees = Object.keys(plannedAttendees).map(id => {
-            if (id in this.props.peopleReducer.byId) {
-                return this.props.peopleReducer.byId[id];
+        if (plannedAttendees === undefined) {
+            plannedAttendees = [];
+        } else {
+            plannedAttendees = Object.keys(plannedAttendees);
+            if (plannedAttendees.includes(this.props.currentUser.uid)) {
+                currentUserIsAttending = true;
             }
-            return {}
-        });
+        }
 
+        if (actualAttendees === undefined) {
+            actualAttendees = [];
+        } else {
+            actualAttendees = Object.keys(actualAttendees);
+        }
+
+        if (!plannedAttendees) {
+            plannedAttendees = null;
+        }
+
+        if (!actualAttendees) {
+            actualAttendees = null;
+        }
+
+        const eventHappening = (moment().unix() * 1000) > parseInt(startDate);
+
+        const backgroundColor = fetchBackgroundColor(startDate);
+        startDate = moment(startDate).calendar();
 
         return (
             <SafeAreaView style={{backgroundColor: backgroundColor, height: '100%'}}>
@@ -96,7 +121,7 @@ class EventDetails extends React.Component {
                         </Text>
 
                         <Text style={styles.subtitle}>
-                            {date
+                            {startDate
                             + "\n"
                             + address}
                         </Text>
@@ -128,65 +153,36 @@ class EventDetails extends React.Component {
                             Who's Here ({actualAttendees.length})
                         </Text>
                     }
-                    <View style={styles.attendeesContainer}>
-                        {
-                            actualAttendees.map((user, i) => (
-                                <View key={i} style={styles.attendees}>
-                                    <Avatar
-                                        small
-                                        rounded
-                                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
-                                        onPress={() => handleViewProfile(hostId)}
-                                        activeOpacity={0.7}
-                                    />
-                                    <Text style={styles.hostName}>
-                                        {user.firstName + user.lastName}
-                                    </Text>
-                                </View>
-                            ))
-                        }
-                    </View>
-
-
                     <Text style={styles.boldSubtitle}>
                         Who's Going ({plannedAttendees.length})
                     </Text>
                     <View style={styles.attendeesContainer}>
-                        {
-                            plannedAttendees.map((user, i) => (
-                                <View key={i} style={styles.attendees}>
-                                    <Avatar
-                                        small
-                                        rounded
-                                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
-                                        // source={{uri: item.picture}}
-                                        onPress={() => handleViewProfile(user.uid)}
-                                        activeOpacity={0.7}
-                                    />
-                                    <Text style={styles.hostName}>
-                                        {/*{item.name}*/}
-                                        {user.firstName + " " + user.lastName}
-                                    </Text>
-                                </View>
-                            ))
-                        }
+                        <FlatList
+                            style={styles.container}
+                            data={plannedAttendees}
+                            renderItem={(item) => this.renderItem(item)}
+                            keyExtractor={(userId) => userId}
+                            // refreshing={this.state.refreshing}
+                            // onRefresh={() => this.props.onRefresh()}
+                        />
                     </View>
-
-                    <Button
-                        raised
-                        title='TEMPORARY RSVP'
-                        borderRadius={4}
-                        containerViewStyle={formStyles.containerView}
-                        buttonStyle={formStyles.button}
-                        textStyle={formStyles.buttonText}
-                        onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
-                        }, () => {
-                        })}
-                    />
-
+                    {!currentUserIsAttending &&
+                        <Button
+                            raised
+                            title='RSVP!'
+                            borderRadius={4}
+                            containerViewStyle={formStyles.containerView}
+                            buttonStyle={formStyles.button}
+                            textStyle={formStyles.buttonText}
+                            onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
+                            }, () => {
+                            })}
+                        />
+                    }
                 </ScrollView>
             </SafeAreaView>
         );
+
     }
 }
 
@@ -198,7 +194,7 @@ EventDetails.propTypes = {
 
 EventDetails.defaultProps = {
     title: 'Event Title',
-    date: 'Today, 12:30pm',
+    startDate: 'Today, 12:30pm',
     address: 'Warren College',
     hostId: null,
     hostPic: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
@@ -219,6 +215,7 @@ EventDetails.defaultProps = {
 const mapStateToProps = (state) => {
     return {
         eventReducer: state.eventReducer,
+        currentUser: state.authReducer.user,
         peopleReducer: state.peopleReducer,
     }
 };

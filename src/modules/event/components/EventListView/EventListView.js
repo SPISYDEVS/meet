@@ -15,7 +15,7 @@ class EventListView extends Component {
 
     renderItem = (obj) => {
         const eventId = obj.item;
-        return <Event key={eventId} eventId={eventId}/>;
+        return <Event eventId={eventId}/>;
     };
 
     renderFooter = () => {
@@ -44,6 +44,7 @@ class EventListView extends Component {
                 style={styles.container}
                 data={eventIds}
                 renderItem={(item) => this.renderItem(item)}
+                keyExtractor={(id) => id}
                 ListFooterComponent={this.renderFooter}
                 initialNumToRender={5}
                 refreshing={this.state.refreshing}

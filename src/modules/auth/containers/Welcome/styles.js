@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     topContainer:{
         flex:1,
         paddingHorizontal:15,
-        paddingBottom: padding * 2,
+        paddingBottom: padding.vertical * 2,
         justifyContent:"center",
         alignItems:"center",
         backgroundColor: color.main,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
         backgroundColor: color.grey,
-        marginBottom: padding,
+        marginBottom: padding.vertical,
         resizeMode
     },
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         color: "#414141",
         fontSize: fontSize.large,
         lineHeight: fontSize.large + 10,
-        marginVertical:padding * 2
+        marginVertical:padding.vertical * 2
     },
 
     //===============================
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent:"center",
         alignItems:"center",
-        marginTop: padding * 2
+        marginTop: padding.vertical * 2
     },
 
     bottomText:{
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
         color: "#414141",
-        paddingHorizontal: padding
+        paddingHorizontal: padding.horizontal
     }
 });
 

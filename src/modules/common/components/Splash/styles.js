@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
     wrapper:{
         paddingHorizontal:15,
-        paddingBottom: padding * 2,
+        paddingBottom: padding.vertical * 2,
         justifyContent:"center",
         alignItems:"center"
     },
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
         backgroundColor: color.grey,
-        marginBottom: padding,
+        marginBottom: padding.vertical,
         resizeMode
     },
 

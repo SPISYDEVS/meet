@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
     bottomContainer:{
         backgroundColor:"white",
-        paddingVertical: padding * 3,
+        paddingVertical: padding.vertical * 3,
         shadowColor: "#000000",
         shadowOpacity: 0.8,
         shadowRadius: 2,

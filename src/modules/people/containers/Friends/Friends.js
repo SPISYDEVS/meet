@@ -3,16 +3,20 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ScrollView} from "react-native";
+import {ActivityIndicator, FlatList, ScrollView, View} from "react-native";
 
 import UserListItem from "../../components/UserListItem/UserListItem";
 
 import {fetchUsers} from "../../../../network/firebase/user/actions";
+import commonStyles from "../../../../styles/commonStyles";
 
 
 class Friends extends React.Component {
     constructor() {
         super();
+        this.state = {
+            dataLoaded: false
+        }
     }
 
     componentDidMount() {
@@ -32,34 +36,51 @@ class Friends extends React.Component {
         });
 
         if (usersToFetch.length > 0) {
-            console.log("what th eFUCK");
-
             this.props.fetchUsers(usersToFetch, () => {
-            }, () => {
+                this.setState({
+                    dataLoaded: true
+                })
+            }, (error) => {
+                console.log(error);
             });
+        } else {
+            this.setState({
+                dataLoaded: true
+            })
         }
 
     }
 
+    renderItem = (item) => {
+        const userId = item.item;
+        return <UserListItem userId={userId}/>
+    };
+
     render() {
 
-        // const friends = [0, 1, 2];
-        let friends = this.props.user.friends === undefined ? [] : Object.keys(this.props.user.friends);
+        if(!this.state.dataLoaded){
+            return <View style={commonStyles.loadingContainer}>
+                <ActivityIndicator animating color='white' size="large"/>
+            </View>
+        }
 
-        friends = friends.filter(id => this.props.user.friends[id]);
-        friends = friends.map(id => {
-            if (id in this.props.peopleReducer.byId) {
-                return this.props.peopleReducer.byId[id];
-            }
-            return {}
-        });
+        // const friends = [0, 1, 2];
+        let friends = this.props.user.friends === undefined ? null : Object.keys(this.props.user.friends);
+
+        if (friends !== null) {
+            friends = friends.filter(id => this.props.user.friends[id]);
+        }
 
         return (
-            <ScrollView style={styles.container}>
-                {
-                    friends.map((friend, i) => <UserListItem key={i} user={friend}/>)
-                }
-            </ScrollView>
+            <FlatList
+                style={styles.container}
+                data={friends}
+                renderItem={(item) => this.renderItem(item)}
+                keyExtractor={(userId) => userId}
+                initialNumToRender={5}
+                // refreshing={this.state.refreshing}
+                // onRefresh={() => this.props.onRefresh()}
+            />
         );
     }
 }

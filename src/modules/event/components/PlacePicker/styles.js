@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flex: 1,
         top: 0,
-        bottom: 0,
+        bottom: 20,
         left: 0,
         right: 0,
         alignItems: 'center',
@@ -47,10 +47,10 @@ export const autocompleteStyles = {
         zIndex: 10
     },
     description: {
-        color: color.black
+        color: color.text
     },
     predefinedPlacesDescription: {
-        color: color.black
+        color: color.text
     }
 };
 
