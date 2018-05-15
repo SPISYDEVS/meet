@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {View, SafeAreaView, TouchableOpacity, FlatList, Text} from 'react-native';
+import {ScrollView, View, SafeAreaView, TouchableOpacity, FlatList, Text} from 'react-native';
 
 import {List, ListItem, SearchBar, CheckBox, Icon} from 'react-native-elements'
 import styles from "./styles"
@@ -85,30 +85,33 @@ class MultiSelection extends Component {
                 />
 
                 <View style={styles.listViewContainer}>
-                    <List containerStyle={styles.listContainer}>
-                        {
-                            this.state.results.map((item, i) => (
-                                <ListItem
-                                    containerStyle={styles.listItemContainer}
-                                    titleStyle={styles.listItemText}
-                                    roundAvatar
-                                    key={i}
-                                    underlayColor={UNDERLAY_COLOR}
-                                    onPress={() => {this.selectedItem(item)}}
-                                    rightIcon={
-                                        <Icon name={this.state.selectedItems[item.id] === undefined ?
-                                            'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
-                                              type='material-community'
-                                              color={CHECKMARK_COLOR}
-                                        />
-                                    }
-                                    {...item}
-                                />
-                            ))
-                        }
-                    </List>
+                    <ScrollView>
+                        <List containerStyle={styles.listContainer}>
+                            {
+                                this.state.results.map((item, i) => (
+                                    <ListItem
+                                        containerStyle={styles.listItemContainer}
+                                        titleStyle={styles.listItemText}
+                                        roundAvatar
+                                        key={i}
+                                        underlayColor={UNDERLAY_COLOR}
+                                        onPress={() => {this.selectedItem(item)}}
+                                        rightIcon={
+                                            <Icon name={this.state.selectedItems[item.id] === undefined ?
+                                                'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
+                                                  type='material-community'
+                                                  color={CHECKMARK_COLOR}
+                                            />
+                                        }
+                                        {...item}
+                                    />
+                                ))
+                            }
+                        </List>
+                    </ScrollView>
                 </View>
 
+                {Object.values(this.state.selectedItems).length !== 0 &&
                 <SafeAreaView
                     style={styles.bottomSafeArea}>
                     <View style={styles.bottomBar}>
@@ -125,7 +128,7 @@ class MultiSelection extends Component {
                             <Text style={styles.addButtonText}>Add</Text>>
                         </TouchableOpacity>
                     </View>
-                </SafeAreaView>
+                </SafeAreaView>}
 
             </View>
         );

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         color: '#FCFCFC'
     },
     profileScrollView: {
-        flex: 7,
+        flex: 5,
         flexDirection: 'row',
         alignItems: 'center'
     },
