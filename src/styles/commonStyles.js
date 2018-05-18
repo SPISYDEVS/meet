@@ -13,7 +13,7 @@ const commonStyles = StyleSheet.create({
     hidden: {
         opacity: 0,
         height: 0,
-    }
+    },
 });
 
 export default commonStyles;

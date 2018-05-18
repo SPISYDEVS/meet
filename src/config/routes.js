@@ -49,7 +49,7 @@ class TabIcon extends React.Component {
                 alignSelf: 'center',
                 justifyContent: 'center'
             }}>
-                <Icon color={tabColor} type='material-community' containerStyle={{height: 24, width: 24}} name={this.props.iconName || "bomb"} size={24}/>
+                <Icon color={tabColor} type='material-community' containerStyle={{height: 30, width: 30}} name={this.props.iconName || "bomb"} size={30}/>
             </View>
         );
     }
@@ -104,28 +104,26 @@ export default class extends React.Component {
                            component={SomeonesProfile}
                            type={ActionConst.REPLACE}/>
 
-                    <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" tabs={true}
+                    <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" showLabel={false} tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
                            tabBarStyle={{backgroundColor: color.black}}
                            tabBarPosition="bottom">
 
-                        <Scene key="FeedScreen" default="Feed" title="Explore"
+                        <Scene key="FeedScreen" default="Feed"
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}>
                             <Scene key="Home"
+                                   title={null}
                                    component={HomeScreen}
                                    hideNavBar
                                    type={ActionConst.REPLACE}/>
                         </Scene>
 
-                        <Scene key="EventScreen" default="Events" title="My Events"
+                        <Scene key="EventScreen" default="Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
                             <Scene key="Events"
                                    component={Events}
                                    title="Events"
-                                   renderRightButton={<Icon type='material-community' name="plus"
-                                                            color={color.text}
-                                                            containerStyle={{paddingRight: 8}}
-                                                            size={36} onPress={() => Actions.push('EventForm')}/>}
+                                   hideNavBar
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
                                    component={EventForm}
@@ -134,7 +132,7 @@ export default class extends React.Component {
 
                         </Scene>
 
-                        <Scene key="ProfileScreen" default="Events" title="Profile"
+                        <Scene key="ProfileScreen" default="Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}>
 
                             <Scene key="Profile"

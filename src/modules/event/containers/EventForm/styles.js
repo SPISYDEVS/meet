@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     content: {
-        marginHorizontal: padding.horizontal * 2,
+        marginHorizontal: padding.horizontal * 3,
     },
     modal: {
         margin: 0,

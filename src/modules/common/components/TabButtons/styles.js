@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         borderColor: color.accent_dark,
         borderRadius: 6,
         overflow: 'hidden',
-        marginVertical: 5,
+        marginVertical: padding.vertical * 0.5,
+        marginBottom: padding.vertical * 2,
         marginHorizontal: 15
     },
     selectedButton:{

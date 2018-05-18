@@ -10,6 +10,16 @@ const styles = StyleSheet.create({
         flex:1,
         paddingHorizontal: 0,
     },
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+    },
+    emptyText: {
+        color: color.text,
+        fontSize: fontSize.large,
+        opacity: 0.75
+    }
 });
 
 export default styles;

@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: color.background,
         flex:1,
+        height: '100%',
         paddingHorizontal: 0,
     },
     bottomContainer:{
@@ -24,22 +25,6 @@ const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:"center",
         alignItems:"center"
-    },
-    cappedContainer: {
-        maxHeight: 62
-    },
-    padded: {
-        paddingHorizontal: 20,
-        paddingTop: 15,
-        paddingBottom: 15,
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        flexShrink: 1,
     },
     searchContainer:{
         paddingRight: 10,
@@ -59,11 +44,6 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         backgroundColor: color.background,
     },
-    headerText: {
-        fontSize: fontSize.large,
-        fontFamily: fontFamily.bold,
-        color: color.text
-    }
 });
 
 export default styles;

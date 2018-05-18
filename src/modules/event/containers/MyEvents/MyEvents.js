@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
 
+import {Actions} from 'react-native-router-flux'
 import TabButtons from "../../../common/components/TabButtons";
 import styles from "./styles";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventListView from "../../components/EventListView/EventListView";
+import headerStyles from "../../../../styles/headerStyles";
+import {color} from "../../../../styles/theme";
+import {Icon} from "react-native-elements";
 
 class MyEvents extends Component {
     constructor() {
@@ -95,18 +99,52 @@ class MyEvents extends Component {
         eventsAsHost = Object.keys(eventsAsHost);
         eventsAsAttendee = Object.keys(eventsAsAttendee);
 
+        const hasNoEventsAsHost = eventsAsHost.length === 0 && this.state.buttons[0].selected;
+        const hasNoEventsAsAttendee = eventsAsAttendee.length === 0 && this.state.buttons[1].selected;
+
         return (
-            <View style={styles.container}>
-                <TabButtons buttons={this.state.buttons}/>
+            <SafeAreaView style={styles.container}>
+                <View style={[headerStyles.padded, headerStyles.rowContainer]}>
+                    <Text style={headerStyles.headerText}>My Events</Text>
+
+                    <Icon type='ionicon' name="md-add"
+                          color={color.text}
+                          size={35} onPress={() => Actions.push('EventForm')}/>
+                </View>
+
                 <View style={styles.content}>
-                    <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
-                        <EventListView eventIds={eventsAsHost}/>
+
+                    <TabButtons buttons={this.state.buttons}/>
+
+
+                    {hasNoEventsAsHost &&
+                    <View style={styles.emptyContainer}>
+                        <Text style={styles.emptyText}>There's no events, you stupid loser</Text>
                     </View>
+                    }
+
+                    {hasNoEventsAsAttendee &&
+                    <View style={styles.emptyContainer}>
+                        <Text style={styles.emptyText}>There's no events, you stupid loser</Text>
+                    </View>
+                    }
+                    <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
+
+
+                        <EventListView eventIds={eventsAsHost}/>
+
+
+                    </View>
+
+
                     <View style={this.state.buttons[1].selected ? styles.active : styles.hidden}>
+
                         <EventListView eventIds={eventsAsAttendee}/>
+
+
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

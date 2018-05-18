@@ -26,7 +26,9 @@ class Feed extends React.Component {
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {
-            this._getLocationAsync().then(() => {this.fetchFeed()});
+            this._getLocationAsync().then(() => {
+                this.fetchFeed()
+            });
         }
     };
 
@@ -78,15 +80,24 @@ class Feed extends React.Component {
 
         //only select from events with dates later than "now"
         const now = Date.now();
-        const filteredEventIds = eventIds.filter(id => now < events[id].date);
+        const filteredEventIds = eventIds.filter(id => now < events[id].startDate);
+        console.log(filteredEventIds);
 
         //from the remaining events, get the ones with dates closest to "now"
         filteredEventIds.sort(function (a, b) {
-            return events[a].date - events[b].date;
+            return events[a].startDate - events[b].startDate;
         });
+
+        console.log(filteredEventIds);
+        const hasEvents = filteredEventIds.length > 0;
 
         return (
             <SafeAreaView style={styles.container}>
+                {!hasEvents &&
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>There's no events, you stupid loser</Text>
+                </View>
+                }
                 <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}/>
             </SafeAreaView>
         );

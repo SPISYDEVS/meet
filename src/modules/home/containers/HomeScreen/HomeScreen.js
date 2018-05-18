@@ -4,13 +4,12 @@ import {connect} from 'react-redux';
 import {SafeAreaView, Text, View} from "react-native";
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
-import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
-import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
 import ExploreSearch from "../ExploreSearch/ExploreSearch";
 import Feed from "../Feed/Feed";
 import {Icon} from "react-native-elements";
+import headerStyles from "../../../../styles/headerStyles";
 
 class HomeScreen extends React.Component {
     constructor(props) {
@@ -20,7 +19,8 @@ class HomeScreen extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        // this.props.signOut();
         this.props.persistCurrentUser(() => {
         }, () => {
         });
@@ -29,25 +29,23 @@ class HomeScreen extends React.Component {
     render() {
 
         return (
-            <View style={styles.container}>
-                <SafeAreaView style={this.state.searchMode ? commonStyles.hidden : styles.container}>
-                    <View style={styles.cappedContainer}>
+            <SafeAreaView style={styles.container}>
+                <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>
 
-                        <View style={[styles.padded, styles.rowContainer]}>
-                            <Text style={styles.headerText}>Feed</Text>
+                    <View style={[headerStyles.padded, headerStyles.rowContainer]}>
+                        <Text style={headerStyles.headerText}>Feed</Text>
 
-                            <Icon name="search" size={35} color={"white"}
-                                  onPress={() => this.setState({searchMode: true})}/>
-                            {/*<Icon name="search" size={35} color={"white"} onPress={() => Actions.push('EventSearch')}/>*/}
-                        </View>
-
+                        <Icon type='ionicon' name="md-search" size={35} color={"white"}
+                              onPress={() => this.setState({searchMode: true})}/>
+                        {/*<Icon name="search" size={35} color={"white"} onPress={() => Actions.push('EventSearch')}/>*/}
                     </View>
+
                     <Feed/>
-                </SafeAreaView>
-                <SafeAreaView style={!this.state.searchMode ? commonStyles.hidden : styles.container}>
+                </View>
+                <View style={!this.state.searchMode ? commonStyles.hidden : styles.container}>
                     <ExploreSearch onCancel={() => this.setState({searchMode: false})}/>
-                </SafeAreaView>
-            </View>
+                </View>
+            </SafeAreaView>
         );
 
     }
@@ -55,13 +53,13 @@ class HomeScreen extends React.Component {
 
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
-    return {
-    }
+    return {}
 };
 
 //allows the component to use actions as props
 const actions = {
-    persistCurrentUser
+    persistCurrentUser,
+    signOut
 };
 
 export default connect(mapStateToProps, actions)(HomeScreen);
