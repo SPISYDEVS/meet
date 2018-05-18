@@ -40,10 +40,30 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 15,
     },
-
     buttonContainer:{
         justifyContent:"center",
         alignItems:"center"
+    },
+    modal: {
+    },
+    modalContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 120,
+      opacity: 1,
+    },
+    main: {
+      flex: 2
+    },
+    modalBottom: {
+      flex: 1,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      alignContent: 'space-around'
+    },
+    text: {
+      color: color.text
     }
 });
 

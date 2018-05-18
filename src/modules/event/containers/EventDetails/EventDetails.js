@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
 
-import styles from "./styles"
+import styles from "./styles";
+import commonStyles from '../../../../styles/commonStyles';
 import {Avatar, Button, Icon} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
@@ -20,14 +21,10 @@ import UserListItem from "../../../people/components/UserListItem/UserListItem";
 class EventDetails extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+          dataLoaded: false
+        };
     }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("MY UPDATE");
-        console.log(nextProps.eventId !== this.props.eventId);
-        return nextProps.eventId !== this.props.eventId;
-    };
 
     componentDidUpdate() {
         console.log("MY UPDATE");
@@ -39,6 +36,7 @@ class EventDetails extends React.Component {
         const event = this.props.eventReducer.byId[this.props.eventId];
 
         if (event === undefined || event.plannedAttendees === undefined) {
+            this.setState({dataLoaded: true});
             return;
         }
 
@@ -56,8 +54,11 @@ class EventDetails extends React.Component {
         if (usersToFetch.length > 0) {
             console.log(usersToFetch);
             this.props.fetchUsers(usersToFetch, () => {
+              this.setState({dataLoaded: true});
             }, () => {
             });
+        } else {
+          this.setState({dataLoaded: true});
         }
 
     }
@@ -71,6 +72,12 @@ class EventDetails extends React.Component {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
+
+        if(!this.state.dataLoaded){
+             return <View style={commonStyles.loadingContainer}>
+                 <ActivityIndicator animating color='white' size="large"/>
+             </View>
+        }
 
         if (event === undefined) {
             return <View/>
@@ -108,7 +115,7 @@ class EventDetails extends React.Component {
         startDate = moment(startDate).calendar();
 
         return (
-            <SafeAreaView style={{backgroundColor: backgroundColor, height: '100%'}}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.navBar}>
                     <TouchableOpacity onPress={() => Actions.pop()}>
                         <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>

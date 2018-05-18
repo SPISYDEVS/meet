@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         height: '100%',
         flexWrap: 'wrap',
         padding: 15,
+        backgroundColor: color.background
     },
     navBar:{
         alignItems: 'flex-start',

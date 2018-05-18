@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
-
-const {View, StyleSheet, Alert} = require('react-native');
+import Modal from "react-native-modal";
+import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import {AVATAR_SIZE} from "../../../profile/constants";
 
 
@@ -20,6 +20,28 @@ import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/user/a
 class SomeonesProfile extends React.Component {
     constructor() {
         super();
+
+        this.state = {
+          mVisible: false,
+        }
+        this.handleFriends = this.handleFriends.bind(this);
+    }
+
+    handleFriends(fStatus) {
+      //if friends
+      if (fStatus) {
+
+      console.log("Hello");
+          this.setState({mVisible:true});
+
+      }
+
+      else {
+        this.props.sendFriendRequest(this.props.userId, () => {}, () => {});
+      }
+
+
+
     }
 
     render() {
@@ -93,11 +115,22 @@ class SomeonesProfile extends React.Component {
                         containerViewStyle={formStyles.containerView}
                         buttonStyle={formStyles.button}
                         textStyle={formStyles.buttonText}
-                        onPress={() => this.props.sendFriendRequest(this.props.userId, () => {
-                        }, () => {
-                        })}
+                        onPress={() => this.handleFriends(friendshipStatus)}
                     />
                 }
+
+                <Modal style={styles.modal} isVisible={this.state.mVisible} onBackdropPress={() => this.setState({mVisible: false})}>
+                  <View style={styles.modalContent}>
+                  <View style={styles.main}>
+                    <Text style={styles.text}>Do you want to unfollow {user.firstName + " " + user.lastName}?</Text>
+                  </View>
+                  <View style={styles.modalBottom}>
+                    <TouchableOpacity><Text style={styles.text}>Unfollow</Text></TouchableOpacity>
+                    <TouchableOpacity><Text style={styles.text}>Cancel</Text></TouchableOpacity>
+                  </View>
+                </View>
+                </Modal>
+
 
             </View>
         );
