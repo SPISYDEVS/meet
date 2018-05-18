@@ -48,11 +48,11 @@ const fontSize = {
 };
 
 const fontFamily = {
-    extrabold: "RobotoExtraBold",
-    bold: "RobotoBold",
-    medium: "RobotoMedium",
-    regular: "RobotoRegular",
-    light: "RobotoLight"
+    extrabold: "IBMExtraBold",
+    bold: "IBMBold",
+    medium: "IBMMedium",
+    regular: "IBMRegular",
+    light: "IBMLight",
 };
 
 const padding = {

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
 
     topContainer:{
-        flex:1,
+        flex:2,
         paddingHorizontal:15,
         paddingBottom: padding.vertical * 2,
         justifyContent:"center",
@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
 
     bottomContainer:{
         backgroundColor:"white",
+        justifyContent: 'center',
+        flex: 1,
         paddingVertical: padding * 3,
         shadowColor: "#000000",
         shadowOpacity: 0.8,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
 
     button:{
         backgroundColor: color.main,
-        height: normalize(55)
+        height: 55
     },
 
     buttonText:{

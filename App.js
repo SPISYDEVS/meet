@@ -31,7 +31,12 @@ export default class App extends Component {
             {RobotoBold: require('./src/assets/fonts/Roboto-Bold.ttf')},
             {RobotoMedium: require('./src/assets/fonts/Roboto-Medium.ttf')},
             {RobotoRegular: require('./src/assets/fonts/Roboto-Regular.ttf')},
-            {RobotoLight: require('./src/assets/fonts/Roboto-Light.ttf')}
+            {RobotoLight: require('./src/assets/fonts/Roboto-Light.ttf')},
+            {IBMBold: require('./src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf')},
+            {IBMRegular: require('./src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf')},
+            {IBMLight: require('./src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Light.ttf')},
+            {IBMMedium: require('./src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf')},
+            {IBMExtraBold: require('./src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf')}
         ]);
 
         await Promise.all([...fontAssets]);

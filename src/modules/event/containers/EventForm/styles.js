@@ -23,11 +23,15 @@ const styles = StyleSheet.create({
         borderBottomColor: color.white,
     },
     locationPre: {
+        paddingLeft: 0,
+        paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
     },
     locationPost: {
+        paddingLeft: 0,
+        paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
