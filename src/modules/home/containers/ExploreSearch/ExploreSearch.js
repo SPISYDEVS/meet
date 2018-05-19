@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import {searchUsers} from "../../../../network/firebase/user/actions";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import PropTypes from "prop-types";
+import {IndicatorViewPager, PagerTabIndicator, PagerTitleIndicator} from "rn-viewpager";
 
 
 class ExploreSearch extends Component {
@@ -39,6 +40,23 @@ class ExploreSearch extends Component {
     renderItem = (item) => {
         const userId = item.item;
         return <UserListItem userId={userId}/>
+    };
+
+    _renderTabIndicator = () => {
+        let tabs = [{
+            text: 'Home',
+            // iconSource: require('../imgs/ic_tab_home_normal.png'),
+            // selectedIconSource: require('../imgs/ic_tab_home_click.png')
+        },{
+            text: 'Message',
+            // iconSource: require('../imgs/ic_tab_task_normal.png'),
+            // selectedIconSource: require('../imgs/ic_tab_task_click.png')
+        },{
+            text: 'Profile',
+            // iconSource: require('../imgs/ic_tab_my_normal.png'),
+            // selectedIconSource: require('../imgs/ic_tab_my_click.png')
+        }];
+        return <PagerTabIndicator tabs={tabs} />;
     };
 
     render() {
@@ -74,6 +92,21 @@ class ExploreSearch extends Component {
                     </TouchableOpacity>
 
                 </View>
+
+                <IndicatorViewPager
+                    style={{flex:1, flexDirection: 'column-reverse', backgroundColor:'white'}}
+                    indicator={this._renderTabIndicator()}
+                >
+                    <View style={{backgroundColor:'cadetblue'}}>
+                        <Text>page one</Text>
+                    </View>
+                    <View style={{backgroundColor:'cornflowerblue'}}>
+                        <Text>page two</Text>
+                    </View>
+                    <View style={{backgroundColor:'#1AA094'}}>
+                        <Text>page three</Text>
+                    </View>
+                </IndicatorViewPager>
 
                 <FlatList
                     data={this.state.searchResults}
