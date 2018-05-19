@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.bold,
         color: color.white
     },
+
 });
 
 

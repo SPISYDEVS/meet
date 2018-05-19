@@ -125,6 +125,29 @@ export function searchUsers(searchTerm, callback) {
         .catch(error => callback(false, null, error));
 }
 
+//Get the event object from the realtime database
+export function searchEvents(searchTerm, callback) {
+
+    database.ref('events').orderByChild('title')
+        .startAt(searchTerm)
+        .endAt(searchTerm + "\uf8ff")
+        .limitToFirst(20)
+        .once('value')
+        .then((snapshot) => {
+
+
+            let events = snapshot.val();
+
+
+            if(events === null) {
+                events = { }
+            }
+
+            callback(true, events, null);
+
+        })
+        .catch(error => callback(false, null, error));
+}
 
 export function getProfilePic(userId, callback) {
     database.ref('users').child(userId).child('profile').once('value').then((snapshot) => {

@@ -1,4 +1,5 @@
 import * as t from './actionTypes';
+import * as eventT from '../event/actionTypes';
 import * as api from './api';
 
 //actions --> fire when on event details or friends tab, lazily load (only when user needs the data)
@@ -79,6 +80,20 @@ export function searchUsers(searchTerm, successCB, errorCB) {
         });
     };
 }
+
+export function searchEvents(searchTerm, successCB, errorCB) {
+    return (dispatch) => {
+        api.searchEvents(searchTerm, function(success, data, error) {
+            if (success) {
+                dispatch({type: eventT.EVENTS_FETCHED, data: data});
+                successCB(data);
+            }
+            else if (error) errorCB(error)
+        });
+    };
+}
+
+
 
 export function getProfilePic(userId, successCB, errorCB) {
     return (dispatch) => {

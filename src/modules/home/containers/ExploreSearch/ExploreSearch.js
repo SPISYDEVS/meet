@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 
 
-import {FlatList, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Keyboard, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import {connect} from "react-redux";
-import {searchUsers} from "../../../../network/firebase/user/actions";
+import {searchEvents, searchUsers} from "../../../../network/firebase/user/actions";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import PropTypes from "prop-types";
-import {IndicatorViewPager, PagerTabIndicator, PagerTitleIndicator} from "rn-viewpager";
+import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
+import EventListItem from "../../../event/components/EventListItem/EventListItem";
 
 
 class ExploreSearch extends Component {
@@ -19,7 +20,8 @@ class ExploreSearch extends Component {
             {
                 selectedValue: '',
                 searchValue: '',
-                searchResults: null
+                userResult: null,
+                eventResult: null
             }
     }
 
@@ -29,34 +31,53 @@ class ExploreSearch extends Component {
 
     handleSearch = () => {
         this.props.searchUsers(this.state.searchValue, (users) => {
-            let searchResults = Object.keys(users);
-            if (searchResults.length === 0) {
-                searchResults = null;
+            let userResult = Object.keys(users);
+            if (userResult.length === 0) {
+                userResult = null;
             }
-            this.setState({searchResults: searchResults});
+            this.setState({userResult: userResult});
         });
+
+        this.props.searchEvents(this.state.searchValue, (events) => {
+            let eventResult = Object.keys(events);
+            if (eventResult.length === 0) {
+                eventResult = null;
+            }
+            this.setState({eventResult: eventResult});
+        });
+
     };
 
-    renderItem = (item) => {
+    renderUser = (item) => {
         const userId = item.item;
         return <UserListItem userId={userId}/>
     };
 
+    renderEvent = (item) => {
+        const eventId = item.item;
+        return <EventListItem eventId={eventId}/>
+    };
+
     _renderTabIndicator = () => {
         let tabs = [{
-            text: 'Home',
+            text: 'Events',
             // iconSource: require('../imgs/ic_tab_home_normal.png'),
             // selectedIconSource: require('../imgs/ic_tab_home_click.png')
-        },{
-            text: 'Message',
+        }, {
+            text: 'People',
             // iconSource: require('../imgs/ic_tab_task_normal.png'),
             // selectedIconSource: require('../imgs/ic_tab_task_click.png')
-        },{
-            text: 'Profile',
+        }, {
+            text: 'Tags',
             // iconSource: require('../imgs/ic_tab_my_normal.png'),
             // selectedIconSource: require('../imgs/ic_tab_my_click.png')
         }];
-        return <PagerTabIndicator tabs={tabs} />;
+        return <PagerTabIndicator tabs={tabs}/>;
+    };
+
+    onCancel = () => {
+        Keyboard.dismiss();
+        this.props.onCancel();
     };
 
     render() {
@@ -87,34 +108,53 @@ class ExploreSearch extends Component {
                         noIcon
                     />
 
-                    <TouchableOpacity onPress={() => this.props.onCancel()}>
+                    <TouchableOpacity onPress={() => this.onCancel()}>
                         <Text style={styles.headerText}>Cancel</Text>
                     </TouchableOpacity>
 
                 </View>
 
                 <IndicatorViewPager
-                    style={{flex:1, flexDirection: 'column-reverse', backgroundColor:'white'}}
+                    style={styles.viewPager}
                     indicator={this._renderTabIndicator()}
                 >
-                    <View style={{backgroundColor:'cadetblue'}}>
-                        <Text>page one</Text>
+                    <View>
+
+                        <FlatList
+                            data={this.state.eventResult}
+                            renderItem={(item) => this.renderEvent(item)}
+                            keyExtractor={(eventId) => eventId}
+                            // refreshing={this.state.refreshing}
+                            // onRefresh={() => this.props.onRefresh()}
+                        />
+
                     </View>
-                    <View style={{backgroundColor:'cornflowerblue'}}>
-                        <Text>page two</Text>
+
+                    <View>
+
+                        <FlatList
+                            data={this.state.userResult}
+                            renderItem={(item) => this.renderUser(item)}
+                            keyExtractor={(userId) => userId}
+                            // refreshing={this.state.refreshing}
+                            // onRefresh={() => this.props.onRefresh()}
+                        />
+
                     </View>
-                    <View style={{backgroundColor:'#1AA094'}}>
-                        <Text>page three</Text>
+
+                    <View>
+
+                        <FlatList
+                            data={this.state.userResult}
+                            renderItem={(item) => this.renderUser(item)}
+                            keyExtractor={(userId) => userId}
+                            // refreshing={this.state.refreshing}
+                            // onRefresh={() => this.props.onRefresh()}
+                        />
+
                     </View>
                 </IndicatorViewPager>
 
-                <FlatList
-                    data={this.state.searchResults}
-                    renderItem={(item) => this.renderItem(item)}
-                    keyExtractor={(userId) => userId}
-                    // refreshing={this.state.refreshing}
-                    // onRefresh={() => this.props.onRefresh()}
-                />
 
             </SafeAreaView>
         );
@@ -140,9 +180,10 @@ const mapStateToProps = (state) => {
     }
 };
 
-//allows the component to use actions as props
+// allows the component to use actions as props
 const actions = {
-    searchUsers
+    searchUsers,
+    searchEvents
 };
 
 export default connect(mapStateToProps, actions)(ExploreSearch);

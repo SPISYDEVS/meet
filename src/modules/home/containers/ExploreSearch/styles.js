@@ -40,12 +40,18 @@ const styles = StyleSheet.create({
     searchInput: {
         borderRadius: 12,
         borderWidth: 0.5,
-        backgroundColor: color.white,
+        backgroundColor: color.text,
     },
     headerText: {
         fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
         color: color.text
+    },
+
+    viewPager: {
+        flex:1,
+        flexDirection: 'column-reverse',
+        backgroundColor: color.background
     }
 });
 

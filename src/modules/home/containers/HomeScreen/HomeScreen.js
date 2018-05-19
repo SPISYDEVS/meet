@@ -15,9 +15,13 @@ class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchMode: false,
+            searchMode: props.searchMode,
         }
     }
+
+    componentWillReceiveProps(nextProps){
+        this.setState(nextProps);
+    };
 
     componentDidMount() {
         // this.props.signOut();

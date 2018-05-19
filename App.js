@@ -42,6 +42,10 @@ export default class App extends Component {
         await Promise.all([...fontAssets]);
     }
 
+    componentDidMount() {
+        Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT_UP);
+    }
+
     render() {
         if (!this.state.isReady) {
             return (

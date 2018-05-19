@@ -49,7 +49,8 @@ class TabIcon extends React.Component {
                 alignSelf: 'center',
                 justifyContent: 'center'
             }}>
-                <Icon color={tabColor} type='material-community' containerStyle={{height: 30, width: 30}} name={this.props.iconName || "bomb"} size={30}/>
+                <Icon color={tabColor} type='material-community' containerStyle={{height: 30, width: 30}}
+                      name={this.props.iconName || "bomb"} size={30}/>
             </View>
         );
     }
@@ -70,6 +71,11 @@ export default class extends React.Component {
             _this.setState({isReady: true, isLoggedIn});
         }));
     }
+
+    onEnter = () => {
+        Actions.replace('HomeScreen');
+        Actions.refresh({action:new Date().getTime()});
+    };
 
     render() {
         if (!this.state.isReady)
@@ -109,14 +115,15 @@ export default class extends React.Component {
                            tabBarStyle={{backgroundColor: color.black}}
                            tabBarPosition="bottom">
 
-                        <Scene key="FeedScreen" default="Feed"
-                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}>
-                            <Scene key="Home"
-                                   title={null}
-                                   component={HomeScreen}
-                                   hideNavBar
-                                   type={ActionConst.REPLACE}/>
-                        </Scene>
+                        <Scene key="HomeScreen"
+                               title={null}
+                               component={HomeScreen}
+                               hideNavBar
+                               type={ActionConst.REFRESH}
+                               tabBarOnPress={() => this.onEnter()}
+                               searchMode={false}
+                               icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
+                        />
 
                         <Scene key="EventScreen" default="Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
