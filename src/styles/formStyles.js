@@ -24,6 +24,7 @@ const formStyles = StyleSheet.create({
     containerView:{
         marginVertical: padding.vertical * 3,
         alignSelf: 'center',
+        shadowOpacity: 0,
         width: (windowWidth - 40)
     },
 
@@ -35,7 +36,13 @@ const formStyles = StyleSheet.create({
     },
 
     button:{
-        backgroundColor: color.main,
+        // backgroundColor: color.main,
+        backgroundColor: 'transparent',
+        borderRadius: 8,
+        borderWidth: 3,
+        borderColor: 'white',
+        shadowOpacity: 0,
+
         height: normalize(55)
     },
 

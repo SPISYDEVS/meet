@@ -14,15 +14,16 @@ import {fetchUsers} from '../../../../network/firebase/user/actions';
 import {rsvpEvent} from '../../../../network/firebase/event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
-import {fetchBackgroundColor} from "../../utils";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
+import {LinearGradient} from 'expo';
+import {fetchBackgroundGradient} from "../../utils";
 
 
 class EventDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          dataLoaded: false
+            dataLoaded: false
         };
     }
 
@@ -54,11 +55,11 @@ class EventDetails extends React.Component {
         if (usersToFetch.length > 0) {
             console.log(usersToFetch);
             this.props.fetchUsers(usersToFetch, () => {
-              this.setState({dataLoaded: true});
+                this.setState({dataLoaded: true});
             }, () => {
             });
         } else {
-          this.setState({dataLoaded: true});
+            this.setState({dataLoaded: true});
         }
 
     }
@@ -73,10 +74,10 @@ class EventDetails extends React.Component {
         const event = this.props.eventReducer.byId[this.props.eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
 
-        if(!this.state.dataLoaded){
-             return <View style={commonStyles.loadingContainer}>
-                 <ActivityIndicator animating color='white' size="large"/>
-             </View>
+        if (!this.state.dataLoaded) {
+            return <View style={commonStyles.loadingContainer}>
+                <ActivityIndicator animating color='white' size="large"/>
+            </View>
         }
 
         if (event === undefined) {
@@ -111,72 +112,76 @@ class EventDetails extends React.Component {
 
         const eventHappening = (moment().unix() * 1000) > parseInt(startDate);
 
-        const backgroundColor = fetchBackgroundColor(startDate);
+        const backgroundGradient = fetchBackgroundGradient(startDate);
         startDate = moment(startDate).calendar();
 
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.navBar}>
-                    <TouchableOpacity onPress={() => Actions.pop()}>
-                        <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>
-                    </TouchableOpacity>
-                </View>
-                <ScrollView style={styles.container}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>
-                            {title}
-                        </Text>
+            <LinearGradient colors={backgroundGradient}
+                            style={{flex: 1}}
+                            start={[.5, .5]}>
+                <SafeAreaView style={[styles.container]}>
 
-                        <Text style={styles.subtitle}>
-                            {startDate
-                            + "\n"
-                            + address}
-                        </Text>
+                    <View style={styles.navBar}>
+                        <TouchableOpacity onPress={() => Actions.pop()}>
+                            <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>
+                        </TouchableOpacity>
                     </View>
+                    <ScrollView style={styles.container}>
+                        <View style={styles.header}>
+                            <Text style={styles.title}>
+                                {title}
+                            </Text>
+
+                            <Text style={styles.subtitle}>
+                                {startDate
+                                + "\n"
+                                + address}
+                            </Text>
+                        </View>
 
 
-                    <View style={styles.details}>
-                        <Text style={styles.description}>
-                            {description}
-                        </Text>
-                    </View>
+                        <View style={styles.details}>
+                            <Text style={styles.description}>
+                                {description}
+                            </Text>
+                        </View>
 
-                    <View style={styles.hostContainer}>
-                        <Avatar
-                            small
-                            rounded
-                            source={{uri: host.profile !== undefined ? host.profile.source : ''}}
-                            onPress={() => handleViewProfile(hostId)}
-                            activeOpacity={0.7}
-                        />
-                        <Text style={styles.hostName}>
-                            {`${host.firstName} ${host.lastName}`}
-                        </Text>
-                    </View>
-                    {
-                        eventHappening &&
+                        <View style={styles.hostContainer}>
+                            <Avatar
+                                small
+                                rounded
+                                source={{uri: host.profile !== undefined ? host.profile.source : ''}}
+                                onPress={() => handleViewProfile(hostId)}
+                                activeOpacity={0.7}
+                            />
+                            <Text style={styles.hostName}>
+                                {`${host.firstName} ${host.lastName}`}
+                            </Text>
+                        </View>
+                        {
+                            eventHappening &&
 
+                            <Text style={styles.boldSubtitle}>
+                                Who's Here ({actualAttendees.length})
+                            </Text>
+                        }
                         <Text style={styles.boldSubtitle}>
-                            Who's Here ({actualAttendees.length})
+                            Who's Going ({plannedAttendees.length})
                         </Text>
-                    }
-                    <Text style={styles.boldSubtitle}>
-                        Who's Going ({plannedAttendees.length})
-                    </Text>
-                    <View style={styles.attendeesContainer}>
-                        <FlatList
-                            style={styles.container}
-                            data={plannedAttendees}
-                            renderItem={(item) => this.renderItem(item)}
-                            keyExtractor={(userId) => userId}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={() => this.props.onRefresh()}
-                        />
-                    </View>
-                    {!currentUserIsAttending &&
+                        <View style={styles.attendeesContainer}>
+                            <FlatList
+                                style={styles.container}
+                                data={plannedAttendees}
+                                renderItem={(item) => this.renderItem(item)}
+                                keyExtractor={(userId) => userId}
+                                // refreshing={this.state.refreshing}
+                                // onRefresh={() => this.props.onRefresh()}
+                            />
+                        </View>
+                        {!currentUserIsAttending &&
                         <Button
                             raised
-                            title='RSVP!'
+                            title='RSVP'
                             borderRadius={4}
                             containerViewStyle={formStyles.containerView}
                             buttonStyle={formStyles.button}
@@ -185,9 +190,12 @@ class EventDetails extends React.Component {
                             }, () => {
                             })}
                         />
-                    }
-                </ScrollView>
-            </SafeAreaView>
+                        }
+                    </ScrollView>
+
+                </SafeAreaView>
+            </LinearGradient>
+
         );
 
     }

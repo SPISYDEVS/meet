@@ -25,15 +25,32 @@ const color = {
 
     //6am-12pm
     morning: '#EE8F55',
+    // morning: '#73CCDE',
+    // morning: '#DE873D',
+    morning_gradient1: '#ff9966',
+    morning_gradient2: '#ff5e62',
 
     //12pm-6pm
-    afternoon: '#E96A61',
+
+    // afternoon: '#E96A61',
+    afternoon: '#E95961',
+    afternoon_gradient1: '#da4453',
+    afternoon_gradient2: '#89216b',
 
     //6pm-12am
-    night: '#AC6C82',
+    // night: '#AC6C82',
+    // night: '#734D6C',
+    // night: '#6F50B5',
+    night: '#964772',
+    night_gradient2: '#c06c84',
+    night_gradient1: '#6c5b7b',
+    night_gradient3: '#355c7d',
 
     //12am-6am
-    latenight: '#455C7B',
+    latenight: '#594091',
+    latenight_gradient1: '#5C3A7F',
+    latenight_gradient2: '#2f0743',
+
 
     text: 'white'
 

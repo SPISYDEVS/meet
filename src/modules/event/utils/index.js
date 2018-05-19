@@ -28,3 +28,17 @@ export const fetchBackgroundColor = (date) => {
 
     return color.latenight;
 };
+
+export const fetchBackgroundGradient = (date) => {
+    if (isBetweenTime(date, MORNING_START, AFTERNOON_START)) {
+        return [color.morning_gradient1, color.morning_gradient2];
+    }
+    if (isBetweenTime(date, AFTERNOON_START, NIGHT_START)) {
+        return [color.afternoon_gradient1, color.afternoon_gradient2];
+    }
+    if (isBetweenTime(date, NIGHT_START, LATENIGHT_START)) {
+        return [color.night_gradient2, color.night_gradient1];
+    }
+
+    return [color.latenight_gradient1, color.latenight_gradient2];
+};
