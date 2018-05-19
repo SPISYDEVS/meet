@@ -51,15 +51,10 @@ class HomeScreen extends React.Component {
     }
 }
 
-//allows the component to use props as specified by reducers
-const mapStateToProps = (state) => {
-    return {}
-};
-
 //allows the component to use actions as props
 const actions = {
     persistCurrentUser,
     signOut
 };
 
-export default connect(mapStateToProps, actions)(HomeScreen);
+export default connect(null, actions)(HomeScreen);

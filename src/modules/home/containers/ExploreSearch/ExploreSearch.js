@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 
-import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 import {SearchBar} from 'react-native-elements'
 import styles from "./styles"

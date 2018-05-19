@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: color.background,
         flex:1,
-        paddingHorizontal: 0,
     },
     emptyContainer: {
         justifyContent: 'center',

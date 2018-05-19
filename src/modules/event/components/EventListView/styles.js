@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import * as theme from "../../../../styles/theme";
 const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
 
@@ -8,8 +8,17 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: color.background,
         flex: 1,
-        paddingHorizontal: 8,
-        paddingVertical: 8,
+
+        ...Platform.select({
+            ios: {
+                paddingHorizontal: padding.horizontal,
+                paddingVertical: padding.vertical,
+            },
+            android: {
+                marginHorizontal: padding.horizontal,
+                marginVertical: padding.vertical,
+            },
+        }),
     },
 
     bottomContainer:{

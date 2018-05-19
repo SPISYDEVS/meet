@@ -42,6 +42,7 @@
     "redux-persist": "^5.9.1",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.2.0",
+    "rn-viewpager": "^1.2.9",
     "trie-search": "^1.1.0"
   }
 }

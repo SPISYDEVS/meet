@@ -3,7 +3,6 @@ import {Constants, Location, Permissions} from 'expo';
 
 import {connect} from 'react-redux';
 import {ActivityIndicator, Platform, SafeAreaView, Text, View} from "react-native";
-import {Actions} from 'react-native-router-flux';
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
@@ -11,8 +10,6 @@ import EventListView from "../../../event/components/EventListView/EventListView
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
-import {Icon} from "react-native-elements";
-import ExploreSearch from "../ExploreSearch/ExploreSearch";
 
 class Feed extends React.Component {
     constructor(props) {

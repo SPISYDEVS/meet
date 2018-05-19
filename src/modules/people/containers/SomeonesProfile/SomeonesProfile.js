@@ -124,12 +124,12 @@ class SomeonesProfile extends React.Component {
                        onBackdropPress={() => this.setState({mVisible: false})}>
                     <View style={styles.modalContent}>
                         <View style={styles.main}>
-                            <Text style={styles.text}>Do you want to
-                                unfollow {user.firstName + " " + user.lastName}?</Text>
+                            <Text style={styles.text}>Are you sure you want to
+                                unfriend {user.firstName + " " + user.lastName}?</Text>
                         </View>
                         <View style={styles.modalBottom}>
                             <TouchableOpacity onPress={() => this.props.revokeFriendship(user.uid, () => {})}>
-                                <Text style={styles.text}>Unfollow</Text>
+                                <Text style={styles.text}>Unfriend</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.setState({mVisible: false})}>
                                 <Text style={styles.text}>Cancel</Text>
