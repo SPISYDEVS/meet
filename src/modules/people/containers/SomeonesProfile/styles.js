@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import * as theme from "../../../../styles/theme";
-const { padding, color, fontSize, fontFamily, windowWidth, normalize } = theme;
+
+const {padding, color, fontSize, fontFamily, windowWidth, normalize} = theme;
 
 const resizeMode = 'contain';
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: color.background,
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     infoContent: {
         flexDirection: 'row',
     },
-    detailsContainer:{
+    detailsContainer: {
         flex: 1,
         paddingLeft: 15,
         justifyContent: 'center'
@@ -36,34 +37,34 @@ const styles = StyleSheet.create({
     body: {
         flex: 5
     },
-    bottomContent:{
+    bottomContent: {
         flex: 1,
         marginTop: 15,
     },
-    buttonContainer:{
-        justifyContent:"center",
-        alignItems:"center"
+    buttonContainer: {
+        justifyContent: "center",
+        alignItems: "center"
     },
-    modal: {
-    },
+    modal: {},
     modalContent: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 120,
-      opacity: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 120,
+        opacity: 1,
     },
     main: {
-      flex: 2
+        flex: 2
     },
     modalBottom: {
-      flex: 1,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      alignContent: 'space-around'
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignContent: 'space-around'
     },
     text: {
-      color: color.text
+        color: color.text,
+        fontSize: fontSize.large
     }
 });
 

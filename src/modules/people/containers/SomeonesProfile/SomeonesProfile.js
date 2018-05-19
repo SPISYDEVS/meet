@@ -14,7 +14,7 @@ import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import {AVATAR_SIZE} from "../../../profile/constants";
 
 
-import {fetchUsers, sendFriendRequest} from "../../../../network/firebase/user/actions";
+import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../network/firebase/user/actions";
 
 
 class SomeonesProfile extends React.Component {
@@ -22,24 +22,25 @@ class SomeonesProfile extends React.Component {
         super();
 
         this.state = {
-          mVisible: false,
+            mVisible: false,
         }
         this.handleFriends = this.handleFriends.bind(this);
     }
 
     handleFriends(fStatus) {
-      //if friends
-      if (fStatus) {
+        //if friends
+        if (fStatus) {
 
-      console.log("Hello");
-          this.setState({mVisible:true});
+            console.log("Hello");
+            this.setState({mVisible: true});
 
-      }
+        }
 
-      else {
-        this.props.sendFriendRequest(this.props.userId, () => {}, () => {});
-      }
-
+        else {
+            this.props.sendFriendRequest(this.props.userId, () => {
+            }, () => {
+            });
+        }
 
 
     }
@@ -119,16 +120,22 @@ class SomeonesProfile extends React.Component {
                     />
                 }
 
-                <Modal style={styles.modal} isVisible={this.state.mVisible} onBackdropPress={() => this.setState({mVisible: false})}>
-                  <View style={styles.modalContent}>
-                  <View style={styles.main}>
-                    <Text style={styles.text}>Do you want to unfollow {user.firstName + " " + user.lastName}?</Text>
-                  </View>
-                  <View style={styles.modalBottom}>
-                    <TouchableOpacity><Text style={styles.text}>Unfollow</Text></TouchableOpacity>
-                    <TouchableOpacity><Text style={styles.text}>Cancel</Text></TouchableOpacity>
-                  </View>
-                </View>
+                <Modal style={styles.modal} isVisible={this.state.mVisible}
+                       onBackdropPress={() => this.setState({mVisible: false})}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.main}>
+                            <Text style={styles.text}>Do you want to
+                                unfollow {user.firstName + " " + user.lastName}?</Text>
+                        </View>
+                        <View style={styles.modalBottom}>
+                            <TouchableOpacity onPress={() => this.props.revokeFriendship(user.uid, () => {})}>
+                                <Text style={styles.text}>Unfollow</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.setState({mVisible: false})}>
+                                <Text style={styles.text}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </Modal>
 
 
@@ -148,6 +155,7 @@ const mapStateToProps = (state) => {
 const actions = {
     fetchUsers,
     sendFriendRequest,
+    revokeFriendship
 };
 
 SomeonesProfile.propTypes = {

@@ -35,6 +35,19 @@ export function sendFriendRequest(requesteeId, callback) {
     });
 }
 
+export function revokeFriendship(friendId, callback) {
+    let currentUser = auth.currentUser;
+
+    const updates = {};
+
+    //make sure the friend receives the request, and the user is known to have made the request
+    updates[friendId + '/friends/' + currentUser.uid] = null;
+    updates[currentUser.uid + '/friends/' + friendId] = null;
+    database.ref('users').update(updates);
+
+    callback(true, null, null);
+}
+
 export function respondToFriendRequest(requesterId, accept, callback) {
     let currentUser = auth.currentUser;
     database.ref('users').child(currentUser.uid).child('friendRequestsFrom').child(requesterId).once('value', function (snapshot) {

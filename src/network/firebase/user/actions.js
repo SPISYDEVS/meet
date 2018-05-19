@@ -35,6 +35,16 @@ export function respondToFriendRequest(requesterId, accept, successCB, errorCB) 
     };
 }
 
+export function revokeFriendship(friendId, accept, successCB, errorCB) {
+    return (dispatch) => {
+        api.revokeFriendship(friendId, accept, function (success, data, error) {
+            if (success) {
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
 export function updateProfile(user, successCB, errorCB) {
     return (dispatch) => {
         api.editUser(user, function (success, data, error) {

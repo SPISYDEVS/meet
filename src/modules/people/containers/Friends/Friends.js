@@ -22,6 +22,9 @@ class Friends extends React.Component {
     componentDidMount() {
 
         if (this.props.user.friends === undefined) {
+            this.setState({
+                dataLoaded: true
+            });
             return;
         }
 
@@ -58,7 +61,7 @@ class Friends extends React.Component {
 
     render() {
 
-        if(!this.state.dataLoaded){
+        if (!this.state.dataLoaded) {
             return <View style={commonStyles.loadingContainer}>
                 <ActivityIndicator animating color='white' size="large"/>
             </View>
