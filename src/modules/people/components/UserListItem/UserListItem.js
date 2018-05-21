@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import handleViewProfile from "../../utils/handleViewProfile";
 
 class UserListItem extends React.PureComponent {
@@ -17,7 +17,7 @@ class UserListItem extends React.PureComponent {
         const user = this.props.peopleReducer.byId[this.props.userId];
 
         return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={() => handleViewProfile(user.uid)}>
                 <Avatar rounded
                         source={{uri: user.profile === undefined ? '' : user.profile.source}}
                         onPress={() => handleViewProfile(user.uid)}
@@ -27,7 +27,7 @@ class UserListItem extends React.PureComponent {
                     <Text style={styles.text}>{user.school}</Text>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     }
 }

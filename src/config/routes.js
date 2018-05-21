@@ -73,8 +73,8 @@ export default class extends React.Component {
     }
 
     onEnter = () => {
-        Actions.replace('HomeScreen');
-        Actions.refresh({action:new Date().getTime()});
+        // Actions.replace('Home');
+        Actions.refresh({action: new Date().getTime()});
     };
 
     render() {
@@ -115,15 +115,20 @@ export default class extends React.Component {
                            tabBarStyle={{backgroundColor: color.black}}
                            tabBarPosition="bottom">
 
-                        <Scene key="HomeScreen"
-                               title={null}
-                               component={HomeScreen}
-                               hideNavBar
-                               type={ActionConst.REFRESH}
-                               tabBarOnPress={() => this.onEnter()}
-                               searchMode={false}
+                        <Scene key="HomeScreen" initial="Home"
+                               backToInitial
                                icon={({focused}) => <TabIcon focused={focused} iconName="search-web"/>}
-                        />
+                        >
+
+                            <Scene key="Home"
+                                   title={null}
+                                   component={HomeScreen}
+                                   hideNavBar
+                                   type={ActionConst.REPLACE}
+                                   searchMode={false}
+                            />
+
+                        </Scene>
 
                         <Scene key="EventScreen" default="Events"
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>

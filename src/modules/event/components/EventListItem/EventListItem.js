@@ -1,22 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { Icon } from 'react-native-elements'
+import {Icon} from 'react-native-elements'
+import {Actions} from 'react-native-router-flux';
 
 import styles from "./styles"
 
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 
 class EventListItem extends React.PureComponent {
     constructor() {
         super();
     }
 
+    handlePress = () => {
+        Actions.push('EventDetails', {eventId: this.props.eventId});
+    };
+
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
 
         return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={() => this.handlePress()}>
 
 
                 <Icon name='map-marker-outline' type='material-community' size={40}/>
@@ -28,7 +33,7 @@ class EventListItem extends React.PureComponent {
 
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     }
 }

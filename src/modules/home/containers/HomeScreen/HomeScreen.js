@@ -34,17 +34,8 @@ class HomeScreen extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>
-
-                    <View style={[headerStyles.padded, headerStyles.rowContainer]}>
-                        <Text style={headerStyles.headerText}>Feed</Text>
-
-                        <Icon type='ionicon' name="md-search" size={35} color={"white"}
-                              onPress={() => this.setState({searchMode: true})}/>
-                        {/*<Icon name="search" size={35} color={"white"} onPress={() => Actions.push('EventSearch')}/>*/}
-                    </View>
-
-                    <Feed/>
+                <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>z
+                    <Feed onSearchIconPress={() =>  this.setState({searchMode: true})}/>
                 </View>
                 <View style={!this.state.searchMode ? commonStyles.hidden : styles.container}>
                     <ExploreSearch onCancel={() => this.setState({searchMode: false})}/>

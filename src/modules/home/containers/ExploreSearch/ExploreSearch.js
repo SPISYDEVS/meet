@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-
 import {FlatList, Keyboard, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 import {SearchBar} from 'react-native-elements'

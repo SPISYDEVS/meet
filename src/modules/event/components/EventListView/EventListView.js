@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ActivityIndicator, FlatList, ScrollView, View} from 'react-native';
+import {ActivityIndicator, FlatList, ScrollView, View, Text, Animated} from 'react-native';
 import styles from "./styles";
 import Event from "../../components/Event/Event";
+import {HEADER_HEIGHT} from "../../../../config/constants";
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 class EventListView extends Component {
     constructor(props) {
@@ -29,7 +32,7 @@ class EventListView extends Component {
                     borderColor: "#CED0CE"
                 }}
             >
-                <ActivityIndicator animating color='white' size="large" />
+                <ActivityIndicator animating color='white' size="large"/>
             </View>
         );
     };
@@ -40,7 +43,7 @@ class EventListView extends Component {
         const eventIds = this.props.eventIds;
 
         return (
-            <FlatList
+            <AnimatedFlatList
                 style={styles.container}
                 data={eventIds}
                 renderItem={(item) => this.renderItem(item)}
@@ -49,17 +52,31 @@ class EventListView extends Component {
                 initialNumToRender={5}
                 refreshing={this.state.refreshing}
                 onRefresh={() => this.props.onRefresh()}
+                scrollEventThrottle={16} // <-- Use 1 here to make sure no events are ever missed
+                onScroll={this.props.animated ? Animated.event(
+                    [{nativeEvent: {contentOffset: {y: this.props.scrollY}}}],
+                    {useNativeDriver: true} // <-- Add this
+                ) : () => {
+                }}
+                contentContainerStyle={this.props.animated ? {
+                    marginTop: HEADER_HEIGHT,
+                    paddingBottom: HEADER_HEIGHT
+                } : {}}
             />
         );
     }
 }
 
 EventListView.propTypes = {
-    onRefresh: PropTypes.func
+    onRefresh: PropTypes.func,
+    animated: PropTypes.bool
 };
 
 EventListView.defaultProps = {
-    onRefresh: () => {}
+    onRefresh: () => {
+    },
+    scrollY: 0,
+    animated: false
 };
 
 export default EventListView;

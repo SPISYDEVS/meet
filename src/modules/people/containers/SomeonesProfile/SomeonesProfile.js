@@ -45,6 +45,12 @@ class SomeonesProfile extends React.Component {
 
     }
 
+    revokeFriendship = () => {
+        this.props.revokeFriendship(user.uid, () => {
+            this.setState({mVisible: false});
+        });
+    };
+
     render() {
 
         const currentUser = this.props.currentUser;
@@ -128,7 +134,7 @@ class SomeonesProfile extends React.Component {
                                 unfriend {user.firstName + " " + user.lastName}?</Text>
                         </View>
                         <View style={styles.modalBottom}>
-                            <TouchableOpacity onPress={() => this.props.revokeFriendship(user.uid, () => {})}>
+                            <TouchableOpacity onPress={() => this.revokeFriendship()}>
                                 <Text style={styles.text}>Unfriend</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.setState({mVisible: false})}>

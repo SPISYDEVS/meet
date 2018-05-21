@@ -1,8 +1,12 @@
 import React from 'react';
 import {Constants, Location, Permissions} from 'expo';
+import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
-import {ActivityIndicator, Platform, SafeAreaView, Text, View} from "react-native";
+import {
+    Animated,
+    ActivityIndicator, Platform, SafeAreaView, Text, View
+} from "react-native";
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
@@ -10,12 +14,16 @@ import EventListView from "../../../event/components/EventListView/EventListView
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
+import headerStyles from "../../../../styles/headerStyles";
+import {HEADER_HEIGHT} from "../../../../config/constants";
+import {Icon} from "react-native-elements";
 
 class Feed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            scrollY: new Animated.Value(0),
         }
     }
 
@@ -78,29 +86,65 @@ class Feed extends React.Component {
         //only select from events with dates later than "now"
         const now = Date.now();
         const filteredEventIds = eventIds.filter(id => now < events[id].startDate);
-        console.log(filteredEventIds);
 
         //from the remaining events, get the ones with dates closest to "now"
         filteredEventIds.sort(function (a, b) {
             return events[a].startDate - events[b].startDate;
         });
 
-        console.log(filteredEventIds);
         const hasEvents = filteredEventIds.length > 0;
+
+        //opacity decreases as the scrolling goes on
+        let opacity = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_HEIGHT],
+            outputRange: [1, 0],
+        });
+
+        //header hides itself as the scrolling goes on
+        let translateY = this.state.scrollY.interpolate({
+            inputRange: [0, HEADER_HEIGHT],
+            outputRange: [0, -HEADER_HEIGHT],
+            extrapolate: 'clamp',
+        });
 
         return (
             <SafeAreaView style={styles.container}>
+
+
                 {!hasEvents &&
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>There's no events, you stupid loser</Text>
                 </View>
                 }
-                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}/>
+
+                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}
+                               scrollY={this.state.scrollY} animated/>
+
+                <Animated.View
+                    style={[headerStyles.padded, headerStyles.rowContainer, styles.headerWrapper, {
+                        opacity: opacity,
+                        transform: [{translateY}]
+                    }]}>
+                    <Text style={headerStyles.headerText}>Feed</Text>
+
+                    <Icon type='ionicon' name="md-search" size={35} color={"white"}
+                          onPress={() => this.props.onSearchIconPress()}/>
+                </Animated.View>
+
             </SafeAreaView>
         );
 
     }
 }
+
+Feed.propTypes = {
+    onSearchIconPress: PropTypes.func
+};
+
+Feed.defaultProps = {
+    onSearchIconPress: () => {
+    }
+};
 
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
