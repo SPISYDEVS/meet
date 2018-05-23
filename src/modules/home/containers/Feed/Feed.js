@@ -125,7 +125,7 @@ class Feed extends React.Component {
 
                 {!hasEvents &&
                 <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>There's no events, you stupid loser</Text>
+                    <Text style={styles.emptyText}>There aren't any events yet!</Text>
                 </View>
                 }
 

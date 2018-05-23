@@ -123,10 +123,12 @@ class MultiSelection extends Component {
                             />
                         </View>
 
-                        <TouchableOpacity
-                            style={styles.addButton} onPress={() => onSelectHandler(this.state.selectedItems)}>
-                            <Text style={styles.addButtonText}>Add</Text>>
-                        </TouchableOpacity>
+                        <View style={styles.addButton}>
+                            <TouchableOpacity
+                                onPress={() => onSelectHandler(this.state.selectedItems)}>
+                                <Text style={styles.addButtonText}>Add</Text>>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </SafeAreaView>}
 
