@@ -11,7 +11,9 @@ const styles = StyleSheet.create({
         padding: 15,
     },
     navBar:{
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
         paddingHorizontal: 10,
         paddingTop: 10,
         paddingBottom: 4,

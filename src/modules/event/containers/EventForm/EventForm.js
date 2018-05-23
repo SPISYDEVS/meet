@@ -3,7 +3,10 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
-import {Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {
+    ActivityIndicator, Keyboard, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
+    View
+} from "react-native";
 import {Icon, List, ListItem} from "react-native-elements";
 import styles, {dateStyles} from "./styles";
 import moment from "moment";
@@ -17,10 +20,12 @@ import PlacePicker from "../../components/PlacePicker/PlacePicker";
 import {DATE_FORMAT, GOOGLE_MAPS_PLACE_API_KEY} from "../../../../config/constants";
 import {momentFromDate} from "../../../common/utils/dateUtils";
 
-import {createEvent} from "../../../../network/firebase/event/actions";
+import {createEvent, editEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 import FriendSelection from "../../../search/containers/FriendSelection/FriendSelection";
 import {color} from "../../../../styles/theme";
+import PropTypes from 'prop-types';
+import commonStyles from "../../../../styles/commonStyles";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -39,6 +44,7 @@ class EventForm extends React.Component {
                         type: "text",
                         multiline: false,
                     },
+                    value: this.props.title,
                     validator: (title) => !isEmpty(title),
                     errorMessage: 'Title is required'
                 },
@@ -47,6 +53,7 @@ class EventForm extends React.Component {
                         placeholder: "Description",
                         multiline: true,
                     },
+                    value: this.props.description,
                     type: "text",
                 },
                 startDate: {
@@ -57,6 +64,8 @@ class EventForm extends React.Component {
                         placeholder: 'Starting Time',
                         customStyles: dateStyles
                     },
+                    value: this.props.startDate,
+
                     // value: moment().format(DATE_FORMAT),
                     validator: (time) => time !== '',
                     errorMessage: 'Pick a starting time',
@@ -70,6 +79,8 @@ class EventForm extends React.Component {
                         placeholder: 'Ending Time',
                         customStyles: dateStyles
                     },
+                    value: this.props.endDate,
+
                     // value: moment().format(DATE_FORMAT),
                     validator: (time) => time !== '',
                     errorMessage: 'Pick an end time',
@@ -91,11 +102,11 @@ class EventForm extends React.Component {
                         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
                         currentLocationLabel: "Current location",
                     },
-                    value: this.props.location,
+                    value: this.props.location ? this.props.location : this.props.currentLocation,
                     validator: (location) => !isEmpty(location),
                     errorMessage: "Location is required",
                     other: {
-                        address: '',
+                        address: this.props.address,
                         modalVisible: false
                     }
                 },
@@ -105,7 +116,7 @@ class EventForm extends React.Component {
                         objList: [],
                         modalVisible: false
                     },
-                    value: [],
+                    value: this.props.invitees,
                 }
             }
         };
@@ -115,6 +126,36 @@ class EventForm extends React.Component {
         //bind functions
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
+    }
+
+    componentDidMount() {
+
+        //lazily load invitees information
+        const invitees = this.props.invitees;
+
+        if (invitees.length === 0) {
+            this.setState({dataLoaded: true});
+            return;
+        }
+
+        //handle lazily loading user data from firebase if the users aren't loaded into the client yet
+        let usersToFetch = [];
+
+        invitees.forEach(id => {
+            if (!(id in this.props.peopleReducer.byId)) {
+                usersToFetch.push(id);
+            }
+        });
+
+        if (usersToFetch.length > 0) {
+            this.props.fetchUsers(usersToFetch, () => {
+                this.setState({dataLoaded: true});
+            }, () => {
+            });
+        } else {
+            this.setState({dataLoaded: true});
+        }
+
     }
 
     onSubmit = () => {
@@ -133,13 +174,18 @@ class EventForm extends React.Component {
             data['data']['address'] = this.state['location']['other']['address'];
             data['data']['invitations'] = data['data']['invitations'].map(invitee => invitee.id);
 
-            this.props.createEvent(data['data'], this.props.currentUser, this.onSuccess, this.onError);
+            //check if we're editing an existing event, or making a new one
+            if (this.props.editMode) {
+                this.props.editEvent(data['data'], this.props.currentUser, this.props.eventId, this.onSuccess, this.onError);
+            } else {
+                this.props.createEvent(data['data'], this.props.currentUser, this.onSuccess, this.onError);
+            }
         }
 
     };
 
     onSuccess() {
-        Actions.Events();
+        Actions.pop();
     };
 
     onError(error) {
@@ -184,16 +230,13 @@ class EventForm extends React.Component {
 
         const state = {...this.state};
 
-        state['location']['value'] = data;
+        const location = data.location;
+        const address = data.address;
 
-        //make a get request (we want to reverse geolookup an address given a latlng)
-        //we then update the state with the returned value
-        reverseGeocode(data.latitude, data.longitude, (address) => {
-            state['location']['other']['address'] = address;
-            this.setState(state);
-        }, (error) => {
-            throw error;
-        });
+        state['location']['value'] = location;
+        state['location']['other']['address'] = address;
+
+        this.setState(state);
 
     };
 
@@ -237,6 +280,12 @@ class EventForm extends React.Component {
 
     render() {
 
+        if (!this.state.dataLoaded) {
+            return <View style={commonStyles.loadingContainer}>
+                <ActivityIndicator animating color='white' size="large"/>
+            </View>
+        }
+
         const form = this.form;
         const [title, description, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
@@ -246,7 +295,7 @@ class EventForm extends React.Component {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <View style={styles.container}>
+                <ScrollView style={styles.container}>
                     <View style={styles.content}>
 
                         {/*input for the form title*/}
@@ -354,22 +403,41 @@ class EventForm extends React.Component {
                             onPress={() => this.onSubmit()}
                         />
                     </View>
-                </View>
+                </ScrollView>
             </TouchableWithoutFeedback>
         );
     }
 }
 
+EventForm.propTypes = {
+    editMode: PropTypes.bool,
+    invitees: PropTypes.array,
+    description: PropTypes.string,
+    title: PropTypes.string,
+};
+
+EventForm.defaultProps = {
+    editMode: false,
+    invitees: [],
+    description: '',
+    title: '',
+    startDate: '',
+    endDate: '',
+    location: '',
+    address: '',
+};
+
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
     return {
         currentUser: state.authReducer.user,
-        location: state.feedReducer.location
+        userLocation: state.feedReducer.location
     }
 };
 
 const actions = {
-    createEvent
+    createEvent,
+    editEvent
 };
 
 export default connect(mapStateToProps, actions)(EventForm);

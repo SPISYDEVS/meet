@@ -24,6 +24,26 @@ export function createEvent(event, user, successCB, errorCB) {
     };
 }
 
+export function editEvent(event, user, eventId, successCB, errorCB) {
+
+    event['hostId'] = user.uid;
+
+    //compliant to database schema (object instead of list)
+    const invitations = event['invitations'];
+    event['invitations'] = {};
+    invitations.forEach(id => event['invitations'][id] = true);
+
+    return (dispatch) => {
+        api.editEvent(event, eventId, function (success, data, error) {
+            if (success) {
+                event['id'] = data;
+                dispatch({type: t.EVENT_CREATED, data: event});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
 export function fetchEvents(eventIds, successCB, errorCB) {
     return (dispatch) => {
         api.fetchEvents(eventIds, function (success, data, error) {

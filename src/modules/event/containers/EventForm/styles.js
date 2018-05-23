@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     modal: {
         margin: 0,
         paddingTop: 35,
-        backgroundColor: color.white
+        backgroundColor: color.background
     },
     locationContainer: {
         marginBottom: padding.vertical * 2,

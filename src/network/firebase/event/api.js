@@ -28,6 +28,28 @@ export function createEvent(event, user, callback) {
         .catch((error) => callback(false, null, {message: error}));
 }
 
+//Create the event object in realtime database
+export function editEvent(event, eventId, callback) {
+
+    console.log("EVENT ID SEARCH");
+    console.log(eventId);
+    const updates = {};
+
+    //sent invitations to all users
+    Object.keys(event.invitations).forEach(id => {
+        updates['/users/' + id + '/eventInvitations/' + eventId] = true;
+    });
+
+    updates['/events/' + eventId] = event;
+
+    database.ref().update(updates);
+
+    //store location as a separate child
+    geofireRef.set(eventId, [event.location.latitude, event.location.longitude]);
+
+    callback(true, eventId, null);
+}
+
 export function fetchEvents(eventIds, callback) {
 
     Promise.all(eventIds.map(id => {
@@ -102,6 +124,8 @@ export function rsvpEvent(eventId, user, callback) {
 
     updates['/users/' + user.uid + '/eventsAsAttendee/' + eventId] = true;
     updates['/events/' + eventId + '/plannedAttendees/' + user.uid] = true;
+    updates['/users/' + user.uid + '/eventInvitations/' + eventId] = null;
+
     database.ref().update(updates);
 
 }

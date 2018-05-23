@@ -13,7 +13,7 @@ export const extractData = (data) => {
 
     Object.keys(data).forEach(function (key) {
 
-        if (key !== "error") {
+        if (key !== "error" && key !== "dataLoaded") {
             let {value, validator, errorMessage} = data[key];
 
             if(validator === undefined || validator(value)){

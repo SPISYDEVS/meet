@@ -25,25 +25,29 @@ export const autocompleteStyles = {
     container: {
         zIndex: 10,
         overflow: 'visible',
-        height: 50,
         flexGrow: 0,
         flexShrink: 0
     },
     textInputContainer: {
         width: '100%',
-        backgroundColor: color.white,
+        backgroundColor: color.background,
+        height: 62,
         borderTopWidth: 0,
         borderBottomWidth:0
     },
+    textInput: {
+      alignSelf: 'center'
+    },
     listView: {
         position: 'absolute',
-        top: 42,
+        top: 52,
         // left: 10,
         // right: 10,
-        backgroundColor: color.white,
+        backgroundColor: color.background,
         // borderRadius: 5,
         flex: 1,
         // elevation: 3,
+        maxHeight: 300,
         zIndex: 10
     },
     description: {

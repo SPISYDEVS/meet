@@ -17,6 +17,8 @@ import moment from "moment";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import {LinearGradient} from 'expo';
 import {fetchBackgroundGradient} from "../../utils";
+import {color} from "../../../../styles/theme";
+import {DATE_FORMAT} from "../../../../config/constants";
 
 
 class EventDetails extends React.Component {
@@ -25,10 +27,6 @@ class EventDetails extends React.Component {
         this.state = {
             dataLoaded: false
         };
-    }
-
-    componentDidUpdate() {
-        console.log("MY UPDATE");
     }
 
     componentDidMount() {
@@ -63,6 +61,30 @@ class EventDetails extends React.Component {
         }
 
     }
+
+    editEvent = () => {
+
+        //navigates to the edit event screen, passing the event data to the form
+        const event = this.props.eventReducer.byId[this.props.eventId];
+        let {title, startDate, endDate, location, address, description, hostId, invitations} = event;
+
+        let invitees = invitations ? Object.keys(invitations) : [];
+
+        startDate = moment(startDate).format(DATE_FORMAT);
+        endDate = endDate ? moment(endDate).format(DATE_FORMAT) : '';
+
+        Actions.push('EditEvent', {
+            editMode: true,
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            location: location,
+            address: address,
+            description: description,
+            invitees: invitees,
+            eventId: this.props.eventId
+        });
+    };
 
     renderItem = (item) => {
         const userId = item.item;
@@ -125,6 +147,12 @@ class EventDetails extends React.Component {
                         <TouchableOpacity onPress={() => Actions.pop()}>
                             <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>
                         </TouchableOpacity>
+                        {
+                            this.props.currentUser.uid === hostId &&
+                            <TouchableOpacity onPress={() => this.editEvent()}>
+                                <Icon name='edit-2' type='feather' color={color.text} size={30}/>
+                            </TouchableOpacity>
+                        }
                     </View>
                     <ScrollView style={styles.container}>
                         <View style={styles.header}>

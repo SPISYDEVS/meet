@@ -104,6 +104,12 @@ export default class extends React.Component {
                            component={EventDetails}
                            type={ActionConst.REPLACE}/>
 
+                    <Scene key="EditEvent"
+                           clone
+                           title={null}
+                           component={EventForm}
+                           type={ActionConst.REPLACE}/>
+
                     <Scene key="SomeonesProfile"
                            clone
                            title={null}

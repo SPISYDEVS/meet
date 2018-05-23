@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, SafeAreaView} from 'react-native';
 
 import styles, {autocompleteStyles} from "./styles"
 import {Avatar, Icon} from "react-native-elements";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import {MapView} from "expo";
+import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 
 class PlacePicker extends React.Component {
     constructor(props) {
@@ -22,16 +23,28 @@ class PlacePicker extends React.Component {
 
     onRegionChange = (region) => {
         this.setState({region: region});
-        this.props.onLocationChange({latitude: region.latitude, longitude: region.longitude});
+
+        //make a get request (we want to reverse geolookup an address given a latlng)
+        //we then update the state with the returned value
+        reverseGeocode(region.latitude, region.longitude, (address) => {
+            this.autocomplete.setAddressText(address);
+            this.props.onLocationChange({
+                location: {latitude: region.latitude, longitude: region.longitude},
+                address: address
+            });
+        }, (err) => {
+            console.log(err)
+        });
     };
 
-    render() {
 
+    render() {
 
         const {options} = this.props;
 
         return (
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
+
                 <GooglePlacesAutocomplete
                     {...options}
                     onPress={(place, details) => {
@@ -42,8 +55,10 @@ class PlacePicker extends React.Component {
                         newRegion.latitudeDelta = this.state['region'].latitudeDelta;
                         newRegion.longitudeDelta = this.state['region'].longitudeDelta;
                         this.onRegionChange(newRegion);
+                        this.map.animateToRegion(this.state.region, 500);
                     }}
                     styles={autocompleteStyles}
+                    ref={c => this.autocomplete = c}
                     fetchDetails={true}
                 />
 
@@ -53,13 +68,14 @@ class PlacePicker extends React.Component {
                         showsUserLocation
                         showsMyLocationButton={true}
                         initialRegion={this.state.region}
+                        ref={c => this.map = c}
                         onRegionChangeComplete={(region) => this.onRegionChange(region)}
                     />
                     <View pointerEvents="none" style={styles.markerContainer}>
                         <Icon type="material-community" style={styles.marker} size={40} name="map-marker"/>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
