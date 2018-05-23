@@ -31,8 +31,6 @@ export function createEvent(event, user, callback) {
 //Create the event object in realtime database
 export function editEvent(event, eventId, callback) {
 
-    console.log("EVENT ID SEARCH");
-    console.log(eventId);
     const updates = {};
 
     //sent invitations to all users
@@ -130,6 +128,26 @@ export function rsvpEvent(eventId, user, callback) {
 
 }
 
+
+export function checkInToEvent(eventId, callback) {
+
+    let currentUser = auth.currentUser;
+    let userId = currentUser.uid;
+
+    const updates = {};
+
+    updates['/events/' + eventId + '/actualAttendees/' + userId] = true;
+
+    //update the data then pull the data afterwards
+    database.ref().update(updates).then(() => {
+        database.ref('events').child(eventId).once('value').then((snapshot) => {
+            callback(true, {[eventId]: snapshot.val()}, null)
+        })
+    }).catch(error => callback(false, null, error));
+
+
+}
+
 export function respondToEventInvitation(eventId, accept, callback) {
 
     let currentUser = auth.currentUser;
@@ -144,8 +162,6 @@ export function respondToEventInvitation(eventId, accept, callback) {
         updates['/users/' + currentUser.uid + '/eventsAsAttendee/' + eventId] = true;
         updates['/events/' + eventId + '/plannedAttendees/' + currentUser.uid] = true;
     }
-
-    console.log(updates);
 
     database.ref().update(updates);
 

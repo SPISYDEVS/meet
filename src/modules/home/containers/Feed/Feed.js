@@ -3,10 +3,7 @@ import {Constants, Location, Permissions} from 'expo';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
-import {
-    Animated,
-    ActivityIndicator, Platform, SafeAreaView, Text, View
-} from "react-native";
+import {ActivityIndicator, Animated, Platform, SafeAreaView, Text, View} from "react-native";
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
@@ -38,31 +35,17 @@ class Feed extends React.Component {
     };
 
     _getLocationAsync = async () => {
-        let {status} = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-            console.log("Permission not granted");
-            return;
+
+        if(!this.props.feedReducer.locFetched){
+            let location = await Location.getCurrentPositionAsync({});
+
+            const lat = location.coords.latitude;
+            const lng = location.coords.longitude;
+
+            //update location in store
+            this.props.updateLocation({latitude: lat, longitude: lng});
         }
 
-        let location = await Location.getCurrentPositionAsync({});
-
-        const lat = location.coords.latitude;
-        const lng = location.coords.longitude;
-
-        //update location in store
-        this.props.updateLocation({latitude: lat, longitude: lng});
-
-        Location.watchPositionAsync({
-            enableHighAccuracy: true,
-            timeInterval: 60000,
-            distanceInterval: 100
-        }, (loc) => {
-            this.props.updateLocation(
-                {
-                    latitude: loc.coords.latitude,
-                    longitude: loc.coords.longitude
-                })
-        });
     };
 
     // //load events into store

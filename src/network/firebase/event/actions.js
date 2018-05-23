@@ -80,6 +80,18 @@ export function rsvpEvent(eventId, successCB, errorCB) {
     };
 }
 
+export function checkInToEvent(eventId, successCB, errorCB) {
+
+    return (dispatch) => {
+        api.checkInToEvent(eventId, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.EVENT_FETCHED, data: data});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
 export function respondToEventInvitation(eventId, accept, successCB, errorCB) {
     return (dispatch) => {
         api.respondToEventInvitation(eventId, accept, function (success, data, error) {

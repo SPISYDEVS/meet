@@ -188,24 +188,40 @@ class EventDetails extends React.Component {
                         </View>
                         {
                             eventHappening &&
+                            <View>
+                                <Text style={styles.boldSubtitle}>
+                                    Who's Here ({actualAttendees.length})
+                                </Text>
+                                <View style={styles.attendeesContainer}>
+                                    <FlatList
+                                        style={styles.container}
+                                        data={actualAttendees}
+                                        renderItem={(item) => this.renderItem(item)}
+                                        keyExtractor={(userId) => userId}
+                                        // refreshing={this.state.refreshing}
+                                        // onRefresh={() => this.props.onRefresh()}
+                                    />
+                                </View>
+                            </View>
+                        }
+                        <View>
 
                             <Text style={styles.boldSubtitle}>
-                                Who's Here ({actualAttendees.length})
+                                Who's Going ({plannedAttendees.length})
                             </Text>
-                        }
-                        <Text style={styles.boldSubtitle}>
-                            Who's Going ({plannedAttendees.length})
-                        </Text>
-                        <View style={styles.attendeesContainer}>
-                            <FlatList
-                                style={styles.container}
-                                data={plannedAttendees}
-                                renderItem={(item) => this.renderItem(item)}
-                                keyExtractor={(userId) => userId}
-                                // refreshing={this.state.refreshing}
-                                // onRefresh={() => this.props.onRefresh()}
-                            />
+                            <View style={styles.attendeesContainer}>
+                                <FlatList
+                                    style={styles.container}
+                                    data={plannedAttendees}
+                                    renderItem={(item) => this.renderItem(item)}
+                                    keyExtractor={(userId) => userId}
+                                    // refreshing={this.state.refreshing}
+                                    // onRefresh={() => this.props.onRefresh()}
+                                />
+                            </View>
+
                         </View>
+
                         {!currentUserIsAttending &&
                         <Button
                             raised
