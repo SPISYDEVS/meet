@@ -8,14 +8,22 @@ let initialState = {byId: {}, allIds: []};
 const eventReducer = (state = initialState, action) => {
     switch (action.type) {
         case t.EVENT_CREATED: {
-            const event = action.data;
+            const event = action.data.event;
+            const eventId = action.data.eventId;
+
+            const newIds = [...state.allIds];
+
+            if(!newIds.includes(eventId)){
+                newIds.push(eventId);
+            }
+
             return {
                 ...state,
                 byId: {
                     ...state.byId,
-                    [event.id]: event
+                    [eventId]: event
                 },
-                allIds: [...state.allIds, event.id],
+                allIds: newIds,
             };
         }
         case t.EVENT_FETCHED:

@@ -240,6 +240,37 @@ class EventForm extends React.Component {
 
     };
 
+    onStartDateChange = (newDate) => {
+        const state = {...this.state};
+
+        const startDate = moment(newDate, DATE_FORMAT).valueOf();
+        const endDate = moment(state['endDate']['value'], DATE_FORMAT).valueOf();
+
+        if(startDate >= endDate){
+            state['error']['startDate'] = 'Starting time must be before the ending time';
+        } else {
+            state['startDate']['value'] = newDate;
+            state['error']['startDate'] = '';
+        }
+
+        this.setState(state);
+    };
+
+    onEndDateChange = (newDate) => {
+        const state = {...this.state};
+
+        const startDate = moment(state['startDate']['value'], DATE_FORMAT).valueOf();
+        const endDate = moment(newDate, DATE_FORMAT).valueOf();
+
+        if(startDate >= endDate){
+            state['error']['endDate'] = 'Ending time must be after the starting time';
+        } else {
+            state['endDate']['value'] = newDate;
+            state['error']['endDate'] = '';
+        }
+        this.setState(state);
+    };
+
     onChange = (key, data) => {
         const state = {...this.state};
         state[key]['value'] = data;
@@ -312,7 +343,7 @@ class EventForm extends React.Component {
                             {...form.fields[startDate]}
                             value={this.state[startDate]['value']}
                             error={this.state['error'][startDate]}
-                            onDateChange={(newDate) => this.onChange(startDate, newDate)}
+                            onDateChange={(newDate) => this.onStartDateChange(newDate)}
                         />
 
                         {/*input for the date*/}
@@ -320,7 +351,7 @@ class EventForm extends React.Component {
                             {...form.fields[endDate]}
                             value={this.state[endDate]['value']}
                             error={this.state['error'][endDate]}
-                            onDateChange={(newDate) => this.onChange(endDate, newDate)}
+                            onDateChange={(newDate) => this.onEndDateChange(newDate)}
                         />
 
                         {/* Below is the input for the location field, which opens a modal when clicked*/}
@@ -423,7 +454,7 @@ EventForm.defaultProps = {
     title: '',
     startDate: '',
     endDate: '',
-    location: '',
+    location: {},
     address: '',
 };
 

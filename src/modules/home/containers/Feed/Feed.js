@@ -52,13 +52,25 @@ class Feed extends React.Component {
         //update location in store
         this.props.updateLocation({latitude: lat, longitude: lng});
 
-        // //load events into store
-        // this.props.fetchFeed([lat, lng], () => {
-        //     this.setState({dataLoaded: true});
-        // }, (error) => {
-        //     console.log(error);
-        // })
+        Location.watchPositionAsync({
+            enableHighAccuracy: true,
+            timeInterval: 60000,
+            distanceInterval: 100
+        }, (loc) => {
+            this.props.updateLocation(
+                {
+                    latitude: loc.coords.latitude,
+                    longitude: loc.coords.longitude
+                })
+        });
     };
+
+    // //load events into store
+    // this.props.fetchFeed([lat, lng], () => {
+    //     this.setState({dataLoaded: true});
+    // }, (error) => {
+    //     console.log(error);
+    // })
 
     fetchFeed = () => {
         const location = this.props.feedReducer.location;
