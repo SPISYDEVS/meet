@@ -52,14 +52,16 @@ const styles = StyleSheet.create({
     },
     addButton: {
         flex: 1,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        justifyContent: 'center'
     },
     addButtonText: {
         fontSize: fontSize.regular + 2,
-        color: '#FCFCFC'
+        color: '#FCFCFC',
+        textAlign: 'center'
     },
     profileScrollView: {
-        flex: 5,
+        flex: 4,
         flexDirection: 'row',
         alignItems: 'center'
     },
