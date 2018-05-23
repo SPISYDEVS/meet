@@ -131,7 +131,7 @@ class EventForm extends React.Component {
     componentDidMount() {
 
         //lazily load invitees information
-        const invitees = this.props.invitees;
+        let invitees = this.props.invitees;
 
         if (invitees.length === 0) {
             this.setState({dataLoaded: true});
@@ -147,13 +147,23 @@ class EventForm extends React.Component {
             }
         });
 
+        const state = {...this.state};
+
         if (usersToFetch.length > 0) {
             this.props.fetchUsers(usersToFetch, () => {
-                this.setState({dataLoaded: true});
+
+                invitees = invitees.map(id => this.props.peopleReducer.byId[id]);
+                state['invitations']['value'] = invitees;
+
+                this.setState(state);
+
             }, () => {
             });
         } else {
-            this.setState({dataLoaded: true});
+            invitees = invitees.map(id => this.props.peopleReducer.byId[id]);
+            state['dataLoaded'] = true;
+            state['invitations']['value'] = invitees;
+            this.setState(state);
         }
 
     }
@@ -246,7 +256,7 @@ class EventForm extends React.Component {
         const startDate = moment(newDate, DATE_FORMAT).valueOf();
         const endDate = moment(state['endDate']['value'], DATE_FORMAT).valueOf();
 
-        if(startDate >= endDate){
+        if (startDate >= endDate) {
             state['error']['startDate'] = 'Starting time must be before the ending time';
         } else {
             state['startDate']['value'] = newDate;
@@ -262,7 +272,7 @@ class EventForm extends React.Component {
         const startDate = moment(state['startDate']['value'], DATE_FORMAT).valueOf();
         const endDate = moment(newDate, DATE_FORMAT).valueOf();
 
-        if(startDate >= endDate){
+        if (startDate >= endDate) {
             state['error']['endDate'] = 'Ending time must be after the starting time';
         } else {
             state['endDate']['value'] = newDate;
@@ -461,6 +471,7 @@ EventForm.defaultProps = {
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
     return {
+        peopleReducer: state.peopleReducer,
         currentUser: state.authReducer.user,
         userLocation: state.feedReducer.location
     }
