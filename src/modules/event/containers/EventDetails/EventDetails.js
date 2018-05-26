@@ -175,7 +175,7 @@ class EventDetails extends React.Component {
                         </View>
 
 
-                        {description &&
+                        {!!description &&
                         <View style={styles.details}>
                             <Text style={styles.description}>
                                 {description}
@@ -188,7 +188,7 @@ class EventDetails extends React.Component {
                         </View>
 
                         {
-                            eventHappening &&
+                            !!eventHappening &&
                             <View>
                                 <Text style={styles.boldSubtitle}>
                                     Who's Here ({actualAttendees.length})
