@@ -47,6 +47,7 @@ class FriendSelection extends Component {
                 const friend = this.props.peopleReducer.byId[id];
 
                 let avatar = friend.profile ? {uri: friend.profile.source} : {uri: ""};
+
                 return {
                     id: friend.uid,
                     title: friend.firstName + " " + friend.lastName,

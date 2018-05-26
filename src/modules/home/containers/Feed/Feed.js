@@ -105,7 +105,6 @@ class Feed extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
 
-
                 {!hasEvents &&
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>There aren't any events yet!</Text>

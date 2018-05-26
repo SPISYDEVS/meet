@@ -11,14 +11,14 @@ import ExploreSearch from "../ExploreSearch/ExploreSearch";
 import Feed from "../Feed/Feed";
 import {updateLocation} from "../../../../network/firebase/feed/actions";
 import haversine from "haversine";
-import {checkInToEvent} from "../../../../network/firebase/event/actions";
+import {checkInToEvent, fetchEvents} from "../../../../network/firebase/event/actions";
 import moment from "moment";
 
 class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchMode: props.searchMode,
+            searchMode: false,
         }
     }
 
@@ -26,10 +26,6 @@ class HomeScreen extends React.Component {
         this.setState(nextProps);
     };
 
-    //check if we need to fetch any external data from firebase
-    // componentDidMount() {
-
-    // };
     componentDidMount() {
         // this.props.signOut();
         this.props.persistCurrentUser(() => {
@@ -43,6 +39,11 @@ class HomeScreen extends React.Component {
 
         //load all events the users can possibly check in to
         let {eventsAsAttendee} = this.props.currentUser;
+
+        if (!eventsAsAttendee) {
+            this.watchLocation();
+            return;
+        }
 
         eventsAsAttendee = Object.keys(eventsAsAttendee);
 
@@ -80,6 +81,8 @@ class HomeScreen extends React.Component {
             distanceInterval: 50,
         }, (loc) => {
 
+            console.log(loc.coords);
+
             this.props.updateLocation(
                 {
                     latitude: loc.coords.latitude,
@@ -89,47 +92,50 @@ class HomeScreen extends React.Component {
             const currentUser = this.props.currentUser;
             let {eventsAsAttendee} = currentUser;
 
-            //get all the events the user is attending
-            eventsAsAttendee = Object.keys(eventsAsAttendee);
+            if (eventsAsAttendee) {
 
-            const events = this.props.eventReducer.byId;
-            const userLocation = this.props.location;
 
-            //check in to each event that the user can check in to
-            eventsAsAttendee.forEach((eventId) => {
+                //get all the events the user is attending
+                eventsAsAttendee = Object.keys(eventsAsAttendee);
 
-                const event = events[eventId];
+                const events = this.props.eventReducer.byId;
+                const userLocation = this.props.location;
 
-                const checkedIn = event.actualAttendees && currentUser.uid in event.actualAttendees;
+                //check in to each event that the user can check in to
+                eventsAsAttendee.forEach((eventId) => {
 
-                //is the user not checked in already?
-                if (!checkedIn) {
+                    const event = events[eventId];
 
-                    const startDate = event.startDate;
+                    const checkedIn = event.actualAttendees && currentUser.uid in event.actualAttendees;
 
-                    //has the event started?
-                    if (moment().valueOf() >= startDate) {
+                    //is the user not checked in already?
+                    if (!checkedIn) {
 
-                        const location = event.location;
-                        const distance = haversine(location, userLocation, {unit: 'meter'}).toFixed(1);
+                        const startDate = event.startDate;
 
-                        //is the user within 120 meters of the event?
-                        if (distance < 120) {
+                        //has the event started?
+                        if (moment().valueOf() >= startDate) {
 
-                            //lets check them in!
-                            this.props.checkInToEvent(eventId, () => {
-                            }, (err) => {
-                                console.log(err);
-                            });
+                            const location = event.location;
+                            const distance = haversine(location, userLocation, {unit: 'meter'}).toFixed(1);
+
+                            //is the user within 120 meters of the event?
+                            if (distance < 120) {
+
+                                //lets check them in!
+                                this.props.checkInToEvent(eventId, () => {
+                                }, (err) => {
+                                    console.log(err);
+                                });
+
+                            }
 
                         }
 
                     }
 
-                }
-
-            });
-
+                });
+            }
 
         });
     };
@@ -166,7 +172,8 @@ const actions = {
     persistCurrentUser,
     signOut,
     updateLocation,
-    checkInToEvent
+    checkInToEvent,
+    fetchEvents,
 };
 
 export default connect(mapStateToProps, actions)(HomeScreen);

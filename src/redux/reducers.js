@@ -3,7 +3,6 @@ import eventReducer from "./eventReducer";
 import feedReducer from "./feedReducer";
 import peopleReducer from "./peopleReducer";
 
-
 const rehydrated = (state = false, action) => {
     switch (action.type) {
         case 'persist/REHYDRATE':
@@ -12,7 +11,6 @@ const rehydrated = (state = false, action) => {
             return state;
     }
 };
-
 
 export default {
     rehydrated,

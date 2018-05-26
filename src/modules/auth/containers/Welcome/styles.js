@@ -7,60 +7,38 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor: color.white
     },
 
     topContainer:{
-        flex:2,
+        flex:4,
         paddingHorizontal:15,
-        paddingBottom: padding.vertical * 2,
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor: color.main,
     },
 
     image:{
-        height: 100,
-        width: 100,
-        backgroundColor: color.grey,
+        // backgroundColor: color.white,
+        // borderRadius: 50,
         marginBottom: padding.vertical,
         resizeMode
     },
 
     title:{
-        fontSize: fontSize.large + 2,
-        lineHeight: fontSize.large + 4,
-        fontFamily: fontFamily.bold,
+        fontSize: fontSize.header,
+        fontFamily: fontFamily.extrabold,
         color:color.white,
-        letterSpacing: 1
-    },
-
-    subText:{
-        color: "#414141",
-        fontSize: fontSize.large,
-        lineHeight: fontSize.large + 10,
-        marginVertical:padding.vertical * 2
+        letterSpacing: 2
     },
 
     //===============================
 
     bottomContainer:{
-        backgroundColor:"white",
-        justifyContent: 'center',
-        flex: 1,
-        paddingVertical: padding * 3,
-        shadowColor: "#000000",
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 1,
-            width: 0
-        }
+        flex: 2,
     },
 
     buttonContainer:{
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
     },
 
     containerView:{
@@ -69,26 +47,33 @@ const styles = StyleSheet.create({
 
     socialButton:{
         height: normalize(55),
-        borderRadius:4,
+        borderRadius: 50,
         marginTop:0,
-        marginBottom:0
+        marginBottom:padding.vertical*3
+    },
+
+    socialButtonText: {
+        fontSize: fontSize.regular + 2,
+        fontFamily: fontFamily.medium,
     },
 
     button:{
-        backgroundColor: color.main,
+        borderRadius: 50,
+        backgroundColor: color.white,
         height: 55
     },
 
     buttonText:{
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.medium,
+        color: color.welcome_gradient2
     },
 
     bottom:{
+        flexShrink: 1,
         flexDirection: "row",
         justifyContent:"center",
         alignItems:"center",
-        marginTop: padding.vertical * 2
     },
 
     bottomText:{
@@ -100,30 +85,22 @@ const styles = StyleSheet.create({
 
     signInText:{
         fontSize: fontSize.regular,
-        color: "#FF553F",
+        color: color.text,
+        opacity: 0.85,
         fontFamily: fontFamily.medium
     },
 
     orContainer:{
+        flexDirection: 'row',
         justifyContent:"center",
         alignItems:"center",
         height: 40,
-        width: windowWidth
+        width: windowWidth - padding.horizontal*2,
     },
-
-    divider:{
-        backgroundColor: '#D0D5DA',
-        position:"absolute",
-        top:19,
-        left: 20,
-        right: 20
-    },
-
     orText:{
-        backgroundColor: color.white,
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
-        color: "#414141",
+        color: color.text,
         paddingHorizontal: padding.horizontal
     }
 });

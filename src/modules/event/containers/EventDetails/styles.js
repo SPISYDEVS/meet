@@ -8,33 +8,40 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        padding: 15,
+        padding: padding.horizontal * 2.5,
     },
     navBar:{
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingHorizontal: 10,
         paddingTop: 10,
+        paddingHorizontal: padding.horizontal * 1.75,
         paddingBottom: 4,
     },
     header: {
+        marginBottom: padding.vertical * 3
     },
     title: {
         fontSize: fontSize.header,
         fontFamily: fontFamily.bold,
         color: color.text,
-        marginBottom: 10
     },
-    subtitle: {
-        fontSize: fontSize.regular,
+    subHeader: {
+        marginBottom: padding.vertical * 5,
+    },
+    date: {
+        fontSize: fontSize.medium,
         color: color.text,
-        lineHeight: 15,
         opacity: 0.9,
-        marginBottom: 5,
+        marginBottom: padding.vertical,
+    },
+    location: {
+        fontSize: fontSize.medium,
+        color: color.text,
+        opacity: 0.9,
     },
     details: {
-        marginBottom: 25,
+        marginBottom: padding.vertical * 1.5
     },
     description: {
         fontSize: fontSize.regular,
@@ -43,12 +50,11 @@ const styles = StyleSheet.create({
     },
     hostContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        marginVertical: 10,
+        marginBottom: padding.vertical * 1.8,
     },
     hostName: {
         color: color.text,
-        paddingLeft: 10,
+        paddingLeft: padding.horizontal,
         alignSelf: 'center',
         fontFamily: fontFamily.bold
     },
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.bold,
     },
     attendeesContainer: {
-        marginBottom: 10
+        marginVertical: padding.vertical
     },
     attendees: {
         flexDirection: 'row',

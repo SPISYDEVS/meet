@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import styles from "./styles";
 import commonStyles from '../../../../styles/commonStyles';
@@ -19,7 +19,6 @@ import {LinearGradient} from 'expo';
 import {fetchBackgroundGradient} from "../../utils";
 import {color} from "../../../../styles/theme";
 import {DATE_FORMAT} from "../../../../config/constants";
-
 
 class EventDetails extends React.Component {
     constructor(props) {
@@ -94,6 +93,11 @@ class EventDetails extends React.Component {
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
+
+        if (event === undefined) {
+            return <View/>
+        }
+
         const host = this.props.peopleReducer.byId[event.hostId];
 
         if (!this.state.dataLoaded) {
@@ -102,9 +106,7 @@ class EventDetails extends React.Component {
             </View>
         }
 
-        if (event === undefined) {
-            return <View/>
-        }
+
 
         let {title, startDate, address, description, hostId, plannedAttendees, actualAttendees} = event;
         let currentUserIsAttending = false;
@@ -140,12 +142,12 @@ class EventDetails extends React.Component {
         return (
             <LinearGradient colors={backgroundGradient}
                             style={{flex: 1}}
-                            start={[.5, .5]}>
-                <SafeAreaView style={[styles.container]}>
+                            start={[.5, .15]}>
+                <SafeAreaView style={styles.container}>
 
                     <View style={styles.navBar}>
                         <TouchableOpacity onPress={() => Actions.pop()}>
-                            <Icon name='chevron-left' type='feather' color='#007AFF' size={40}/>
+                            <Icon name='chevron-left' type='feather' color={color.text} size={40}/>
                         </TouchableOpacity>
                         {
                             this.props.currentUser.uid === hostId &&
@@ -156,36 +158,36 @@ class EventDetails extends React.Component {
                     </View>
                     <ScrollView style={styles.container}>
                         <View style={styles.header}>
+
                             <Text style={styles.title}>
                                 {title}
                             </Text>
 
-                            <Text style={styles.subtitle}>
-                                {startDate
-                                + "\n"
-                                + address}
+                        </View>
+
+                        <View style={styles.subHeader}>
+                            <Text style={styles.date}>
+                                {startDate}
+                            </Text>
+
+                            <Text style={styles.location}>
+                                {address}
                             </Text>
                         </View>
 
 
+                        {description &&
                         <View style={styles.details}>
                             <Text style={styles.description}>
                                 {description}
                             </Text>
                         </View>
+                        }
 
                         <View style={styles.hostContainer}>
-                            <Avatar
-                                small
-                                rounded
-                                source={{uri: host.profile !== undefined ? host.profile.source : ''}}
-                                onPress={() => handleViewProfile(hostId)}
-                                activeOpacity={0.7}
-                            />
-                            <Text style={styles.hostName}>
-                                {`${host.firstName} ${host.lastName}`}
-                            </Text>
+                            <UserListItem userId={hostId}/>
                         </View>
+
                         {
                             eventHappening &&
                             <View>
@@ -194,7 +196,6 @@ class EventDetails extends React.Component {
                                 </Text>
                                 <View style={styles.attendeesContainer}>
                                     <FlatList
-                                        style={styles.container}
                                         data={actualAttendees}
                                         renderItem={(item) => this.renderItem(item)}
                                         keyExtractor={(userId) => userId}
@@ -211,7 +212,6 @@ class EventDetails extends React.Component {
                             </Text>
                             <View style={styles.attendeesContainer}>
                                 <FlatList
-                                    style={styles.container}
                                     data={plannedAttendees}
                                     renderItem={(item) => this.renderItem(item)}
                                     keyExtractor={(userId) => userId}

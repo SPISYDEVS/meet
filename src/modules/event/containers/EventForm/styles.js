@@ -17,6 +17,14 @@ const styles = StyleSheet.create({
         paddingTop: 35,
         backgroundColor: color.background
     },
+    modalHeader: {
+        flexDirection: 'row',
+        marginVertical: padding.vertical
+    },
+    modalContent: {
+        flex: 1,
+        margin: padding.horizontal * 2
+    },
     locationContainer: {
         marginBottom: padding.vertical * 2,
         borderBottomWidth: 1,

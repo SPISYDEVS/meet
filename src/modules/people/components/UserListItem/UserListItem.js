@@ -24,9 +24,8 @@ class UserListItem extends React.PureComponent {
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
                     <Text style={styles.text}>{user.firstName + " " + user.lastName}</Text>
-                    <Text style={styles.text}>{user.school}</Text>
+                    <Text style={styles.subText}>{user.school}</Text>
                 </View>
-
             </TouchableOpacity>
         );
     }

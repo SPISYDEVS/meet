@@ -47,7 +47,7 @@ class Event extends React.PureComponent {
 
     render() {
 
-        if(!this.state.dataLoaded){
+        if (!this.state.dataLoaded) {
             return <View/>
         }
 
@@ -72,8 +72,8 @@ class Event extends React.PureComponent {
         const backgroundColor = fetchBackgroundColor(startDate);
 
         return (
-            <View style={styles.shadowWrapper}>
-                <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+            <TouchableOpacity style={styles.container} onPress={this.handlePress}>
+
                     <View style={[styles.topContainer, {backgroundColor: backgroundColor}]}>
                         {/*<StatusBar hidden={true}/>*/}
                         <View style={styles.header}>
@@ -115,10 +115,8 @@ class Event extends React.PureComponent {
                             </Text>
                         </View>
                     </View>
-                    {/*<View style={styles.botContainer}/>*/}
-                </TouchableOpacity>
-
-            </View>
+                {/*<View style={styles.botContainer}/>*/}
+            </TouchableOpacity>
         );
     }
 }

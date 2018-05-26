@@ -1,7 +1,7 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, SafeAreaView, Text, TouchableOpacity, View, Animated, Easing} from 'react-native';
 
-import {Button, Divider, SocialIcon} from 'react-native-elements';
+import {Avatar, Button, Divider, Icon, SocialIcon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
@@ -10,6 +10,9 @@ import {PROFILE_SIZE} from "../../constants";
 
 import {oauthLogin, createUser} from "../../../../network/firebase/auth/actions";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
+import {color} from "../../../../styles/theme";
+import {LinearGradient} from "expo";
+import TimerMixin from 'react-timer-mixin';
 
 
 const mapStateToProps = (state) => {
@@ -18,13 +21,18 @@ const mapStateToProps = (state) => {
     }
 };
 
+const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient2, color.welcome_gradient3, color.welcome_gradient4, color.welcome_gradient5, color.welcome_gradient6, color.welcome_gradient7];
+const DIRECTION_MAGNITUDE = 0.04;
 
 class Welcome extends React.Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            count: 0.5,
+            direction: DIRECTION_MAGNITUDE,
+            background: [color.welcome_gradient1, color.welcome_gradient7],
+        }
     }
-
 
     onSignInWithFacebook = async () => {
         this.props.oauthLogin('facebook', (data) => {
@@ -44,7 +52,8 @@ class Welcome extends React.Component {
                         height: PROFILE_SIZE
                     }
                 };
-                this.props.createUser(user, this.onFinishedCreatingUser, (error) => {});
+                this.props.createUser(user, this.onFinishedCreatingUser, (error) => {
+                });
             }
             else {
                 this.onFinishedCreatingUser();
@@ -61,7 +70,8 @@ class Welcome extends React.Component {
             user.events = {};
         }
 
-        this.props.fetchEvents(Object.keys(user.events), this.onSuccess, (error) => {});
+        this.props.fetchEvents(Object.keys(user.events), this.onSuccess, (error) => {
+        });
     };
 
 
@@ -69,43 +79,87 @@ class Welcome extends React.Component {
         Actions.Main();
     };
 
+    componentDidMount() {
+        setInterval(() => {
+
+            let count = this.state.count + this.state.direction;
+            let direction = this.state.direction;
+
+            //handle oscillation
+            if (count > 1 - DIRECTION_MAGNITUDE) {
+                direction = -DIRECTION_MAGNITUDE;
+                count = 1;
+            } else if (count < DIRECTION_MAGNITUDE) {
+                direction = DIRECTION_MAGNITUDE;
+                count = 0;
+            }
+
+            this.setState({
+                count: count,
+                direction: direction,
+            });
+        }, 100);
+    }
 
     render() {
+
+        const start = this.state.count;
+
+        // const background = backgroundGradient.slice(index, backgroundGradient.length).concat(backgroundGradient.slice(0, index));
+
         return (
-            <View style={styles.container}>
-                <View style={styles.topContainer}>
-                    <Image style={styles.image} source={{uri: ""}}/>
-                    <Text style={styles.title}>LetsMeet</Text>
-                </View>
 
-                <View style={styles.bottomContainer}>
-                    <View style={[styles.buttonContainer]}>
-                        <SocialIcon
-                            raised
-                            button
-                            type='facebook'
-                            title='SIGN UP WITH FACEBOOK'
-                            iconSize={19}
-                            style={[styles.containerView, styles.socialButton]}
-                            fontStyle={styles.buttonText}
-                            onPress={() => this.onSignInWithFacebook()}/>
+            <LinearGradient colors={this.state.background}
+                            style={{flex: 1}}
+                            start={{x: start}}>
 
-                        <View style={styles.orContainer}>
-                            <Divider style={styles.divider}/>
-                            <Text style={styles.orText}>
-                                Or
-                            </Text>
+                <SafeAreaView style={styles.container}>
+
+                    <View style={styles.topContainer}>
+                        {/*<Avatar*/}
+                        {/*height={120}*/}
+                        {/*width={120}*/}
+                        {/*src={<Icon type='entypo' name='vk-with-circle'/>}*/}
+                        {/*// activeOpacity={0.7}*/}
+                        {/*rounded*/}
+                        {/*containerStyle={styles.image}*/}
+                        {/*/> */}
+                        <Icon
+                            size={120}
+                            type='entypo'
+                            name='vk-with-circle'
+                            color={color.white}
+                            // activeOpacity={0.7}
+                            rounded
+                            iconStyle={styles.image}
+                        />
+                        <Text style={styles.title}>LetsMeet</Text>
+                    </View>
+
+                    <View style={styles.bottomContainer}>
+                        <View style={[styles.buttonContainer]}>
+                            <SocialIcon
+                                raised
+                                button
+                                type='facebook'
+                                title='SIGN UP WITH FACEBOOK'
+                                iconSize={19}
+                                style={[styles.containerView, styles.socialButton]}
+                                fontStyle={styles.socialButtonText}
+                                onPress={() => this.onSignInWithFacebook()}/>
+
+                            <Button
+                                raised
+                                borderRadius={4}
+                                title={'SIGN UP WITH E-MAIL'}
+                                containerViewStyle={[styles.containerView]}
+                                buttonStyle={[styles.button]}
+                                textStyle={styles.buttonText}
+                                onPress={Actions.Register}/>
                         </View>
 
-                        <Button
-                            raised
-                            borderRadius={4}
-                            title={'SIGN UP WITH E-MAIL'}
-                            containerViewStyle={[styles.containerView]}
-                            buttonStyle={[styles.button]}
-                            textStyle={styles.buttonText}
-                            onPress={Actions.Register}/>
                     </View>
+
                     <View style={styles.bottom}>
                         <Text style={styles.bottomText}>
                             Already have an account?
@@ -117,9 +171,10 @@ class Welcome extends React.Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </SafeAreaView>
 
-            </View>
+            </LinearGradient>
+
         );
     }
 }

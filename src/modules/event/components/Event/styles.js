@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         overflow: 'hidden',
         flexDirection: 'column',
+        marginVertical: 5,
     },
     topContainer: {
         // backgroundColor: color.afternoon,

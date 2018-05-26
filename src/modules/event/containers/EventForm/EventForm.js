@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
 import {
-    ActivityIndicator, Keyboard, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
+    ActivityIndicator, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
     View
 } from "react-native";
 import {Icon, List, ListItem} from "react-native-elements";
@@ -102,7 +102,7 @@ class EventForm extends React.Component {
                         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
                         currentLocationLabel: "Current location",
                     },
-                    value: this.props.location ? this.props.location : this.props.currentLocation,
+                    value: this.props.location ? this.props.location : this.props.userLocation,
                     validator: (location) => !isEmpty(location),
                     errorMessage: "Location is required",
                     other: {
@@ -116,7 +116,7 @@ class EventForm extends React.Component {
                         objList: [],
                         modalVisible: false
                     },
-                    value: this.props.invitees,
+                    value: [],
                 }
             }
         };
@@ -126,46 +126,6 @@ class EventForm extends React.Component {
         //bind functions
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
-    }
-
-    componentDidMount() {
-
-        //lazily load invitees information
-        let invitees = this.props.invitees;
-
-        if (invitees.length === 0) {
-            this.setState({dataLoaded: true});
-            return;
-        }
-
-        //handle lazily loading user data from firebase if the users aren't loaded into the client yet
-        let usersToFetch = [];
-
-        invitees.forEach(id => {
-            if (!(id in this.props.peopleReducer.byId)) {
-                usersToFetch.push(id);
-            }
-        });
-
-        const state = {...this.state};
-
-        if (usersToFetch.length > 0) {
-            this.props.fetchUsers(usersToFetch, () => {
-
-                invitees = invitees.map(id => this.props.peopleReducer.byId[id]);
-                state['invitations']['value'] = invitees;
-
-                this.setState(state);
-
-            }, () => {
-            });
-        } else {
-            invitees = invitees.map(id => this.props.peopleReducer.byId[id]);
-            state['dataLoaded'] = true;
-            state['invitations']['value'] = invitees;
-            this.setState(state);
-        }
-
     }
 
     onSubmit = () => {
@@ -310,7 +270,6 @@ class EventForm extends React.Component {
 
 
     removeInvitee = (invitee) => {
-        console.log(invitee);
         const state = {...this.state};
         let invitees = state.invitations.value;
         invitees = invitees.filter(user => user.id !== invitee.id);
@@ -321,17 +280,11 @@ class EventForm extends React.Component {
 
     render() {
 
-        if (!this.state.dataLoaded) {
-            return <View style={commonStyles.loadingContainer}>
-                <ActivityIndicator animating color='white' size="large"/>
-            </View>
-        }
-
         const form = this.form;
         const [title, description, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
         const invited = this.state['invitations']['value'];
-        const friendsToNotInclude = invited.map(invitee => invitee.id);
+        const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
 
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -394,7 +347,7 @@ class EventForm extends React.Component {
                         />
 
                         {/* Below is the input for the invitations, which opens a modal when clicked*/}
-                        <View style={[formStyles.containerView]}>
+                        <View>
                             <TouchableOpacity style={styles.invitationsContainer}
                                               onPress={() => this.openInvitationsModal()}>
                                 <Icon type='feather' name='plus' color={color.text}/>
@@ -404,10 +357,14 @@ class EventForm extends React.Component {
 
                         {/*modal for inviting ppl*/}
                         <Modal isVisible={this.state[invitations]['other']['modalVisible']} style={styles.modal}>
-                            <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
-                                <Icon type='feather' name='x'/>
-                            </TouchableOpacity>
-                            <FriendSelection onSelectHandler={this.inviteFriend} notIncluded={friendsToNotInclude}/>
+                            <SafeAreaView style={styles.modalContent}>
+                                <View style={styles.modalHeader}>
+                                    <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
+                                        <Icon type='feather' name='x' color={color.text}/>
+                                    </TouchableOpacity>
+                                </View>
+                                <FriendSelection onSelectHandler={this.inviteFriend} notIncluded={friendsToNotInclude}/>
+                            </SafeAreaView>
                         </Modal>
 
                         {/* ListView of friends */}
@@ -464,7 +421,6 @@ EventForm.defaultProps = {
     title: '',
     startDate: '',
     endDate: '',
-    location: {},
     address: '',
 };
 

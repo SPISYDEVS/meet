@@ -4,6 +4,7 @@ import {ActivityIndicator, FlatList, ScrollView, View, Text, Animated} from 'rea
 import styles from "./styles";
 import Event from "../../components/Event/Event";
 import {HEADER_HEIGHT} from "../../../../config/constants";
+import {padding} from "../../../../styles/theme";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -59,8 +60,8 @@ class EventListView extends Component {
                 ) : () => {
                 }}
                 contentContainerStyle={this.props.animated ? {
-                    marginTop: HEADER_HEIGHT,
-                    paddingBottom: HEADER_HEIGHT
+                    marginTop: HEADER_HEIGHT + padding.vertical,
+                    paddingBottom: HEADER_HEIGHT + padding.vertical
                 } : {}}
             />
         );

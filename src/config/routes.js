@@ -131,12 +131,12 @@ export default class extends React.Component {
                                    component={HomeScreen}
                                    hideNavBar
                                    type={ActionConst.REPLACE}
-                                   searchMode={false}
                             />
 
                         </Scene>
 
                         <Scene key="EventScreen" default="Events"
+                               backToInitial
                                icon={({focused}) => <TabIcon focused={focused} iconName="book-open"/>}>
                             <Scene key="Events"
                                    component={Events}
@@ -151,6 +151,7 @@ export default class extends React.Component {
                         </Scene>
 
                         <Scene key="ProfileScreen" default="Events"
+                               backToInitial
                                icon={({focused}) => <TabIcon focused={focused} iconName="account"/>}>
 
                             <Scene key="Profile"

@@ -19,9 +19,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     text: {
-        fontSize: fontSize.large,
         fontFamily: fontFamily.bold,
         color: color.text
+    },
+    subText: {
+        fontFamily: fontFamily.regular,
+        color: color.text,
+        fontSize: fontSize.small,
+        opacity: 0.8
     }
 });
 
