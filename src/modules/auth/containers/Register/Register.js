@@ -12,6 +12,10 @@ import {Text, View} from "react-native";
 import Button from "react-native-elements/src/buttons/Button";
 
 import {register} from '../../../../network/firebase/auth/actions';
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import {LinearGradient} from "expo";
+import styles from "./styles";
+import {color} from "../../../../styles/theme";
 
 
 class Register extends React.Component {
@@ -51,7 +55,7 @@ class Register extends React.Component {
         const password = data['data']['password'];
         const confPassword = data['data']['confirmPassword'];
 
-        if(!confirmPassword(confPassword, password)){
+        if (!confirmPassword(confPassword, password)) {
             data['error']['confirmPassword'] = 'Confirmation password must match'
         }
 
@@ -89,43 +93,51 @@ class Register extends React.Component {
     render() {
 
         const [email, password, confirmPassword] = Object.keys(this.fields);
+        const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient7];
 
         return (
-            <View style={formStyles.container}>
+            <LinearGradient colors={backgroundGradient}
+                            style={{flex: 1}}>
 
-                {
-                    (!isEmpty(this.state.error['general'])) &&
-                    <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
-                }
+                <BackHeader x/>
 
-                <TextInput
-                    {...this.fields[email]}
-                    onChangeText={(text) => this.onChange(email, text)}
-                    value={this.state[email]['value']}
-                    error={this.state.error[email]}/>
+                <View style={styles.container}>
 
-                <TextInput
-                    {...this.fields[password]}
-                    onChangeText={(text) => this.onChange(password, text)}
-                    value={this.state[password]['value']}
-                    error={this.state.error[password]}/>
+                    {
+                        (!isEmpty(this.state.error['general'])) &&
+                        <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
+                    }
+                    <View style={styles.formInputsContainer}>
 
-                <TextInput
-                    {...this.fields[confirmPassword]}
-                    onChangeText={(text) => this.onChange(confirmPassword, text)}
-                    value={this.state[confirmPassword]['value']}
-                    error={this.state.error[confirmPassword]}/>
+                        <TextInput
+                            {...this.fields[email]}
+                            onChangeText={(text) => this.onChange(email, text)}
+                            value={this.state[email]['value']}
+                            error={this.state.error[email]}/>
 
-                <Button
-                    raised
-                    title='Complete'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={this.onSubmit}/>
+                        <TextInput
+                            {...this.fields[password]}
+                            onChangeText={(text) => this.onChange(password, text)}
+                            value={this.state[password]['value']}
+                            error={this.state.error[password]}/>
 
-            </View>
+                        <TextInput
+                            {...this.fields[confirmPassword]}
+                            onChangeText={(text) => this.onChange(confirmPassword, text)}
+                            value={this.state[confirmPassword]['value']}
+                            error={this.state.error[confirmPassword]}/>
+                    </View>
+                    <Button
+                        raised
+                        title='Complete'
+                        borderRadius={4}
+                        containerViewStyle={styles.containerView}
+                        buttonStyle={styles.button}
+                        textStyle={styles.buttonText}
+                        onPress={this.onSubmit}/>
+
+                </View>
+            </LinearGradient>
         );
     }
 }

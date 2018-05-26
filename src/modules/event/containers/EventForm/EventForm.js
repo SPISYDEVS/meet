@@ -26,6 +26,9 @@ import FriendSelection from "../../../search/containers/FriendSelection/FriendSe
 import {color, fontSize} from "../../../../styles/theme";
 import PropTypes from 'prop-types';
 import commonStyles from "../../../../styles/commonStyles";
+import {LinearGradient} from "expo";
+import {fetchBackgroundGradient} from "../../utils/index";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -286,56 +289,133 @@ class EventForm extends React.Component {
         const form = this.form;
         const [title, description, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
-        const invited = this.state['invitations']['value'];
+        const invited = this.state[invitations]['value'];
         const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
+
+        let backgroundGradient = [color.background];
+
+        if (this.state[startDate]['value']) {
+            backgroundGradient = fetchBackgroundGradient(moment(this.state[startDate]['value'], DATE_FORMAT).valueOf());
+        }
 
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <ScrollView style={styles.container}>
-                    <View style={styles.content}>
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}
+                                start={[.5, .15]}>
 
-                        {/*input for the form title*/}
-                        <TextInput
-                            style={styles.title}
-                            {...form.fields[title]['options']}
-                            onChangeText={(text) => this.onChange(title, text)}
-                            value={this.state[title]['value']}
-                            error={this.state['error'][title]}
-                        />
+                    <BackHeader/>
 
-                        <View style={styles.inputContainer}>
-                            {/*input for the date*/}
-                            <DatePicker
-                                {...form.fields[startDate]}
-                                value={this.state[startDate]['value']}
-                                error={this.state['error'][startDate]}
-                                onDateChange={(newDate) => this.onStartDateChange(newDate)}
+                    <ScrollView style={styles.container}>
+                        <View style={styles.content}>
+
+                            {/*input for the form title*/}
+                            <TextInput
+                                style={styles.title}
+                                {...form.fields[title]['options']}
+                                onChangeText={(text) => this.onChange(title, text)}
+                                value={this.state[title]['value']}
+                                error={this.state['error'][title]}
                             />
-                        </View>
 
-                        <View style={styles.inputContainer}>
-                            {/*input for the date*/}
-                            <DatePicker
-                                {...form.fields[endDate]}
-                                value={this.state[endDate]['value']}
-                                error={this.state['error'][endDate]}
-                                onDateChange={(newDate) => this.onEndDateChange(newDate)}
+                            <View style={styles.inputContainer}>
+                                {/*input for the date*/}
+                                <DatePicker
+                                    {...form.fields[startDate]}
+                                    value={this.state[startDate]['value']}
+                                    error={this.state['error'][startDate]}
+                                    onDateChange={(newDate) => this.onStartDateChange(newDate)}
+                                />
+                            </View>
+
+                            <View style={styles.inputContainer}>
+                                {/*input for the date*/}
+                                <DatePicker
+                                    {...form.fields[endDate]}
+                                    value={this.state[endDate]['value']}
+                                    error={this.state['error'][endDate]}
+                                    onDateChange={(newDate) => this.onEndDateChange(newDate)}
+                                />
+                            </View>
+
+                            <View style={styles.locationContainer}>
+                                {/* Below is the input for the location field, which opens a modal when clicked*/}
+                                <TouchableOpacity onPress={() => this.openLocationModal()}>
+                                    {this.renderLocation(address)}
+                                </TouchableOpacity>
+                            </View>
+
+                            {/*location input modal*/}
+                            <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>
+                                <PlacePicker location={this.state[location]['value']}
+                                             onLocationChange={this.onLocationChange}
+                                             options={this.form.options}/>
+                                <Button
+                                    raised
+                                    title='Complete'
+                                    borderRadius={4}
+                                    containerViewStyle={formStyles.containerView}
+                                    buttonStyle={formStyles.button}
+                                    textStyle={formStyles.buttonText}
+                                    onPress={() => this.closeLocationModal()}
+                                />
+                            </Modal>
+
+                            {/*input for the description of the event*/}
+                            <TextInput
+                                {...form.fields[description]['options']}
+                                onChangeText={(text) => this.onChange(description, text)}
+                                value={this.state[description]['value']}
+                                error={this.state['error'][description]}
                             />
-                        </View>
 
-                        <View style={styles.locationContainer}>
-                            {/* Below is the input for the location field, which opens a modal when clicked*/}
-                            <TouchableOpacity onPress={() => this.openLocationModal()}>
-                                {this.renderLocation(address)}
-                            </TouchableOpacity>
-                        </View>
+                            {/* Below is the input for the invitations, which opens a modal when clicked*/}
+                            <View>
+                                <TouchableOpacity style={styles.invitationsContainer}
+                                                  onPress={() => this.openInvitationsModal()}>
+                                    <Icon type='feather' name='plus' color={color.text}/>
+                                    <Text style={styles.text}>Invite People</Text>
+                                </TouchableOpacity>
+                            </View>
 
-                        {/*location input modal*/}
-                        <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>
-                            <PlacePicker location={this.state[location]['value']}
-                                         onLocationChange={this.onLocationChange}
-                                         options={this.form.options}/>
+                            {/*modal for inviting ppl*/}
+                            <Modal isVisible={this.state[invitations]['other']['modalVisible']} style={styles.modal}>
+                                <SafeAreaView style={styles.modalContent}>
+                                    <View style={styles.modalHeader}>
+                                        <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
+                                            <Icon type='feather' name='x' color={color.text}/>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <FriendSelection onSelectHandler={this.inviteFriend}
+                                                     notIncluded={friendsToNotInclude}/>
+                                </SafeAreaView>
+                            </Modal>
+
+                            {/* ListView of friends */}
+                            <List>
+                                {
+                                    this.state.invitations.value.map((invitee, i) => (
+                                        <ListItem
+                                            containerStyle={styles.listItemContainer}
+                                            titleStyle={styles.listItemText}
+                                            roundAvatar
+                                            key={i}
+                                            underlayColor={UNDERLAY_COLOR}
+                                            rightIcon={
+                                                <Icon name='close'
+                                                      type='material-community'
+                                                      color={CHECKMARK_COLOR}
+                                                      onPress={() => this.removeInvitee(invitee)}
+                                                />
+                                            }
+                                            {...invitee}
+                                        />
+                                    ))
+                                }
+                            </List>
+
+                            {/*submit button to create the event*/}
                             <Button
                                 raised
                                 title='Complete'
@@ -343,74 +423,12 @@ class EventForm extends React.Component {
                                 containerViewStyle={formStyles.containerView}
                                 buttonStyle={formStyles.button}
                                 textStyle={formStyles.buttonText}
-                                onPress={() => this.closeLocationModal()}
+                                onPress={() => this.onSubmit()}
                             />
-                        </Modal>
-
-                        {/*input for the description of the event*/}
-                        <TextInput
-                            {...form.fields[description]['options']}
-                            onChangeText={(text) => this.onChange(description, text)}
-                            value={this.state[description]['value']}
-                            error={this.state['error'][description]}
-                        />
-
-                        {/* Below is the input for the invitations, which opens a modal when clicked*/}
-                        <View>
-                            <TouchableOpacity style={styles.invitationsContainer}
-                                              onPress={() => this.openInvitationsModal()}>
-                                <Icon type='feather' name='plus' color={color.text}/>
-                                <Text style={styles.text}>Invite People</Text>
-                            </TouchableOpacity>
                         </View>
+                    </ScrollView>
 
-                        {/*modal for inviting ppl*/}
-                        <Modal isVisible={this.state[invitations]['other']['modalVisible']} style={styles.modal}>
-                            <SafeAreaView style={styles.modalContent}>
-                                <View style={styles.modalHeader}>
-                                    <TouchableOpacity onPress={() => this.closeInvitationsModal()}>
-                                        <Icon type='feather' name='x' color={color.text}/>
-                                    </TouchableOpacity>
-                                </View>
-                                <FriendSelection onSelectHandler={this.inviteFriend} notIncluded={friendsToNotInclude}/>
-                            </SafeAreaView>
-                        </Modal>
-
-                        {/* ListView of friends */}
-                        <List>
-                            {
-                                this.state.invitations.value.map((invitee, i) => (
-                                    <ListItem
-                                        containerStyle={styles.listItemContainer}
-                                        titleStyle={styles.listItemText}
-                                        roundAvatar
-                                        key={i}
-                                        underlayColor={UNDERLAY_COLOR}
-                                        rightIcon={
-                                            <Icon name='close'
-                                                  type='material-community'
-                                                  color={CHECKMARK_COLOR}
-                                                  onPress={() => this.removeInvitee(invitee)}
-                                            />
-                                        }
-                                        {...invitee}
-                                    />
-                                ))
-                            }
-                        </List>
-
-                        {/*submit button to create the event*/}
-                        <Button
-                            raised
-                            title='Complete'
-                            borderRadius={4}
-                            containerViewStyle={formStyles.containerView}
-                            buttonStyle={formStyles.button}
-                            textStyle={formStyles.buttonText}
-                            onPress={() => this.onSubmit()}
-                        />
-                    </View>
-                </ScrollView>
+                </LinearGradient>
             </TouchableWithoutFeedback>
         );
     }

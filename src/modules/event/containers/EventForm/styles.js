@@ -6,7 +6,6 @@ const {windowWidth, padding, fontSize, fontFamily, normalize, color} = theme;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: color.background,
         paddingTop: padding.vertical * 2,
         height: '100%'
     },

@@ -28,13 +28,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: color.welcome_gradient5
     },
-    forgotText: {
-        textAlign: "center",
-        color: color.white,
-        marginBottom: padding.vertical,
-        fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
-    }
 });
 
 

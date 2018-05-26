@@ -92,13 +92,12 @@ export default class extends React.Component {
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.accent_dark}>
 
-                    <Stack modal key="Auth" initial={!this.state.isLoggedIn}>
-                        <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
-                        <Scene key="Register" component={Register} title="Register" back/>
-                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username"
-                               back={false}/>
-                        <Scene key="Login" component={Login} title="Login" hideNavBar/>
-                        <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password" back/>
+                    <Stack modal key="Auth" initial={!this.state.isLoggedIn} hideNavBar duration={500}>
+                        <Scene key="Welcome" component={Welcome} title="" initial={true} />
+                        <Scene key="Register" component={Register} title="Register" />
+                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" />
+                        <Scene key="Login" component={Login} title="Login" />
+                        <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password" />
                     </Stack>
 
                     <Scene key="EventDetails"
@@ -112,6 +111,7 @@ export default class extends React.Component {
                            clone
                            title={null}
                            component={EventForm}
+                           hideNavBar
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="SomeonesProfile"
@@ -149,6 +149,7 @@ export default class extends React.Component {
                                    type={ActionConst.REPLACE}/>
                             <Scene key="EventForm"
                                    component={EventForm}
+                                   hideNavBar
                                    title="Create an Event"
                                    type={ActionConst.REPLACE}/>
 

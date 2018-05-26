@@ -111,7 +111,7 @@ class Welcome extends React.Component {
 
             <LinearGradient colors={this.state.background}
                             style={{flex: 1}}
-                            start={[start, 0.0]}>
+                            start={{x:start}}>
 
                 <SafeAreaView style={styles.container}>
 

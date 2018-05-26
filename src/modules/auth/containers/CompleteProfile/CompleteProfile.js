@@ -13,6 +13,10 @@ import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
 import {createUser} from '../../../../network/firebase/auth/actions';
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import {LinearGradient} from "expo";
+import {color} from "../../../../styles/theme";
+import styles from "./styles";
 
 class CompleteProfile extends React.Component {
     constructor() {
@@ -104,37 +108,50 @@ class CompleteProfile extends React.Component {
     render() {
 
         const [firstName, lastName, school] = Object.keys(this.fields);
+        const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient7];
+
         return (
-            <View style={formStyles.container}>
 
-                <TextInput
-                    {...this.fields[firstName]}
-                    onChangeText={(text) => this.onChange(firstName, text)}
-                    value={this.state[firstName]['value']}
-                    error={this.state.error[firstName]}/>
+            <LinearGradient colors={backgroundGradient}
+                            style={{flex: 1}}>
 
-                <TextInput
-                    {...this.fields[lastName]}
-                    onChangeText={(text) => this.onChange(lastName, text)}
-                    value={this.state[lastName]['value']}
-                    error={this.state.error[lastName]}/>
+                <BackHeader/>
 
-                <ItemSelector
-                    {...this.fields[school]}
-                    value={this.state[school]['value']}
-                    error={this.state.error[school]}
-                />
+                <View style={styles.container}>
 
-                <Button
-                    raised
-                    title='Complete'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={this.onSubmit}/>
+                    <View style={styles.formInputsContainer}>
 
-            </View>
+                        <TextInput
+                            {...this.fields[firstName]}
+                            onChangeText={(text) => this.onChange(firstName, text)}
+                            value={this.state[firstName]['value']}
+                            error={this.state.error[firstName]}/>
+
+                        <TextInput
+                            {...this.fields[lastName]}
+                            onChangeText={(text) => this.onChange(lastName, text)}
+                            value={this.state[lastName]['value']}
+                            error={this.state.error[lastName]}/>
+
+                        <ItemSelector
+                            {...this.fields[school]}
+                            value={this.state[school]['value']}
+                            error={this.state.error[school]}
+                        />
+
+                    </View>
+
+                    <Button
+                        raised
+                        title='Complete'
+                        borderRadius={4}
+                        containerViewStyle={styles.containerView}
+                        buttonStyle={styles.button}
+                        textStyle={styles.buttonText}
+                        onPress={this.onSubmit}/>
+
+                </View>
+            </LinearGradient>
 
         );
     }
