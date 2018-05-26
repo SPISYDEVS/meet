@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, SafeAreaView, Text, TouchableOpacity, View, Animated, Easing} from 'react-native';
+import {Image, SafeAreaView, Text, TouchableOpacity, View, Animated, Easing, Platform} from 'react-native';
 
 import {Avatar, Button, Divider, Icon, SocialIcon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
@@ -111,7 +111,7 @@ class Welcome extends React.Component {
 
             <LinearGradient colors={this.state.background}
                             style={{flex: 1}}
-                            start={{x: start}}>
+                            start={[start, 0.0]}>
 
                 <SafeAreaView style={styles.container}>
 
@@ -137,7 +137,7 @@ class Welcome extends React.Component {
                     </View>
 
                     <View style={styles.bottomContainer}>
-                        <View style={[styles.buttonContainer]}>
+                        <View style={styles.buttonContainer}>
                             <SocialIcon
                                 raised
                                 button
@@ -152,8 +152,8 @@ class Welcome extends React.Component {
                                 raised
                                 borderRadius={4}
                                 title={'SIGN UP WITH E-MAIL'}
-                                containerViewStyle={[styles.containerView]}
-                                buttonStyle={[styles.button]}
+                                containerViewStyle={styles.containerView}
+                                buttonStyle={styles.button}
                                 textStyle={styles.buttonText}
                                 onPress={Actions.Register}/>
                         </View>
@@ -174,7 +174,6 @@ class Welcome extends React.Component {
                 </SafeAreaView>
 
             </LinearGradient>
-
         );
     }
 }
