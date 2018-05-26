@@ -1,4 +1,4 @@
-import {ActionConst, Actions, Router, Scene, Stack} from 'react-native-router-flux';
+import {ActionConst, Actions, Lightbox, Overlay, Router, Scene, Stack} from 'react-native-router-flux';
 
 import React from 'react';
 import {View} from 'react-native';
@@ -31,6 +31,7 @@ import SomeonesProfile from "../modules/people/containers/SomeonesProfile/Someon
 import EventSearch from "../modules/home/containers/ExploreSearch/ExploreSearch";
 import Settings from "../modules/profile/containers/Settings/Settings";
 import HomeScreen from "../modules/home/containers/HomeScreen/HomeScreen";
+import GradientBackground from "../modules/auth/components/GradientBackground/GradientBackground";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -82,7 +83,9 @@ export default class extends React.Component {
             return <Splash/>;
 
         return (
-            <Router>
+
+
+            <Router sceneStyle={{backgroundColor: color.background}}>
 
                 <Scene key="root" hideNavBar
                        navigationBarStyle={{backgroundColor: color.background, borderBottomWidth: 0}}
@@ -92,9 +95,10 @@ export default class extends React.Component {
                     <Stack key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
                         <Scene key="Register" component={Register} title="Register" back/>
-                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username" back={false}/>
-                        <Scene key="Login" component={Login} title="Login"/>
-                        <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password"/>
+                        <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username"
+                               back={false}/>
+                        <Scene key="Login" component={Login} title="Login" hideNavBar/>
+                        <Scene key="ForgotPassword" component={ForgotPassword} title="Forgot Password" back/>
                     </Stack>
 
                     <Scene key="EventDetails"

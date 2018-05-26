@@ -7,9 +7,13 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: 'transparent'
     },
 
     topContainer:{
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: 'transparent',
         flex:4,
         paddingHorizontal:15,
         justifyContent:"center",
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     buttonText:{
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.medium,
-        color: color.welcome_gradient2
+        color: color.welcome_gradient5
     },
 
     bottom:{
@@ -80,13 +84,13 @@ const styles = StyleSheet.create({
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
         marginRight: 5,
-        color: "#414141"
+        color: color.text,
+        opacity: 0.8
     },
 
     signInText:{
         fontSize: fontSize.regular,
         color: color.text,
-        opacity: 0.85,
         fontFamily: fontFamily.medium
     },
 

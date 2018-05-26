@@ -29,7 +29,15 @@ const headerStyles = StyleSheet.create({
         fontSize: fontSize.large + 5,
         fontFamily: fontFamily.bold,
         color: color.text
-    }
+    },
+    navBar:{
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingTop: 10,
+        paddingHorizontal: padding.horizontal * 1.75,
+        paddingBottom: 4,
+    },
 });
 
 export default headerStyles;

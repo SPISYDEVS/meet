@@ -7,7 +7,8 @@ const color = {
     // accent_light: '#9C4368',
     // accent: '#33223B',
     // accent_dark: '#211E2B',
-    background: '#352F3D',
+    // background: '#352F3D',
+    background: '#2d2833',
     black: "#3B3031",
     light_black: "#414141",
     white: "#ffffff",
@@ -68,7 +69,8 @@ const color = {
     latenight_gradient2: '#2f0743',
 
 
-    text: 'white'
+    text: 'white',
+    transparent: 'transparent'
 
 };
 

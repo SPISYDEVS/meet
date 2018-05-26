@@ -6,8 +6,7 @@ const { color, windowWidth, fontSize, fontFamily, normalize, padding } = theme;
 const styles = StyleSheet.create({
     container:{
         padding: 0,
-        marginLeft: 0,
-        marginRight: 0,
+        marginHorizontal: padding.horizontal,
         marginBottom: padding.vertical * 2,
     },
 
