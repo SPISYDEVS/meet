@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         // backgroundColor: color.white,
         // borderRadius: 50,
         marginBottom: padding.vertical,
-        resizeMode
+        // resizeMode
     },
 
     title:{
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.medium,
     },
-
     button:{
         borderRadius: 50,
         backgroundColor: color.white,
-        height: 55
+        height: 55,
+        overflow: 'hidden'
     },
 
     buttonText:{
