@@ -71,7 +71,11 @@ class ExploreSearch extends Component {
             // iconSource: require('../imgs/ic_tab_my_normal.png'),
             // selectedIconSource: require('../imgs/ic_tab_my_click.png')
         }];
-        return <PagerTabIndicator tabs={tabs}/>;
+        return <PagerTabIndicator tabs={tabs}
+                                  style={styles.indicatorContainer}
+                                  textStyle={styles.tabText}
+                                  selectedTextStyle={styles.selectedTabText}
+        />;
     };
 
     onCancel = () => {

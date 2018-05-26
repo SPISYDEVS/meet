@@ -46,7 +46,13 @@ class DatePicker extends React.Component {
 
 DatePicker.propTypes = {
     options: PropTypes.object,
-    onDateChange: PropTypes.func.isRequired
+    onDateChange: PropTypes.func.isRequired,
+    dateContainerStyle: PropTypes.object
+};
+
+
+DatePicker.defaultProps = {
+    dateContainerStyle: {}
 };
 
 export default DatePicker;

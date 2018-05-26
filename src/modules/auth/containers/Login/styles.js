@@ -7,6 +7,7 @@ const {color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight}
 const styles = StyleSheet.create({
     container: {
         marginTop: 100,
+        marginHorizontal: padding.horizontal,
         flex: 1,
         paddingHorizontal: padding.horizontal * 2,
     },

@@ -28,7 +28,7 @@ class TextInput extends Component {
                     onChangeText={onChangeText}
                     secureTextEntry={secureTextEntry}
                     containerStyle={styles.container}
-                    inputStyle={styles.inputContainer}
+                    inputStyle={[styles.inputContainer, this.props.inputStyle]}
                     selectionColor={color.text}
                     placeholderTextColor={color.text}
                     multiline={multiline}
@@ -56,12 +56,14 @@ TextInput.propTypes = {
     secureTextEntry: PropTypes.bool,
     value: PropTypes.string,
     error: PropTypes.string,
+    inputStyle: PropTypes.obj,
 };
 
 TextInput.defaultProps = {
     autoFocus: false,
     secureTextEntry: false,
     multiline: false,
+    inputStyle: {}
 };
 
 export default TextInput;

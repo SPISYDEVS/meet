@@ -23,7 +23,7 @@ import {momentFromDate} from "../../../common/utils/dateUtils";
 import {createEvent, editEvent} from "../../../../network/firebase/event/actions";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 import FriendSelection from "../../../search/containers/FriendSelection/FriendSelection";
-import {color} from "../../../../styles/theme";
+import {color, fontSize} from "../../../../styles/theme";
 import PropTypes from 'prop-types';
 import commonStyles from "../../../../styles/commonStyles";
 
@@ -43,10 +43,13 @@ class EventForm extends React.Component {
                         placeholder: "Title",
                         type: "text",
                         multiline: false,
+                        inputStyle: {
+                            fontSize: fontSize.xlarge + 2
+                        }
                     },
                     value: this.props.title,
                     validator: (title) => !isEmpty(title),
-                    errorMessage: 'Title is required'
+                    errorMessage: 'Title is required',
                 },
                 description: {
                     options: {
@@ -62,7 +65,7 @@ class EventForm extends React.Component {
                         minuteInterval: 1,
                         mode: 'datetime',
                         placeholder: 'Starting Time',
-                        customStyles: dateStyles
+                        customStyles: dateStyles,
                     },
                     value: this.props.startDate,
 
@@ -77,7 +80,7 @@ class EventForm extends React.Component {
                         minuteInterval: 1,
                         mode: 'datetime',
                         placeholder: 'Ending Time',
-                        customStyles: dateStyles
+                        customStyles: dateStyles,
                     },
                     value: this.props.endDate,
 
@@ -249,10 +252,10 @@ class EventForm extends React.Component {
 
     renderLocation = (location) => {
         if (location.length > 0) {
-            return <Text style={styles.locationPre}> {location} </Text>
+            return <Text style={styles.locationPost}>{location}</Text>
         }
         else {
-            return <Text style={styles.locationPost}> Choose a location </Text>
+            return <Text style={styles.locationPre}>Choose a location</Text>
         }
     };
 
@@ -301,26 +304,32 @@ class EventForm extends React.Component {
                             error={this.state['error'][title]}
                         />
 
-                        {/*input for the date*/}
-                        <DatePicker
-                            {...form.fields[startDate]}
-                            value={this.state[startDate]['value']}
-                            error={this.state['error'][startDate]}
-                            onDateChange={(newDate) => this.onStartDateChange(newDate)}
-                        />
+                        <View style={styles.inputContainer}>
+                            {/*input for the date*/}
+                            <DatePicker
+                                {...form.fields[startDate]}
+                                value={this.state[startDate]['value']}
+                                error={this.state['error'][startDate]}
+                                onDateChange={(newDate) => this.onStartDateChange(newDate)}
+                            />
+                        </View>
 
-                        {/*input for the date*/}
-                        <DatePicker
-                            {...form.fields[endDate]}
-                            value={this.state[endDate]['value']}
-                            error={this.state['error'][endDate]}
-                            onDateChange={(newDate) => this.onEndDateChange(newDate)}
-                        />
+                        <View style={styles.inputContainer}>
+                            {/*input for the date*/}
+                            <DatePicker
+                                {...form.fields[endDate]}
+                                value={this.state[endDate]['value']}
+                                error={this.state['error'][endDate]}
+                                onDateChange={(newDate) => this.onEndDateChange(newDate)}
+                            />
+                        </View>
 
-                        {/* Below is the input for the location field, which opens a modal when clicked*/}
-                        <TouchableOpacity style={styles.locationContainer} onPress={() => this.openLocationModal()}>
-                            {this.renderLocation(address)}
-                        </TouchableOpacity>
+                        <View style={styles.locationContainer}>
+                            {/* Below is the input for the location field, which opens a modal when clicked*/}
+                            <TouchableOpacity onPress={() => this.openLocationModal()}>
+                                {this.renderLocation(address)}
+                            </TouchableOpacity>
+                        </View>
 
                         {/*location input modal*/}
                         <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>

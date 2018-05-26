@@ -52,7 +52,20 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column-reverse',
         backgroundColor: color.background
-    }
+    },
+    indicatorContainer:{
+        borderTopWidth: 0,
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
+    tabText:{
+        color: color.text,
+        fontSize: fontSize.medium,
+        opacity: 0.75
+    },
+    selectedTabText:{
+        color: color.text,
+        fontSize: fontSize.medium,
+    },
 });
 
 export default styles;

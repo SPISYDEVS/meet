@@ -36,19 +36,17 @@ const formStyles = StyleSheet.create({
     },
 
     button:{
-        // backgroundColor: color.main,
-        backgroundColor: 'transparent',
-        borderRadius: 8,
-        borderWidth: 3,
-        borderColor: 'white',
+        borderRadius: 50,
+        borderWidth: 0,
+        backgroundColor: color.white,
         shadowOpacity: 0,
-
         height: normalize(55)
     },
 
     buttonText:{
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.medium
+        fontFamily: fontFamily.medium,
+        color: color.background,
     },
 
 });

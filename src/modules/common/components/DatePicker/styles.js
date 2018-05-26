@@ -6,11 +6,12 @@ const  { color, padding, windowWidth, normalize, fontSize, fontFamily } = theme;
 
 const styles = StyleSheet.create({
     containerView:{
-        marginBottom: padding.vertical * 2,
-        width: '100%'
+        height: '100%',
+        width: '100%',
     },
     dateContainer:{
-        width: '100%'
+        height: '100%',
+        width: '100%',
     }
 });
 

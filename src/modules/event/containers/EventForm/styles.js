@@ -7,7 +7,12 @@ const {windowWidth, padding, fontSize, fontFamily, normalize, color} = theme;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: color.background,
+        paddingTop: padding.vertical * 2,
         height: '100%'
+    },
+    inputContainer: {
+      height: 50,
+      paddingBottom: padding.vertical * 3,
     },
     content: {
         marginHorizontal: padding.horizontal * 3,
@@ -26,23 +31,19 @@ const styles = StyleSheet.create({
         margin: padding.horizontal * 2
     },
     locationContainer: {
-        marginBottom: padding.vertical * 2,
-        borderBottomWidth: 1,
-        borderBottomColor: color.white,
+        marginTop: padding.vertical,
+        marginBottom: padding.vertical * 3,
     },
     locationPre: {
-        paddingLeft: 0,
         paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.bold,
+        opacity: 0.75
     },
     locationPost: {
-        paddingLeft: 0,
         paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.bold,
     },
     invitationsContainer: {
         flexDirection: 'row',
@@ -115,14 +116,15 @@ export const dateStyles = {
         padding: 0,
         borderWidth: 0,
         alignItems: 'flex-start',
-        borderBottomWidth: 1,
-        borderBottomColor: color.text,
-        marginBottom: padding.vertical * 2,
     },
     dateText: {
         color: color.text,
         fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.bold,
+    },
+    placeholderText: {
+        color: color.text,
+        opacity: 0.75,
+        fontSize: fontSize.regular + 2,
     }
 };
 
