@@ -1,33 +1,38 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
-const  { color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight } = theme;
+
+const {color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight} = theme;
 
 const styles = StyleSheet.create({
-    button:{
+    container: {
+        marginTop: 100,
+        flex: 1,
+        paddingHorizontal: padding.horizontal * 2,
+    },
+    button: {
         borderRadius: 50,
         backgroundColor: color.white,
         height: 55
     },
-
-    containerView:{
+    containerView: {
         marginVertical: padding.vertical * 3,
         alignSelf: 'center',
         shadowOpacity: 0,
         width: (windowWidth - 70)
     },
-
-    formInputsContainer:{
+    formInputsContainer: {
         marginBottom: 70,
     },
-    buttonText:{
-        color: color.black
+    buttonText: {
+        color: color.welcome_gradient5
     },
-
-    container:{
-        marginTop: 100,
-        flex: 1,
-        paddingHorizontal: padding.horizontal * 2,
+    forgotText: {
+        textAlign: "center",
+        color: color.white,
+        marginBottom: padding.vertical,
+        fontSize: fontSize.regular,
+        fontFamily: fontFamily.medium,
     }
 });
 

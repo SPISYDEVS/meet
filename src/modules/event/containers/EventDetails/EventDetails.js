@@ -107,7 +107,6 @@ class EventDetails extends React.Component {
         }
 
 
-
         let {title, startDate, address, description, hostId, plannedAttendees, actualAttendees} = event;
         let currentUserIsAttending = false;
 
@@ -199,8 +198,6 @@ class EventDetails extends React.Component {
                                         data={actualAttendees}
                                         renderItem={(item) => this.renderItem(item)}
                                         keyExtractor={(userId) => userId}
-                                        // refreshing={this.state.refreshing}
-                                        // onRefresh={() => this.props.onRefresh()}
                                     />
                                 </View>
                             </View>
@@ -215,8 +212,6 @@ class EventDetails extends React.Component {
                                     data={plannedAttendees}
                                     renderItem={(item) => this.renderItem(item)}
                                     keyExtractor={(userId) => userId}
-                                    // refreshing={this.state.refreshing}
-                                    // onRefresh={() => this.props.onRefresh()}
                                 />
                             </View>
 
@@ -230,9 +225,7 @@ class EventDetails extends React.Component {
                             containerViewStyle={formStyles.containerView}
                             buttonStyle={formStyles.button}
                             textStyle={formStyles.buttonText}
-                            onPress={() => this.props.rsvpEvent(this.props.eventId, () => {
-                            }, () => {
-                            })}
+                            onPress={() => this.props.rsvpEvent(this.props.eventId, () => {}, () => {})}
                         />
                         }
                     </ScrollView>

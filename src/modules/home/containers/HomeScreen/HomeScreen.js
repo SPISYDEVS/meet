@@ -144,7 +144,7 @@ class HomeScreen extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>z
+                <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>
                     <Feed onSearchIconPress={() => this.setState({searchMode: true})}/>
                 </View>
                 <View style={!this.state.searchMode ? commonStyles.hidden : styles.container}>

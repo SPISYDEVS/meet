@@ -92,7 +92,7 @@ export default class extends React.Component {
                        titleStyle={navTitleStyle}
                        backButtonTintColor={color.accent_dark}>
 
-                    <Stack key="Auth" initial={!this.state.isLoggedIn}>
+                    <Stack modal key="Auth" initial={!this.state.isLoggedIn}>
                         <Scene key="Welcome" component={Welcome} title="" initial={true} hideNavBar/>
                         <Scene key="Register" component={Register} title="Register" back/>
                         <Scene key="CompleteProfile" component={CompleteProfile} title="Select Username"

@@ -30,9 +30,17 @@ const headerStyles = StyleSheet.create({
         fontFamily: fontFamily.bold,
         color: color.text
     },
-    navBar:{
+    backHeader:{
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingTop: 10,
+        paddingHorizontal: padding.horizontal * 1.75,
+        paddingBottom: 4,
+    },
+    backHeaderX:{
+        alignItems: 'center',
+        justifyContent: 'flex-end',
         flexDirection: 'row',
         paddingTop: 10,
         paddingHorizontal: padding.horizontal * 1.75,

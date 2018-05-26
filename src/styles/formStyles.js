@@ -51,13 +51,6 @@ const formStyles = StyleSheet.create({
         fontFamily: fontFamily.medium
     },
 
-    forgotText:{
-        textAlign:"center",
-        color:color.black,
-        marginBottom: padding.vertical,
-        fontSize: fontSize.regular,
-        fontFamily: fontFamily.medium,
-    }
 });
 
 export default formStyles;

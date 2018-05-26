@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     },
 
     containerView:{
-        width: windowWidth - 40
+        width: windowWidth - 40,
+        overflow: 'hidden'
     },
 
     socialButton:{

@@ -101,7 +101,7 @@ class Login extends React.Component {
             <LinearGradient colors={backgroundGradient}
                             style={{flex: 1}}>
 
-                <BackHeader/>
+                <BackHeader x/>
 
                 <View style={styles.container}>
 
@@ -135,7 +135,7 @@ class Login extends React.Component {
 
                     <TouchableOpacity
                         onPress={this.onForgotPassword}>
-                        <Text style={formStyles.forgotText}>Forgot Password?</Text>
+                        <Text style={styles.forgotText}>Forgot Password?</Text>
                     </TouchableOpacity>
 
                 </View>
