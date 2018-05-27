@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         color: color.text,
     },
     subHeader: {
-        marginBottom: padding.vertical * 5,
+        marginBottom: padding.vertical * 4,
     },
     date: {
         fontSize: fontSize.medium,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         opacity: 0.9,
     },
     details: {
-        marginBottom: padding.vertical * 1.5
+        marginBottom: padding.vertical * 3
     },
     description: {
         fontSize: fontSize.regular,
@@ -70,6 +70,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         paddingVertical: 10
+    },
+    rsvpButton: {
+        flexShrink: 1,
+        marginVertical: padding.vertical * 2,
+        alignSelf: 'center',
+        shadowOpacity: 0,
+        width: (windowWidth - 40)
     }
 });
 

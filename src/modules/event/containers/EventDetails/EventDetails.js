@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import {Actions} from 'react-native-router-flux';
 
 import {fetchUsers} from '../../../../network/firebase/user/actions';
-import {rsvpEvent} from '../../../../network/firebase/event/actions';
+import {cancelRsvpEvent, rsvpEvent} from '../../../../network/firebase/event/actions';
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
@@ -88,6 +88,18 @@ class EventDetails extends React.Component {
     renderItem = (item) => {
         const userId = item.item;
         return <UserListItem userId={userId}/>
+    };
+
+    onRsvpButtonPress = (userAttending) => {
+        if (userAttending) {
+            this.props.cancelRsvpEvent(this.props.eventId, () => {
+            }, () => {
+            })
+        } else {
+            this.props.rsvpEvent(this.props.eventId, () => {
+            }, () => {
+            })
+        }
     };
 
     render() {
@@ -217,19 +229,17 @@ class EventDetails extends React.Component {
 
                         </View>
 
-                        {!currentUserIsAttending &&
-                        <Button
-                            raised
-                            title='RSVP'
-                            borderRadius={4}
-                            containerViewStyle={formStyles.containerView}
-                            buttonStyle={formStyles.button}
-                            textStyle={formStyles.buttonText}
-                            onPress={() => this.props.rsvpEvent(this.props.eventId, () => {}, () => {})}
-                        />
-                        }
-                    </ScrollView>
 
+                    </ScrollView>
+                    <Button
+                        raised
+                        title={currentUserIsAttending ? 'Cancel RSVP' : 'RSVP'}
+                        borderRadius={4}
+                        containerViewStyle={styles.rsvpButton}
+                        buttonStyle={formStyles.button}
+                        textStyle={formStyles.buttonText}
+                        onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}
+                    />
                 </SafeAreaView>
             </LinearGradient>
 
@@ -274,7 +284,8 @@ const mapStateToProps = (state) => {
 
 const actions = {
     fetchUsers,
-    rsvpEvent
+    rsvpEvent,
+    cancelRsvpEvent
 };
 
 export default connect(mapStateToProps, actions)(EventDetails);

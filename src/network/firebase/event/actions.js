@@ -80,6 +80,20 @@ export function rsvpEvent(eventId, successCB, errorCB) {
     };
 }
 
+export function cancelRsvpEvent(eventId, successCB, errorCB) {
+
+    const user = auth.currentUser;
+
+    return (dispatch) => {
+        api.cancelRsvpEvent(eventId, user, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.CANCEL_EVENT_RSVP, data: data});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
 export function checkInToEvent(eventId, successCB, errorCB) {
 
     return (dispatch) => {

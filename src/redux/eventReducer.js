@@ -13,7 +13,7 @@ const eventReducer = (state = initialState, action) => {
 
             const newIds = [...state.allIds];
 
-            if(!newIds.includes(eventId)){
+            if (!newIds.includes(eventId)) {
                 newIds.push(eventId);
             }
 
@@ -53,6 +53,36 @@ const eventReducer = (state = initialState, action) => {
                 }
             } else {
                 event.plannedAttendees = plannedAttendees;
+            }
+
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [eventId]: event
+                }
+            }
+
+        }
+        case t.CANCEL_EVENT_RSVP: {
+
+            //expect object with keys plannedAttendees and eventId
+            const eventId = action.data.eventId;
+            const userId = action.data.userId;
+            const event = state.byId[eventId];
+
+            //update the event plannedAttendees with the new data
+            if (event.plannedAttendees !== undefined) {
+
+                event.plannedAttendees = Object.keys(event.plannedAttendees).reduce((result, key) => {
+                    if (key !== userId) {
+                        result[key] = [key];
+                    }
+                    return result;
+                }, {});
+
+            } else {
+                event.plannedAttendees = {};
             }
 
             return {

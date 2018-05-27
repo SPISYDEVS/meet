@@ -111,7 +111,6 @@ export function fetchEvent(eventId, callback) {
         .catch(error => callback(false, null, error));
 }
 
-
 export function rsvpEvent(eventId, user, callback) {
 
     database.ref('events').child(eventId).child('plannedAttendees').on('value', function (snapshot) {
@@ -125,6 +124,19 @@ export function rsvpEvent(eventId, user, callback) {
     updates['/users/' + user.uid + '/eventInvitations/' + eventId] = null;
 
     database.ref().update(updates);
+
+}
+
+export function cancelRsvpEvent(eventId, user, callback) {
+
+    const updates = {};
+
+    updates['/users/' + user.uid + '/eventsAsAttendee/' + eventId] = null;
+    updates['/events/' + eventId + '/plannedAttendees/' + user.uid] = null;
+
+    database.ref().update(updates).then(() => {
+        callback(true, {eventId: eventId, userId: user.uid}, null);
+    }).catch(error => callback(false, null, error));
 
 }
 
