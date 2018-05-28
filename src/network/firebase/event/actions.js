@@ -2,7 +2,7 @@ import * as t from './actionTypes';
 import * as peopleT from '../user/actionTypes';
 import * as api from './api';
 import {auth} from "../../../config/firebase";
-
+import moment from "moment";
 
 export function createEvent(event, user, successCB, errorCB) {
 
@@ -60,6 +60,38 @@ export function fetchEvent(eventId, successCB, errorCB) {
             if (success) {
                 dispatch({type: t.EVENT_FETCHED, data: data.event});
                 dispatch({type: peopleT.USER_FETCHED, data: data.host});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
+export function fetchEventComments(eventId, successCB, errorCB) {
+
+    return (dispatch) => {
+        api.fetchEventComments(eventId, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.EVENT_COMMENTS_FETCHED, data: {eventId: eventId, comments:data}});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
+
+export function commentOnEvent(eventId, comment, successCB, errorCB) {
+
+    const user = auth.currentUser;
+
+    const commentObj = {
+        userId: user.uid,
+        comment: comment,
+        timestamp: moment.utc().valueOf()
+    };
+
+    return (dispatch) => {
+        api.commentOnEvent(eventId, commentObj, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.COMMENT_ON_EVENT, data: {eventId: eventId, comment:data}});
                 successCB();
             } else if (error) errorCB(error)
         });

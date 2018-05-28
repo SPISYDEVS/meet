@@ -1,5 +1,4 @@
 import {auth, database, geofireRef} from "../../../config/firebase";
-import {fetchUsers} from "../user/api";
 
 //Create the event object in realtime database
 export function createEvent(event, user, callback) {
@@ -124,6 +123,21 @@ export function rsvpEvent(eventId, user, callback) {
     updates['/users/' + user.uid + '/eventInvitations/' + eventId] = null;
 
     database.ref().update(updates);
+
+}
+
+export function fetchEventComments(eventId, callback) {
+    database.ref('comments').child(eventId).once('value').then((snapshot) => {
+        callback(true, snapshot.val(), null);
+    }).catch(error => callback(false, null, error));
+}
+
+export function commentOnEvent(eventId, comment, callback) {
+
+    database.ref('comments').child(eventId).push(comment)
+        .then((ref) => {
+            callback(true, comment, null);
+        }).catch(error => callback(false, null, error));
 
 }
 

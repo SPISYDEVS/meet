@@ -101,7 +101,7 @@ class Login extends React.Component {
             <LinearGradient colors={backgroundGradient}
                             style={{flex: 1}}>
 
-                <BackHeader x/>
+                <BackHeader simpleBackX/>
 
                 <View style={styles.container}>
 

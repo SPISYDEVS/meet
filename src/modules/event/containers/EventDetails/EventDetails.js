@@ -1,30 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import {ActivityIndicator, FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import styles from "./styles";
 import commonStyles from '../../../../styles/commonStyles';
-import {Avatar, Button, Icon} from "react-native-elements";
+import {Button} from "react-native-elements";
 import formStyles from "../../../../styles/formStyles";
 import {connect} from "react-redux";
 import {Actions} from 'react-native-router-flux';
 
 import {fetchUsers} from '../../../../network/firebase/user/actions';
 import {cancelRsvpEvent, rsvpEvent} from '../../../../network/firebase/event/actions';
-import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import {LinearGradient} from 'expo';
 import {fetchBackgroundGradient} from "../../utils";
-import {color} from "../../../../styles/theme";
 import {DATE_FORMAT} from "../../../../config/constants";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+
 
 class EventDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            offset: 0,
+            upScroll: true,
         };
     }
 
@@ -60,6 +62,18 @@ class EventDetails extends React.Component {
         }
 
     }
+
+    eventComments = () => {
+
+        const event = this.props.eventReducer.byId[this.props.eventId];
+        let {startDate} = event;
+        const backgroundGradient = fetchBackgroundGradient(startDate);
+        Actions.push('EventComments', {
+            eventId: this.props.eventId,
+            backgroundGradient: backgroundGradient
+        });
+
+    };
 
     editEvent = () => {
 
@@ -102,26 +116,53 @@ class EventDetails extends React.Component {
         }
     };
 
+    onScroll = (event) => {
+        const currentOffset = event.nativeEvent.contentOffset.y;
+        const upScroll = currentOffset < this.state.offset;
+        this.setState({offset: currentOffset, upScroll: upScroll});
+    };
+
+    generateHeaderProps = (isHost) => {
+
+        const rightHeaderButtons = [{
+            iconName: 'bubble',
+            iconType: 'simple-line-icon',
+            size: 30,
+            onPress: () => this.eventComments()
+        }];
+
+        if (isHost) {
+
+            rightHeaderButtons.push({
+                iconName: 'edit-2',
+                iconType: 'feather',
+                size: 32,
+                onPress: () => this.editEvent()
+            });
+
+        }
+
+        return {
+            simpleBackChevron: true,
+            rightHeaderButtons: rightHeaderButtons
+        }
+
+    };
+
     render() {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
 
-        if (event === undefined) {
-            return <View/>
-        }
-
-        const host = this.props.peopleReducer.byId[event.hostId];
-
-        if (!this.state.dataLoaded) {
+        if (event === undefined || !this.state.dataLoaded) {
             return <View style={commonStyles.loadingContainer}>
                 <ActivityIndicator animating color='white' size="large"/>
             </View>
         }
 
-
         let {title, startDate, address, description, hostId, plannedAttendees, actualAttendees} = event;
         let currentUserIsAttending = false;
 
+        //fetch the users that are planning to attend the event
         if (plannedAttendees === undefined) {
             plannedAttendees = [];
         } else {
@@ -131,43 +172,31 @@ class EventDetails extends React.Component {
             }
         }
 
+        //fetch the users that are checked into the event
         if (actualAttendees === undefined) {
             actualAttendees = [];
         } else {
             actualAttendees = Object.keys(actualAttendees);
         }
 
-        if (!plannedAttendees) {
-            plannedAttendees = null;
-        }
-
-        if (!actualAttendees) {
-            actualAttendees = null;
-        }
-
-        const eventHappening = (moment().unix() * 1000) > parseInt(startDate);
+        const eventHappening = (moment().utc()) > parseInt(startDate);
 
         const backgroundGradient = fetchBackgroundGradient(startDate);
-        startDate = moment(startDate).calendar();
+        startDate = moment.utc(startDate).local().calendar();
+
+        //initialize the buttons on the header of the screen
+        const headerProps = this.generateHeaderProps(this.props.currentUser.uid === hostId);
 
         return (
             <LinearGradient colors={backgroundGradient}
                             style={{flex: 1}}
                             start={[.5, .15]}>
+
                 <SafeAreaView style={styles.container}>
 
-                    <View style={styles.navBar}>
-                        <TouchableOpacity onPress={() => Actions.pop()}>
-                            <Icon name='chevron-left' type='feather' color={color.text} size={40}/>
-                        </TouchableOpacity>
-                        {
-                            this.props.currentUser.uid === hostId &&
-                            <TouchableOpacity onPress={() => this.editEvent()}>
-                                <Icon name='edit-2' type='feather' color={color.text} size={30}/>
-                            </TouchableOpacity>
-                        }
-                    </View>
-                    <ScrollView style={styles.container}>
+                    <BackHeader {...headerProps}/>
+
+                    <ScrollView style={styles.container} onScrollBeginDrag={this.onScroll}>
                         <View style={styles.header}>
 
                             <Text style={styles.title}>

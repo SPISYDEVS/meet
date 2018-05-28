@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         flexWrap: 'wrap',
-        padding: padding.horizontal * 2.5,
+        paddingLeft: padding.horizontal * 2.5,
+        paddingRight: padding.horizontal * 2.5,
     },
     navBar:{
         alignItems: 'center',

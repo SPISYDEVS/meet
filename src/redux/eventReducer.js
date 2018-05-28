@@ -39,6 +39,49 @@ const eventReducer = (state = initialState, action) => {
                 allIds: [...state.allIds].concat(eventIds.filter(id => !state.allIds.includes(id))),
             }
         }
+        case t.COMMENT_ON_EVENT: {
+
+            const eventId = action.data.eventId;
+            const comment = action.data.comment;
+
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [eventId]: {
+                        ...state.byId[eventId],
+                        comments: [...state.byId[eventId]['comments'], comment]
+                    }
+                }
+            }
+
+        }
+        case t.EVENT_COMMENTS_FETCHED: {
+
+            const eventId = action.data.eventId;
+
+            let comments = [];
+            if (action.data.comments !== null && action.data.comments !== undefined) {
+                comments = Object.values(action.data.comments);
+            }
+
+            //sort by oldest (oldest comments are first in list)
+            comments.sort(function (a, b) {
+                return a.timestamp - b.timestamp;
+            });
+
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [eventId]: {
+                        ...state.byId[eventId],
+                        comments: comments
+                    }
+                }
+            }
+
+        }
         case t.EVENT_RSVP: {
 
             //expect object with keys plannedAttendees and eventId

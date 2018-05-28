@@ -115,7 +115,7 @@ class CompleteProfile extends React.Component {
             <LinearGradient colors={backgroundGradient}
                             style={{flex: 1}}>
 
-                <BackHeader/>
+                <BackHeader simpleBackChevron/>
 
                 <View style={styles.container}>
 

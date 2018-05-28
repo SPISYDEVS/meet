@@ -32,6 +32,7 @@ import EventSearch from "../modules/home/containers/ExploreSearch/ExploreSearch"
 import Settings from "../modules/profile/containers/Settings/Settings";
 import HomeScreen from "../modules/home/containers/HomeScreen/HomeScreen";
 import GradientBackground from "../modules/auth/components/GradientBackground/GradientBackground";
+import EventComments from "../modules/event/containers/EventComments/EventComments";
 
 class TabIcon extends React.Component {
     constructor() {
@@ -111,6 +112,13 @@ export default class extends React.Component {
                            clone
                            title={null}
                            component={EventForm}
+                           hideNavBar
+                           type={ActionConst.REPLACE}/>
+
+                    <Scene key="EventComments"
+                           clone
+                           title={null}
+                           component={EventComments}
                            hideNavBar
                            type={ActionConst.REPLACE}/>
 
