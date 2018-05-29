@@ -16,6 +16,7 @@ import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import {LinearGradient} from "expo";
 import styles from "./styles";
 import {color} from "../../../../styles/theme";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 class Register extends React.Component {
@@ -127,14 +128,17 @@ class Register extends React.Component {
                             value={this.state[confirmPassword]['value']}
                             error={this.state.error[confirmPassword]}/>
                     </View>
-                    <Button
-                        raised
-                        title='Complete'
-                        borderRadius={4}
-                        containerViewStyle={styles.containerView}
-                        buttonStyle={styles.button}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSubmit}/>
+                    {/*<Button*/}
+                        {/*raised*/}
+                        {/*title='Complete'*/}
+                        {/*borderRadius={4}*/}
+                        {/*containerViewStyle={styles.containerView}*/}
+                        {/*buttonStyle={styles.button}*/}
+                        {/*textStyle={styles.buttonText}*/}
+                        {/*onPress={this.onSubmit}/>*/}
+                        <RoundedButton
+                            title={'Complete'}
+                            onPress={this.onSubmit}/>
 
                 </View>
             </LinearGradient>

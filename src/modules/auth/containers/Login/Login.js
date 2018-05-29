@@ -19,6 +19,7 @@ import commonStyles from "../../../../styles/commonStyles";
 import headerStyles from "../../../../styles/headerStyles";
 import {Icon} from "react-native-elements";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 class Login extends React.Component {
@@ -124,14 +125,17 @@ class Login extends React.Component {
                             error={this.state.error[password]}/>
                     </View>
 
-                    <Button
-                        raised
-                        title='Sign In'
-                        borderRadius={4}
-                        containerViewStyle={styles.containerView}
-                        buttonStyle={styles.button}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSubmit}/>
+                    {/*<Button*/}
+                        {/*raised*/}
+                        {/*title='Sign In'*/}
+                        {/*containerViewStyle={styles.containerView}*/}
+                        {/*buttonStyle={styles.button}*/}
+                        {/*textStyle={styles.buttonText}*/}
+                        {/*onPress={this.onSubmit}/>*/}
+                        <RoundedButton
+                            title={'Sign In'}
+                            onPress={this.onSubmit}/>
+
 
                     <TouchableOpacity
                         onPress={this.onForgotPassword}>

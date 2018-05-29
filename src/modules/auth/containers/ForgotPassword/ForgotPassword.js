@@ -12,6 +12,7 @@ import formStyles from "../../../../styles/formStyles";
 
 
 import {resetPassword} from '../../../../network/firebase/auth/actions';
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 class ForgotPassword extends React.Component {
@@ -72,14 +73,17 @@ class ForgotPassword extends React.Component {
                     value={this.state[email]['value']}
                     error={this.state.error[email]}/>
 
-                <Button
-                    raised
-                    title='Complete'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={this.onSubmit}/>
+                {/*<Button*/}
+                    {/*raised*/}
+                    {/*title='Complete'*/}
+                    {/*borderRadius={4}*/}
+                    {/*containerViewStyle={formStyles.containerView}*/}
+                    {/*buttonStyle={formStyles.button}*/}
+                    {/*textStyle={formStyles.buttonText}*/}
+                    {/*onPress={this.onSubmit}/>*/}
+                    <RoundedButton
+                        title={'Complete'}
+                        onPress={this.onSubmit}/>
 
             </View>
         );

@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "jest-expo": "27.0.1",
-    "react-native-scripts": "1.13.1",
+    "react-native-scripts": "^1.14.1",
     "react-test-renderer": "16.3.0-alpha.1",
     "redux-logger": "^3.0.6"
   },
@@ -42,7 +42,7 @@
     "redux": "^3.7.2",
     "redux-persist": "^5.9.1",
     "redux-promise-middleware": "^5.1.1",
-    "redux-thunk": "^2.2.0",
+    "redux-thunk": "^2.3.0",
     "rn-viewpager": "^1.2.9",
     "trie-search": "^1.2.3"
   }

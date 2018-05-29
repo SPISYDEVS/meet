@@ -150,7 +150,7 @@ class EventComments extends React.Component {
                                            value={this.state.comment}
                                            multiline/>
                                 {
-                                    this.state.commenting &&
+                                    this.state.comment.length > 0 &&
                                     <TouchableOpacity style={styles.postButton}
                                                       onPress={() => this.commentOnEvent()}>
                                         <Text style={styles.postButtonText}>Post!</Text>
@@ -183,30 +183,29 @@ class EventComments extends React.Component {
                             />
 
                         </View>
-
-                        <KeyboardAvoidingView>
-                            <View style={styles.commentInputContainer}>
-                                <View style={styles.commentInput}>
-                                    <TextInput placeholder="Add a comment..."
-                                               placeholderTextColor={color.black}
-                                               style={styles.commentInputText}
-                                               onFocus={() => this.setState({commenting: true})}
-                                               onBlur={() => this.setState({commenting: false})}
-                                               onChangeText={(value) => this.setState({comment: value})}
-                                               value={this.state.comment}
-                                               multiline/>
-                                    {
-                                        this.state.commenting &&
-                                        <TouchableOpacity style={styles.postButton}
-                                                          onPress={() => this.commentOnEvent()}>
-                                            <Text style={styles.postButtonText}>Post!</Text>
-                                        </TouchableOpacity>
-                                    }
-                                </View>
-                            </View>
-                        </KeyboardAvoidingView>
-
                     </SafeAreaView>
+
+                    <KeyboardAvoidingView>
+                        <View style={styles.commentInputContainer}>
+                            <View style={styles.commentInput}>
+                                <TextInput placeholder="Add a comment..."
+                                           placeholderTextColor={color.black}
+                                           style={styles.commentInputText}
+                                           onFocus={() => this.setState({commenting: true})}
+                                           onBlur={() => this.setState({commenting: false})}
+                                           onChangeText={(value) => this.setState({comment: value})}
+                                           value={this.state.comment}
+                                           multiline/>
+                                {
+                                    this.state.comment.length > 0 &&
+                                    <TouchableOpacity style={styles.postButton}
+                                                      onPress={() => this.commentOnEvent()}>
+                                        <Text style={styles.postButtonText}>Post!</Text>
+                                    </TouchableOpacity>
+                                }
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
                 </LinearGradient>
             </TouchableWithoutFeedback>
 

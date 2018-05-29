@@ -13,6 +13,7 @@ import {Button} from "react-native-elements";
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import styles from "./styles";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 const mapStateToProps = (state) => {
@@ -125,14 +126,17 @@ class EditProfile extends React.Component {
                     error={this.state.error[school]}
                 />
 
-                <Button
-                    raised
-                    title='Update'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={this.onSubmit}/>
+                {/*<Button*/}
+                    {/*raised*/}
+                    {/*title='Update'*/}
+                    {/*borderRadius={4}*/}
+                    {/*containerViewStyle={formStyles.containerView}*/}
+                    {/*buttonStyle={formStyles.button}*/}
+                    {/*textStyle={formStyles.buttonText}*/}
+                    {/*onPress={this.onSubmit}/>*/}
+                    <RoundedButton
+                        title={'Update'}
+                        onPress={this.onSubmit}/>
 
             </SafeAreaView>
 

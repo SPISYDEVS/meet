@@ -29,6 +29,7 @@ import commonStyles from "../../../../styles/commonStyles";
 import {LinearGradient} from "expo";
 import {fetchBackgroundGradient} from "../../utils/index";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -292,7 +293,7 @@ class EventForm extends React.Component {
         const invited = this.state[invitations]['value'];
         const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
 
-        let backgroundGradient = [color.background];
+        let backgroundGradient = [color.background, color.background];
 
         if (this.state[startDate]['value']) {
             backgroundGradient = fetchBackgroundGradient(moment(this.state[startDate]['value'], DATE_FORMAT).valueOf());
@@ -437,15 +438,18 @@ class EventForm extends React.Component {
                         </ScrollView>
 
                         {/*submit button to create the event*/}
-                        <Button
-                            raised
-                            title='Complete'
-                            borderRadius={4}
-                            containerViewStyle={styles.submitButton}
-                            buttonStyle={formStyles.button}
-                            textStyle={formStyles.buttonText}
-                            onPress={() => this.onSubmit()}
-                        />
+                        {/*<Button*/}
+                            {/*raised*/}
+                            {/*title='Complete'*/}
+                            {/*borderRadius={4}*/}
+                            {/*containerViewStyle={styles.submitButton}*/}
+                            {/*buttonStyle={formStyles.button}*/}
+                            {/*textStyle={formStyles.buttonText}*/}
+                            {/*onPress={() => this.onSubmit()}*/}
+                        {/*/>*/}
+                        <RoundedButton
+                            title={'Complete'}
+                            onPress={() => this.onSubmit()}/>
 
                     </SafeAreaView>
 

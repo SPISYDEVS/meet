@@ -17,6 +17,7 @@ import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import {LinearGradient} from "expo";
 import {color} from "../../../../styles/theme";
 import styles from "./styles";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 class CompleteProfile extends React.Component {
     constructor() {
@@ -141,14 +142,17 @@ class CompleteProfile extends React.Component {
 
                     </View>
 
-                    <Button
-                        raised
-                        title='Complete'
-                        borderRadius={4}
-                        containerViewStyle={styles.containerView}
-                        buttonStyle={styles.button}
-                        textStyle={styles.buttonText}
-                        onPress={this.onSubmit}/>
+                    {/*<Button*/}
+                        {/*raised*/}
+                        {/*title='Complete'*/}
+                        {/*borderRadius={4}*/}
+                        {/*containerViewStyle={styles.containerView}*/}
+                        {/*buttonStyle={styles.button}*/}
+                        {/*textStyle={styles.buttonText}*/}
+                        {/*onPress={this.onSubmit}/>*/}
+                        <RoundedButton
+                            title={'Complete'}
+                            onPress={this.onSubmit}/>
 
                 </View>
             </LinearGradient>
