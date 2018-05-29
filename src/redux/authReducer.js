@@ -21,10 +21,6 @@ const authReducer = (state = initialState, action) => {
         case t.USER_UPDATED: {
             const user = action.data;
 
-            AsyncStorage.multiSet([
-                ['user', JSON.stringify(user)]
-            ]);
-
             state = Object.assign({}, state, {isLoggedIn: true, user: user});
 
             return state;

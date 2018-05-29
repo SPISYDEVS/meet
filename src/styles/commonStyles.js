@@ -5,7 +5,6 @@ const {color, padding, windowWidth, normalize, fontSize, fontFamily} = theme;
 
 const commonStyles = StyleSheet.create({
     loadingContainer: {
-        backgroundColor: color.background,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

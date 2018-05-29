@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from "./styles"
 
+import {Actions} from 'react-native-router-flux';
 import {Text, TouchableOpacity, View} from "react-native";
 import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
@@ -39,9 +40,13 @@ class EventInvitation extends React.Component {
 
     };
 
+    handlePress = () => {
+        Actions.push('EventDetails', {eventId: this.props.eventId});
+    };
+
     render() {
 
-        if(!this.state.dataLoaded){
+        if (!this.state.dataLoaded) {
             return <View/>
         }
 
@@ -52,6 +57,12 @@ class EventInvitation extends React.Component {
 
         return (
             <View style={styles.container}>
+
+                <TouchableOpacity style={styles.avatar} onPress={() => this.handlePress()}>
+                    <Icon name='map-marker-outline' type='material-community'
+                          color={color.white} size={40}/>
+                </TouchableOpacity>
+
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.title}>Event Invitation</Text>
                     <Text style={styles.description}>

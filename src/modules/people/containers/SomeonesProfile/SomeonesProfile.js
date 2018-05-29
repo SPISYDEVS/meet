@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
-import {Text} from "react-native";
+import {SafeAreaView, Text} from "react-native";
 import PropTypes from 'prop-types';
 
 import formStyles from "../../../../styles/formStyles";
@@ -15,6 +15,7 @@ import {AVATAR_SIZE} from "../../../profile/constants";
 
 
 import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../network/firebase/user/actions";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
 
 
 class SomeonesProfile extends React.Component {
@@ -46,7 +47,7 @@ class SomeonesProfile extends React.Component {
     }
 
     revokeFriendship = () => {
-        this.props.revokeFriendship(user.uid, () => {
+        this.props.revokeFriendship(this.props.userId, () => {
             this.setState({mVisible: false});
         });
     };
@@ -88,64 +89,67 @@ class SomeonesProfile extends React.Component {
         }
 
         return (
-            <View style={styles.container}>
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoContent}>
-                        <Avatar
-                            height={AVATAR_SIZE}
-                            width={AVATAR_SIZE}
-                            rounded
-                            source={{uri: source}}
-                            onPress={() => console.log("Works!")}
-                            activeOpacity={0.7}
-                        />
-                        <View style={styles.detailsContainer}>
-                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
-                            <Text style={styles.school}>{user.school}</Text>
+            <SafeAreaView style={{flex:1}}>
+
+                <BackHeader simpleBackChevron/>
+                <View style={styles.container}>
+                    <View style={styles.infoContainer}>
+                        <View style={styles.infoContent}>
+                            <Avatar
+                                height={AVATAR_SIZE}
+                                width={AVATAR_SIZE}
+                                rounded
+                                source={{uri: source}}
+                                onPress={() => console.log("Works!")}
+                                activeOpacity={0.7}
+                            />
+                            <View style={styles.detailsContainer}>
+                                <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                                <Text style={styles.school}>{user.school}</Text>
+                            </View>
                         </View>
                     </View>
+
+                    {
+                        receivingFriendRequest &&
+                        <Text>
+                            {user.firstName + " " + user.lastName} has sent you a friend request!
+                        </Text>
+                    }
+
+                    {
+                        !receivingFriendRequest &&
+                        <Button
+                            raised
+                            title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
+                            borderRadius={4}
+                            containerViewStyle={formStyles.containerView}
+                            buttonStyle={formStyles.button}
+                            textStyle={formStyles.buttonText}
+                            onPress={() => this.handleFriends(friendshipStatus)}
+                        />
+                    }
+
+                    <Modal style={styles.modal} isVisible={this.state.mVisible}
+                           onBackdropPress={() => this.setState({mVisible: false})}>
+                        <View style={styles.modalContent}>
+                            <View style={styles.main}>
+                                <Text style={styles.text}>Are you sure you want to
+                                    unfriend {user.firstName + " " + user.lastName}?</Text>
+                            </View>
+                            <View style={styles.modalBottom}>
+                                <TouchableOpacity onPress={() => this.revokeFriendship()}>
+                                    <Text style={styles.text}>Unfriend</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.setState({mVisible: false})}>
+                                    <Text style={styles.text}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
 
-                {
-                    receivingFriendRequest &&
-                    <Text>
-                        {user.firstName + " " + user.lastName} has sent you a friend request!
-                    </Text>
-                }
-
-                {
-                    !receivingFriendRequest &&
-                    <Button
-                        raised
-                        title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
-                        borderRadius={4}
-                        containerViewStyle={formStyles.containerView}
-                        buttonStyle={formStyles.button}
-                        textStyle={formStyles.buttonText}
-                        onPress={() => this.handleFriends(friendshipStatus)}
-                    />
-                }
-
-                <Modal style={styles.modal} isVisible={this.state.mVisible}
-                       onBackdropPress={() => this.setState({mVisible: false})}>
-                    <View style={styles.modalContent}>
-                        <View style={styles.main}>
-                            <Text style={styles.text}>Are you sure you want to
-                                unfriend {user.firstName + " " + user.lastName}?</Text>
-                        </View>
-                        <View style={styles.modalBottom}>
-                            <TouchableOpacity onPress={() => this.revokeFriendship()}>
-                                <Text style={styles.text}>Unfriend</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.setState({mVisible: false})}>
-                                <Text style={styles.text}>Cancel</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
-
-
-            </View>
+            </SafeAreaView>
         );
     }
 }

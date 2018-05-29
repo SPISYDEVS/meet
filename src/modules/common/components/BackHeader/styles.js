@@ -9,8 +9,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        marginTop: padding.vertical*3,
-        paddingHorizontal: padding.horizontal * 1.75,
+        marginTop: padding.vertical,
         paddingBottom: 4,
     },
     leftHeader: {

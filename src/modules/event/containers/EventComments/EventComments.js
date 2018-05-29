@@ -7,8 +7,9 @@ import {
     SafeAreaView,
     Text,
     TextInput,
-    TouchableOpacity,
-    View
+    TouchableOpacity, TouchableWithoutFeedback,
+    View,
+    Keyboard
 } from 'react-native';
 
 import styles, {commentStyles} from "./styles";
@@ -125,30 +126,23 @@ class EventComments extends React.Component {
 
         const comments = this.props.eventReducer.byId[this.props.eventId]['comments'];
 
-        return (
-            <LinearGradient colors={backgroundGradient}
-                            style={{flex: 1}}
-                            start={[.5, .15]}>
+        if (comments === undefined || comments.length === 0) {
+            return <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <SafeAreaView style={styles.container}>
-
-                    <BackHeader simpleBackChevron/>
-
-                    <View style={styles.comments}>
-
-                        <FlatList
-                            data={comments}
-                            renderItem={(comment) => this.renderComment(comment.item)}
-                            keyExtractor={comment => (comment.userId + comment.timestamp)}
-                        />
-
-                    </View>
-
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}
+                                start={[.5, .15]}>
+                    <SafeAreaView style={styles.container}>
+                        <BackHeader simpleBackChevron/>
+                        <View style={commonStyles.loadingContainer}>
+                            <Text style={styles.emptyCommentsText}> No comments! </Text>
+                        </View>
+                    </SafeAreaView>
                     <KeyboardAvoidingView>
                         <View style={styles.commentInputContainer}>
                             <View style={styles.commentInput}>
-                                <TextInput placeholder="Type a comment"
-                                           placeholderTextColor={color.text}
+                                <TextInput placeholder="Add a comment..."
+                                           placeholderTextColor={color.black}
                                            style={styles.commentInputText}
                                            onFocus={() => this.setState({commenting: true})}
                                            onBlur={() => this.setState({commenting: false})}
@@ -165,9 +159,56 @@ class EventComments extends React.Component {
                             </View>
                         </View>
                     </KeyboardAvoidingView>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
+        }
 
-                </SafeAreaView>
-            </LinearGradient>
+        return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}
+                                start={[.5, .15]}>
+
+                    <SafeAreaView style={styles.container}>
+
+                        <BackHeader simpleBackChevron/>
+
+                        <View style={styles.comments}>
+
+                            <FlatList
+                                data={comments}
+                                renderItem={(comment) => this.renderComment(comment.item)}
+                                keyExtractor={comment => (comment.userId + comment.timestamp)}
+                            />
+
+                        </View>
+
+                        <KeyboardAvoidingView>
+                            <View style={styles.commentInputContainer}>
+                                <View style={styles.commentInput}>
+                                    <TextInput placeholder="Add a comment..."
+                                               placeholderTextColor={color.black}
+                                               style={styles.commentInputText}
+                                               onFocus={() => this.setState({commenting: true})}
+                                               onBlur={() => this.setState({commenting: false})}
+                                               onChangeText={(value) => this.setState({comment: value})}
+                                               value={this.state.comment}
+                                               multiline/>
+                                    {
+                                        this.state.commenting &&
+                                        <TouchableOpacity style={styles.postButton}
+                                                          onPress={() => this.commentOnEvent()}>
+                                            <Text style={styles.postButtonText}>Post!</Text>
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                            </View>
+                        </KeyboardAvoidingView>
+
+                    </SafeAreaView>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
 
         );
 

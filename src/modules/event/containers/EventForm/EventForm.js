@@ -268,7 +268,7 @@ class EventForm extends React.Component {
         const state = {...this.state};
 
         //close modal and update state
-        state['invitations']['value'] = Object.values(friends);
+        state['invitations']['value'] = state['invitations']['value'].concat(Object.values(friends));
         state['invitations']['other']['modalVisible'] = false;
         this.setState(state);
 
@@ -305,11 +305,12 @@ class EventForm extends React.Component {
                                 style={{flex: 1}}
                                 start={[.5, .15]}>
 
-                    <SafeAreaView>
+                    <SafeAreaView style={styles.container}>
 
                         <BackHeader simpleBackChevron/>
 
-                        <ScrollView style={styles.container}>
+                        <ScrollView>
+
                             <View style={styles.content}>
 
                                 {/*input for the form title*/}
@@ -418,19 +419,20 @@ class EventForm extends React.Component {
                                     }
                                 </List>
 
-                                {/*submit button to create the event*/}
-                                <Button
-                                    raised
-                                    title='Complete'
-                                    borderRadius={4}
-                                    containerViewStyle={formStyles.containerView}
-                                    buttonStyle={formStyles.button}
-                                    textStyle={formStyles.buttonText}
-                                    onPress={() => this.onSubmit()}
-                                />
                             </View>
 
                         </ScrollView>
+
+                        {/*submit button to create the event*/}
+                        <Button
+                            raised
+                            title='Complete'
+                            borderRadius={4}
+                            containerViewStyle={styles.submitButton}
+                            buttonStyle={formStyles.button}
+                            textStyle={formStyles.buttonText}
+                            onPress={() => this.onSubmit()}
+                        />
 
                     </SafeAreaView>
 

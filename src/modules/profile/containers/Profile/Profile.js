@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import styles from "./styles"
 
 import {auth as firebaseAuth} from "../../../../config/firebase";
-import {Text} from "react-native";
+import {SafeAreaView, Text} from "react-native";
 import TabButtons from "../../../common/components/TabButtons";
 import Notifications from "../Notifications/Notifications";
 import Friends from "../../../people/containers/Friends/Friends";
@@ -19,6 +19,7 @@ import {AVATAR_SIZE} from "../../constants";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import {signOut} from '../../../../network/firebase/auth/actions';
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
 
 
 const mapStateToProps = (state) => {
@@ -128,6 +129,29 @@ class Profile extends React.Component {
         });
     };
 
+    generateHeaderProps = () => {
+
+        const rightHeaderButtons = [
+            {
+                iconName: 'edit-2',
+                iconType: 'feather',
+                size: 30,
+                onPress: () => Actions.push('EditProfile')
+            },
+            {
+                iconName: 'cog',
+                iconType: 'entypo',
+                size: 30,
+                onPress: () => Actions.push('Settings')
+            },
+        ];
+
+        return {
+            rightHeaderButtons: rightHeaderButtons
+        }
+
+    };
+
     render() {
 
         const {user} = this.props;
@@ -141,9 +165,13 @@ class Profile extends React.Component {
             source = user.profile.source;
         }
 
+        const headerProps = this.generateHeaderProps();
 
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
+
+                <BackHeader {...headerProps}/>
+
                 <View style={styles.infoContainer}>
                     <View style={styles.infoContent}>
                         <Avatar
@@ -173,7 +201,7 @@ class Profile extends React.Component {
                         </View>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 

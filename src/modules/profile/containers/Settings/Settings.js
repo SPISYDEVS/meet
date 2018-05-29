@@ -2,13 +2,14 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {View} from "react-native";
+import {SafeAreaView, View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import {signOut} from "../../../../network/firebase/auth/actions";
 import {Alert} from "react-native";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
 
 const mapStateToProps = (state) => {
     return {
@@ -36,7 +37,9 @@ class Settings extends React.Component {
     render() {
 
         return (
-            <View style={formStyles.container}>
+            <SafeAreaView style={formStyles.container}>
+
+                <BackHeader simpleBackChevron/>
 
                 <Button
                     raised
@@ -47,7 +50,7 @@ class Settings extends React.Component {
                     textStyle={formStyles.buttonText}
                     onPress={this.onSignOut}/>
 
-            </View>
+            </SafeAreaView>
 
         );
     }

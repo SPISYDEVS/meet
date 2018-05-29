@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     commentInputContainer: {
         paddingHorizontal: padding.horizontal * 1.5,
         paddingVertical: padding.vertical * 1.5,
-        backgroundColor: color.black,
+        // backgroundColor: color.black,
     },
     commentInput: {
         flexDirection: 'row',
@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
     },
     postButtonText: {
         paddingRight: padding.horizontal * 1.5,
+    },
+    emptyCommentsText: {
+        fontSize: fontSize.large,
+        color: color.text
     }
 });
 

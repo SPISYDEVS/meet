@@ -49,17 +49,24 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     listItemContainer: {
-        backgroundColor: color.white,
+        backgroundColor: color.background,
         borderBottomColor: color.white,
     },
     listItemText: {
-        color: color.black
+        color: color.text
     },
     listItemUnderlayColor: {
         color: color.light_grey
     },
     text: {
         color: color.text
+    },
+    submitButton: {
+        flexShrink: 1,
+        marginVertical: padding.vertical * 2,
+        alignSelf: 'center',
+        shadowOpacity: 0,
+        width: (windowWidth - 40)
     }
 });
 

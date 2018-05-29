@@ -110,6 +110,7 @@ export default class extends React.Component {
 
                     <Scene key="EditEvent"
                            clone
+                           hideTabBar
                            title={null}
                            component={EventForm}
                            hideNavBar
@@ -118,19 +119,21 @@ export default class extends React.Component {
                     <Scene key="EventComments"
                            clone
                            title={null}
+                           hideTabBar
                            component={EventComments}
                            hideNavBar
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="SomeonesProfile"
                            clone
+                           hideNavBar
                            title={null}
                            component={SomeonesProfile}
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" showLabel={false} tabs={true}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
-                           tabBarStyle={{backgroundColor: color.black}}
+                           tabBarStyle={{backgroundColor: color.background}}
                            tabBarPosition="bottom">
 
                         <Scene key="HomeScreen" initial="Home"
@@ -158,6 +161,7 @@ export default class extends React.Component {
                             <Scene key="EventForm"
                                    component={EventForm}
                                    hideNavBar
+                                   hideTabBar
                                    title="Create an Event"
                                    type={ActionConst.REPLACE}/>
 
@@ -170,26 +174,18 @@ export default class extends React.Component {
                             <Scene key="Profile"
                                    component={Profile}
                                    title={null}
-                                   renderRightButton={<View style={{flexDirection: 'row'}}>
-                                       <Icon name="pencil" type='material-community' color={color.white}
-                                             size={32}
-                                             containerStyle={{paddingRight: 8}}
-                                             onPress={() => Actions.push('EditProfile')}/>
-                                       <Icon name="cog" type='entypo' color={color.white}
-                                             size={32}
-                                             containerStyle={{paddingRight: 8}}
-                                             onPress={() => Actions.push('Settings')}/>
-
-                                   </View>}
+                                   hideNavBar
                                    type={ActionConst.REPLACE}/>
 
                             <Scene key="EditProfile"
                                    component={EditProfile}
+                                   hideNavBar
                                    title="Edit Profile"
                                    type={ActionConst.REPLACE}/>
 
                             <Scene key="Settings"
                                    component={Settings}
+                                   hideNavBar
                                    title="Settings"
                                    type={ActionConst.REPLACE}/>
 

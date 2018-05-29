@@ -7,17 +7,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: '100%',
-        flexWrap: 'wrap',
-        paddingLeft: padding.horizontal * 2.5,
-        paddingRight: padding.horizontal * 2.5,
-    },
-    navBar:{
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        paddingTop: 10,
-        paddingHorizontal: padding.horizontal * 1.75,
-        paddingBottom: 4,
+        marginLeft: padding.horizontal * 2.5,
+        marginRight: padding.horizontal * 2.5,
     },
     header: {
         marginBottom: padding.vertical * 3

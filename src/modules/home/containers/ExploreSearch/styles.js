@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
+import {padding} from "../../../../styles/theme";
 
 const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
 
@@ -66,6 +67,10 @@ const styles = StyleSheet.create({
         color: color.text,
         fontSize: fontSize.medium,
     },
+    resultsContainer: {
+        flex: 1,
+        paddingHorizontal: padding.horizontal * 2
+    }
 });
 
 export default styles;

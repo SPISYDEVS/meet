@@ -6,11 +6,13 @@ import TextInput from "../../../common/components/TextInput";
 import ItemSelector from "../../../common/components/ItemSelector";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
-import {View} from "react-native";
+import {SafeAreaView, View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import styles from "./styles";
 
 
 const mapStateToProps = (state) => {
@@ -82,7 +84,8 @@ class EditProfile extends React.Component {
             //attach user id
             const user = this.props.authReducer.user;
             data['data']['uid'] = user.uid;
-            this.props.updateProfile(data['data'], this.onSuccess, () => {})
+            this.props.updateProfile(data['data'], this.onSuccess, () => {
+            })
         }
     };
 
@@ -100,7 +103,9 @@ class EditProfile extends React.Component {
 
         const [firstName, lastName, school] = Object.keys(this.fields);
         return (
-            <View style={formStyles.container}>
+            <SafeAreaView style={formStyles.container}>
+
+                <BackHeader simpleBackChevron/>
 
                 <TextInput
                     {...this.fields[firstName]}
@@ -129,7 +134,7 @@ class EditProfile extends React.Component {
                     textStyle={formStyles.buttonText}
                     onPress={this.onSubmit}/>
 
-            </View>
+            </SafeAreaView>
 
         );
     }

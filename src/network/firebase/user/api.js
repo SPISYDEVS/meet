@@ -1,4 +1,6 @@
 import {auth, database} from "../../../config/firebase";
+import axios from 'axios';
+import {SERVER_URL} from "../../../config/constants";
 
 export function fetchUsers(userIds, callback) {
     Promise.all(userIds.map(id => {
@@ -115,7 +117,7 @@ export function searchUsers(searchTerm, callback) {
 
             let users = snapshot.val();
 
-            if(users === null){
+            if (users === null) {
                 users = {}
             }
 
@@ -139,14 +141,29 @@ export function searchEvents(searchTerm, callback) {
             let events = snapshot.val();
 
 
-            if(events === null) {
-                events = { }
+            if (events === null) {
+                events = {}
             }
 
             callback(true, events, null);
 
         })
         .catch(error => callback(false, null, error));
+}
+
+//Get the event object from the realtime database
+export function search(searchTerm, callback) {
+
+    axios.get(SERVER_URL + 'api/search/all',
+        {
+            params: {
+                query: searchTerm
+            }
+        }
+    ).then((response) => {
+        callback(true, response.data.data, null);
+    }).catch(error => callback(false, null, error));
+
 }
 
 export function getProfilePic(userId, callback) {

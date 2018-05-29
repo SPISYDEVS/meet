@@ -93,7 +93,19 @@ export function searchEvents(searchTerm, successCB, errorCB) {
     };
 }
 
-
+export function search(searchTerm, successCB, errorCB) {
+    return (dispatch) => {
+        api.search(searchTerm, function(success, data, error) {
+            if (success) {
+                console.log(data);
+                dispatch({type: t.USERS_FETCHED, data: data.users});
+                dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+                successCB(data);
+            }
+            else if (error) errorCB(error)
+        });
+    };
+}
 
 export function getProfilePic(userId, successCB, errorCB) {
     return (dispatch) => {

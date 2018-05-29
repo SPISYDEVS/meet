@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import styles from "./styles"
 
 import {Text, TouchableOpacity, View} from "react-native";
-import {Icon} from "react-native-elements";
+import {Avatar, Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 
 import {fetchUser, respondToFriendRequest} from "../../../../network/firebase/user/actions";
 import {color} from "../../../../styles/theme";
+import handleViewProfile from "../../utils/handleViewProfile";
 
 
 class FriendRequest extends React.Component {
@@ -41,25 +42,35 @@ class FriendRequest extends React.Component {
 
     render() {
 
-        if(!this.state.dataLoaded){
+        if (!this.state.dataLoaded) {
             return <View/>
         }
 
         const userId = this.props.userId;
         const user = this.props.peopleReducer.byId[userId];
         console.log(user);
-        if(user === undefined){
+        if (user === undefined) {
             return <View/>
         }
 
         return (
             <View style={styles.container}>
+
+                <TouchableOpacity style={styles.avatar} onPress={() => handleViewProfile(user.uid)}>
+                    <Avatar rounded
+                            source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                            onPress={() => handleViewProfile(user.uid)}
+                            activeOpacity={0.7}/>
+                </TouchableOpacity>
+
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.title}>Friend Request</Text>
                     <Text style={styles.description}>
                         {user.firstName + " " + user.lastName + " wants to be your friend!"}
                     </Text>
                 </View>
+
+
                 <TouchableOpacity style={styles.actionButton}
                                   onPress={() => this.props.respondToFriendRequest(user.uid, true, () => {
                                   }, () => {

@@ -192,11 +192,12 @@ class EventDetails extends React.Component {
                             style={{flex: 1}}
                             start={[.5, .15]}>
 
-                <SafeAreaView style={styles.container}>
+                <SafeAreaView style={{flex:1}}>
 
                     <BackHeader {...headerProps}/>
 
                     <ScrollView style={styles.container} onScrollBeginDrag={this.onScroll}>
+
                         <View style={styles.header}>
 
                             <Text style={styles.title}>

@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
     },
     listContainer: {
-        borderTopColor: color.black
+        borderTopWidth: 0,
+        borderBottomWidth: 0,
     },
     searchContainer:{
         paddingRight: 10,
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     searchInput: {
         borderRadius: 12,
         borderWidth: 0.5,
-        backgroundColor: color.background,
+        backgroundColor: color.white,
     },
     headerText: {
         fontSize: fontSize.large,
@@ -67,7 +68,9 @@ const styles = StyleSheet.create({
     },
     listItemContainer: {
         backgroundColor: color.background,
-        borderBottomColor: color.black,
+        borderBottomColor: color.white,
+        borderTopWidth: 0,
+        borderBottomWidth: 1,
     },
     listItemText: {
         color: color.white

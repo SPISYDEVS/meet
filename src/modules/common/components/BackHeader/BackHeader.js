@@ -25,18 +25,18 @@ class BackHeader extends React.Component {
         const rightButtons = this.props.rightHeaderButtons;
 
         return (
-            <SafeAreaView style={headerStyles.backHeader}>
+            <SafeAreaView style={styles.backHeader}>
                 <View style={styles.leftHeader}>
                     {
                         this.props.simpleBackChevron &&
                         <TouchableOpacity onPress={() => Actions.pop()}>
-                            <Icon name='chevron-left' type='feather' color={color.text} size={40}/>
+                            <Icon name='chevron-thin-left' type='entypo' color={color.text} size={25}/>
                         </TouchableOpacity>
                     }
                     {
                         (this.props.simpleBackX && !this.props.simpleBackChevron) &&
                         <TouchableOpacity onPress={() => Actions.pop()}>
-                            <Icon name='x' type='feather' color={color.text} size={40}/>
+                            <Icon name='x' type='feather' color={color.text} size={30}/>
                         </TouchableOpacity>
                     }
                     {

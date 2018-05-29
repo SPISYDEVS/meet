@@ -12,6 +12,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         paddingVertical: 10
     },
+    avatar:{
+        alignSelf: 'center',
+        paddingRight: padding.horizontal
+    },
     descriptionContainer:{
         flex: 1,
     },
@@ -27,7 +31,8 @@ const styles = StyleSheet.create({
         fontFamily: fontFamily.regular,
         fontSize: fontSize.regular,
         color: color.text
-    }
+    },
+
 });
 
 export default styles;

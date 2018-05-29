@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: color.background,
-        paddingHorizontal: 25,
-        paddingVertical: 25,
+        paddingHorizontal: padding.horizontal * 2.5,
+        paddingVertical: padding.vertical,
     },
     infoContainer: {
         flex: 1,

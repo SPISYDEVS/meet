@@ -6,7 +6,7 @@ const formStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.background,
-        paddingHorizontal: padding.horizontal * 2,
+        marginHorizontal: padding.horizontal * 2,
     },
     wrapper:{
         justifyContent:"center",

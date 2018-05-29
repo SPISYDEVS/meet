@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: color.background,
-        paddingHorizontal: 25,
+        marginHorizontal: padding.horizontal * 2.5,
+        paddingVertical: padding.vertical * 0.8
     },
     infoContainer: {
         flex: 1,
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
     },
     bottomContent:{
         flex: 1,
-        marginTop: 15,
     },
     buttonContainer:{
         justifyContent:"center",

@@ -5,7 +5,7 @@ import {FlatList, Keyboard, SafeAreaView, Text, TouchableOpacity, View} from 're
 import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import {connect} from "react-redux";
-import {searchEvents, searchUsers} from "../../../../network/firebase/user/actions";
+import {search, searchEvents, searchUsers} from "../../../../network/firebase/user/actions";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import PropTypes from "prop-types";
 import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
@@ -29,21 +29,19 @@ class ExploreSearch extends Component {
     };
 
     handleSearch = () => {
-        this.props.searchUsers(this.state.searchValue, (users) => {
-            let userResult = Object.keys(users);
+
+        this.props.search(this.state.searchValue, (data) => {
+            let userResult = Object.keys(data.users);
             if (userResult.length === 0) {
                 userResult = null;
             }
-            this.setState({userResult: userResult});
-        });
 
-        this.props.searchEvents(this.state.searchValue, (events) => {
-            let eventResult = Object.keys(events);
+            let eventResult = Object.keys(data.events);
             if (eventResult.length === 0) {
                 eventResult = null;
             }
-            this.setState({eventResult: eventResult});
-        });
+            this.setState({eventResult: eventResult, userResult: userResult});
+        }, (err) => console.log(err));
 
     };
 
@@ -121,7 +119,7 @@ class ExploreSearch extends Component {
                     style={styles.viewPager}
                     indicator={this._renderTabIndicator()}
                 >
-                    <View>
+                    <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.eventResult}
@@ -133,7 +131,7 @@ class ExploreSearch extends Component {
 
                     </View>
 
-                    <View>
+                    <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.userResult}
@@ -145,7 +143,7 @@ class ExploreSearch extends Component {
 
                     </View>
 
-                    <View>
+                    <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.userResult}
@@ -156,6 +154,7 @@ class ExploreSearch extends Component {
                         />
 
                     </View>
+
                 </IndicatorViewPager>
 
 
@@ -185,8 +184,7 @@ const mapStateToProps = (state) => {
 
 // allows the component to use actions as props
 const actions = {
-    searchUsers,
-    searchEvents
+    search
 };
 
 export default connect(mapStateToProps, actions)(ExploreSearch);

@@ -6,6 +6,7 @@ import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
 
 import {Text, TouchableOpacity, View} from "react-native";
+import {color} from "../../../../styles/theme";
 
 class EventListItem extends React.PureComponent {
     constructor() {
@@ -23,8 +24,7 @@ class EventListItem extends React.PureComponent {
         return (
             <TouchableOpacity style={styles.container} onPress={() => this.handlePress()}>
 
-
-                <Icon name='map-marker-outline' type='material-community' size={40}/>
+                <Icon name='map-marker-outline' type='material-community' color={color.white} size={40}/>
 
                 <View style={styles.eventInfo}>
 
