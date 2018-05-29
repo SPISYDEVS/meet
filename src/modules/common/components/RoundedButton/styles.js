@@ -7,27 +7,31 @@ const {windowWidth, color, fontSize, fontFamily, normalize, padding} = theme;
 const styles = StyleSheet.create({
     containerView: {
         width: windowWidth - 40,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        alignSelf: 'center',
+        marginLeft: 0,
+        marginRight: 0,
     },
 
     socialButton: {
         height: normalize(55),
         borderRadius: 50,
         marginTop: 0,
-        marginBottom: padding.vertical * 3
+        marginBottom: padding.vertical * 3,
+        marginHorizontal: 0,
     },
 
     button: {
         borderRadius: 50,
         backgroundColor: color.white,
         height: 55,
+        marginHorizontal: 0,
         overflow: 'hidden'
     },
 
     buttonText: {
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.medium,
-        color: color.welcome_gradient5
     }
 });
 

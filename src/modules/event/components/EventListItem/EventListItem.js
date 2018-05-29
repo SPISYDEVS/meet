@@ -21,6 +21,10 @@ class EventListItem extends React.PureComponent {
 
         const event = this.props.eventReducer.byId[this.props.eventId];
 
+        if (!event) {
+            return <View/>
+        }
+
         return (
             <TouchableOpacity style={styles.container} onPress={() => this.handlePress()}>
 

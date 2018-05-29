@@ -125,16 +125,9 @@ class Login extends React.Component {
                             error={this.state.error[password]}/>
                     </View>
 
-                    {/*<Button*/}
-                        {/*raised*/}
-                        {/*title='Sign In'*/}
-                        {/*containerViewStyle={styles.containerView}*/}
-                        {/*buttonStyle={styles.button}*/}
-                        {/*textStyle={styles.buttonText}*/}
-                        {/*onPress={this.onSubmit}/>*/}
-                        <RoundedButton
-                            title={'Sign In'}
-                            onPress={this.onSubmit}/>
+                    <RoundedButton
+                        title={'Sign In'}
+                        onPress={this.onSubmit}/>
 
 
                     <TouchableOpacity

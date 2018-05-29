@@ -7,26 +7,12 @@ const {color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight}
 const styles = StyleSheet.create({
     container: {
         marginTop: 100,
-        marginHorizontal: padding.horizontal,
+        marginHorizontal: padding.horizontal * 3,
         flex: 1,
-        paddingHorizontal: padding.horizontal * 2,
-    },
-    button: {
-        borderRadius: 50,
-        backgroundColor: color.white,
-        height: 55
-    },
-    containerView: {
-        marginVertical: padding.vertical * 3,
-        alignSelf: 'center',
-        shadowOpacity: 0,
-        width: (windowWidth - 70)
+        // paddingHorizontal: padding.horizontal * 2,
     },
     formInputsContainer: {
         marginBottom: 60,
-    },
-    buttonText: {
-        color: color.welcome_gradient5
     },
     forgotText: {
         textAlign: "center",
