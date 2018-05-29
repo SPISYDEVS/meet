@@ -292,7 +292,7 @@ class EventForm extends React.Component {
         const invited = this.state[invitations]['value'];
         const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
 
-        let backgroundGradient = [color.background];
+        let backgroundGradient = [color.background, color.background];
 
         if (this.state[startDate]['value']) {
             backgroundGradient = fetchBackgroundGradient(moment(this.state[startDate]['value'], DATE_FORMAT).valueOf());

@@ -43,9 +43,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: '100%',
-        flexWrap: 'wrap',
-        paddingLeft: padding.horizontal * 2.5,
-        paddingRight: padding.horizontal * 2.5,
+        // flexWrap: 'wrap',
+        // paddingLeft: padding.horizontal * 2.5,
+        // paddingRight: padding.horizontal * 2.5,
+        marginLeft: padding.horizontal * 2.5,
+        marginRight: padding.horizontal * 2.5,
     },
     comments: {
         paddingLeft: padding.horizontal * 2.5,

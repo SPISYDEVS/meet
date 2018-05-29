@@ -127,7 +127,6 @@ class Login extends React.Component {
                     <Button
                         raised
                         title='Sign In'
-                        borderRadius={4}
                         containerViewStyle={styles.containerView}
                         buttonStyle={styles.button}
                         textStyle={styles.buttonText}

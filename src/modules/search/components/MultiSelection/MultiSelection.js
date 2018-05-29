@@ -97,10 +97,11 @@ class MultiSelection extends Component {
                                         underlayColor={UNDERLAY_COLOR}
                                         onPress={() => {this.selectedItem(item)}}
                                         rightIcon={
-                                            <Icon name={this.state.selectedItems[item.id] === undefined ?
-                                                'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
-                                                  type='material-community'
-                                                  color={CHECKMARK_COLOR}
+                                            <Icon
+                                                name={this.state.selectedItems[item.id] === undefined ?
+                                                    'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
+                                                type='material-community'
+                                                color={CHECKMARK_COLOR}
                                             />
                                         }
                                         {...item}
@@ -111,26 +112,27 @@ class MultiSelection extends Component {
                     </ScrollView>
                 </View>
 
-                {Object.values(this.state.selectedItems).length !== 0 &&
-                <SafeAreaView
-                    style={styles.bottomSafeArea}>
-                    <View style={styles.bottomBar}>
-                        <View style={styles.profileScrollView}>
-                            <FlatList
-                                data={Object.values(this.state.selectedItems)}
-                                horizontal
-                                renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
-                            />
-                        </View>
+                {
+                    Object.values(this.state.selectedItems).length !== 0 &&
+                    <SafeAreaView style={styles.bottomSafeArea}>
+                        <View style={styles.bottomBar}>
+                            <View style={styles.profileScrollView}>
+                                <FlatList
+                                    data={Object.values(this.state.selectedItems)}
+                                    horizontal
+                                    renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
+                                />
+                            </View>
 
-                        <View style={styles.addButton}>
-                            <TouchableOpacity
-                                onPress={() => onSelectHandler(this.state.selectedItems)}>
-                                <Text style={styles.addButtonText}>Add</Text>>
-                            </TouchableOpacity>
+                            <View style={styles.addButton}>
+                                <TouchableOpacity
+                                    onPress={() => onSelectHandler(this.state.selectedItems)}>
+                                    <Text style={styles.addButtonText}>Add</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                </SafeAreaView>}
+                    </SafeAreaView>
+                }
 
             </View>
         );

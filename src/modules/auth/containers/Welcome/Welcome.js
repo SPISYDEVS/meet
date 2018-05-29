@@ -111,7 +111,7 @@ class Welcome extends React.Component {
 
             <LinearGradient colors={this.state.background}
                             style={{flex: 1}}
-                            start={{x:start}}>
+                            start={Platform.OS === 'ios' ? {x:start} : [start, 0]}>
 
                 <SafeAreaView style={styles.container}>
 
@@ -150,9 +150,8 @@ class Welcome extends React.Component {
 
                             <Button
                                 raised
-                                borderRadius={4}
                                 title={'SIGN UP WITH E-MAIL'}
-                                containerViewStyle={styles.containerView}
+                                containerViewStyle={[styles.containerView, styles.socialButton]}
                                 buttonStyle={styles.button}
                                 textStyle={styles.buttonText}
                                 onPress={Actions.Register}/>
