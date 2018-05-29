@@ -104,29 +104,31 @@ class EditProfile extends React.Component {
 
         const [firstName, lastName, school] = Object.keys(this.fields);
         return (
-            <SafeAreaView style={formStyles.container}>
+
+            <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader simpleBackChevron/>
+                
+                <View style={formStyles.container}>
+                    <TextInput
+                        {...this.fields[firstName]}
+                        onChangeText={(text) => this.onChange(firstName, text)}
+                        value={this.state[firstName]['value']}
+                        error={this.state.error[firstName]}/>
 
-                <TextInput
-                    {...this.fields[firstName]}
-                    onChangeText={(text) => this.onChange(firstName, text)}
-                    value={this.state[firstName]['value']}
-                    error={this.state.error[firstName]}/>
+                    <TextInput
+                        {...this.fields[lastName]}
+                        onChangeText={(text) => this.onChange(lastName, text)}
+                        value={this.state[lastName]['value']}
+                        error={this.state.error[lastName]}/>
 
-                <TextInput
-                    {...this.fields[lastName]}
-                    onChangeText={(text) => this.onChange(lastName, text)}
-                    value={this.state[lastName]['value']}
-                    error={this.state.error[lastName]}/>
+                    <ItemSelector
+                        {...this.fields[school]}
+                        value={this.state[school]['value']}
+                        error={this.state.error[school]}
+                    />
 
-                <ItemSelector
-                    {...this.fields[school]}
-                    value={this.state[school]['value']}
-                    error={this.state.error[school]}
-                />
-
-                {/*<Button*/}
+                    {/*<Button*/}
                     {/*raised*/}
                     {/*title='Update'*/}
                     {/*borderRadius={4}*/}
@@ -138,6 +140,7 @@ class EditProfile extends React.Component {
                         title={'Update'}
                         onPress={this.onSubmit}/>
 
+                </View>
             </SafeAreaView>
 
         );

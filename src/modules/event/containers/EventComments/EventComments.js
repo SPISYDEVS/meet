@@ -132,8 +132,10 @@ class EventComments extends React.Component {
                 <LinearGradient colors={backgroundGradient}
                                 style={{flex: 1}}
                                 start={[.5, .15]}>
+
+                    <BackHeader simpleBackChevron/>
+
                     <SafeAreaView style={styles.container}>
-                        <BackHeader simpleBackChevron/>
                         <View style={commonStyles.loadingContainer}>
                             <Text style={styles.emptyCommentsText}> No comments! </Text>
                         </View>
@@ -170,11 +172,9 @@ class EventComments extends React.Component {
                                 style={{flex: 1}}
                                 start={[.5, .15]}>
 
+                    <BackHeader simpleBackChevron/>
+
                     <SafeAreaView style={styles.container}>
-
-                        <BackHeader simpleBackChevron/>
-
-                        <View style={styles.comments}>
 
                             <FlatList
                                 data={comments}
@@ -182,7 +182,6 @@ class EventComments extends React.Component {
                                 keyExtractor={comment => (comment.userId + comment.timestamp)}
                             />
 
-                        </View>
                     </SafeAreaView>
 
                     <KeyboardAvoidingView>

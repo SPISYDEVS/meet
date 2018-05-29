@@ -38,21 +38,17 @@ class Settings extends React.Component {
     render() {
 
         return (
-            <SafeAreaView style={formStyles.container}>
+            <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader simpleBackChevron/>
 
-                {/*<Button*/}
-                    {/*raised*/}
-                    {/*title={'LOG OUT'}*/}
-                    {/*borderRadius={4}*/}
-                    {/*containerViewStyle={formStyles.containerView}*/}
-                    {/*buttonStyle={formStyles.button}*/}
-                    {/*textStyle={formStyles.buttonText}*/}
-                    {/*onPress={this.onSignOut}/>*/}
+                <View style={[formStyles.container, {justifyContent: 'flex-end'}]}>
+
                     <RoundedButton
                         title={'LOG OUT'}
                         onPress={this.onSignOut}/>
+
+                </View>
 
             </SafeAreaView>
 
