@@ -132,6 +132,7 @@ export default class extends React.Component {
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="Main" initial={this.state.isLoggedIn} default="Feed" showLabel={false} tabs={true}
+                           animationEnabled={false}
                            activeTintColor={color.tab_active} inactiveTintColor={color.tab_inactive}
                            tabBarStyle={{backgroundColor: color.background}}
                            tabBarPosition="bottom">
