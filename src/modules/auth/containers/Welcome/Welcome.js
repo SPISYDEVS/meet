@@ -13,6 +13,7 @@ import {fetchEvents} from "../../../../network/firebase/event/actions";
 import {color} from "../../../../styles/theme";
 import {LinearGradient} from "expo";
 import TimerMixin from 'react-timer-mixin';
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 const mapStateToProps = (state) => {
@@ -148,13 +149,16 @@ class Welcome extends React.Component {
                                 fontStyle={styles.socialButtonText}
                                 onPress={() => this.onSignInWithFacebook()}/>
 
-                            <Button
-                                raised
-                                title={'SIGN UP WITH E-MAIL'}
-                                containerViewStyle={[styles.containerView, styles.socialButton]}
-                                buttonStyle={styles.button}
-                                textStyle={styles.buttonText}
-                                onPress={Actions.Register}/>
+                            {/*<Button*/}
+                                {/*raised*/}
+                                {/*title={'SIGN UP WITH E-MAIL'}*/}
+                                {/*containerViewStyle={[styles.containerView, styles.socialButton]}*/}
+                                {/*buttonStyle={styles.button}*/}
+                                {/*textStyle={styles.buttonText}*/}
+                                {/*onPress={Actions.Register}/>*/}
+                                <RoundedButton
+                                    title={'SIGN UP WITH E-MAIL'}
+                                    onPress={Actions.Register}/>
                         </View>
 
                     </View>

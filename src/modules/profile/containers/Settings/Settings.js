@@ -10,6 +10,7 @@ import {updateProfile} from "../../../../network/firebase/user/actions";
 import {signOut} from "../../../../network/firebase/auth/actions";
 import {Alert} from "react-native";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 const mapStateToProps = (state) => {
     return {
@@ -41,14 +42,17 @@ class Settings extends React.Component {
 
                 <BackHeader simpleBackChevron/>
 
-                <Button
-                    raised
-                    title={'LOG OUT'}
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={this.onSignOut}/>
+                {/*<Button*/}
+                    {/*raised*/}
+                    {/*title={'LOG OUT'}*/}
+                    {/*borderRadius={4}*/}
+                    {/*containerViewStyle={formStyles.containerView}*/}
+                    {/*buttonStyle={formStyles.button}*/}
+                    {/*textStyle={formStyles.buttonText}*/}
+                    {/*onPress={this.onSignOut}/>*/}
+                    <RoundedButton
+                        title={'LOG OUT'}
+                        onPress={this.onSignOut}/>
 
             </SafeAreaView>
 

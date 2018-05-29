@@ -18,6 +18,7 @@ import {LinearGradient} from 'expo';
 import {fetchBackgroundGradient} from "../../utils";
 import {DATE_FORMAT} from "../../../../config/constants";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 class EventDetails extends React.Component {
@@ -261,15 +262,18 @@ class EventDetails extends React.Component {
 
 
                     </ScrollView>
-                    <Button
-                        raised
+                    {/*<Button*/}
+                        {/*raised*/}
+                        {/*title={currentUserIsAttending ? 'Cancel RSVP' : 'RSVP'}*/}
+                        {/*borderRadius={4}*/}
+                        {/*containerViewStyle={styles.rsvpButton}*/}
+                        {/*buttonStyle={formStyles.button}*/}
+                        {/*textStyle={formStyles.buttonText}*/}
+                        {/*onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}*/}
+                    {/*/>*/}
+                    <RoundedButton
                         title={currentUserIsAttending ? 'Cancel RSVP' : 'RSVP'}
-                        borderRadius={4}
-                        containerViewStyle={styles.rsvpButton}
-                        buttonStyle={formStyles.button}
-                        textStyle={formStyles.buttonText}
-                        onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}
-                    />
+                        onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}/>
                 </SafeAreaView>
             </LinearGradient>
 

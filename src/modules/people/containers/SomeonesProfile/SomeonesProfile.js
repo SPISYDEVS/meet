@@ -16,6 +16,7 @@ import {AVATAR_SIZE} from "../../../profile/constants";
 
 import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 
 class SomeonesProfile extends React.Component {
@@ -119,15 +120,9 @@ class SomeonesProfile extends React.Component {
 
                     {
                         !receivingFriendRequest &&
-                        <Button
-                            raised
+                        <RoundedButton
                             title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
-                            borderRadius={4}
-                            containerViewStyle={formStyles.containerView}
-                            buttonStyle={formStyles.button}
-                            textStyle={formStyles.buttonText}
-                            onPress={() => this.handleFriends(friendshipStatus)}
-                        />
+                            onPress={() => this.handleFriends(friendshipStatus)}/>
                     }
 
                     <Modal style={styles.modal} isVisible={this.state.mVisible}
