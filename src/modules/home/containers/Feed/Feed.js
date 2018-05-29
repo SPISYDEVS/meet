@@ -48,19 +48,11 @@ class Feed extends React.Component {
 
     };
 
-    // //load events into store
-    // this.props.fetchFeed([lat, lng], () => {
-    //     this.setState({dataLoaded: true});
-    // }, (error) => {
-    //     console.log(error);
-    // })
-
     fetchFeed = () => {
         const location = this.props.feedReducer.location;
-        const {latitude, longitude} = location;
 
         //load events into store
-        this.props.fetchFeed([latitude, longitude], () => {
+        this.props.fetchFeed(location, () => {
             this.setState({dataLoaded: true})
         }, (error) => {
             console.log(error);

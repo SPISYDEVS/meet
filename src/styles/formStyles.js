@@ -16,7 +16,6 @@ const formStyles = StyleSheet.create({
     errorText:{
         color: color.red,
         width: (windowWidth - 45),
-        marginBottom: padding.vertical*3,
         marginLeft: 0,
         marginRight: 0,
     },

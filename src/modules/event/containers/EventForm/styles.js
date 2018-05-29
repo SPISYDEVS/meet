@@ -9,9 +9,13 @@ const styles = StyleSheet.create({
         paddingTop: padding.vertical * 2,
         height: '100%'
     },
+    textInputContainer: {
+        height: 30,
+        marginBottom: padding.vertical * 2
+    },
     inputContainer: {
-      height: 50,
-      paddingBottom: padding.vertical * 3,
+        height: 30,
+        marginVertical: padding.vertical
     },
     content: {
         marginHorizontal: padding.horizontal * 3,
@@ -30,17 +34,15 @@ const styles = StyleSheet.create({
         margin: padding.horizontal * 2
     },
     locationContainer: {
-        marginTop: padding.vertical,
-        marginBottom: padding.vertical * 3,
+        height: 30,
+        marginVertical: padding.vertical * 2
     },
     locationPre: {
-        paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
         opacity: 0.75
     },
     locationPost: {
-        paddingBottom: padding.vertical,
         color: color.text,
         fontSize: fontSize.regular + 2,
     },

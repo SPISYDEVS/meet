@@ -43,7 +43,6 @@ class SomeonesProfile extends React.Component {
             });
         }
 
-
     }
 
     revokeFriendship = () => {

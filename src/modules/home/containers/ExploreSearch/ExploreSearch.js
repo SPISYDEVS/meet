@@ -47,7 +47,7 @@ class ExploreSearch extends Component {
 
     renderUser = (item) => {
         const userId = item.item;
-        return <UserListItem userId={userId}/>
+        return <UserListItem userId={userId} sizeModifier={1.2}/>
     };
 
     renderEvent = (item) => {

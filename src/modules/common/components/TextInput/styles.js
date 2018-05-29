@@ -8,14 +8,12 @@ const styles = StyleSheet.create({
         padding: 0,
         marginLeft: 0,
         marginRight: 0,
-        marginBottom: padding.vertical * 2,
     },
 
     inputContainer:{
         padding: 0,
         margin: 0,
         width: '100%',
-        // height: normalize(65),
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.bold,
         color: color.text,

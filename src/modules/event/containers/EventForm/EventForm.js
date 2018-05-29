@@ -7,7 +7,7 @@ import {
     ActivityIndicator, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
     View
 } from "react-native";
-import {Icon, List, ListItem} from "react-native-elements";
+import {FormValidationMessage, Icon, List, ListItem} from "react-native-elements";
 import styles, {dateStyles} from "./styles";
 import moment from "moment";
 import DatePicker from "../../../common/components/DatePicker/DatePicker";
@@ -108,8 +108,8 @@ class EventForm extends React.Component {
                         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
                         currentLocationLabel: "Current location",
                     },
-                    value: this.props.location ? this.props.location : this.props.userLocation,
-                    validator: (location) => !isEmpty(location),
+                    value: this.props.location ? this.props.location : '',
+                    validator: (location) => location !== '',
                     errorMessage: "Location is required",
                     other: {
                         address: this.props.address,
@@ -313,14 +313,16 @@ class EventForm extends React.Component {
 
                             <View style={styles.content}>
 
-                                {/*input for the form title*/}
-                                <TextInput
-                                    style={styles.title}
-                                    {...form.fields[title]['options']}
-                                    onChangeText={(text) => this.onChange(title, text)}
-                                    value={this.state[title]['value']}
-                                    error={this.state['error'][title]}
-                                />
+                                <View style={styles.textInputContainer}>
+                                    {/*input for the form title*/}
+                                    <TextInput
+                                        {...form.fields[title]['options']}
+                                        onChangeText={(text) => this.onChange(title, text)}
+                                        value={this.state[title]['value']}
+                                        error={this.state['error'][title]}
+                                    />
+
+                                </View>
 
                                 <View style={styles.inputContainer}>
                                     {/*input for the date*/}
@@ -340,6 +342,7 @@ class EventForm extends React.Component {
                                         error={this.state['error'][endDate]}
                                         onDateChange={(newDate) => this.onEndDateChange(newDate)}
                                     />
+
                                 </View>
 
                                 <View style={styles.locationContainer}>
@@ -347,13 +350,20 @@ class EventForm extends React.Component {
                                     <TouchableOpacity onPress={() => this.openLocationModal()}>
                                         {this.renderLocation(address)}
                                     </TouchableOpacity>
+                                    {
+                                        (!isEmpty(this.state['error'][location])) &&
+                                        <FormValidationMessage labelStyle={formStyles.errorText}>
+                                            {this.state['error'][location]}
+                                        </FormValidationMessage>
+                                    }
                                 </View>
 
                                 {/*location input modal*/}
                                 <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>
-                                    <PlacePicker location={this.state[location]['value']}
-                                                 onLocationChange={this.onLocationChange}
-                                                 options={this.form.options}/>
+                                    <PlacePicker
+                                        location={this.state[location]['value'] !== '' ? this.state[location]['value'] : this.props.userLocation}
+                                        onLocationChange={this.onLocationChange}
+                                        options={this.form.options}/>
                                     <Button
                                         raised
                                         title='Complete'
@@ -365,13 +375,16 @@ class EventForm extends React.Component {
                                     />
                                 </Modal>
 
-                                {/*input for the description of the event*/}
-                                <TextInput
-                                    {...form.fields[description]['options']}
-                                    onChangeText={(text) => this.onChange(description, text)}
-                                    value={this.state[description]['value']}
-                                    error={this.state['error'][description]}
-                                />
+                                <View style={styles.textInputContainer}>
+
+                                    {/*input for the description of the event*/}
+                                    <TextInput
+                                        {...form.fields[description]['options']}
+                                        onChangeText={(text) => this.onChange(description, text)}
+                                        value={this.state[description]['value']}
+                                        error={this.state['error'][description]}
+                                    />
+                                </View>
 
                                 {/* Below is the input for the invitations, which opens a modal when clicked*/}
                                 <View>

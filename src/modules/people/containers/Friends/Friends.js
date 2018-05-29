@@ -56,7 +56,7 @@ class Friends extends React.Component {
 
     renderItem = (item) => {
         const userId = item.item;
-        return <UserListItem userId={userId}/>
+        return <UserListItem userId={userId} sizeModifier={1.2}/>
     };
 
     render() {

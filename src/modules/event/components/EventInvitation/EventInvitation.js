@@ -60,7 +60,7 @@ class EventInvitation extends React.Component {
 
                 <TouchableOpacity style={styles.avatar} onPress={() => this.handlePress()}>
                     <Icon name='map-marker-outline' type='material-community'
-                          color={color.white} size={40}/>
+                          color={color.white} size={33}/>
                 </TouchableOpacity>
 
                 <View style={styles.descriptionContainer}>

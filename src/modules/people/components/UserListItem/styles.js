@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     subText: {
         fontFamily: fontFamily.regular,
         color: color.text,
-        fontSize: fontSize.small,
         opacity: 0.8
     }
 });
