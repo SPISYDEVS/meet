@@ -18,6 +18,7 @@ import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../netwo
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
 class SomeonesProfile extends React.Component {
     constructor() {
@@ -99,7 +100,7 @@ class SomeonesProfile extends React.Component {
                                 height={AVATAR_SIZE}
                                 width={AVATAR_SIZE}
                                 rounded
-                                source={{uri: source}}
+                                source={source === '' ? defaultImage : {uri: source}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
                             />

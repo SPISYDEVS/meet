@@ -28,6 +28,8 @@ const mapStateToProps = (state) => {
     }
 };
 
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
+
 class Profile extends React.Component {
     constructor() {
         super();
@@ -171,21 +173,20 @@ class Profile extends React.Component {
             <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader {...headerProps}/>
-                <View style={styles.container}>
-                    <View style={styles.infoContainer}>
-                        <View style={styles.infoContent}>
-                            <Avatar
-                                height={AVATAR_SIZE}
-                                width={AVATAR_SIZE}
-                                rounded
-                                source={{uri: source}}
-                                onPress={() => this.onProfilePicPressed()}
-                                activeOpacity={0.7}
-                            />
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
-                                <Text style={styles.school}>{user.school}</Text>
-                            </View>
+
+                <View style={styles.infoContainer}>
+                    <View style={styles.infoContent}>
+                        <Avatar
+                            height={AVATAR_SIZE}
+                            width={AVATAR_SIZE}
+                            rounded
+                            source={{uri: source}}
+                            onPress={() => this.onProfilePicPressed()}
+                            activeOpacity={0.7}
+                        />
+                        <View style={styles.detailsContainer}>
+                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                            <Text style={styles.school}>{user.school}</Text>
                         </View>
                     </View>
                     <View style={styles.body}>
