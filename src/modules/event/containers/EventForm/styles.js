@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     },
     modalHeader: {
         flexDirection: 'row',
+        marginHorizontal: padding.horizontal * 0.5,
         marginVertical: padding.vertical
     },
     modalContent: {
         flex: 1,
-        margin: padding.horizontal * 2
     },
     locationContainer: {
         height: 30,
@@ -51,14 +51,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     listItemContainer: {
-        backgroundColor: color.background,
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 8,
         borderBottomColor: color.white,
     },
-    listItemText: {
-        color: color.text
-    },
-    listItemUnderlayColor: {
-        color: color.light_grey
+    userInfo: {
+        paddingLeft: 10,
+        flex: 1,
     },
     text: {
         color: color.text

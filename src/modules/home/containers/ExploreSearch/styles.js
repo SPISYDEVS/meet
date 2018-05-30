@@ -67,6 +67,11 @@ const styles = StyleSheet.create({
         color: color.text,
         fontSize: fontSize.medium,
     },
+    selectedItem: {
+        paddingBottom: padding.vertical*0.5,
+        borderBottomWidth: 1,
+        borderBottomColor: color.text,
+    },
     resultsContainer: {
         flex: 1,
         paddingHorizontal: padding.horizontal * 2

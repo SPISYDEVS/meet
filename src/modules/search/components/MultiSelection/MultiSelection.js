@@ -52,7 +52,6 @@ class MultiSelection extends Component {
         }
     };
 
-
     renderAvatar = (invitee, i) => {
         return (
             <ListItem
@@ -65,76 +64,78 @@ class MultiSelection extends Component {
         );
     };
 
-
     render() {
 
         const {searchHint, searchFunc, callback, onSelectHandler} = this.props;
 
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={{flex: 1}}>
+                <View style={styles.container}>
 
-                <SearchBar
-                    placeholder={searchHint}
-                    rounded
-                    lightTheme
-                    inputStyle={styles.searchInput}
-                    containerStyle={styles.searchBar}
-                    onClearText={() => this.reset()}
-                    onBlur={() => searchFunc === undefined ? {} : searchFunc}
-                    noIcon
-                />
+                    <SearchBar
+                        placeholder={searchHint}
+                        rounded
+                        lightTheme
+                        inputStyle={styles.searchInput}
+                        containerStyle={styles.searchBar}
+                        onChangeText={(text) => this.search(text)}
+                        onClearText={() => this.reset()}
+                        onBlur={(event) => searchFunc === undefined ? {} : searchFunc}
+                    />
 
-                <View style={styles.listViewContainer}>
-                    <ScrollView>
-                        <List containerStyle={styles.listContainer}>
-                            {
-                                this.state.results.map((item, i) => (
-                                    <ListItem
-                                        containerStyle={styles.listItemContainer}
-                                        titleStyle={styles.listItemText}
-                                        roundAvatar
-                                        key={i}
-                                        underlayColor={UNDERLAY_COLOR}
-                                        onPress={() => {this.selectedItem(item)}}
-                                        rightIcon={
-                                            <Icon
-                                                name={this.state.selectedItems[item.id] === undefined ?
-                                                    'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
-                                                type='material-community'
-                                                color={CHECKMARK_COLOR}
-                                            />
-                                        }
-                                        {...item}
-                                    />
-                                ))
-                            }
-                        </List>
-                    </ScrollView>
+                    <View style={styles.listViewContainer}>
+                        <ScrollView>
+                            <List containerStyle={styles.listContainer}>
+                                {
+                                    this.state.results.map((item) => (
+                                        <ListItem
+                                            containerStyle={styles.listItemContainer}
+                                            titleStyle={styles.listItemText}
+                                            roundAvatar
+                                            key={item.id}
+                                            underlayColor={UNDERLAY_COLOR}
+                                            onPress={() => {
+                                                this.selectedItem(item)
+                                            }}
+                                            rightIcon={
+                                                <Icon
+                                                    name={this.state.selectedItems[item.id] === undefined ?
+                                                        'checkbox-blank-circle-outline' : 'checkbox-marked-circle'}
+                                                    type='material-community'
+                                                    color={CHECKMARK_COLOR}
+                                                />
+                                            }
+                                            {...item}
+                                        />
+                                    ))
+                                }
+                            </List>
+                        </ScrollView>
+                    </View>
+
+
                 </View>
-
                 {
                     Object.values(this.state.selectedItems).length !== 0 &&
-                    <SafeAreaView style={styles.bottomSafeArea}>
-                        <View style={styles.bottomBar}>
-                            <View style={styles.profileScrollView}>
-                                <FlatList
-                                    data={Object.values(this.state.selectedItems)}
-                                    horizontal
-                                    renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
-                                />
-                            </View>
+                    <SafeAreaView style={styles.bottomBar}>
+                        <View style={styles.profileScrollView}>
+                            <FlatList
+                                data={Object.values(this.state.selectedItems)}
+                                horizontal
+                                keyExtractor={invitee => invitee.id}
+                                renderItem={(invitee, i) => this.renderAvatar(invitee, i)}
+                            />
+                        </View>
 
-                            <View style={styles.addButton}>
-                                <TouchableOpacity
-                                    onPress={() => onSelectHandler(this.state.selectedItems)}>
-                                    <Text style={styles.addButtonText}>Add</Text>
-                                </TouchableOpacity>
-                            </View>
+                        <View style={styles.addButton}>
+                            <TouchableOpacity
+                                onPress={() => onSelectHandler(this.state.selectedItems)}>
+                                <Text style={styles.addButtonText}>Add</Text>
+                            </TouchableOpacity>
                         </View>
                     </SafeAreaView>
                 }
-
-            </View>
+            </SafeAreaView>
         );
     }
 }

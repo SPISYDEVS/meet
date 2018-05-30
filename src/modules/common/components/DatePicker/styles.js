@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     dateContainer:{
-        height: '100%',
+        height: '90%',
         width: '100%',
-    }
+    },
 });
 
 

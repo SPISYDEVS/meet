@@ -139,8 +139,8 @@ class Profile extends React.Component {
                 onPress: () => Actions.push('EditProfile')
             },
             {
-                iconName: 'cog',
-                iconType: 'entypo',
+                iconName: 'settings',
+                iconType: 'feather',
                 size: 30,
                 onPress: () => Actions.push('Settings')
             },
@@ -168,36 +168,37 @@ class Profile extends React.Component {
         const headerProps = this.generateHeaderProps();
 
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader {...headerProps}/>
-
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoContent}>
-                        <Avatar
-                            height={AVATAR_SIZE}
-                            width={AVATAR_SIZE}
-                            rounded
-                            source={{uri: source}}
-                            onPress={() => this.onProfilePicPressed()}
-                            activeOpacity={0.7}
-                        />
-                        <View style={styles.detailsContainer}>
-                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
-                            <Text style={styles.school}>{user.school}</Text>
+                <View style={styles.container}>
+                    <View style={styles.infoContainer}>
+                        <View style={styles.infoContent}>
+                            <Avatar
+                                height={AVATAR_SIZE}
+                                width={AVATAR_SIZE}
+                                rounded
+                                source={{uri: source}}
+                                onPress={() => this.onProfilePicPressed()}
+                                activeOpacity={0.7}
+                            />
+                            <View style={styles.detailsContainer}>
+                                <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                                <Text style={styles.school}>{user.school}</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.body}>
-                    <TabButtons buttons={this.state.buttons}/>
+                    <View style={styles.body}>
+                        <TabButtons buttons={this.state.buttons}/>
 
-                    <View style={styles.bottomContent}>
-                        <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
-                            <Notifications/>
-                        </View>
+                        <View style={styles.bottomContent}>
+                            <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
+                                <Notifications/>
+                            </View>
 
-                        <View style={this.state.buttons[1].selected ? styles.active : styles.hidden}>
-                            <Friends/>
+                            <View style={this.state.buttons[1].selected ? styles.active : styles.hidden}>
+                                <Friends/>
+                            </View>
                         </View>
                     </View>
                 </View>

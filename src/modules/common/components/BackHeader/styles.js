@@ -20,11 +20,10 @@ const styles = StyleSheet.create({
     rightHeader: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'flex-start'
     },
     buttonPadding: {
-        paddingLeft: padding.horizontal * 0.5,
-        paddingRight: padding.horizontal * 0.5
+        paddingRight: padding.horizontal
     }
 });
 

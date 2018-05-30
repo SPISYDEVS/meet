@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: color.accent_dark,
         borderWidth: 1,
-        borderColor: color.accent_dark,
+        borderColor: color.white,
         borderRadius: 6,
         overflow: 'hidden',
         marginVertical: padding.vertical * 0.5,
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     },
     button:{
         flex: 1,
-        backgroundColor: color.accent_dark,
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import { isEmpty } from '../../../event/utils/validate'
+import {FormLabel, FormInput, FormValidationMessage} from 'react-native-elements'
+import {isEmpty} from '../../../event/utils/validate'
 import styles from "./styles"
 import {color} from "../../../../styles/theme";
 import formStyles from "../../../../styles/formStyles";
 
 class TextInput extends Component {
     render() {
-        const { showLabel, placeholder, autoFocus, onChangeText, secureTextEntry, multiline } = this.props;
+        const {showLabel, placeholder, autoFocus, onChangeText, secureTextEntry, multiline} = this.props;
 
         return (
             <View>
@@ -34,12 +34,9 @@ class TextInput extends Component {
                     multiline={multiline}
                     value={this.props.value}
                 />
-                {
-                    (!isEmpty(this.props.error)) &&
-                    <FormValidationMessage labelStyle={formStyles.errorText}>
-                        {this.props.error}
-                    </FormValidationMessage>
-                }
+                <FormValidationMessage labelStyle={formStyles.errorText}>
+                    {this.props.error}
+                </FormValidationMessage>
             </View>
         );
     }

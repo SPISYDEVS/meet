@@ -128,7 +128,7 @@ class EventDetails extends React.Component {
         const rightHeaderButtons = [{
             iconName: 'bubble',
             iconType: 'simple-line-icon',
-            size: 30,
+            size: 28,
             onPress: () => this.eventComments()
         }];
 
@@ -137,7 +137,7 @@ class EventDetails extends React.Component {
             rightHeaderButtons.push({
                 iconName: 'edit-2',
                 iconType: 'feather',
-                size: 32,
+                size: 30,
                 onPress: () => this.editEvent()
             });
 
@@ -262,18 +262,11 @@ class EventDetails extends React.Component {
 
 
                     </ScrollView>
-                    {/*<Button*/}
-                        {/*raised*/}
-                        {/*title={currentUserIsAttending ? 'Cancel RSVP' : 'RSVP'}*/}
-                        {/*borderRadius={4}*/}
-                        {/*containerViewStyle={styles.rsvpButton}*/}
-                        {/*buttonStyle={formStyles.button}*/}
-                        {/*textStyle={formStyles.buttonText}*/}
-                        {/*onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}*/}
-                    {/*/>*/}
+
                     <RoundedButton
                         title={currentUserIsAttending ? 'Cancel RSVP' : 'RSVP'}
                         onPress={() => this.onRsvpButtonPress(currentUserIsAttending)}/>
+
                 </SafeAreaView>
             </LinearGradient>
 

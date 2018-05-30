@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
 import {
-    ActivityIndicator, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
+    ActivityIndicator, FlatList, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback,
     View
 } from "react-native";
-import {FormValidationMessage, Icon, List, ListItem} from "react-native-elements";
+import {Avatar, FormValidationMessage, Icon, List, ListItem} from "react-native-elements";
 import styles, {dateStyles} from "./styles";
 import moment from "moment";
 import DatePicker from "../../../common/components/DatePicker/DatePicker";
@@ -30,6 +30,7 @@ import {LinearGradient} from "expo";
 import {fetchBackgroundGradient} from "../../utils/index";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+import handleViewProfile from "../../../people/utils/handleViewProfile";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -284,6 +285,27 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    renderInvitee = (invitee) => {
+
+        return (<TouchableOpacity style={styles.listItemContainer} onPress={() => handleViewProfile(invitee.id)}>
+            <Avatar rounded
+                    width={35}
+                    height={35}
+                    source={invitee.avatar}
+                    activeOpacity={0.7}/>
+            <View style={styles.userInfo}>
+                <Text style={[styles.text, {fontSize: fontSize.regular}]}>
+                    {invitee.title}
+                </Text>
+            </View>
+            <Icon name='close'
+                  type='material-community'
+                  color={CHECKMARK_COLOR}
+                  onPress={() => this.removeInvitee(invitee)}
+            />
+        </TouchableOpacity>)
+
+    };
 
     render() {
 
@@ -351,12 +373,9 @@ class EventForm extends React.Component {
                                     <TouchableOpacity onPress={() => this.openLocationModal()}>
                                         {this.renderLocation(address)}
                                     </TouchableOpacity>
-                                    {
-                                        (!isEmpty(this.state['error'][location])) &&
-                                        <FormValidationMessage labelStyle={formStyles.errorText}>
-                                            {this.state['error'][location]}
-                                        </FormValidationMessage>
-                                    }
+                                    <FormValidationMessage labelStyle={formStyles.errorText}>
+                                        {this.state['error'][location]}
+                                    </FormValidationMessage>
                                 </View>
 
                                 {/*location input modal*/}
@@ -411,42 +430,40 @@ class EventForm extends React.Component {
                                 </Modal>
 
                                 {/* ListView of friends */}
-                                <List>
-                                    {
-                                        this.state.invitations.value.map((invitee, i) => (
-                                            <ListItem
-                                                containerStyle={styles.listItemContainer}
-                                                titleStyle={styles.listItemText}
-                                                roundAvatar
-                                                key={i}
-                                                underlayColor={UNDERLAY_COLOR}
-                                                rightIcon={
-                                                    <Icon name='close'
-                                                          type='material-community'
-                                                          color={CHECKMARK_COLOR}
-                                                          onPress={() => this.removeInvitee(invitee)}
-                                                    />
-                                                }
-                                                {...invitee}
-                                            />
-                                        ))
-                                    }
-                                </List>
+                                <FlatList
+                                    style={styles.container}
+                                    data={this.state.invitations.value}
+                                    renderItem={(item) => this.renderInvitee(item.item)}
+                                    keyExtractor={(invitee) => invitee.id}
+                                    initialNumToRender={5}
+                                />
+
+                                {/*<List>*/}
+                                    {/*{*/}
+                                        {/*this.state.invitations.value.map((invitee, i) => (*/}
+                                            {/*<ListItem*/}
+                                                {/*containerStyle={styles.listItemContainer}*/}
+                                                {/*titleStyle={styles.listItemText}*/}
+                                                {/*roundAvatar*/}
+                                                {/*key={i}*/}
+                                                {/*underlayColor={UNDERLAY_COLOR}*/}
+                                                {/*rightIcon={*/}
+                                                    {/*<Icon name='close'*/}
+                                                          {/*type='material-community'*/}
+                                                          {/*color={CHECKMARK_COLOR}*/}
+                                                          {/*onPress={() => this.removeInvitee(invitee)}*/}
+                                                    {/*/>*/}
+                                                {/*}*/}
+                                                {/*{...invitee}*/}
+                                            {/*/>*/}
+                                        {/*))*/}
+                                    {/*}*/}
+                                {/*</List>*/}
 
                             </View>
 
                         </ScrollView>
 
-                        {/*submit button to create the event*/}
-                        {/*<Button*/}
-                            {/*raised*/}
-                            {/*title='Complete'*/}
-                            {/*borderRadius={4}*/}
-                            {/*containerViewStyle={styles.submitButton}*/}
-                            {/*buttonStyle={formStyles.button}*/}
-                            {/*textStyle={formStyles.buttonText}*/}
-                            {/*onPress={() => this.onSubmit()}*/}
-                        {/*/>*/}
                         <RoundedButton
                             title={'Complete'}
                             onPress={() => this.onSubmit()}/>

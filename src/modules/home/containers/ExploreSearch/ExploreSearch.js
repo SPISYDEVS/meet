@@ -72,6 +72,7 @@ class ExploreSearch extends Component {
         return <PagerTabIndicator tabs={tabs}
                                   style={styles.indicatorContainer}
                                   textStyle={styles.tabText}
+                                  selectedItemStyle={styles.selectedItem}
                                   selectedTextStyle={styles.selectedTabText}
         />;
     };
@@ -137,8 +138,6 @@ class ExploreSearch extends Component {
                             data={this.state.userResult}
                             renderItem={(item) => this.renderUser(item)}
                             keyExtractor={(userId) => userId}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={() => this.props.onRefresh()}
                         />
 
                     </View>
@@ -149,8 +148,6 @@ class ExploreSearch extends Component {
                             data={this.state.userResult}
                             renderItem={(item) => this.renderUser(item)}
                             keyExtractor={(userId) => userId}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={() => this.props.onRefresh()}
                         />
 
                     </View>

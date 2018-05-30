@@ -4,7 +4,7 @@ import Date from "react-native-datepicker";
 import styles from "./styles";
 import {FormValidationMessage} from "react-native-elements";
 import {View} from "react-native";
-import { isEmpty } from '../../../event/utils/validate'
+import {isEmpty} from '../../../event/utils/validate'
 import formStyles from "../../../../styles/formStyles";
 
 class DatePicker extends React.Component {
@@ -33,12 +33,9 @@ class DatePicker extends React.Component {
                     {...options}
                 />
 
-                {
-                    (!isEmpty(this.props.error)) &&
-                    <FormValidationMessage labelStyle={formStyles.errorText}>
-                        {this.props.error}
-                    </FormValidationMessage>
-                }
+                <FormValidationMessage labelStyle={formStyles.errorText}>
+                    {this.props.error}
+                </FormValidationMessage>
             </View>
         );
     }

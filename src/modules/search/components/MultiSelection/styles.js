@@ -2,13 +2,14 @@ import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
 
-const {color, windowWidth, fontSize, fontFamily, normalize} = theme;
+const {color, windowWidth, padding, fontSize, fontFamily, normalize} = theme;
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: color.background,
         opacity: 1,
         flex: 1,
+        marginHorizontal: padding.horizontal * 2,
         // justifyContent: 'center',
     },
     listViewContainer: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 0,
         borderBottomWidth: 0,
     },
-    searchContainer:{
+    searchContainer: {
         paddingRight: 10,
         paddingVertical: 0.5,
     },
@@ -28,13 +29,12 @@ const styles = StyleSheet.create({
         margin: 0,
         backgroundColor: color.background,
         borderTopWidth: 0,
-        borderBottomWidth: 0,
-
+        borderBottomWidth: 0.5,
+        borderBottomColor: color.white,
     },
     searchInput: {
-        borderRadius: 12,
-        borderWidth: 0.5,
-        backgroundColor: color.white,
+        // borderRadius: 12,
+        backgroundColor: color.background,
     },
     headerText: {
         fontSize: fontSize.large,
@@ -43,13 +43,8 @@ const styles = StyleSheet.create({
     },
     bottomBar: {
         backgroundColor: color.black,
-        flex: 1,
         maxHeight: 50,
         flexDirection: 'row',
-    },
-    bottomSafeArea: {
-        backgroundColor: color.black,
-        flex: 1,
     },
     addButton: {
         flex: 1,
@@ -63,6 +58,7 @@ const styles = StyleSheet.create({
     },
     profileScrollView: {
         flex: 4,
+        height: '100%',
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         borderBottomColor: color.white,
         borderTopWidth: 0,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0,
     },
     listItemText: {
         color: color.white
