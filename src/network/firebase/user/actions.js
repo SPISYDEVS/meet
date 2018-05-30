@@ -59,7 +59,7 @@ export function updateProfile(user, successCB, errorCB) {
 
 export function fetchUser(userId, successCB, errorCB) {
     return (dispatch) => {
-        api.fetchUser(userId, function(success, data, error) {
+        api.fetchUser(userId, function (success, data, error) {
             if (success) {
                 dispatch({type: t.USER_FETCHED, data: data});
                 successCB();
@@ -71,7 +71,7 @@ export function fetchUser(userId, successCB, errorCB) {
 
 export function searchUsers(searchTerm, successCB, errorCB) {
     return (dispatch) => {
-        api.searchUsers(searchTerm, function(success, data, error) {
+        api.searchUsers(searchTerm, function (success, data, error) {
             if (success) {
                 dispatch({type: t.USERS_FETCHED, data: data});
                 successCB(data);
@@ -83,7 +83,7 @@ export function searchUsers(searchTerm, successCB, errorCB) {
 
 export function searchEvents(searchTerm, successCB, errorCB) {
     return (dispatch) => {
-        api.searchEvents(searchTerm, function(success, data, error) {
+        api.searchEvents(searchTerm, function (success, data, error) {
             if (success) {
                 dispatch({type: eventT.EVENTS_FETCHED, data: data});
                 successCB(data);
@@ -95,12 +95,18 @@ export function searchEvents(searchTerm, successCB, errorCB) {
 
 export function search(searchTerm, successCB, errorCB) {
     return (dispatch) => {
-        api.search(searchTerm, function(success, data, error) {
+        api.search(searchTerm, function (success, data, error) {
             if (success) {
-                console.log(data);
-                dispatch({type: t.USERS_FETCHED, data: data.users});
-                dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+
+                if (data.users) {
+                    dispatch({type: t.USERS_FETCHED, data: data.users});
+                }
+                if (data.events) {
+                    dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+                }
+
                 successCB(data);
+
             }
             else if (error) errorCB(error)
         });
@@ -109,7 +115,7 @@ export function search(searchTerm, successCB, errorCB) {
 
 export function getProfilePic(userId, successCB, errorCB) {
     return (dispatch) => {
-        api.getProfilePic(userId, function(success, data, error) {
+        api.getProfilePic(userId, function (success, data, error) {
             if (success) {
                 successCB(data);
             }

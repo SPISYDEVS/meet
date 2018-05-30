@@ -31,16 +31,25 @@ class ExploreSearch extends Component {
     handleSearch = () => {
 
         this.props.search(this.state.searchValue, (data) => {
-            let userResult = Object.keys(data.users);
-            if (userResult.length === 0) {
-                userResult = null;
+
+            let userResult = null;
+            if (data.users) {
+                let userResult = Object.keys(data.users);
+                if (userResult.length === 0) {
+                    userResult = null;
+                }
             }
 
-            let eventResult = Object.keys(data.events);
-            if (eventResult.length === 0) {
-                eventResult = null;
+            let eventResult = null;
+            if (data.event) {
+                let eventResult = Object.keys(data.events);
+                if (eventResult.length === 0) {
+                    eventResult = null;
+                }
             }
+
             this.setState({eventResult: eventResult, userResult: userResult});
+
         }, (err) => console.log(err));
 
     };
@@ -58,16 +67,10 @@ class ExploreSearch extends Component {
     _renderTabIndicator = () => {
         let tabs = [{
             text: 'Events',
-            // iconSource: require('../imgs/ic_tab_home_normal.png'),
-            // selectedIconSource: require('../imgs/ic_tab_home_click.png')
         }, {
             text: 'People',
-            // iconSource: require('../imgs/ic_tab_task_normal.png'),
-            // selectedIconSource: require('../imgs/ic_tab_task_click.png')
         }, {
             text: 'Tags',
-            // iconSource: require('../imgs/ic_tab_my_normal.png'),
-            // selectedIconSource: require('../imgs/ic_tab_my_click.png')
         }];
         return <PagerTabIndicator tabs={tabs}
                                   style={styles.indicatorContainer}

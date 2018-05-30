@@ -21,7 +21,7 @@ const formStyles = StyleSheet.create({
     },
 
     containerView:{
-        marginVertical: padding.vertical * 3,
+        marginVertical: padding.vertical * 2,
         alignSelf: 'center',
         shadowOpacity: 0,
         width: (windowWidth - 40)

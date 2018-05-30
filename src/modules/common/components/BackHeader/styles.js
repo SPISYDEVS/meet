@@ -22,7 +22,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-start'
     },
-    buttonPadding: {
+    leftButtonPadding: {
+        paddingLeft: padding.horizontal
+    },
+    rightButtonPadding: {
         paddingRight: padding.horizontal
     }
 });

@@ -5,12 +5,9 @@ import {connect} from 'react-redux';
 
 import {isEmpty} from '../../utils/validate'
 import TextInput from "../../../common/components/TextInput";
-import ItemSelector from "../../../common/components/ItemSelector";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
 import {View} from "react-native";
-import formStyles from '../../../../styles/formStyles';
-import {Button} from "react-native-elements";
 
 import {createUser} from '../../../../network/firebase/auth/actions';
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
@@ -18,6 +15,7 @@ import {LinearGradient} from "expo";
 import {color} from "../../../../styles/theme";
 import styles from "./styles";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+import SchoolSelection from "../../../search/containers/SchoolSelection/SchoolSelection";
 
 class CompleteProfile extends React.Component {
     constructor() {
@@ -39,24 +37,6 @@ class CompleteProfile extends React.Component {
                 errorMessage: 'Last name is required'
             },
             'school': {
-                objList: [
-                    {
-                        title: 'UCI',
-                        value: 'UCI'
-                    },
-                    {
-                        title: 'UCSD',
-                        value: 'UCSD'
-                    },
-                    {
-                        title: 'UCSB',
-                        value: 'UCSB'
-                    },
-                    {
-                        title: 'UCLA',
-                        value: 'UCLA'
-                    },
-                ],
                 searchHint: 'Choose a school',
                 callback: (value) => this.onChange('school', value),
                 validator: (value) => !isEmpty(value) && value !== 'Choose a school',
@@ -134,7 +114,7 @@ class CompleteProfile extends React.Component {
                             value={this.state[lastName]['value']}
                             error={this.state.error[lastName]}/>
 
-                        <ItemSelector
+                        <SchoolSelection
                             {...this.fields[school]}
                             value={this.state[school]['value']}
                             error={this.state.error[school]}

@@ -3,17 +3,15 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {isEmpty} from '../../../auth/utils/validate'
 import TextInput from "../../../common/components/TextInput";
-import ItemSelector from "../../../common/components/ItemSelector";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
 import {SafeAreaView, View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
-import {Button} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
-import styles from "./styles";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+import SchoolSelection from "../../../search/containers/SchoolSelection/SchoolSelection";
 
 
 const mapStateToProps = (state) => {
@@ -46,24 +44,6 @@ class EditProfile extends React.Component {
                 errorMessage: 'Last name is required'
             },
             'school': {
-                objList: [
-                    {
-                        title: 'UCI',
-                        value: 'UCI'
-                    },
-                    {
-                        title: 'UCSD',
-                        value: 'UCSD'
-                    },
-                    {
-                        title: 'UCSB',
-                        value: 'UCSB'
-                    },
-                    {
-                        title: 'UCLA',
-                        value: 'UCLA'
-                    },
-                ],
                 searchHint: 'Choose a school',
                 value: user.school,
                 callback: (value) => this.onChange('school', value),
@@ -122,7 +102,7 @@ class EditProfile extends React.Component {
                         value={this.state[lastName]['value']}
                         error={this.state.error[lastName]}/>
 
-                    <ItemSelector
+                    <SchoolSelection
                         {...this.fields[school]}
                         value={this.state[school]['value']}
                         error={this.state.error[school]}

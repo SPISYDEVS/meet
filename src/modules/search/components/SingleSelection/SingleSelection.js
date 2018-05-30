@@ -7,6 +7,8 @@ import {List, ListItem, SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import TrieSearch from 'trie-search';
 
+const UNDERLAY_COLOR = '#414141';
+
 class SingleSelection extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +39,7 @@ class SingleSelection extends Component {
 
     render() {
 
-        const {searchHint, searchFunc, callback, onSelectHandler} = this.props;
+        const {searchHint, searchFunc, callback} = this.props;
 
         return (
             <View style={styles.container}>
@@ -48,27 +50,36 @@ class SingleSelection extends Component {
                     lightTheme
                     inputStyle={styles.searchInput}
                     containerStyle={styles.searchBar}
-                    // onChangeText={(text) => this.search(text)}
+                    onChangeText={(text) => this.search(text)}
                     onClearText={() => this.reset()}
                     onBlur={() => searchFunc === undefined ? {} : searchFunc}
-                    noIcon
                 />
 
-                <View style={styles.listContainer}>
-                    <List>
+                <ScrollView>
+                    <List containerStyle={styles.listContainer}>
                         {
-                            this.state.results.map((item, i) => (
+                            this.state.results.slice(0, 10).map((item, i) => (
                                 <ListItem
                                     roundAvatar
-                                    key={i}
-                                    onPress={() => onSelectHandler(item)}
-                                    hideChevron={true}
+                                    containerStyle={styles.listItemContainer}
+                                    titleStyle={styles.listItemText}
+                                    key={item.value}
+                                    underlayColor={UNDERLAY_COLOR}
+                                    hideChevron
+                                    leftIcon={
+                                        {
+                                            name: this.props.iconName,
+                                            type: this.props.iconType,
+                                            color: 'white'
+                                        }
+                                    }
+                                    onPress={() => callback(item.value)}
                                     {...item}
                                 />
                             ))
                         }
                     </List>
-                </View>
+                </ScrollView>
 
             </View>
         );
@@ -80,13 +91,17 @@ SingleSelection.propTypes = {
     searchKey: PropTypes.string,
     searchHint: PropTypes.string,
     searchFunc: PropTypes.func,
-    callback: PropTypes.func
+    callback: PropTypes.func,
+    iconName: PropTypes.string,
+    iconType: PropTypes.string,
 };
 
 SingleSelection.defaultProps = {
     searchKey: 'title',
     callback: (item) => {
-    }
+    },
+    iconName: '',
+    iconType: '',
 };
 
 export default SingleSelection;

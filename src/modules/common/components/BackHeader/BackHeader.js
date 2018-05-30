@@ -45,7 +45,7 @@ class BackHeader extends React.Component {
                             const {iconName, iconType, size, onPress} = button;
 
                             return (
-                                <TouchableOpacity key={iconName} onPress={onPress}>
+                                <TouchableOpacity key={iconName} style={styles.leftButtonPadding} onPress={onPress}>
                                     <Icon name={iconName} type={iconType} color={color.text}
                                           size={size}/>
                                 </TouchableOpacity>
@@ -60,7 +60,7 @@ class BackHeader extends React.Component {
                             const {iconName, iconType, size, onPress} = button;
 
                             return (
-                                <TouchableOpacity key={iconName} style={styles.buttonPadding} onPress={onPress}>
+                                <TouchableOpacity key={iconName} style={styles.rightButtonPadding} onPress={onPress}>
                                     <Icon name={iconName} type={iconType} color={color.text}
                                           size={size}/>
                                 </TouchableOpacity>

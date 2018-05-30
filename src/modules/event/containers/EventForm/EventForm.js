@@ -212,6 +212,7 @@ class EventForm extends React.Component {
         const address = data.address;
 
         state['location']['value'] = location;
+        state['error']['location'] = '';
         state['location']['other']['address'] = address;
 
         this.setState(state);
@@ -380,19 +381,27 @@ class EventForm extends React.Component {
 
                                 {/*location input modal*/}
                                 <Modal isVisible={this.state[location]['other']['modalVisible']} style={styles.modal}>
-                                    <PlacePicker
-                                        location={this.state[location]['value'] !== '' ? this.state[location]['value'] : this.props.userLocation}
-                                        onLocationChange={this.onLocationChange}
-                                        options={this.form.options}/>
-                                    <Button
-                                        raised
-                                        title='Complete'
-                                        borderRadius={4}
-                                        containerViewStyle={formStyles.containerView}
-                                        buttonStyle={formStyles.button}
-                                        textStyle={formStyles.buttonText}
-                                        onPress={() => this.closeLocationModal()}
-                                    />
+                                    <SafeAreaView style={styles.modalContent}>
+                                        <BackHeader
+                                            leftHeaderButtons={[{
+                                                iconName: 'x',
+                                                iconType: 'feather',
+                                                onPress: () => this.setState({visibleModal: false})
+                                            }]}/>
+                                        <PlacePicker
+                                            location={this.state[location]['value'] !== '' ? this.state[location]['value'] : this.props.userLocation}
+                                            onLocationChange={this.onLocationChange}
+                                            options={this.form.options}/>
+                                        <Button
+                                            raised
+                                            title='Complete'
+                                            borderRadius={4}
+                                            containerViewStyle={formStyles.containerView}
+                                            buttonStyle={formStyles.button}
+                                            textStyle={formStyles.buttonText}
+                                            onPress={() => this.closeLocationModal()}
+                                        />
+                                    </SafeAreaView>
                                 </Modal>
 
                                 <View style={styles.textInputContainer}>
@@ -439,25 +448,25 @@ class EventForm extends React.Component {
                                 />
 
                                 {/*<List>*/}
-                                    {/*{*/}
-                                        {/*this.state.invitations.value.map((invitee, i) => (*/}
-                                            {/*<ListItem*/}
-                                                {/*containerStyle={styles.listItemContainer}*/}
-                                                {/*titleStyle={styles.listItemText}*/}
-                                                {/*roundAvatar*/}
-                                                {/*key={i}*/}
-                                                {/*underlayColor={UNDERLAY_COLOR}*/}
-                                                {/*rightIcon={*/}
-                                                    {/*<Icon name='close'*/}
-                                                          {/*type='material-community'*/}
-                                                          {/*color={CHECKMARK_COLOR}*/}
-                                                          {/*onPress={() => this.removeInvitee(invitee)}*/}
-                                                    {/*/>*/}
-                                                {/*}*/}
-                                                {/*{...invitee}*/}
-                                            {/*/>*/}
-                                        {/*))*/}
-                                    {/*}*/}
+                                {/*{*/}
+                                {/*this.state.invitations.value.map((invitee, i) => (*/}
+                                {/*<ListItem*/}
+                                {/*containerStyle={styles.listItemContainer}*/}
+                                {/*titleStyle={styles.listItemText}*/}
+                                {/*roundAvatar*/}
+                                {/*key={i}*/}
+                                {/*underlayColor={UNDERLAY_COLOR}*/}
+                                {/*rightIcon={*/}
+                                {/*<Icon name='close'*/}
+                                {/*type='material-community'*/}
+                                {/*color={CHECKMARK_COLOR}*/}
+                                {/*onPress={() => this.removeInvitee(invitee)}*/}
+                                {/*/>*/}
+                                {/*}*/}
+                                {/*{...invitee}*/}
+                                {/*/>*/}
+                                {/*))*/}
+                                {/*}*/}
                                 {/*</List>*/}
 
                             </View>

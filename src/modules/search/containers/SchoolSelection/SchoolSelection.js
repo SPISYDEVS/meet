@@ -5,10 +5,31 @@ import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 
 import styles from "./styles"
 import Modal from "react-native-modal";
-import Selection from "../Selection/Selection";
+import SingleSelection from "../../components/SingleSelection";
 import {FormLabel, FormValidationMessage} from "react-native-elements";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import {Actions} from 'react-native-router-flux';
 
-class ItemSelector extends Component {
+const schools = [
+    {
+        title: 'UCI',
+        value: 'UCI'
+    },
+    {
+        title: 'UCSD',
+        value: 'UCSD'
+    },
+    {
+        title: 'UCSB',
+        value: 'UCSB'
+    },
+    {
+        title: 'UCLA',
+        value: 'UCLA'
+    },
+];
+
+class SchoolSelection extends Component {
     constructor(props) {
         super(props);
 
@@ -29,31 +50,47 @@ class ItemSelector extends Component {
                         {this.props.value.length > 0 ? this.props.value : this.props.searchHint}
                     </FormLabel>
                 </TouchableOpacity>
+
                 {
                     !!(this.props.error && this.props.error.length > 0) &&
                     <FormValidationMessage>
                         {this.props.error}
                     </FormValidationMessage>
                 }
+
                 <Modal
                     isVisible={this.state.visibleModal}
-                    animationIn="slideInLeft"
-                    animationOut="slideOutRight"
+                    animationIn="slideInUp"
+                    animationOut="slideOutDown"
                     style={styles.modal}
-                    onBackdropPress={() => this.setState({visibleModal: false})}
                 >
-                    <SafeAreaView style={styles.modalContainer}><Selection {...this.props} callback={(value) => this.selectItem(value)}/></SafeAreaView>
+                    <SafeAreaView style={styles.modalContainer}>
+
+                        <BackHeader
+                            leftHeaderButtons={[{
+                                iconName: 'x',
+                                iconType: 'feather',
+                                onPress: () => this.setState({visibleModal: false})
+                            }]}/>
+
+                        <SingleSelection
+                            iconName="university"
+                            iconType="font-awesome"
+                            objList={schools}
+                            {...this.props}
+                            callback={(value) => this.selectItem(value)}
+                        />
+                    </SafeAreaView>
                 </Modal>
             </View>
         );
     }
 }
 
-ItemSelector.propTypes = {
-    objList: PropTypes.array.isRequired,
+SchoolSelection.propTypes = {
     value: PropTypes.string.isRequired,
     searchHint: PropTypes.string,
     callback: PropTypes.func
 };
 
-export default ItemSelector;
+export default SchoolSelection;
