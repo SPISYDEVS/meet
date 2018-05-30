@@ -5,7 +5,7 @@ import {isEmpty} from '../../../auth/utils/validate'
 import TextInput from "../../../common/components/TextInput";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
-import {SafeAreaView, View} from "react-native";
+import {SafeAreaView, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
@@ -85,43 +85,39 @@ class EditProfile extends React.Component {
         const [firstName, lastName, school] = Object.keys(this.fields);
         return (
 
-            <SafeAreaView style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <BackHeader simpleBackChevron/>
-                
-                <View style={formStyles.container}>
-                    <TextInput
-                        {...this.fields[firstName]}
-                        onChangeText={(text) => this.onChange(firstName, text)}
-                        value={this.state[firstName]['value']}
-                        error={this.state.error[firstName]}/>
+                <SafeAreaView style={{flex: 1}}>
 
-                    <TextInput
-                        {...this.fields[lastName]}
-                        onChangeText={(text) => this.onChange(lastName, text)}
-                        value={this.state[lastName]['value']}
-                        error={this.state.error[lastName]}/>
+                    <BackHeader simpleBackChevron/>
 
-                    <SchoolSelection
-                        {...this.fields[school]}
-                        value={this.state[school]['value']}
-                        error={this.state.error[school]}
-                    />
+                    <View style={formStyles.container}>
+                        <TextInput
+                            {...this.fields[firstName]}
+                            onChangeText={(text) => this.onChange(firstName, text)}
+                            value={this.state[firstName]['value']}
+                            error={this.state.error[firstName]}/>
 
-                    {/*<Button*/}
-                    {/*raised*/}
-                    {/*title='Update'*/}
-                    {/*borderRadius={4}*/}
-                    {/*containerViewStyle={formStyles.containerView}*/}
-                    {/*buttonStyle={formStyles.button}*/}
-                    {/*textStyle={formStyles.buttonText}*/}
-                    {/*onPress={this.onSubmit}/>*/}
-                    <RoundedButton
-                        title={'Update'}
-                        onPress={this.onSubmit}/>
+                        <TextInput
+                            {...this.fields[lastName]}
+                            onChangeText={(text) => this.onChange(lastName, text)}
+                            value={this.state[lastName]['value']}
+                            error={this.state.error[lastName]}/>
 
-                </View>
-            </SafeAreaView>
+                        <SchoolSelection
+                            {...this.fields[school]}
+                            value={this.state[school]['value']}
+                            error={this.state.error[school]}
+                        />
+
+                        <RoundedButton
+                            title={'Update'}
+                            onPress={this.onSubmit}/>
+
+                    </View>
+                </SafeAreaView>
+
+            </TouchableWithoutFeedback>
 
         );
     }

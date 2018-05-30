@@ -181,7 +181,7 @@ class Profile extends React.Component {
                                 height={AVATAR_SIZE}
                                 width={AVATAR_SIZE}
                                 rounded
-                                source={{uri: source}}
+                                source={source === '' ? defaultImage : {uri: source}}
                                 onPress={() => this.onProfilePicPressed()}
                                 activeOpacity={0.7}
                             />

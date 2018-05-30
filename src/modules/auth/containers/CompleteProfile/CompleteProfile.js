@@ -7,7 +7,7 @@ import {isEmpty} from '../../utils/validate'
 import TextInput from "../../../common/components/TextInput";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 
-import {View} from "react-native";
+import {Keyboard, TouchableWithoutFeedback, View} from "react-native";
 
 import {createUser} from '../../../../network/firebase/auth/actions';
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
@@ -93,50 +93,43 @@ class CompleteProfile extends React.Component {
 
         return (
 
-            <LinearGradient colors={backgroundGradient}
-                            style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}>
 
-                <BackHeader simpleBackChevron/>
+                    <BackHeader simpleBackChevron/>
 
-                <View style={styles.container}>
+                    <View style={styles.container}>
 
-                    <View style={styles.formInputsContainer}>
+                        <View style={styles.formInputsContainer}>
 
-                        <TextInput
-                            {...this.fields[firstName]}
-                            onChangeText={(text) => this.onChange(firstName, text)}
-                            value={this.state[firstName]['value']}
-                            error={this.state.error[firstName]}/>
+                            <TextInput
+                                {...this.fields[firstName]}
+                                onChangeText={(text) => this.onChange(firstName, text)}
+                                value={this.state[firstName]['value']}
+                                error={this.state.error[firstName]}/>
 
-                        <TextInput
-                            {...this.fields[lastName]}
-                            onChangeText={(text) => this.onChange(lastName, text)}
-                            value={this.state[lastName]['value']}
-                            error={this.state.error[lastName]}/>
+                            <TextInput
+                                {...this.fields[lastName]}
+                                onChangeText={(text) => this.onChange(lastName, text)}
+                                value={this.state[lastName]['value']}
+                                error={this.state.error[lastName]}/>
 
-                        <SchoolSelection
-                            {...this.fields[school]}
-                            value={this.state[school]['value']}
-                            error={this.state.error[school]}
-                        />
+                            <SchoolSelection
+                                {...this.fields[school]}
+                                value={this.state[school]['value']}
+                                error={this.state.error[school]}
+                            />
 
-                    </View>
+                        </View>
 
-                    {/*<Button*/}
-                        {/*raised*/}
-                        {/*title='Complete'*/}
-                        {/*borderRadius={4}*/}
-                        {/*containerViewStyle={styles.containerView}*/}
-                        {/*buttonStyle={styles.button}*/}
-                        {/*textStyle={styles.buttonText}*/}
-                        {/*onPress={this.onSubmit}/>*/}
                         <RoundedButton
                             title={'Complete'}
                             onPress={this.onSubmit}/>
 
-                </View>
-            </LinearGradient>
-
+                    </View>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
         );
     }
 }
