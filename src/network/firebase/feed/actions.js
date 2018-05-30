@@ -11,6 +11,10 @@ export function fetchFeed(location, successCB, errorCB) {
         api.fetchFeed(location, function (success, data, error) {
             if (success) {
 
+                if(data === undefined){
+                    successCB();
+                }
+
                 dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
                 dispatch({type: peopleT.USERS_FETCHED, data: data.hosts});
                 successCB();

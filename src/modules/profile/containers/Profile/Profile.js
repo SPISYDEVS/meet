@@ -173,22 +173,25 @@ class Profile extends React.Component {
             <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader {...headerProps}/>
+                <View style={styles.container}>
 
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoContent}>
-                        <Avatar
-                            height={AVATAR_SIZE}
-                            width={AVATAR_SIZE}
-                            rounded
-                            source={{uri: source}}
-                            onPress={() => this.onProfilePicPressed()}
-                            activeOpacity={0.7}
-                        />
-                        <View style={styles.detailsContainer}>
-                            <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
-                            <Text style={styles.school}>{user.school}</Text>
+                    <View style={styles.infoContainer}>
+                        <View style={styles.infoContent}>
+                            <Avatar
+                                height={AVATAR_SIZE}
+                                width={AVATAR_SIZE}
+                                rounded
+                                source={{uri: source}}
+                                onPress={() => this.onProfilePicPressed()}
+                                activeOpacity={0.7}
+                            />
+                            <View style={styles.detailsContainer}>
+                                <Text style={styles.username}>{user.firstName + " " + user.lastName}</Text>
+                                <Text style={styles.school}>{user.school}</Text>
+                            </View>
                         </View>
                     </View>
+
                     <View style={styles.body}>
                         <TabButtons buttons={this.state.buttons}/>
 
@@ -206,7 +209,6 @@ class Profile extends React.Component {
             </SafeAreaView>
         );
     }
-
 
 }
 

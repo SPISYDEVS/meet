@@ -77,7 +77,7 @@ class Welcome extends React.Component {
 
 
     onSuccess = () => {
-        Actions.Main();
+        Actions.reset('Main');
     };
 
     componentDidMount() {
