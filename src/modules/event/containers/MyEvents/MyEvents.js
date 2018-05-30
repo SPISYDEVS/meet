@@ -119,13 +119,13 @@ class MyEvents extends Component {
 
                     {hasNoEventsAsHost &&
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>There aren't any events yet!</Text>
+                        <Text style={styles.emptyText}>There's nothing here yet. Try creating an event!</Text>
                     </View>
                     }
 
                     {hasNoEventsAsAttendee &&
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>There aren't any events yet!</Text>
+                        <Text style={styles.emptyText}>There's nothing here yet. Find an event to go to!</Text>
                     </View>
                     }
                     <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>
