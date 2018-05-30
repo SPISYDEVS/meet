@@ -23,6 +23,7 @@ class Feed extends React.Component {
         this.state = {
             dataLoaded: false,
             scrollY: new Animated.Value(0),
+            notification: {}
         }
     }
 
@@ -34,7 +35,16 @@ class Feed extends React.Component {
                 this.fetchFeed()
             });
         }
+
+        this._notificationSubscription = Notifications.addListener(this._handleNotification);
     };
+
+
+    _handleNotification = (notification) => {
+        console.log(JSON.stringify(notification.data));
+        this.setState({notification: notification});
+    };
+
 
     _getLocationAsync = async () => {
 
@@ -134,7 +144,6 @@ class Feed extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-
                 {!hasEvents &&
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>There aren't any events yet!</Text>
