@@ -8,7 +8,7 @@ import {confirmPassword, isEmpty} from '../../utils/validate'
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
 import TextInput from "../../../common/components/TextInput/TextInput";
-import {Text, View} from "react-native";
+import {Text, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import Button from "react-native-elements/src/buttons/Button";
 
 import {register} from '../../../../network/firebase/auth/actions';
@@ -97,38 +97,40 @@ class Register extends React.Component {
         const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient7];
 
         return (
-            <LinearGradient colors={backgroundGradient}
-                            style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <BackHeader simpleBackX/>
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}>
 
-                <View style={styles.container}>
+                    <BackHeader simpleBackX/>
 
-                    {
-                        (!isEmpty(this.state.error['general'])) &&
-                        <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
-                    }
-                    <View style={styles.formInputsContainer}>
+                    <View style={styles.container}>
 
-                        <TextInput
-                            {...this.fields[email]}
-                            onChangeText={(text) => this.onChange(email, text)}
-                            value={this.state[email]['value']}
-                            error={this.state.error[email]}/>
+                        {
+                            (!isEmpty(this.state.error['general'])) &&
+                            <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
+                        }
+                        <View style={styles.formInputsContainer}>
 
-                        <TextInput
-                            {...this.fields[password]}
-                            onChangeText={(text) => this.onChange(password, text)}
-                            value={this.state[password]['value']}
-                            error={this.state.error[password]}/>
+                            <TextInput
+                                {...this.fields[email]}
+                                onChangeText={(text) => this.onChange(email, text)}
+                                value={this.state[email]['value']}
+                                error={this.state.error[email]}/>
 
-                        <TextInput
-                            {...this.fields[confirmPassword]}
-                            onChangeText={(text) => this.onChange(confirmPassword, text)}
-                            value={this.state[confirmPassword]['value']}
-                            error={this.state.error[confirmPassword]}/>
-                    </View>
-                    {/*<Button*/}
+                            <TextInput
+                                {...this.fields[password]}
+                                onChangeText={(text) => this.onChange(password, text)}
+                                value={this.state[password]['value']}
+                                error={this.state.error[password]}/>
+
+                            <TextInput
+                                {...this.fields[confirmPassword]}
+                                onChangeText={(text) => this.onChange(confirmPassword, text)}
+                                value={this.state[confirmPassword]['value']}
+                                error={this.state.error[confirmPassword]}/>
+                        </View>
+                        {/*<Button*/}
                         {/*raised*/}
                         {/*title='Complete'*/}
                         {/*borderRadius={4}*/}
@@ -140,8 +142,9 @@ class Register extends React.Component {
                             title={'Complete'}
                             onPress={this.onSubmit}/>
 
-                </View>
-            </LinearGradient>
+                    </View>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
         );
     }
 }

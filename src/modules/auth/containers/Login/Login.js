@@ -7,7 +7,7 @@ import {isEmpty} from '../../utils/validate';
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 import formStyles from "../../../../styles/formStyles";
 import Button from "react-native-elements/src/buttons/Button";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Text, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import TextInput from "../../../common/components/TextInput/TextInput";
 
 import {login} from '../../../../network/firebase/auth/actions';
@@ -99,44 +99,47 @@ class Login extends React.Component {
         const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient7];
 
         return (
-            <LinearGradient colors={backgroundGradient}
-                            style={{flex: 1}}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <BackHeader simpleBackX/>
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}>
 
-                <View style={styles.container}>
+                    <BackHeader simpleBackX/>
 
-                    {
-                        (!isEmpty(this.state.error['general'])) &&
-                        <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
-                    }
+                    <View style={styles.container}>
 
-                    <View style={styles.formInputsContainer}>
-                        <TextInput
-                            {...this.fields[email]}
-                            onChangeText={(text) => this.onChange(email, text)}
-                            value={this.state[email]['value']}
-                            error={this.state.error[email]}/>
+                        {
+                            (!isEmpty(this.state.error['general'])) &&
+                            <Text style={formStyles.errorText}>{this.state.error['general']}</Text>
+                        }
 
-                        <TextInput
-                            {...this.fields[password]}
-                            onChangeText={(text) => this.onChange(password, text)}
-                            value={this.state[password]['value']}
-                            error={this.state.error[password]}/>
+                        <View style={styles.formInputsContainer}>
+                            <TextInput
+                                {...this.fields[email]}
+                                onChangeText={(text) => this.onChange(email, text)}
+                                value={this.state[email]['value']}
+                                error={this.state.error[email]}/>
+
+                            <TextInput
+                                {...this.fields[password]}
+                                onChangeText={(text) => this.onChange(password, text)}
+                                value={this.state[password]['value']}
+                                error={this.state.error[password]}/>
+                        </View>
+
+                        <RoundedButton
+                            title={'Sign In'}
+                            onPress={this.onSubmit}/>
+
+
+                        <TouchableOpacity
+                            onPress={this.onForgotPassword}>
+                            <Text style={styles.forgotText}>Forgot Password?</Text>
+                        </TouchableOpacity>
+
                     </View>
-
-                    <RoundedButton
-                        title={'Sign In'}
-                        onPress={this.onSubmit}/>
-
-
-                    <TouchableOpacity
-                        onPress={this.onForgotPassword}>
-                        <Text style={styles.forgotText}>Forgot Password?</Text>
-                    </TouchableOpacity>
-
-                </View>
-            </LinearGradient>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
         );
     }
 }
