@@ -14,3 +14,17 @@ export function savePushToken(userId, token, successCB, errorCB) {
         })
     };
 }
+
+
+export function sendPushNotification(userIds, title, body, successCB, errorCB) {
+    return (dispatch) => {
+        api.sendPushNotification(userIds, title, body, function(success, data, error) {
+            if (success) {
+                successCB(data);
+            }
+            else if (error) {
+                errorCB(error);
+            }
+        })
+    };
+}

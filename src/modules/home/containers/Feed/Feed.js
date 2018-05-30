@@ -196,7 +196,7 @@ const actions = {
     signOut,
     fetchUsers,
     persistCurrentUser,
-    savePushToken
+    savePushToken,
 };
 
 export default connect(mapStateToProps, actions)(Feed);
