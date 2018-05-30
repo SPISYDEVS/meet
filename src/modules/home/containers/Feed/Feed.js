@@ -1,11 +1,13 @@
 import React from 'react';
-import {Constants, Location, Permissions} from 'expo';
+import {Constants, Location, Permissions, Notifications} from 'expo';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 import {ActivityIndicator, Animated, Platform, SafeAreaView, Text, View} from "react-native";
 
+import {auth as firebaseAuth} from "../../../../config/firebase";
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
+import {savePushToken} from '../../../../network/firebase/pushnotifications/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventListView from "../../../event/components/EventListView/EventListView";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
@@ -59,6 +61,39 @@ class Feed extends React.Component {
         })
     };
 
+
+    async getNotificationPerm() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+
+        if (finalStatus !== 'granted') {
+            return;
+        }
+        let token = await Notifications.getExpoPushTokenAsync();
+        // Token is of the form ExponentPushToken[<token value>]
+        // We need to strip only the token value because we cannot store '[' and ']' as keys in firebase
+        let leftBracketIndex = token.indexOf('[');
+        let rightBracketIndex = token.indexOf(']');
+        token = token.slice(leftBracketIndex + 1, rightBracketIndex);
+
+        let userId = firebaseAuth.currentUser.uid;
+        this.props.savePushToken(userId, token, (data) => {
+            console.log(data);
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+
     render() {
 
         if (!this.state.dataLoaded) {
@@ -66,6 +101,9 @@ class Feed extends React.Component {
                 <ActivityIndicator animating color='white' size="large"/>
             </View>
         }
+
+        // Save push notification token in firebase
+        this.getNotificationPerm();
 
         const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;
@@ -148,7 +186,8 @@ const actions = {
     updateLocation,
     signOut,
     fetchUsers,
-    persistCurrentUser
+    persistCurrentUser,
+    savePushToken
 };
 
 export default connect(mapStateToProps, actions)(Feed);
