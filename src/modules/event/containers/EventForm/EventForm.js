@@ -13,7 +13,6 @@ import moment from "moment";
 import DatePicker from "../../../common/components/DatePicker/DatePicker";
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
 import TextInput from "../../../common/components/TextInput/TextInput";
-import Button from "react-native-elements/src/buttons/Button";
 import formStyles from "../../../../styles/formStyles";
 import Modal from "react-native-modal";
 import PlacePicker from "../../components/PlacePicker/PlacePicker";
@@ -192,6 +191,21 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    completeLocationModal = (data) => {
+        const state = {...this.state};
+
+        state['location']['other']['modalVisible'] = false;
+
+        const location = data.location;
+        const address = data.address;
+
+        state['location']['value'] = location;
+        state['error']['location'] = '';
+        state['location']['other']['address'] = address;
+
+        this.setState(state);
+    };
+
     openInvitationsModal = () => {
         const state = {...this.state};
         state['invitations']['other']['modalVisible'] = true;
@@ -202,21 +216,6 @@ class EventForm extends React.Component {
         const state = {...this.state};
         state['invitations']['other']['modalVisible'] = false;
         this.setState(state);
-    };
-
-    onLocationChange = (data) => {
-
-        const state = {...this.state};
-
-        const location = data.location;
-        const address = data.address;
-
-        state['location']['value'] = location;
-        state['error']['location'] = '';
-        state['location']['other']['address'] = address;
-
-        this.setState(state);
-
     };
 
     onStartDateChange = (newDate) => {
@@ -386,21 +385,14 @@ class EventForm extends React.Component {
                                             leftHeaderButtons={[{
                                                 iconName: 'x',
                                                 iconType: 'feather',
-                                                onPress: () => this.setState({visibleModal: false})
+                                                onPress: () => this.closeLocationModal()
                                             }]}/>
                                         <PlacePicker
                                             location={this.state[location]['value'] !== '' ? this.state[location]['value'] : this.props.userLocation}
-                                            onLocationChange={this.onLocationChange}
-                                            options={this.form.options}/>
-                                        <Button
-                                            raised
-                                            title='Complete'
-                                            borderRadius={4}
-                                            containerViewStyle={formStyles.containerView}
-                                            buttonStyle={formStyles.button}
-                                            textStyle={formStyles.buttonText}
-                                            onPress={() => this.closeLocationModal()}
+                                            options={this.form.options}
+                                            finish={this.completeLocationModal}
                                         />
+
                                     </SafeAreaView>
                                 </Modal>
 

@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import {Text, View, TouchableOpacity, SafeAreaView} from 'react-native';
 
 import styles, {autocompleteStyles} from "./styles"
-import {Avatar, Icon} from "react-native-elements";
+import {Avatar, Icon, Button} from "react-native-elements";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import {MapView} from "expo";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
+import formStyles from "../../../../styles/formStyles";
 
 class PlacePicker extends React.Component {
     constructor(props) {
@@ -17,19 +18,18 @@ class PlacePicker extends React.Component {
                 ...this.props.location,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01
-            }
+            },
+            address: '',
         }
     }
 
     onRegionChange = (region) => {
-        this.setState({region: region});
-
         //make a get request (we want to reverse geolookup an address given a latlng)
         //we then update the state with the returned value
         reverseGeocode(region.latitude, region.longitude, (address) => {
             this.autocomplete.setAddressText(address);
-            this.props.onLocationChange({
-                location: {latitude: region.latitude, longitude: region.longitude},
+            this.setState({
+                region: region,
                 address: address
             });
         }, (err) => {
@@ -37,6 +37,14 @@ class PlacePicker extends React.Component {
         });
     };
 
+    onFinish = () => {
+        this.props.finish(
+            {
+                location: {latitude: this.state.region.latitude, longitude: this.state.region.longitude},
+                address: this.state.address
+            }
+        )
+    };
 
     render() {
 
@@ -75,6 +83,16 @@ class PlacePicker extends React.Component {
                         <Icon type="material-community" style={styles.marker} size={40} name="map-marker"/>
                     </View>
                 </View>
+
+                <Button
+                    raised
+                    title='Complete'
+                    borderRadius={4}
+                    containerViewStyle={formStyles.containerView}
+                    buttonStyle={formStyles.button}
+                    textStyle={formStyles.buttonText}
+                    onPress={() => this.onFinish()}
+                />
             </SafeAreaView>
         );
     }
@@ -82,8 +100,8 @@ class PlacePicker extends React.Component {
 
 PlacePicker.propTypes = {
     location: PropTypes.object.isRequired,
-    onLocationChange: PropTypes.func.isRequired,
-    options: PropTypes.object
+    options: PropTypes.object,
+    finish: PropTypes.func
 };
 
 PlacePicker.defaultProps = {
@@ -100,6 +118,8 @@ PlacePicker.defaultProps = {
         currentLocation: true, // Will add a 'Current location' button at the top of the predefined places list
         currentLocationLabel: "Current location",
     },
+    finish: () => {
+    }
 };
 
 export default PlacePicker;

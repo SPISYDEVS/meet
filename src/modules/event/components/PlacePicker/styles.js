@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
 const  { color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight } = theme;
@@ -41,14 +41,17 @@ export const autocompleteStyles = {
     listView: {
         position: 'absolute',
         top: 52,
-        // left: 10,
-        // right: 10,
         backgroundColor: color.background,
-        // borderRadius: 5,
         flex: 1,
-        // elevation: 3,
         maxHeight: 300,
-        zIndex: 10
+        ...Platform.select({
+            ios: {
+                zIndex: 10,
+            },
+            android: {
+                elevation: 10,
+            },
+        }),
     },
     description: {
         color: color.text
