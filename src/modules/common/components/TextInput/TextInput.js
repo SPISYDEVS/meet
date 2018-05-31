@@ -53,7 +53,7 @@ TextInput.propTypes = {
     secureTextEntry: PropTypes.bool,
     value: PropTypes.string,
     error: PropTypes.string,
-    inputStyle: PropTypes.obj,
+    inputStyle: PropTypes.object,
 };
 
 TextInput.defaultProps = {

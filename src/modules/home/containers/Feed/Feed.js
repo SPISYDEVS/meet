@@ -36,7 +36,7 @@ class Feed extends React.Component {
 
     _getLocationAsync = async () => {
 
-        if(!this.props.feedReducer.locFetched){
+        if(this.props.feedReducer.locFetched){
             let location = await Location.getCurrentPositionAsync({});
 
             const lat = location.coords.latitude;
