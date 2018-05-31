@@ -1,4 +1,7 @@
 import {database} from "../../../config/firebase";
+import {SERVER_URL} from "../../../config/constants";
+import axios from 'axios';
+import querystring from 'querystring';
 
 
 export function createPushToken(userId, token, callback) {
@@ -7,6 +10,21 @@ export function createPushToken(userId, token, callback) {
     }).then(() => {
         callback(true, token, null);
     }).catch(error => {
+        callback(false, null, {message: error});
+    })
+}
+
+
+export function sendPushNotification(userIds, title, body, callback) {
+    axios.post(SERVER_URL + 'api/push/send', querystring.stringify({
+            'userIds': userIds,
+            'title': title,
+            'body': body
+    }))
+        .then(response => {
+        callback(true, response, null);
+    })
+        .catch(error => {
         callback(false, null, {message: error});
     })
 }
