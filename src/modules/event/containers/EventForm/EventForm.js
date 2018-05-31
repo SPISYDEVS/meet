@@ -167,7 +167,9 @@ class EventForm extends React.Component {
         const currentUser = this.props.currentUser;
         const name = currentUser.firstName + " " + currentUser.lastName;
 
-        this.props.sendPushNotification(this.state['invitations']['value'],
+        const inviteeIds = this.state['invitations']['value'].map(invitee => invitee.id);
+
+        this.props.sendPushNotification(inviteeIds,
             "Event Invitation!",
             name + " is inviting you to the event " + this.state['title']['value'],
             () => {},
