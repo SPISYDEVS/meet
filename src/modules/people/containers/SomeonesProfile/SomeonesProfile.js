@@ -17,6 +17,7 @@ import {AVATAR_SIZE} from "../../../profile/constants";
 import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+import {sendPushNotification} from "../../../../network/firebase/pushnotifications/actions";
 
 const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
@@ -26,7 +27,8 @@ class SomeonesProfile extends React.Component {
 
         this.state = {
             mVisible: false,
-        }
+        };
+
         this.handleFriends = this.handleFriends.bind(this);
     }
 
@@ -39,10 +41,23 @@ class SomeonesProfile extends React.Component {
 
         }
 
+
         else {
+
             this.props.sendFriendRequest(this.props.userId, () => {
-            }, () => {
-            });
+
+                const currentUser = this.props.currentUser;
+                const name = currentUser.firstName + " " + currentUser.lastName;
+
+                this.props.sendPushNotification([this.props.userId],
+                    "Friend Request!",
+                    name + " wants to be friends",
+                    () => {},
+                    (err) => console.log(err)
+                );
+
+            }, (err) => console.log(err));
+
         }
 
     }
@@ -90,7 +105,7 @@ class SomeonesProfile extends React.Component {
         }
 
         return (
-            <SafeAreaView style={{flex:1}}>
+            <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader simpleBackChevron/>
                 <View style={styles.container}>
@@ -160,7 +175,8 @@ const mapStateToProps = (state) => {
 const actions = {
     fetchUsers,
     sendFriendRequest,
-    revokeFriendship
+    revokeFriendship,
+    sendPushNotification
 };
 
 SomeonesProfile.propTypes = {

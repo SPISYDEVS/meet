@@ -2,7 +2,8 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import {SafeAreaView, View} from "react-native";
-import {Location, Permissions} from 'expo';
+import {Location, Permissions, Notifications} from 'expo';
+import {auth as firebaseAuth} from "../../../../config/firebase";
 
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import styles from "./styles";
@@ -13,12 +14,14 @@ import {updateLocation} from "../../../../network/firebase/feed/actions";
 import haversine from "haversine";
 import {checkInToEvent, fetchEvents} from "../../../../network/firebase/event/actions";
 import moment from "moment";
+import {savePushToken} from "../../../../network/firebase/pushnotifications/actions";
 
 class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             searchMode: false,
+            notification: {}
         }
     }
 
@@ -28,11 +31,54 @@ class HomeScreen extends React.Component {
 
     componentDidMount() {
         // this.props.signOut();
+
+        // Save push notification token in firebase
+        Notifications.addListener(this._handleNotification);
+
+        this.getNotificationPerm();
+
         this.props.persistCurrentUser(() => {
             this.initializeCheckInFunctionality();
         }, () => {
         });
 
+    }
+
+    _handleNotification = (notification) => {
+        console.log(JSON.stringify(notification.data));
+        this.setState({notification: notification});
+    };
+
+    async getNotificationPerm() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== 'granted') {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+
+        if (finalStatus !== 'granted') {
+            return;
+        }
+
+        let token = await Notifications.getExpoPushTokenAsync();
+        // Token is of the form ExponentPushToken[<token value>]
+        // We need to strip only the token value because we cannot store '[' and ']' as keys in firebase
+        let leftBracketIndex = token.indexOf('[');
+        let rightBracketIndex = token.indexOf(']');
+        token = token.slice(leftBracketIndex + 1, rightBracketIndex);
+
+        let userId = firebaseAuth.currentUser.uid;
+        this.props.savePushToken(userId, token, (data) => {
+            console.log(data);
+        }, (error) => {
+            console.log(error);
+        });
     }
 
     initializeCheckInFunctionality = () => {
@@ -178,6 +224,7 @@ const actions = {
     updateLocation,
     checkInToEvent,
     fetchEvents,
+    savePushToken,
 };
 
 export default connect(mapStateToProps, actions)(HomeScreen);

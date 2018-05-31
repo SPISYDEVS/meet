@@ -47,7 +47,7 @@ class UserListItem extends React.PureComponent {
 }
 
 UserListItem.propTypes = {
-    sizeModifier: PropTypes.float
+    sizeModifier: PropTypes.number
 };
 
 UserListItem.defaultProps = {

@@ -30,6 +30,7 @@ import {fetchBackgroundGradient} from "../../utils/index";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
+import {sendPushNotification} from "../../../../network/firebase/pushnotifications/actions";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -162,6 +163,17 @@ class EventForm extends React.Component {
     };
 
     onSuccess() {
+
+        const currentUser = this.props.currentUser;
+        const name = currentUser.firstName + " " + currentUser.lastName;
+
+        this.props.sendPushNotification(this.state['invitations']['value'],
+            "Event Invitation!",
+            name + " is inviting you to the event " + this.state['title']['value'],
+            () => {},
+            (err) => console.log(err)
+        );
+
         Actions.pop();
     };
 
@@ -412,7 +424,7 @@ class EventForm extends React.Component {
                                     <TouchableOpacity style={styles.invitationsContainer}
                                                       onPress={() => this.openInvitationsModal()}>
                                         <Icon type='feather' name='plus' color={color.text}/>
-                                        <Text style={styles.text}>Invite People</Text>
+                                        <Text style={styles.text}>Invite Friends</Text>
                                     </TouchableOpacity>
                                 </View>
 
@@ -438,28 +450,6 @@ class EventForm extends React.Component {
                                     keyExtractor={(invitee) => invitee.id}
                                     initialNumToRender={5}
                                 />
-
-                                {/*<List>*/}
-                                {/*{*/}
-                                {/*this.state.invitations.value.map((invitee, i) => (*/}
-                                {/*<ListItem*/}
-                                {/*containerStyle={styles.listItemContainer}*/}
-                                {/*titleStyle={styles.listItemText}*/}
-                                {/*roundAvatar*/}
-                                {/*key={i}*/}
-                                {/*underlayColor={UNDERLAY_COLOR}*/}
-                                {/*rightIcon={*/}
-                                {/*<Icon name='close'*/}
-                                {/*type='material-community'*/}
-                                {/*color={CHECKMARK_COLOR}*/}
-                                {/*onPress={() => this.removeInvitee(invitee)}*/}
-                                {/*/>*/}
-                                {/*}*/}
-                                {/*{...invitee}*/}
-                                {/*/>*/}
-                                {/*))*/}
-                                {/*}*/}
-                                {/*</List>*/}
 
                             </View>
 
@@ -506,7 +496,8 @@ const mapStateToProps = (state) => {
 
 const actions = {
     createEvent,
-    editEvent
+    editEvent,
+    sendPushNotification
 };
 
 export default connect(mapStateToProps, actions)(EventForm);
