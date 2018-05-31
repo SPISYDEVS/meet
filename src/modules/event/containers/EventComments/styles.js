@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
+import {ifIphoneX} from "react-native-iphone-x-helper";
 
 const {color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight} = theme;
 
@@ -56,7 +57,11 @@ const styles = StyleSheet.create({
     },
     commentInputContainer: {
         paddingHorizontal: padding.horizontal * 1.5,
-        paddingVertical: padding.vertical * 1.5,
+        ...ifIphoneX({
+            paddingVertical: padding.vertical * 2.5,
+        }, {
+            paddingVertical: padding.vertical * 1.5,
+        }),
         // backgroundColor: color.black,
     },
     commentInput: {

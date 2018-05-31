@@ -117,7 +117,7 @@ class MultiSelection extends Component {
                 </View>
                 {
                     Object.values(this.state.selectedItems).length !== 0 &&
-                    <SafeAreaView style={styles.bottomBar}>
+                    <View style={styles.bottomBar}>
                         <View style={styles.profileScrollView}>
                             <FlatList
                                 data={Object.values(this.state.selectedItems)}
@@ -133,7 +133,7 @@ class MultiSelection extends Component {
                                 <Text style={styles.addButtonText}>Add</Text>
                             </TouchableOpacity>
                         </View>
-                    </SafeAreaView>
+                    </View>
                 }
             </SafeAreaView>
         );

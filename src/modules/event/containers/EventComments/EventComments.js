@@ -142,7 +142,9 @@ class EventComments extends React.Component {
                             </View>
                         </View>
                     </SafeAreaView>
-                    <KeyboardAvoidingView>
+                    <KeyboardAvoidingView
+                        behavior="padding"
+                    >
                         <View style={styles.commentInputContainer}>
                             <View style={styles.commentInput}>
                                 <TextInput placeholder="Add a comment..."
@@ -187,7 +189,9 @@ class EventComments extends React.Component {
 
                     </SafeAreaView>
 
-                    <KeyboardAvoidingView>
+                    <KeyboardAvoidingView
+                        behavior="padding"
+                    >
                         <View style={styles.commentInputContainer}>
                             <View style={styles.commentInput}>
                                 <TextInput placeholder="Add a comment..."

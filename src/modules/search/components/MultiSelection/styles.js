@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 import * as theme from '../../../../styles/theme';
-
 const {color, windowWidth, padding, fontSize, fontFamily, normalize} = theme;
 
 const styles = StyleSheet.create({
@@ -43,8 +43,13 @@ const styles = StyleSheet.create({
     },
     bottomBar: {
         backgroundColor: color.black,
-        maxHeight: 50,
         flexDirection: 'row',
+        ...ifIphoneX({
+            height: 70,
+            paddingBottom: 20,
+        }, {
+            maxHeight: 50,
+        }),
     },
     addButton: {
         flex: 1,
