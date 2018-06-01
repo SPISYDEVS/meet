@@ -27,6 +27,7 @@ import Feed from "../modules/home/containers/Feed";
 import EditProfile from "../modules/profile/containers/EditProfile/EditProfile";
 import Search from "../modules/home/components/Search/Search";
 import EventDetails from "../modules/event/containers/EventDetails/EventDetails";
+import TagDetails from "../modules/home/containers/TagDetails/TagDetails";
 import SomeonesProfile from "../modules/people/containers/SomeonesProfile/SomeonesProfile";
 import EventSearch from "../modules/home/containers/ExploreSearch/ExploreSearch";
 import Settings from "../modules/profile/containers/Settings/Settings";
@@ -106,6 +107,13 @@ export default class extends React.Component {
                            title={null}
                            hideNavBar
                            component={EventDetails}
+                           type={ActionConst.REPLACE}/>
+
+                    <Scene key="TagDetails"
+                           clone
+                           title={null}
+                           hideNavBar
+                           component={TagDetails}
                            type={ActionConst.REPLACE}/>
 
                     <Scene key="EditEvent"
