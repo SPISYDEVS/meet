@@ -1,18 +1,22 @@
 import {Platform, StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
+import {ifIphoneX} from "react-native-iphone-x-helper";
 const  { color, padding, windowWidth, normalize, fontSize, fontFamily, lineHeight } = theme;
 
 const styles = StyleSheet.create({
+    container:{
+      flex: 1,
+    },
     markerContainer:{
         position: 'absolute',
         flex: 1,
         top: 0,
-        bottom: 20,
         left: 0,
         right: 0,
         alignItems: 'center',
         justifyContent: 'center',
+        bottom: 20,
     },
     marker: {
         height: 40,

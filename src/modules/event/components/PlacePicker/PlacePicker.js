@@ -9,6 +9,7 @@ import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete"
 import {MapView} from "expo";
 import {reverseGeocode} from "../../../../network/googleapi/GoogleMapsAPI";
 import formStyles from "../../../../styles/formStyles";
+import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 
 class PlacePicker extends React.Component {
     constructor(props) {
@@ -84,15 +85,15 @@ class PlacePicker extends React.Component {
                     </View>
                 </View>
 
-                <Button
-                    raised
-                    title='Complete'
-                    borderRadius={4}
-                    containerViewStyle={formStyles.containerView}
-                    buttonStyle={formStyles.button}
-                    textStyle={formStyles.buttonText}
-                    onPress={() => this.onFinish()}
-                />
+                <RoundedButton title={'Complete'} onPress={() => this.onFinish()}/>
+                {/*<Button*/}
+                    {/*raised*/}
+                    {/*title='Complete'*/}
+                    {/*borderRadius={4}*/}
+                    {/*containerViewStyle={formStyles.containerView}*/}
+                    {/*buttonStyle={formStyles.button}*/}
+                    {/*textStyle={formStyles.buttonText}*/}
+                {/*/>*/}
             </SafeAreaView>
         );
     }

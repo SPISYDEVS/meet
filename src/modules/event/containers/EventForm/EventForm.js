@@ -493,15 +493,12 @@ class EventForm extends React.Component {
                                 <View style={styles.tagContainer}>
 
                                     <ScrollView horizontal>
-
                                         {
                                             this.state[tags]['value'].map(tag => {
                                                 return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
                                                             onPress={() => this.removeTag(tag)}/>
                                             })
                                         }
-
-
                                     </ScrollView>
 
                                 </View>

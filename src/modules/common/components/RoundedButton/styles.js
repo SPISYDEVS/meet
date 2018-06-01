@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 import * as theme from '../../../../styles/theme';
+import {ifIphoneX} from "react-native-iphone-x-helper";
 
 const {windowWidth, color, fontSize, fontFamily, normalize, padding} = theme;
 
@@ -16,9 +17,13 @@ const styles = StyleSheet.create({
     buttonContainer: {
         height: normalize(55),
         borderRadius: 50,
-        marginTop: 0,
-        marginBottom: padding.vertical * 3,
         marginHorizontal: 0,
+        marginTop: padding.vertical * 2,
+        ...ifIphoneX({
+            marginBottom: padding.vertical * 4,
+        }, {
+            marginBottom: padding.vertical * 2,
+        }),
     },
 
     button: {

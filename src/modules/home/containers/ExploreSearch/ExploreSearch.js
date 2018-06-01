@@ -6,10 +6,11 @@ import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
 import {connect} from "react-redux";
 import {search, searchEvents, searchUsers} from "../../../../network/firebase/user/actions";
-import UserListItem from "../../../people/components/UserListItem/UserListItem";
+import UserListItem from "../../../people/components/UserListItem";
 import PropTypes from "prop-types";
 import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
-import EventListItem from "../../../event/components/EventListItem/EventListItem";
+import EventListItem from "../../../event/components/EventListItem";
+import TagListItem from "../../components/TagListItem";
 
 
 class ExploreSearch extends Component {
@@ -20,35 +21,42 @@ class ExploreSearch extends Component {
                 selectedValue: '',
                 searchValue: '',
                 userResult: null,
-                eventResult: null
+                eventResult: null,
+                tagResult: null,
             }
     }
-
-    handleItemSelect = (value) => {
-        this.setState({value: value});
-    };
 
     handleSearch = () => {
 
         this.props.search(this.state.searchValue, (data) => {
 
+            console.log(data);
+
             let userResult = null;
             if (data.users) {
-                let userResult = Object.keys(data.users);
+                userResult = Object.keys(data.users);
                 if (userResult.length === 0) {
                     userResult = null;
                 }
             }
 
             let eventResult = null;
-            if (data.event) {
-                let eventResult = Object.keys(data.events);
+            if (data.events) {
+                eventResult = Object.keys(data.events);
                 if (eventResult.length === 0) {
                     eventResult = null;
                 }
             }
 
-            this.setState({eventResult: eventResult, userResult: userResult});
+            let tagResult = null;
+            if (data.tags) {
+                tagResult = Object.keys(data.tags);
+                if (tagResult.length === 0) {
+                    tagResult = null;
+                }
+            }
+
+            this.setState({eventResult: eventResult, userResult: userResult, tagResult: tagResult});
 
         }, (err) => console.log(err));
 
@@ -62,6 +70,11 @@ class ExploreSearch extends Component {
     renderEvent = (item) => {
         const eventId = item.item;
         return <EventListItem eventId={eventId}/>
+    };
+
+    renderTag = (item) => {
+        const tag = item.item;
+        return <TagListItem tag={tag}/>
     };
 
     _renderTabIndicator = () => {
@@ -148,9 +161,9 @@ class ExploreSearch extends Component {
                     <View style={styles.resultsContainer}>
 
                         <FlatList
-                            data={this.state.userResult}
-                            renderItem={(item) => this.renderUser(item)}
-                            keyExtractor={(userId) => userId}
+                            data={this.state.tagResult}
+                            renderItem={(item) => this.renderTag(item)}
+                            keyExtractor={(tag) => tag}
                         />
 
                     </View>
