@@ -10,7 +10,7 @@ export function updateTagWithEvent(tag, eventId, callback) {
         callback(true, tag, null);
     }).catch(error => {
         callback(false, null, {message: error});
-    })
+    });
 }
 
 

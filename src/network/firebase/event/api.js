@@ -59,7 +59,7 @@ export function editEvent(event, eventId, callback) {
 
         //update tags in schema to include event
         Object.keys(event.tags).forEach(tag => {
-            updates['/tags/' + tag + '/' + eventId] = true;
+            updates['/tags/' + tag + '/events/' + eventId] = true;
         });
 
         updates['/events/' + eventId] = event;

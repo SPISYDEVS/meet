@@ -16,7 +16,7 @@ class Tag extends Component {
             <TouchableOpacity style={[styles.containerView, styles.buttonContainer]}
                               onPress={this.props.onPress}>
                 <Text style={[styles.buttonText, {color: this.props.textColor}]}>
-                    {this.props.title}
+                    {'#' + this.props.title}
                 </Text>
                 {
                     this.props.editMode &&

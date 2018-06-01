@@ -81,7 +81,7 @@ class EventDetails extends React.Component {
 
         //navigates to the edit event screen, passing the event data to the form
         const event = this.props.eventReducer.byId[this.props.eventId];
-        let {title, startDate, endDate, location, address, description, hostId, invitations} = event;
+        let {title, startDate, endDate, location, tags, address, description, hostId, invitations} = event;
 
         let invitees = invitations ? Object.keys(invitations) : [];
 
@@ -90,6 +90,7 @@ class EventDetails extends React.Component {
 
         Actions.push('EditEvent', {
             editMode: true,
+            tags: Object.keys(tags),
             title: title,
             startDate: startDate,
             endDate: endDate,
