@@ -17,7 +17,7 @@ export function fetchFeed(location, successCB, errorCB) {
 
                 dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
                 dispatch({type: peopleT.USERS_FETCHED, data: data.hosts});
-                successCB();
+                successCB(data);
 
             } else if (error) errorCB(error)
         });

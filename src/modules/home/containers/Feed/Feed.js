@@ -20,6 +20,7 @@ class Feed extends React.Component {
         this.state = {
             dataLoaded: false,
             scrollY: new Animated.Value(0),
+            eventIds: []
         }
     }
 
@@ -52,8 +53,11 @@ class Feed extends React.Component {
         const location = this.props.feedReducer.location;
 
         //load events into store
-        this.props.fetchFeed(location, () => {
-            this.setState({dataLoaded: true})
+        this.props.fetchFeed(location, (data) => {
+            this.setState({
+                dataLoaded: true,
+                eventIds: Object.keys(data.events)
+            })
         }, (error) => {
             console.log(error);
         })
@@ -61,6 +65,7 @@ class Feed extends React.Component {
 
 
     render() {
+        const {eventIds} = this.state;
 
         if (!this.state.dataLoaded) {
             return <View style={commonStyles.loadingContainer}>
@@ -68,19 +73,22 @@ class Feed extends React.Component {
             </View>
         }
 
-        const eventIds = this.props.eventReducer.allIds;
+        // const eventIds = this.props.eventReducer.allIds;
         const events = this.props.eventReducer.byId;
 
         //only select from events with dates later than "now"
-        const now = Date.now();
-        const filteredEventIds = eventIds.filter(id => now < events[id].endDate);
+        // const now = Date.now();
+        // const filteredEventIds = eventIds.filter(id => now < events[id].endDate);
 
         //from the remaining events, get the ones with dates closest to "now"
-        filteredEventIds.sort(function (a, b) {
+        // filteredEventIds.sort(function (a, b) {
+        //     return events[a].startDate - events[b].startDate;
+        // });
+
+        eventIds.sort(function(a,b) {
             return events[a].startDate - events[b].startDate;
         });
-
-        const hasEvents = filteredEventIds.length > 0;
+        const hasEvents = eventIds.length > 0;
 
         //opacity decreases as the scrolling goes on
         let opacity = this.state.scrollY.interpolate({
@@ -103,7 +111,7 @@ class Feed extends React.Component {
                 </View>
                 }
 
-                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}
+                <EventListView eventIds={eventIds} onRefresh={this.fetchFeed}
                                scrollY={this.state.scrollY} animated/>
 
                 <Animated.View

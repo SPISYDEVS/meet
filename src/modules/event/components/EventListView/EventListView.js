@@ -42,7 +42,7 @@ class EventListView extends Component {
     render() {
 
         const eventIds = this.props.eventIds;
-
+        // console.log(eventIds);
         return (
             <AnimatedFlatList
                 style={styles.container}

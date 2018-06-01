@@ -1,4 +1,6 @@
 import {database} from "../../../config/firebase";
+import {SERVER_URL} from "../../../config/constants";
+import axios from 'axios';
 
 
 export function updateTagWithEvent(tag, eventId, callback) {
@@ -9,4 +11,15 @@ export function updateTagWithEvent(tag, eventId, callback) {
     }).catch(error => {
         callback(false, null, {message: error});
     })
+}
+
+
+export function fetchTagEvents(tag, callback) {
+    axios.get(SERVER_URL + `api/tags/${tag}`, {})
+        .then(function(res) {
+            callback(true, res.data.data, null);
+        })
+        .catch(function(err) {
+            callback(false, null, {message:err});
+        });
 }

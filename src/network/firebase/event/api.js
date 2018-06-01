@@ -17,7 +17,7 @@ export function createEvent(event, user, callback) {
             //update tags in schema to include event
             Object.keys(event.tags).forEach(tag => {
                 console.log(tag);
-                updates['/tags/' + tag + '/' + eventId] = true;
+                updates['/tags/' + tag + '/events/' + eventId] = true;
             });
 
             //give the host the event in the database
@@ -47,7 +47,7 @@ export function editEvent(event, eventId, callback) {
 
             //get rid of the old tags
             Object.keys(oldTags).forEach(tag => {
-                updates['/tags/' + tag + '/' + eventId] = null;
+                updates['/tags/' + tag + '/events/' + eventId] = null;
             });
 
         }

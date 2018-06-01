@@ -14,7 +14,7 @@ class TagListItem extends React.PureComponent {
     }
 
     handlePress = () => {
-        Actions.push('EventDetails', {eventId: this.props.eventId});
+        Actions.push('TagDetails', {title: this.props.tag});
     };
 
     render() {
