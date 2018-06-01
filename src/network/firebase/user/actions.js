@@ -1,5 +1,6 @@
 import * as t from './actionTypes';
 import * as eventT from '../event/actionTypes';
+import * as tagT from '../tag/actionTypes';
 import * as api from './api';
 
 //actions --> fire when on event details or friends tab, lazily load (only when user needs the data)
@@ -103,6 +104,9 @@ export function search(searchTerm, successCB, errorCB) {
                 }
                 if (data.events) {
                     dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+                }
+                if (data.tags) {
+                    dispatch({type: tagT.TAGS_FETCHED, data: data.tags});
                 }
 
                 successCB(data);

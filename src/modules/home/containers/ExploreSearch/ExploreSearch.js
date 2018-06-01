@@ -10,6 +10,7 @@ import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import PropTypes from "prop-types";
 import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
 import EventListItem from "../../../event/components/EventListItem/EventListItem";
+import Tag from "../../../common/components/Tag/Tag";
 
 
 class ExploreSearch extends Component {
@@ -20,7 +21,8 @@ class ExploreSearch extends Component {
                 selectedValue: '',
                 searchValue: '',
                 userResult: null,
-                eventResult: null
+                eventResult: null,
+                tagResult: null
             }
     }
 
@@ -34,21 +36,33 @@ class ExploreSearch extends Component {
 
             let userResult = null;
             if (data.users) {
-                let userResult = Object.keys(data.users);
+                userResult = Object.keys(data.users);
                 if (userResult.length === 0) {
                     userResult = null;
                 }
             }
 
             let eventResult = null;
-            if (data.event) {
-                let eventResult = Object.keys(data.events);
+            if (data.events) {
+                eventResult = Object.keys(data.events);
                 if (eventResult.length === 0) {
                     eventResult = null;
                 }
             }
 
-            this.setState({eventResult: eventResult, userResult: userResult});
+            let tagResult = null;
+            if (data.tags) {
+                tagResult = Object.keys(data.tags);
+                if (tagResult.length === 0) {
+                    tagResult = null;
+                }
+            }
+            console.log('setting state');
+            console.log(eventResult);
+            console.log(userResult);
+            console.log(tagResult);
+
+            this.setState({eventResult: eventResult, userResult: userResult, tagResult: tagResult});
 
         }, (err) => console.log(err));
 
@@ -62,6 +76,11 @@ class ExploreSearch extends Component {
     renderEvent = (item) => {
         const eventId = item.item;
         return <EventListItem eventId={eventId}/>
+    };
+
+    renderTag = (item) => {
+        const tagTitle = '#' + item.item;
+        return <Tag title={tagTitle} onPress={() => {}} editMode={false}/>
     };
 
     _renderTabIndicator = () => {
@@ -148,9 +167,9 @@ class ExploreSearch extends Component {
                     <View style={styles.resultsContainer}>
 
                         <FlatList
-                            data={this.state.userResult}
-                            renderItem={(item) => this.renderUser(item)}
-                            keyExtractor={(userId) => userId}
+                            data={this.state.tagResult}
+                            renderItem={(item) => this.renderTag(item)}
+                            keyExtractor={(tag) => tag}
                         />
 
                     </View>
