@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
 import EventListItem from "../../../event/components/EventListItem";
 import TagListItem from "../../components/TagListItem";
+import {debounce} from "lodash";
 
 
 class ExploreSearch extends Component {
@@ -23,10 +24,15 @@ class ExploreSearch extends Component {
                 userResult: null,
                 eventResult: null,
                 tagResult: null,
-            }
+            };
+
+        this.debouncedHandleSearch = debounce(this.handleSearch, 500);
+
     }
 
     handleSearch = () => {
+
+        console.log("debouncing");
 
         this.props.search(this.state.searchValue, (data) => {
 
@@ -59,6 +65,13 @@ class ExploreSearch extends Component {
             this.setState({eventResult: eventResult, userResult: userResult, tagResult: tagResult});
 
         }, (err) => console.log(err));
+
+    };
+
+    onChangeText = (text) => {
+
+        this.setState({searchValue: text});
+        this.debouncedHandleSearch();
 
     };
 
@@ -115,7 +128,7 @@ class ExploreSearch extends Component {
                 <View style={[styles.padded, styles.rowContainer]}>
 
                     <SearchBar
-                        onChangeText={(text) => this.setState({searchValue: text})}
+                        onChangeText={(text) => this.onChangeText(text)}
                         placeholder={searchHint}
                         rounded
                         lightTheme

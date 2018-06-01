@@ -13,6 +13,7 @@ import commonStyles from "../../../../styles/commonStyles";
 import headerStyles from "../../../../styles/headerStyles";
 import {HEADER_HEIGHT} from "../../../../config/constants";
 import {Icon} from "react-native-elements";
+import {debounce} from "lodash";
 
 class Feed extends React.Component {
     constructor(props) {
@@ -20,7 +21,10 @@ class Feed extends React.Component {
         this.state = {
             dataLoaded: false,
             scrollY: new Animated.Value(0),
-        }
+        };
+
+        this.debouncedFetchFeed = debounce(this.fetchFeed, 3000);
+
     }
 
     componentDidMount() {
@@ -103,7 +107,7 @@ class Feed extends React.Component {
                 </View>
                 }
 
-                <EventListView eventIds={filteredEventIds} onRefresh={this.fetchFeed}
+                <EventListView eventIds={filteredEventIds} onRefresh={this.debouncedFetchFeed}
                                scrollY={this.state.scrollY} animated/>
 
                 <Animated.View
