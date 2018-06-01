@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
         color: color.text,
         lineHeight: lineHeight.paragraph
     },
+    tagContainer: {
+        height: 30,
+        marginBottom: padding.vertical * 2
+    },
     hostContainer: {
         flexDirection: 'row',
         marginBottom: padding.vertical * 1.8,

@@ -18,7 +18,10 @@ class Tag extends Component {
                 <Text style={[styles.buttonText, {color: this.props.textColor}]}>
                     {this.props.title}
                 </Text>
-                <Icon name='x' type='feather' color={color.background} size={normalize(14)}/>
+                {
+                    this.props.editMode &&
+                    <Icon name='x' type='feather' color={color.background} size={normalize(14)}/>
+                }
             </TouchableOpacity>
         );
     }
@@ -28,10 +31,12 @@ Tag.propTypes = {
     title: PropTypes.string.isRequired,
     onPress: PropTypes.func.isRequired,
     textColor: PropTypes.string,
+    editMode: PropTypes.bool,
 };
 
 Tag.defaultProps = {
     textColor: color.background,
+    editMode: true
 };
 
 export default Tag;
