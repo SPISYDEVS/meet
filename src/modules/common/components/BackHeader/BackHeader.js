@@ -3,7 +3,7 @@ import {Actions} from 'react-native-router-flux';
 import headerStyles from "../../../../styles/headerStyles";
 import {color} from "../../../../styles/theme";
 import {Icon} from "react-native-elements";
-import {SafeAreaView, TouchableOpacity, View} from "react-native";
+import {SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from "prop-types";
 import styles from "./styles";
 

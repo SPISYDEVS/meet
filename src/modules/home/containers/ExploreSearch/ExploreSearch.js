@@ -142,8 +142,6 @@ class ExploreSearch extends Component {
                             data={this.state.eventResult}
                             renderItem={(item) => this.renderEvent(item)}
                             keyExtractor={(eventId) => eventId}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={() => this.props.onRefresh()}
                         />
 
                     </View>

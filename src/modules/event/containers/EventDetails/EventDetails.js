@@ -19,6 +19,7 @@ import {fetchBackgroundGradient} from "../../utils";
 import {DATE_FORMAT} from "../../../../config/constants";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+import Tag from "../../../common/components/Tag/Tag";
 
 
 class EventDetails extends React.Component {
@@ -160,7 +161,7 @@ class EventDetails extends React.Component {
             </View>
         }
 
-        let {title, startDate, address, description, hostId, plannedAttendees, actualAttendees} = event;
+        let {title, startDate, address, description, tags, hostId, plannedAttendees, actualAttendees} = event;
         let currentUserIsAttending = false;
 
         //fetch the users that are planning to attend the event
@@ -224,6 +225,31 @@ class EventDetails extends React.Component {
                                 {description}
                             </Text>
                         </View>
+                        }
+
+                        {
+                            tags &&
+                            <View style={styles.tagContainer}>
+
+                                <ScrollView horizontal>
+
+                                    {
+                                        Object.keys(tags).map(tag => {
+                                            return (
+                                                <Tag
+                                                    key={tag}
+                                                    title={tag}
+                                                    textColor={backgroundGradient[1]}
+                                                    editMode={false}
+                                                />
+                                            );
+                                        })
+                                    }
+
+
+                                </ScrollView>
+
+                            </View>
                         }
 
                         <View style={styles.hostContainer}>
