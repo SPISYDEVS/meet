@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
     },
 
-    socialButton: {
+    buttonContainer: {
         height: normalize(55),
         borderRadius: 50,
         marginTop: 0,

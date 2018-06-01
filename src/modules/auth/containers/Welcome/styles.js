@@ -7,13 +7,9 @@ const resizeMode = 'contain';
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor: 'rgba(0,0,0,0)',
-        color: 'transparent'
     },
 
     topContainer:{
-        backgroundColor: 'rgba(0,0,0,0)',
-        color: 'transparent',
         flex:4,
         paddingHorizontal:15,
         justifyContent:"center",

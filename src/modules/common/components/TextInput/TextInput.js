@@ -33,6 +33,7 @@ class TextInput extends Component {
                     placeholderTextColor={color.text}
                     multiline={multiline}
                     value={this.props.value}
+                    onBlur={this.props.onBlur}
                 />
                 <FormValidationMessage labelStyle={formStyles.errorText}>
                     {this.props.error}
@@ -60,7 +61,8 @@ TextInput.defaultProps = {
     autoFocus: false,
     secureTextEntry: false,
     multiline: false,
-    inputStyle: {}
+    inputStyle: {},
+    onBlur: () => {}
 };
 
 export default TextInput;

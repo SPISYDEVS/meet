@@ -31,6 +31,7 @@ import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import {sendPushNotification} from "../../../../network/firebase/pushnotifications/actions";
+import Tag from "../../../common/components/Tag";
 
 
 const UNDERLAY_COLOR = '#414141';
@@ -48,6 +49,7 @@ class EventForm extends React.Component {
                         placeholder: "Title",
                         type: "text",
                         multiline: false,
+                        maxLength: 32,
                         inputStyle: {
                             fontSize: fontSize.xlarge + 2
                         }
@@ -60,9 +62,13 @@ class EventForm extends React.Component {
                     options: {
                         placeholder: "Description",
                         multiline: true,
+                        maxLength: 200,
                     },
                     value: this.props.description,
                     type: "text",
+                },
+                tags: {
+                    value: this.props.tags,
                 },
                 startDate: {
                     options: {
@@ -172,11 +178,13 @@ class EventForm extends React.Component {
         this.props.sendPushNotification(inviteeIds,
             "Event Invitation!",
             name + " is inviting you to the event " + this.state['title']['value'],
-            () => {},
+            () => {
+            },
             (err) => console.log(err)
         );
 
         Actions.pop();
+
     };
 
     onError(error) {
@@ -263,6 +271,66 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    onDescriptionChange = (newDescription, blur) => {
+
+        const state = {...this.state};
+
+        const words = newDescription.split(' ');
+
+        let descriptionWithoutTags = [];
+
+        let tags = [];
+
+        for (let i = 1; i < words.length; i++) {
+
+            //check if a space is preceeded by a hashtagged word
+            if (words[i] === "" && words[i - 1].startsWith('#') && words[i - 1].length > 1) {
+
+                //push the word without the hashtag to the list of tags
+                tags.push(words[i - 1].slice(-(words[i - 1].length - 1)).toLowerCase());
+
+            } else {
+                descriptionWithoutTags.push(words[i - 1]);
+            }
+
+        }
+
+        const lastWord = words[words.length - 1];
+
+        //if the user exits out of the description input
+        console.log(blur && lastWord.startsWith('#') && lastWord.length > 1);
+        if (blur && lastWord.startsWith('#') && lastWord.length > 1) {
+
+            tags.push(lastWord.slice(-(lastWord.length - 1)).toLowerCase());
+
+        } else {
+
+            //last word will always be an uncompleted word unless the user exits the description input
+            descriptionWithoutTags.push(words[words.length - 1]);
+
+        }
+
+        console.log(tags);
+        console.log(descriptionWithoutTags);
+        descriptionWithoutTags = descriptionWithoutTags.join(' ');
+
+        //add in new tags
+        const oldTags = state['tags']['value'];
+        state['tags']['value'] = oldTags.concat(tags.filter(tag => !oldTags.includes(tag)));
+
+        //update description appropriately
+        state['description']['value'] = descriptionWithoutTags;
+
+        this.setState(state);
+
+    };
+
+    removeTag = (tag) => {
+        const state = {...this.state};
+        state['tags']['value'] = state['tags']['value'].filter(t => t !== tag);
+        this.setState(state);
+    };
+
     onChange = (key, data) => {
         const state = {...this.state};
         state[key]['value'] = data;
@@ -289,7 +357,6 @@ class EventForm extends React.Component {
         this.setState(state);
 
     };
-
 
     removeInvitee = (invitee) => {
         const state = {...this.state};
@@ -324,7 +391,7 @@ class EventForm extends React.Component {
     render() {
 
         const form = this.form;
-        const [title, description, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
+        const [title, description, tags, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
         const invited = this.state[invitations]['value'];
         const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
@@ -415,10 +482,28 @@ class EventForm extends React.Component {
                                     {/*input for the description of the event*/}
                                     <TextInput
                                         {...form.fields[description]['options']}
-                                        onChangeText={(text) => this.onChange(description, text)}
+                                        onChangeText={(text) => this.onDescriptionChange(text, false)}
+                                        onBlur={(e) => this.onDescriptionChange(this.state[description]['value'], true)}
                                         value={this.state[description]['value']}
                                         error={this.state['error'][description]}
                                     />
+                                </View>
+
+
+                                <View style={styles.tagContainer}>
+
+                                    <ScrollView horizontal>
+
+                                        {
+                                            this.state[tags]['value'].map(tag => {
+                                                return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
+                                                            onPress={() => this.removeTag(tag)}/>
+                                            })
+                                        }
+
+
+                                    </ScrollView>
+
                                 </View>
 
                                 {/* Below is the input for the invitations, which opens a modal when clicked*/}
@@ -485,6 +570,7 @@ EventForm.defaultProps = {
     startDate: '',
     endDate: '',
     address: '',
+    tags: [],
 };
 
 //allows the component to use props as specified by reducers

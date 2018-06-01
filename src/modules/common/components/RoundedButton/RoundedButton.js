@@ -15,7 +15,7 @@ class RoundedButton extends Component {
             <Button
                 raised
                 title={this.props.title}
-                containerViewStyle={[styles.containerView, styles.socialButton]}
+                containerViewStyle={[styles.containerView, styles.buttonContainer]}
                 buttonStyle={styles.button}
                 textStyle={[styles.buttonText, {color: this.props.textColor}]}
                 onPress={this.props.onPress}/>

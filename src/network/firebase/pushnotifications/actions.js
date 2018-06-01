@@ -16,7 +16,7 @@ export function savePushToken(userId, token, successCB, errorCB) {
 }
 
 export function sendPushNotification(userIds, title, body, successCB, errorCB) {
-    console.log('WTF' + userIds);
+
     userIds = userIds.join(',');
 
     return (dispatch) => {

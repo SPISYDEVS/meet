@@ -7,10 +7,17 @@ export function createEvent(event, user, callback) {
         .then((ref) => {
 
             const updates = {};
+            const eventId = ref.getKey();
 
             //sent invitations to all users
             Object.keys(event.invitations).forEach(id => {
-                updates['/users/' + id + '/eventInvitations/' + ref.getKey()] = true;
+                updates['/users/' + id + '/eventInvitations/' + eventId] = true;
+            });
+
+            //update tags in schema to include event
+            Object.keys(event.tags).forEach(tag => {
+                console.log(tag);
+                updates['/tags/' + tag + '/' + eventId] = true;
             });
 
             //give the host the event in the database
@@ -32,19 +39,41 @@ export function editEvent(event, eventId, callback) {
 
     const updates = {};
 
-    //sent invitations to all users
-    Object.keys(event.invitations).forEach(id => {
-        updates['/users/' + id + '/eventInvitations/' + eventId] = true;
-    });
+    database.ref('events').child(eventId).once('value').then((snapshot) => {
 
-    updates['/events/' + eventId] = event;
+        const oldTags = snapshot.val().tags;
 
-    database.ref().update(updates);
+        if(oldTags){
 
-    //store location as a separate child
-    geofireRef.set(eventId, [event.location.latitude, event.location.longitude]);
+            //get rid of the old tags
+            Object.keys(oldTags).forEach(tag => {
+                updates['/tags/' + tag + '/' + eventId] = null;
+            });
 
-    callback(true, eventId, null);
+        }
+
+        //sent invitations to all users
+        Object.keys(event.invitations).forEach(id => {
+            updates['/users/' + id + '/eventInvitations/' + eventId] = true;
+        });
+
+        //update tags in schema to include event
+        Object.keys(event.tags).forEach(tag => {
+            updates['/tags/' + tag + '/' + eventId] = true;
+        });
+
+        updates['/events/' + eventId] = event;
+
+        database.ref().update(updates);
+
+        //store location as a separate child
+        geofireRef.set(eventId, [event.location.latitude, event.location.longitude]);
+
+        callback(true, eventId, null);
+
+    }).catch(error => callback(false, null, error));
+
+
 }
 
 export function fetchEvents(eventIds, callback) {

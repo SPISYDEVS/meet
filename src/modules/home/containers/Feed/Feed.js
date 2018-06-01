@@ -73,7 +73,7 @@ class Feed extends React.Component {
 
         //only select from events with dates later than "now"
         const now = Date.now();
-        const filteredEventIds = eventIds.filter(id => now < events[id].startDate);
+        const filteredEventIds = eventIds.filter(id => now < events[id].endDate);
 
         //from the remaining events, get the ones with dates closest to "now"
         filteredEventIds.sort(function (a, b) {

@@ -13,6 +13,10 @@ export function createEvent(event, user, successCB, errorCB) {
     event['invitations'] = {};
     invitations.forEach(id => event['invitations'][id] = true);
 
+    const tags = event['tags'];
+    event['tags'] = {};
+    tags.forEach(tag => event['tags'][tag] = true);
+
     return (dispatch) => {
         api.createEvent(event, user, function (success, data, error) {
             if (success) {
@@ -31,6 +35,10 @@ export function editEvent(event, user, eventId, successCB, errorCB) {
     const invitations = event['invitations'];
     event['invitations'] = {};
     invitations.forEach(id => event['invitations'][id] = true);
+
+    const tags = event['tags'];
+    event['tags'] = {};
+    tags.forEach(tag => event['tags'][tag] = true);
 
     return (dispatch) => {
         api.editEvent(event, eventId, function (success, data, error) {

@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
         height: 30,
         marginBottom: padding.vertical * 2
     },
+    tagContainer: {
+        height: 30,
+        marginBottom: padding.vertical * 2
+    },
     inputContainer: {
         height: 30,
         marginVertical: padding.vertical
