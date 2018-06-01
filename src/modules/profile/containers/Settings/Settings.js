@@ -2,7 +2,7 @@ import React from 'react';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import {SafeAreaView, View} from "react-native";
+import {SafeAreaView, Text, View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
 import {Button} from "react-native-elements";
 
@@ -11,6 +11,8 @@ import {signOut} from "../../../../network/firebase/auth/actions";
 import {Alert} from "react-native";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+
+import styles from "./styles";
 
 const mapStateToProps = (state) => {
     return {
@@ -42,11 +44,21 @@ class Settings extends React.Component {
 
                 <BackHeader simpleBackChevron/>
 
-                <View style={[formStyles.container, {justifyContent: 'flex-end'}]}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.titleText}>
+                        Settings
+                    </Text>
+                </View>
 
-                    <RoundedButton
-                        title={'LOG OUT'}
-                        onPress={this.onSignOut}/>
+                <View style={formStyles.container}>
+
+                    <View style={styles.buttonContainer}>
+
+                        <RoundedButton
+                            title={'LOG OUT'}
+                            onPress={this.onSignOut}/>
+
+                    </View>
 
                 </View>
 

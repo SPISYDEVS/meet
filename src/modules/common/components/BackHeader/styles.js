@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     leftHeader: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: 10
     },
     rightHeader: {
         flexDirection: 'row',
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     },
     rightButtonPadding: {
         paddingRight: padding.horizontal
-    }
+    },
 });
 
 
