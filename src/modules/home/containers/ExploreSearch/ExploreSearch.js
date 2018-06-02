@@ -31,13 +31,7 @@ class ExploreSearch extends Component {
     }
 
     handleSearch = () => {
-
-        console.log("debouncing");
-
         this.props.search(this.state.searchValue, (data) => {
-
-            console.log(data);
-
             let userResult = null;
             if (data.users) {
                 userResult = Object.keys(data.users);
@@ -156,6 +150,7 @@ class ExploreSearch extends Component {
                             data={this.state.eventResult}
                             renderItem={(item) => this.renderEvent(item)}
                             keyExtractor={(eventId) => eventId}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>
@@ -167,6 +162,7 @@ class ExploreSearch extends Component {
                             data={this.state.userResult}
                             renderItem={(item) => this.renderUser(item)}
                             keyExtractor={(userId) => userId}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>
@@ -178,6 +174,7 @@ class ExploreSearch extends Component {
                             data={this.state.tagResult}
                             renderItem={(item) => this.renderTag(item)}
                             keyExtractor={(tag) => tag}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>
