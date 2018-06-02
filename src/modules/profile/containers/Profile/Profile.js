@@ -17,7 +17,7 @@ import {ImagePicker, ImageManipulator} from 'expo';
 import {AVATAR_SIZE} from "../../constants";
 
 
-import {updateProfile} from "../../../../network/firebase/user/actions";
+import {updateProfile, getProfileImage} from "../../../../network/firebase/user/actions";
 import {signOut} from '../../../../network/firebase/auth/actions';
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 
@@ -49,6 +49,7 @@ class Profile extends React.Component {
 
         this.state = {
             buttons: buttons,
+            source: ''
         };
 
         this.setToTab = this.setToTab.bind(this);
@@ -154,17 +155,31 @@ class Profile extends React.Component {
 
     };
 
+
+    fetchProfilePicture = (user) => {
+        this.props.getProfileImage(user.uid,
+            (profile) => {
+                this.setState({
+                    source: profile.source
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+
+
     render() {
         const {user} = this.props;
-        let source = '';
+        let {source} = this.state;
 
         if (user === null) {
             return <View/>
         }
 
-        if (user.profile) {
-            source = user.profile.source;
-        }
+
+        this.fetchProfilePicture(user);
+
 
         const headerProps = this.generateHeaderProps();
 
@@ -211,4 +226,4 @@ class Profile extends React.Component {
 
 }
 
-export default connect(mapStateToProps, {signOut, updateProfile})(Profile);
+export default connect(mapStateToProps, {signOut, updateProfile, getProfileImage})(Profile);

@@ -8,21 +8,44 @@ import {Text, TouchableOpacity, View} from "react-native";
 import handleViewProfile from "../../utils/handleViewProfile";
 import {fontSize} from "../../../../styles/theme";
 import PropTypes from 'prop-types'
+import {getProfileImage} from "../../../../network/firebase/user/actions";
 
 const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
 class UserListItem extends React.PureComponent {
     constructor() {
         super();
+        this.state = {
+            source: null,
+        }
     }
+
+    componentDidMount() {
+        this.fetchProfilePicture(this.props.userId);
+    }
+
+    fetchProfilePicture = (userId) => {
+        this.props.getProfileImage(userId,
+            (profile) => {
+                console.log('i am here');
+                this.setState({
+                    source: profile.source
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
 
     render() {
 
         const user = this.props.peopleReducer.byId[this.props.userId];
+
         if (!user) {
             return <View/>;
         }
         const sizeModifier = this.props.sizeModifier;
+        const {source} = this.state;
 
         return (
             <TouchableOpacity style={styles.container} onPress={() => handleViewProfile(user.uid)}>
@@ -30,7 +53,7 @@ class UserListItem extends React.PureComponent {
                         width={35*sizeModifier}
                         height={35*sizeModifier}
                         // source={{uri: user.profile === undefined ? defaultImage : user.profile.source}}
-                        source={user.profile === undefined ? defaultImage : {uri: user.profile.source}}
+                        source={source === null ? defaultImage : {uri: source}}
                         onPress={() => handleViewProfile(user.uid)}
                         activeOpacity={0.7}/>
                 <View style={styles.userInfo}>
@@ -60,4 +83,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, null)(UserListItem);
+export default connect(mapStateToProps, {getProfileImage})(UserListItem);

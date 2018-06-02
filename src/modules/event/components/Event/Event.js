@@ -11,6 +11,7 @@ import EventDetails from "../../containers/EventDetails";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import moment from "moment";
 import {fetchEvent} from "../../../../network/firebase/event/actions";
+import {getProfileImage} from "../../../../network/firebase/user/actions";
 import haversine from "haversine";
 import {fetchBackgroundColor} from "../../utils";
 
@@ -18,7 +19,8 @@ class Event extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            hostPic: ''
         }
     }
 
@@ -45,6 +47,20 @@ class Event extends React.PureComponent {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
 
+
+    fetchProfilePicture = (userId) => {
+        this.props.getProfileImage(userId,
+            (profile) => {
+                this.setState({
+                    hostPic: profile.source
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+
+
     render() {
 
         if (!this.state.dataLoaded) {
@@ -54,11 +70,13 @@ class Event extends React.PureComponent {
         const event = this.props.eventReducer.byId[this.props.eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
 
+        this.fetchProfilePicture(event.hostId);
+
         const {title, description, startDate, hostId, location} = event;
         const {profile, firstName, lastName} = host;
 
         //host data
-        const hostPic = profile ? profile.source : '';
+        const {hostPic} = this.state;
         const hostName = firstName + " " + lastName;
 
         //get miles away
@@ -129,4 +147,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchEvent})(Event);
+export default connect(mapStateToProps, {fetchEvent, getProfileImage})(Event);

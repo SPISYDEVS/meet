@@ -49,6 +49,13 @@ export function revokeFriendship(friendId, accept, successCB, errorCB) {
 
 export function updateProfile(user, successCB, errorCB) {
     return (dispatch) => {
+        if (user.profile) {
+            api.uploadProfilePic(user.uid, user.profile, (error) => {});
+            user.profile = {
+                path: `profilePictures/${user.uid}`
+            }
+        }
+
         api.editUser(user, function (success, data, error) {
             if (success) {
                 dispatch({type: t.PROFILE_UPDATED, data: user});
@@ -117,13 +124,15 @@ export function search(searchTerm, successCB, errorCB) {
     };
 }
 
-export function getProfilePic(userId, successCB, errorCB) {
+export function getProfileImage(userId, successCB, errorCB) {
     return (dispatch) => {
-        api.getProfilePic(userId, function (success, data, error) {
+        api.getProfilePic(userId, function(success, data, error) {
             if (success) {
                 successCB(data);
             }
-            else if (error) errorCB(error)
-        })
+            else {
+                errorCB(error);
+            }
+        });
     }
 }
