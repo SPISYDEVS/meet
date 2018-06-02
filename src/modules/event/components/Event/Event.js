@@ -15,12 +15,14 @@ import {getProfileImage} from "../../../../network/firebase/user/actions";
 import haversine from "haversine";
 import {fetchBackgroundColor} from "../../utils";
 
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
+
 class Event extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             dataLoaded: false,
-            hostPic: ''
+            hostPic: null,
         }
     }
 
@@ -124,7 +126,7 @@ class Event extends React.PureComponent {
                             <Avatar
                                 size={30}
                                 rounded
-                                source={{uri: hostPic}}
+                                source={hostPic === null ? defaultImage : {uri: hostPic}}
                                 onPress={() => handleViewProfile(hostId)}
                                 activeOpacity={0.7}
                             />
