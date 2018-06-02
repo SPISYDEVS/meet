@@ -14,7 +14,7 @@ import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import {AVATAR_SIZE} from "../../../profile/constants";
 
 
-import {fetchUsers, revokeFriendship, sendFriendRequest} from "../../../../network/firebase/user/actions";
+import {fetchUsers, revokeFriendship, sendFriendRequest, getProfileImage} from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
 import {sendPushNotification} from "../../../../network/firebase/pushnotifications/actions";
@@ -27,9 +27,14 @@ class SomeonesProfile extends React.Component {
 
         this.state = {
             mVisible: false,
+            source: null
         };
 
         this.handleFriends = this.handleFriends.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchProfilePicture();
     }
 
     handleFriends(fStatus) {
@@ -62,6 +67,20 @@ class SomeonesProfile extends React.Component {
 
     }
 
+
+    fetchProfilePicture = () => {
+        this.props.getProfileImage(this.props.userId,
+            (profile) => {
+                this.setState({
+                    source: profile.source
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+
+
     revokeFriendship = () => {
         this.props.revokeFriendship(this.props.userId, () => {
             this.setState({mVisible: false});
@@ -73,7 +92,7 @@ class SomeonesProfile extends React.Component {
         const currentUser = this.props.currentUser;
         let friendshipStatus = null;
         let receivingFriendRequest = false;
-        var source = '';
+        let {source} = this.state;
 
         const user = this.props.people.byId[this.props.userId];
 
@@ -83,10 +102,6 @@ class SomeonesProfile extends React.Component {
             }, () => {
             });
             return <View/>
-        }
-
-        if (user.profile) {
-            source = user.profile.source;
         }
 
         //checks to see if the user is already a friend or has been requested to be a friend already
@@ -115,7 +130,7 @@ class SomeonesProfile extends React.Component {
                                 height={AVATAR_SIZE}
                                 width={AVATAR_SIZE}
                                 rounded
-                                source={source === '' ? defaultImage : {uri: source}}
+                                source={source === null ? defaultImage : {uri: source}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
                             />
@@ -176,7 +191,8 @@ const actions = {
     fetchUsers,
     sendFriendRequest,
     revokeFriendship,
-    sendPushNotification
+    sendPushNotification,
+    getProfileImage
 };
 
 SomeonesProfile.propTypes = {
