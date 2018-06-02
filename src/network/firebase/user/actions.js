@@ -2,6 +2,7 @@ import * as t from './actionTypes';
 import * as eventT from '../event/actionTypes';
 import * as tagT from '../tag/actionTypes';
 import * as api from './api';
+import {cache} from '../../../config/cache';
 
 //actions --> fire when on event details or friends tab, lazily load (only when user needs the data)
 export function fetchUsers(userIds, successCB, errorCB) {
@@ -126,13 +127,28 @@ export function search(searchTerm, successCB, errorCB) {
 
 export function getProfileImage(userId, successCB, errorCB) {
     return (dispatch) => {
-        api.getProfilePic(userId, function(success, data, error) {
-            if (success) {
+        cache.getItem(`profilePictures/${userId}`, function(err, data) {
+            // Item not in cache -> fetch profile picture manually
+            if (err === undefined) {
+                api.getProfilePic(userId, function(success, data, error) {
+                    if (success) {
+                        cache.setItem(`profilePictures/${userId}`, data, function(err) {
+                            if (err) {
+                                // Cache failed
+                                console.log(err);
+                            }
+                        });
+                        successCB(data);
+                    }
+                    else {
+                        errorCB(error);
+                    }
+                });
+            }
+            // Item is in cache -> pass back the item
+            else if (data !== undefined) {
                 successCB(data);
             }
-            else {
-                errorCB(error);
-            }
         });
-    }
+    };
 }
