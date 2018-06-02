@@ -149,6 +149,7 @@ class ExploreSearch extends Component {
                     style={styles.viewPager}
                     indicator={this._renderTabIndicator()}
                 >
+                    {/*Event tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
@@ -159,6 +160,7 @@ class ExploreSearch extends Component {
 
                     </View>
 
+                    {/*People tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
@@ -169,6 +171,7 @@ class ExploreSearch extends Component {
 
                     </View>
 
+                    {/*Tags tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
