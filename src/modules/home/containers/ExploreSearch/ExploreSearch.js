@@ -32,13 +32,7 @@ class ExploreSearch extends Component {
     }
 
     handleSearch = () => {
-
-        console.log("debouncing");
-
         this.props.search(this.state.searchValue, (data) => {
-
-            console.log(data);
-
             let userResult = null;
             if (data.users) {
                 userResult = Object.keys(data.users);
@@ -150,32 +144,38 @@ class ExploreSearch extends Component {
                     style={styles.viewPager}
                     indicator={this._renderTabIndicator()}
                 >
+                    {/*Event tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.eventResult}
                             renderItem={(item) => this.renderEvent(item)}
                             keyExtractor={(eventId) => eventId}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>
 
+                    {/*People tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.userResult}
                             renderItem={(item) => this.renderUser(item)}
                             keyExtractor={(userId) => userId}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>
 
+                    {/*Tags tab*/}
                     <View style={styles.resultsContainer}>
 
                         <FlatList
                             data={this.state.tagResult}
                             renderItem={(item) => this.renderTag(item)}
                             keyExtractor={(tag) => tag}
+                            showsVerticalScrollIndicator={false}
                         />
 
                     </View>

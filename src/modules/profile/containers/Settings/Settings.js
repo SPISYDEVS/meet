@@ -30,6 +30,7 @@ class Settings extends React.Component {
     };
 
     onSuccess = () => {
+        console.log('Here');
         Actions.reset("Auth")
     };
 

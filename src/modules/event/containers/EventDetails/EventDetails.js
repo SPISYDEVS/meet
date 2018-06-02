@@ -245,6 +245,7 @@ class EventDetails extends React.Component {
                                                     title={tag}
                                                     textColor={backgroundGradient[1]}
                                                     editMode={false}
+                                                    onPress={() => {}}
                                                 />
                                             );
                                         })

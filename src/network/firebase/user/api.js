@@ -85,12 +85,19 @@ export function editUser(user, callback) {
 }
 
 
-export async function uploadFile(blob) {
-    let user = auth.currentUser;
-    let filename = user.uid + "_profile";
-
-    let ref = storage.ref(filename);
-    ref.put(blob);
+export function uploadProfilePic(userId, profile, callback) {
+    database.ref('profilePictures').child(userId).update({
+        width: profile.width,
+        height: profile.height,
+        source: profile.source
+    }, function(error) {
+        if (error) {
+            callback(false, {message: error});
+        }
+        else {
+            callback(true, null);
+        }
+    });
 }
 
 
@@ -167,11 +174,16 @@ export function search(searchTerm, callback) {
 }
 
 export function getProfilePic(userId, callback) {
-    database.ref('users').child(userId).child('profile').once('value').then((snapshot) => {
-
+    database.ref('profilePictures').child(userId).once('value', function(snapshot) {
         let profile = snapshot.val();
 
-        callback(true, profile, null);
-    })
-        .catch(error => callback(false, null, error));
+        if (profile !== null) {
+            callback(true, profile, null);
+        }
+        else {
+            callback(false, null, {message: 'No profile image'});
+        }
+    }).catch(error => {
+        callback(false, null, {message: error});
+    });
 }

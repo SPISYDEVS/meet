@@ -192,6 +192,7 @@ class HomeScreen extends React.Component {
 
     render() {
 
+        console.log('im confused');
         return (
             <SafeAreaView style={styles.container}>
                 <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>
