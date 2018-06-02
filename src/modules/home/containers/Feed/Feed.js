@@ -71,7 +71,7 @@ class Feed extends React.Component {
 
 
     render() {
-        const {eventIds, events} = this.state;
+        let {eventIds} = this.state;
 
         if (!this.state.dataLoaded) {
             return <View style={commonStyles.loadingContainer}>
@@ -80,7 +80,7 @@ class Feed extends React.Component {
         }
 
         // const eventIds = this.props.eventReducer.allIds;
-        // const events = this.props.eventReducer.byId;
+        const events = this.props.eventReducer.byId;
 
         //only select from events with dates later than "now"
         // const now = Date.now();
@@ -90,7 +90,9 @@ class Feed extends React.Component {
         // filteredEventIds.sort(function (a, b) {
         //     return events[a].startDate - events[b].startDate;
         // });
-
+        eventIds = eventIds.filter(id => {
+            return events[id] !== undefined;
+        });
 
         eventIds.sort(function(a,b) {
             if (events[a] !== undefined && events[b] !== undefined) {
@@ -152,10 +154,10 @@ Feed.defaultProps = {
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
     return {
-        // eventReducer: state.eventReducer,
+        eventReducer: state.eventReducer,
         feedReducer: state.feedReducer,
-        // peopleReducer: state.peopleReducer,
-        // user: state.authReducer.user
+        peopleReducer: state.peopleReducer,
+        user: state.authReducer.user
     }
 };
 

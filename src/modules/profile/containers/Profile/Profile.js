@@ -157,15 +157,17 @@ class Profile extends React.Component {
 
 
     fetchProfilePicture = (user) => {
-        this.props.getProfileImage(user.uid,
-            (profile) => {
-                this.setState({
-                    source: profile.source
+        if (user.uid !== undefined) {
+            this.props.getProfileImage(user.uid,
+                (profile) => {
+                    this.setState({
+                        source: profile.source
+                    });
+                },
+                (error) => {
+                    console.log(error);
                 });
-            },
-            (error) => {
-                console.log(error);
-            });
+        }
     };
 
 
@@ -176,7 +178,6 @@ class Profile extends React.Component {
         if (user === null) {
             return <View/>
         }
-
 
         this.fetchProfilePicture(user);
 
