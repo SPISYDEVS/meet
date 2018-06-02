@@ -21,7 +21,8 @@ class Feed extends React.Component {
         this.state = {
             dataLoaded: false,
             scrollY: new Animated.Value(0),
-            eventIds: []
+            eventIds: [],
+            events: {}
         };
 
         this.debouncedFetchFeed = debounce(this.fetchFeed, 3000);
@@ -60,7 +61,8 @@ class Feed extends React.Component {
         this.props.fetchFeed(location, (data) => {
             this.setState({
                 dataLoaded: true,
-                eventIds: Object.keys(data.events)
+                eventIds: Object.keys(data.events),
+                events: data.events
             })
         }, (error) => {
             console.log(error);
@@ -69,7 +71,7 @@ class Feed extends React.Component {
 
 
     render() {
-        const {eventIds} = this.state;
+        const {eventIds, events} = this.state;
 
         if (!this.state.dataLoaded) {
             return <View style={commonStyles.loadingContainer}>
@@ -78,7 +80,7 @@ class Feed extends React.Component {
         }
 
         // const eventIds = this.props.eventReducer.allIds;
-        const events = this.props.eventReducer.byId;
+        // const events = this.props.eventReducer.byId;
 
         //only select from events with dates later than "now"
         // const now = Date.now();
@@ -89,8 +91,12 @@ class Feed extends React.Component {
         //     return events[a].startDate - events[b].startDate;
         // });
 
+        console.log('why');
+
         eventIds.sort(function(a,b) {
-            return events[a].startDate - events[b].startDate;
+            if (events[a] !== undefined && events[b] !== undefined) {
+                return events[a].startDate - events[b].startDate;
+            }
         });
         const hasEvents = eventIds.length > 0;
 
