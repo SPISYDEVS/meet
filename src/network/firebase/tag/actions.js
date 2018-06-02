@@ -4,7 +4,7 @@ import * as eventT from '../event/actionTypes';
 
 export function updateTagWithEvent(tag, eventId, successCB, errorCB) {
     return (dispatch) => {
-        api.updateTagWithEvent(tag, eventId, function(success, data, error) {
+        api.updateTagWithEvent(tag, eventId, function (success, data, error) {
             if (success) {
                 successCB(data);
             }
@@ -18,10 +18,17 @@ export function updateTagWithEvent(tag, eventId, successCB, errorCB) {
 
 export function fetchTagEvents(tag, successCB, errorCB) {
     return (dispatch) => {
-        api.fetchTagEvents(tag, function(success, data, error) {
+        api.fetchTagEvents(tag, function (success, data, error) {
             if (success) {
-                dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+
+                if (data !== undefined) {
+                    dispatch({type: eventT.EVENTS_FETCHED, data: data.events});
+                } else {
+                    data = {events: {}};
+                }
+
                 successCB(data);
+
             }
             else if (error) {
                 errorCB(error);

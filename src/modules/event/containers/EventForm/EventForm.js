@@ -490,18 +490,21 @@ class EventForm extends React.Component {
                                 </View>
 
 
-                                <View style={styles.tagContainer}>
+                                {
+                                    tags &&
+                                    <View style={styles.tagContainer}>
 
-                                    <ScrollView horizontal>
-                                        {
-                                            this.state[tags]['value'].map(tag => {
-                                                return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
-                                                            onPress={() => this.removeTag(tag)}/>
-                                            })
-                                        }
-                                    </ScrollView>
+                                        <ScrollView horizontal>
+                                            {
+                                                this.state[tags]['value'].map(tag => {
+                                                    return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
+                                                                onPress={() => this.removeTag(tag)}/>
+                                                })
+                                            }
+                                        </ScrollView>
 
-                                </View>
+                                    </View>
+                                }
 
                                 {/* Below is the input for the invitations, which opens a modal when clicked*/}
                                 <View>

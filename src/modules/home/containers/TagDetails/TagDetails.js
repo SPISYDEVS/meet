@@ -11,6 +11,7 @@ import styles from "./styles";
 import {HEADER_HEIGHT} from "../../../../config/constants";
 import {fetchTagEvents} from '../../../../network/firebase/tag/actions';
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import {debounce} from "lodash";
 
 
 class TagDetails extends React.Component {
@@ -20,6 +21,9 @@ class TagDetails extends React.Component {
             dataLoaded: false,
             eventIds: []
         };
+
+        this.debouncedFetchTagEvents = debounce(this.fetchTagEvents, 3000);
+
     }
 
 
@@ -29,8 +33,10 @@ class TagDetails extends React.Component {
 
 
     fetchTagEvents = () => {
+        console.log(this.props.title);
         this.props.fetchTagEvents(this.props.title,
             (data) => {
+            console.log(data);
                 this.setState({
                     eventIds: Object.keys(data.events),
                     dataLoaded: true
@@ -60,7 +66,12 @@ class TagDetails extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <BackHeader simpleBackChevron/>
-                <EventListView eventIds={eventIds} onRefresh={this.fetchTagEvents}/>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.titleText}>
+                        #{this.props.title}
+                    </Text>
+                </View>
+                <EventListView eventIds={eventIds} onRefresh={this.debouncedFetchTagEvents}/>
 
             </SafeAreaView>
         );

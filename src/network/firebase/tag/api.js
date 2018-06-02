@@ -17,6 +17,7 @@ export function updateTagWithEvent(tag, eventId, callback) {
 export function fetchTagEvents(tag, callback) {
     axios.get(SERVER_URL + `api/tags/${tag}`, {})
         .then(function(res) {
+            console.log(res);
             callback(true, res.data.data, null);
         })
         .catch(function(err) {

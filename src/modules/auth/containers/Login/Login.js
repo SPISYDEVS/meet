@@ -129,7 +129,8 @@ class Login extends React.Component {
 
                         <RoundedButton
                             title={'Sign In'}
-                            onPress={this.onSubmit}/>
+                            onPress={this.onSubmit}
+                            textColor={color.welcome_gradient5}/>
 
 
                         <TouchableOpacity

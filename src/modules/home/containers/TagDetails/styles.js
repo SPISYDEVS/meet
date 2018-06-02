@@ -10,6 +10,16 @@ const styles = StyleSheet.create({
             backgroundColor: color.background,
             flex: 1,
         },
+        titleContainer: {
+            marginHorizontal: padding.horizontal * 2.5,
+            flexShrink: 1,
+        },
+
+        titleText: {
+            fontSize: fontSize.header,
+            fontFamily: fontFamily.bold,
+            color: color.text,
+        },
         emptyContainer: {
             justifyContent: 'center',
             alignItems: 'center',
