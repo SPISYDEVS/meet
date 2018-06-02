@@ -91,7 +91,6 @@ class Feed extends React.Component {
         //     return events[a].startDate - events[b].startDate;
         // });
 
-        console.log('why');
 
         eventIds.sort(function(a,b) {
             if (events[a] !== undefined && events[b] !== undefined) {
@@ -153,10 +152,10 @@ Feed.defaultProps = {
 //allows the component to use props as specified by reducers
 const mapStateToProps = (state) => {
     return {
-        eventReducer: state.eventReducer,
+        // eventReducer: state.eventReducer,
         feedReducer: state.feedReducer,
-        peopleReducer: state.peopleReducer,
-        user: state.authReducer.user
+        // peopleReducer: state.peopleReducer,
+        // user: state.authReducer.user
     }
 };
 
