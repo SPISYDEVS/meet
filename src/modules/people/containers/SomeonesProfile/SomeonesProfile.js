@@ -44,31 +44,35 @@ class SomeonesProfile extends React.Component {
         //fetch user
         //establish the friendship status between the two users
         //load the user's events if they are friends (events are only visible to friends)
+        this.initializeFriendData();
+        this.fetchProfilePicture();
+    }
+
+    initializeFriendData = () => {
 
         const user = this.props.people.byId[this.props.userId];
-        
+
         //lazily load the person's profile
         if (user === undefined) {
+
             this.props.fetchUsers([this.props.userId],
                 () => {
-                    this.setFriendshipStatus();
                     this.setState({
                         userFetched: true
                     });
+                    this.setFriendshipStatus();
                 }
                 , (err) => console.log(err));
+
         } else {
-            this.setFriendshipStatus();
             this.setState({
                 userFetched: true
             });
+            this.setFriendshipStatus(() => this.fetchFriendsAttendingEvents());
         }
+     };
 
-        this.fetchProfilePicture();
-
-    }
-
-    setFriendshipStatus = () => {
+    setFriendshipStatus = (callback) => {
 
         const currentUser = this.props.currentUser;
         let friendshipStatus = null;
@@ -88,25 +92,23 @@ class SomeonesProfile extends React.Component {
         else if (currentUser.friendRequestsFrom !== undefined && this.props.userId in currentUser.friendRequestsFrom) {
             receivingFriendRequest = true;
         }
-        if (!this.state.attendingEventsFetched) {
-            this.fetchFriendsAttendingEvents(this.props.userId, friendshipStatus);
-            this.setState({
-                friendshipStatus: friendshipStatus,
-                receivingFriendRequest: receivingFriendRequest,
-            })
+
+        this.setState({
+            friendshipStatus: friendshipStatus,
+            receivingFriendRequest: receivingFriendRequest,
+        });
+
+        if(callback) {
+            callback();
         }
 
     };
 
-    fetchFriendsAttendingEvents = () => {
+    fetchFriendsAttendingEvents = (userId, friendshipStatus) => {
 
-        if (!this.state.friendshipStatus) {
-            this.setState({
-                attendingEventsFetched: true
-            });
-        } else {
+        if (friendshipStatus) {
 
-            let attending = this.props.people.byId[this.props.userId].eventsAsAttendee;
+            let attending = this.props.people.byId[userId].eventsAsAttendee;
 
             if (attending) {
                 attending = Object.keys(attending);
@@ -117,7 +119,17 @@ class SomeonesProfile extends React.Component {
                         attendingEventsFetched: true
                     });
                 }, (err) => console.log(err));
+
+            } else {
+                this.setState({
+                    attendingEventsFetched: true
+                });
             }
+
+        } else {
+            this.setState({
+                attendingEventsFetched: true
+            });
         }
     };
 
@@ -135,7 +147,10 @@ class SomeonesProfile extends React.Component {
 
     revokeFriendship = () => {
         this.props.revokeFriendship(this.props.userId, () => {
-            this.setState({mVisible: false});
+            this.setFriendshipStatus();
+            this.setState({
+                mVisible: false,
+            });
         });
     };
 
@@ -154,6 +169,8 @@ class SomeonesProfile extends React.Component {
                 const name = currentUser.firstName + " " + currentUser.lastName;
                 this.setFriendshipStatus();
 
+                console.log("HELLO");
+                console.log(currentUser);
                 this.props.sendPushNotification([this.props.userId],
                     "Friend Request!",
                     name + " wants to be friends",
