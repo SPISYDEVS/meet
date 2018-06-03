@@ -161,6 +161,8 @@ export function searchEvents(searchTerm, callback) {
 //Get the event object from the realtime database
 export function search(searchTerm, callback) {
 
+    console.log(SERVER_URL + 'api/search/all&' + searchTerm);
+
     axios.get(SERVER_URL + 'api/search/all',
         {
             params: {

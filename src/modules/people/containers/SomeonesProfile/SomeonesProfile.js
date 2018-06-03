@@ -38,7 +38,7 @@ class SomeonesProfile extends React.Component {
             receivingFriendRequest: false,
         };
 
-        this.debounceHandleFriends = debounce(handleFriends, 2000)
+        this.debounceHandleFriends = debounce(this.handleFriends, 300)
 
     }
 
