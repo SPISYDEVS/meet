@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import MultiSelection from "../../components/MultiSelection/MultiSelection";
-import {fetchUsers} from "../../../../network/firebase/user/actions";
+import {fetchUsers, getProfileImages} from "../../../../network/firebase/user/actions";
 import {connect} from "react-redux";
+
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
+
 
 class FriendSelection extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            profiles: {},
+            friends: []
+        };
     }
 
     componentDidMount() {
@@ -16,7 +24,7 @@ class FriendSelection extends Component {
             return;
         }
 
-        const friends = Object.keys(this.props.user.friends);
+        let friends = Object.keys(this.props.user.friends);
 
         let usersToFetch = [];
 
@@ -32,13 +40,33 @@ class FriendSelection extends Component {
             });
         }
 
+        friends = friends.filter(id => !this.props.notIncluded.includes(id));
+
+        this.setState({
+            friends: friends
+        });
+
+        this.fetchProfileImages(friends);
     }
 
+
+    fetchProfileImages = (userIds) => {
+        this.props.getProfileImages(userIds,
+            (profiles) => {
+                // console.log(profiles);
+                this.setState({
+                    profiles: profiles
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
+
+
     render() {
+        let {profiles, friends} = this.state;
 
-        let friends = this.props.user.friends === undefined ? [] : Object.keys(this.props.user.friends);
-
-        friends = friends.filter(id => !this.props.notIncluded.includes(id));
 
         //pass in a list of friend objects
         friends = friends.map(id => {
@@ -46,7 +74,7 @@ class FriendSelection extends Component {
 
                 const friend = this.props.peopleReducer.byId[id];
 
-                let avatar = friend.profile ? {uri: friend.profile.source} : {uri: ""};
+                let avatar = profiles[id] === undefined || profiles[id] === null ? defaultImage : {uri: profiles[id].source};
 
                 return {
                     id: friend.uid,
@@ -58,9 +86,9 @@ class FriendSelection extends Component {
             return {}
         });
 
+
         return (
             <MultiSelection {...this.props} objList={friends}/>
-
         );
 
     }
@@ -71,7 +99,7 @@ FriendSelection.propTypes = {
     searchHint: PropTypes.string,
     callback: PropTypes.func,
     notIncluded: PropTypes.array,
-    onSelectHandler: PropTypes.func.required,
+    // onSelectHandler: PropTypes.func.required,
 };
 
 FriendSelection.defaultProps = {
@@ -88,4 +116,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {fetchUsers})(FriendSelection);
+export default connect(mapStateToProps, {fetchUsers, getProfileImages})(FriendSelection);

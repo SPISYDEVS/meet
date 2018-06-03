@@ -46,7 +46,7 @@ class SomeonesProfile extends React.Component {
         //load the user's events if they are friends (events are only visible to friends)
 
         const user = this.props.people.byId[this.props.userId];
-
+        
         //lazily load the person's profile
         if (user === undefined) {
             this.props.fetchUsers([this.props.userId],
