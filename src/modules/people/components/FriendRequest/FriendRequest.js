@@ -8,22 +8,25 @@ import {Avatar, Icon} from "react-native-elements";
 import {connect} from "react-redux";
 
 
-import {fetchUser, respondToFriendRequest} from "../../../../network/firebase/user/actions";
+import {fetchUser, respondToFriendRequest, getProfileImage} from "../../../../network/firebase/user/actions";
 import {color} from "../../../../styles/theme";
 import handleViewProfile from "../../utils/handleViewProfile";
 
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
 class FriendRequest extends React.Component {
     constructor() {
         super();
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            source: null
         }
     }
 
     componentDidMount() {
         const userId = this.props.userId;
         this.fetchUser(userId);
+        this.fetchProfilePicture(userId);
     }
 
     fetchUser = (userId) => {
@@ -40,15 +43,30 @@ class FriendRequest extends React.Component {
 
     };
 
-    render() {
+    fetchProfilePicture = (userId) => {
+        if (userId !== undefined) {
+            this.props.getProfileImage(userId,
+                (profile) => {
+                    this.setState({
+                        source: profile.source
+                    });
+                },
+                (error) => {
+                    //console.log(error);
+                });
+        }
+    };
 
+    render() {
         if (!this.state.dataLoaded) {
             return <View/>
         }
 
+        const {source} = this.state;
+
         const userId = this.props.userId;
         const user = this.props.peopleReducer.byId[userId];
-        console.log(user);
+
         if (user === undefined) {
             return <View/>
         }
@@ -58,7 +76,7 @@ class FriendRequest extends React.Component {
 
                 <TouchableOpacity style={styles.avatar} onPress={() => handleViewProfile(user.uid)}>
                     <Avatar rounded
-                            source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                            source={source !== null ? {uri: source} : defaultImage}
                             onPress={() => handleViewProfile(user.uid)}
                             activeOpacity={0.7}/>
                 </TouchableOpacity>
@@ -94,7 +112,8 @@ FriendRequest.propTypes = {
 
 const actions = {
     respondToFriendRequest,
-    fetchUser
+    fetchUser,
+    getProfileImage
 };
 
 const mapStateToProps = (state) => {

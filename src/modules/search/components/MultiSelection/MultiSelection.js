@@ -14,15 +14,33 @@ class MultiSelection extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            results: [],
+            selectedItems: {}
+        };
+    }
+
+    componentDidMount() {
         const {objList, searchKey} = this.props;
 
         this.ts = new TrieSearch(searchKey);
         this.ts.addAll(objList);
-
-        this.state = {
+        this.setState({
             results: objList,
             selectedItems: {}
-        };
+        });
+        console.log(objList);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {objList, searchKey} = nextProps;
+
+        this.ts = new TrieSearch(searchKey);
+        this.ts.addAll(objList);
+        this.setState({
+            results: objList,
+            selectedItems: {}
+        });
     }
 
     selectedItem = (item) => {
@@ -59,7 +77,7 @@ class MultiSelection extends Component {
                 key={i}
                 containerStyle={styles.avatarListItem}
                 hideChevron={true}
-                avatar={{uri: invitee.item.avatar.uri}}
+                avatar={invitee.item.avatar}
             />
         );
     };

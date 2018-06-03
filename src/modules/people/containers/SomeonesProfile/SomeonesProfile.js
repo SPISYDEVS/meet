@@ -40,7 +40,7 @@ class SomeonesProfile extends React.Component {
     handleFriends(fStatus) {
         //if friends
         if (fStatus) {
-            
+
             this.setState({mVisible: true});
 
         }

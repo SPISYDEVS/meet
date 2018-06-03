@@ -91,7 +91,6 @@ class Profile extends React.Component {
             base64: true
         });
 
-        console.log(result);
         //resize to optimize performance
         result = await ImageManipulator.manipulate(
             result.uri,
@@ -101,7 +100,6 @@ class Profile extends React.Component {
                 base64: true
             }
         );
-        console.log(result);
 
         if (!result.cancelled) {
             callback(result);
@@ -171,6 +169,12 @@ class Profile extends React.Component {
     };
 
 
+    componentDidMount() {
+        const {user} = this.props;
+        this.fetchProfilePicture(user);
+    }
+
+
     render() {
         const {user} = this.props;
         let {source} = this.state;
@@ -178,8 +182,6 @@ class Profile extends React.Component {
         if (user === null) {
             return <View/>
         }
-
-        this.fetchProfilePicture(user);
 
 
         const headerProps = this.generateHeaderProps();

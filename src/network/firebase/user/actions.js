@@ -152,3 +152,49 @@ export function getProfileImage(userId, successCB, errorCB) {
         });
     };
 }
+
+
+// Give back data in the form of {userId: <profile data>}
+export function getProfileImages(userIds, successCB, errorCB) {
+    return (dispatch) => {
+        let results = {};
+        let needsFetched = [];
+
+        let completion = () => {
+            if (needsFetched.length === 0) {
+                successCB(results);
+            }
+            else {
+                api.getProfilePics(needsFetched, function (success, data, error) {
+                    if (success) {
+                        let merged = {...results, ...data};
+                        successCB(merged);
+                    }
+                    else {
+                        // Still executing the successCB for whatever results that were fetched
+                        // from cache
+                        successCB(results);
+                        errorCB(error);
+                    }
+                });
+            }
+        };
+
+        let count = 0;
+        userIds.forEach(userId => {
+            cache.getItem(`profilePictures/${userId}`, function(success, data, error) {
+                if (success) {
+                    results[userId] = data;
+                }
+                else {
+                    needsFetched.push(userId);
+                }
+                count++;
+                if (count === userIds.length) {
+                    completion();
+                }
+            });
+        });
+
+    }
+}

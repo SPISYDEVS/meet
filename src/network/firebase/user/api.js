@@ -187,3 +187,22 @@ export function getProfilePic(userId, callback) {
         callback(false, null, {message: error});
     });
 }
+
+
+export function getProfilePics(userIds, callback) {
+    Promise.all(userIds.map(id => {
+        return database.ref('profilePictures').child(id).once('value');
+    }))
+        .then((profiles) => {
+            let results = {};
+
+            profiles.forEach(profile => {
+                results[profile.key] = profile.val();
+            });
+
+            callback(true, results, null);
+        })
+        .catch((err) => {
+            callback(false, null, {message: err});
+        });
+}
