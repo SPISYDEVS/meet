@@ -134,7 +134,7 @@ export function getProfileImage(userId, successCB, errorCB) {
                 // If in queue, wait for it to be set and fetch it
                 if (cache.isKeyInQueue(imageKey)) {
                     console.log('key is in queue');
-                    cache.on('keySet', function (key, data) {
+                    cache.on(imageKey, 'keySet', function (key, data) {
                         console.log('key is set');
                         successCB(data);
                     });

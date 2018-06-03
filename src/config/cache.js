@@ -23,7 +23,9 @@ class ImagesCacheWithListener {
 
         // Stores keys of images that will eventually be set
         this.imagesCacheQueue = {};
-        this.listeners = {};
+        this.listeners = {
+            'keySet': {}
+        };
     }
 
     setItem(key, value, callback) {
@@ -35,12 +37,14 @@ class ImagesCacheWithListener {
         this.cache.setItem(key, value, function(err) {
             callback(err);
 
-            let listenerFunc = listeners['keySet'];
-            if (listenerFunc !== undefined) {
-                listenerFunc(key, value);
+            if (listeners['keySet'][key] !== undefined) {
+                for (let listenerFunc of listeners['keySet'][key]) {
+                    listenerFunc(key, value);
+                }
+
+                delete listeners['keySet'][key];
             }
 
-            delete listeners['keySet'];
             delete imagesCacheQueue[key];
         });
     };
@@ -76,8 +80,18 @@ class ImagesCacheWithListener {
     }
 
 
-    on(type, callback) {
-        this.listeners[type] = callback;
+    on(key, type, callback) {
+        switch (type) {
+            case 'keySet':
+                if (this.listeners[type][key] === undefined) {
+                    this.listeners[type][key] = [];
+                }
+                this.listeners[type][key].push(callback);
+                break;
+            default:
+                break;
+
+        }
     }
 }
 
