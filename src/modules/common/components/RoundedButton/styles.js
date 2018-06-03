@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 0,
         marginTop: padding.vertical * 2,
         ...ifIphoneX({
-            marginBottom: padding.vertical * 4,
+            marginBottom: padding.vertical * 2,
         }, {
             marginBottom: padding.vertical * 2,
         }),

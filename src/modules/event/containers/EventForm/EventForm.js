@@ -198,6 +198,7 @@ class EventForm extends React.Component {
             })
         }
 
+        console.log(error);
         this.setState({error: errObj});
     }
 
@@ -275,7 +276,7 @@ class EventForm extends React.Component {
 
         const state = {...this.state};
 
-        const words = newDescription.split(' ');
+        const words = newDescription.replace( /\n/g, ' ').split(' ');
 
         let descriptionWithoutTags = [];
 
@@ -298,7 +299,6 @@ class EventForm extends React.Component {
         const lastWord = words[words.length - 1];
 
         //if the user exits out of the description input
-        console.log(blur && lastWord.startsWith('#') && lastWord.length > 1);
         if (blur && lastWord.startsWith('#') && lastWord.length > 1) {
 
             tags.push(lastWord.slice(-(lastWord.length - 1)).toLowerCase());

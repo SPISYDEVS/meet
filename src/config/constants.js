@@ -19,3 +19,7 @@ export const MORNING_START = '06:00';
 export const AFTERNOON_START = '12:00';
 export const NIGHT_START = '18:00';
 export const LATENIGHT_START = '00:00';
+
+export const DEFAULT_USER_SETTINGS = {
+  fetchingDistance: 5,
+};

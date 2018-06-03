@@ -3,6 +3,7 @@ import * as api from './api';
 import {auth} from "../../../config/firebase";
 
 import {AsyncStorage} from 'react-native';
+import {DEFAULT_USER_SETTINGS} from "../../../config/constants";
 
 export function register(data, successCB, errorCB) {
     return (dispatch) => {
@@ -17,7 +18,13 @@ export function createUser(user, successCB, errorCB) {
     return (dispatch) => {
         api.createUser(user, function (success, data, error) {
             if (success) {
-                dispatch({type: t.LOGGED_IN, data: user});
+                dispatch({
+                    type: t.LOGGED_IN,
+                    data: {
+                        user,
+                        settings: DEFAULT_USER_SETTINGS
+                    }
+                });
                 successCB();
             } else if (error) errorCB(error)
         });
@@ -28,7 +35,15 @@ export function login(data, successCB, errorCB) {
     return (dispatch) => {
         api.login(data, function (success, data, error) {
             if (success) {
-                if (data.exists) dispatch({type: t.LOGGED_IN, data: data.user});
+                if (data.exists) {
+                    dispatch({
+                        type: t.LOGGED_IN,
+                        data: {
+                            user: data.user,
+                            settings: data.settings
+                        }
+                    });
+                }
                 successCB(data);
             } else if (error) errorCB(error)
         });
@@ -76,11 +91,22 @@ export function checkLoginStatus(callback) {
             if (isLoggedIn) {
                 //get the user object from the Async storage
                 AsyncStorage.getItem('user', (err, user) => {
+
                     if (user === null) isLoggedIn = false; //set the loggedIn value to false
-                    else dispatch({type: t.LOGGED_IN, data: JSON.parse(user)});
+                    else {
+                        AsyncStorage.getItem('settings', (err, settings) => {
+                            dispatch({
+                                type: t.LOGGED_IN, data: {
+                                    user: JSON.parse(user),
+                                    settings: JSON.parse(settings)
+                                }
+                            });
+                        });
+                    }
 
                     callback(isLoggedIn);
                 });
+
             } else {
                 dispatch({type: t.LOGGED_OUT});
                 callback(isLoggedIn);

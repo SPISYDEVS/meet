@@ -9,6 +9,12 @@ const commonStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    emptyText: {
+        color: color.text,
+        fontSize: fontSize.large,
+        opacity: 0.75,
+        textAlign: 'center'
+    },
     hidden: {
         opacity: 0,
         height: 0,

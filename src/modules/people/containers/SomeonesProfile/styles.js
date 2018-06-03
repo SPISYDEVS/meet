@@ -10,11 +10,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: color.background,
+    },
+    infoContainer: {
         paddingHorizontal: padding.horizontal * 2.5,
         paddingVertical: padding.vertical,
     },
-    infoContainer: {
-        // flex: 1,
+    eventsContainer: {
+        flex: 1,
     },
     infoContent: {
         flexDirection: 'row',

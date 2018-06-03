@@ -11,6 +11,7 @@ import EventListView from "../../components/EventCardListView/EventCardListView"
 import headerStyles from "../../../../styles/headerStyles";
 import {color} from "../../../../styles/theme";
 import {Icon} from "react-native-elements";
+import commonStyles from "../../../../styles/commonStyles";
 
 class MyEvents extends Component {
     constructor() {
@@ -118,16 +119,15 @@ class MyEvents extends Component {
 
                     <TabButtons buttons={this.state.buttons}/>
 
-
                     {hasNoEventsAsHost &&
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>There's nothing here yet. Try creating an event!</Text>
+                        <Text style={commonStyles.emptyText}>There's nothing here yet. Try creating an event!</Text>
                     </View>
                     }
 
                     {hasNoEventsAsAttendee &&
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>There's nothing here yet. Find an event to go to!</Text>
+                        <Text style={commonStyles.emptyText}>There's nothing here yet. Find an event to go to!</Text>
                     </View>
                     }
                     <View style={this.state.buttons[0].selected ? styles.active : styles.hidden}>

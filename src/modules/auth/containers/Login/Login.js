@@ -69,7 +69,6 @@ class Login extends React.Component {
             });
         }
         else Actions.CompleteProfile({user});
-
     };
 
     onSuccess = () => {

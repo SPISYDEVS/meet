@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {SafeAreaView, Text, View} from "react-native";
 import formStyles from '../../../../styles/formStyles';
-import {Button} from "react-native-elements";
+import {Button, Slider} from "react-native-elements";
 
 import {updateProfile} from "../../../../network/firebase/user/actions";
 import {signOut} from "../../../../network/firebase/auth/actions";
@@ -23,14 +23,18 @@ const mapStateToProps = (state) => {
 class Settings extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {}
     }
+
+    componentDidMount(){
+        this.setState({...this.props.authReducer.settings})
+    };
 
     onSignOut = () => {
         this.props.signOut(this.onSuccess, this.onError)
     };
 
     onSuccess = () => {
-        console.log('Here');
         Actions.reset("Auth")
     };
 
@@ -51,7 +55,16 @@ class Settings extends React.Component {
                     </Text>
                 </View>
 
-                <View style={formStyles.container}>
+                <View style={styles.sliderContainer}>
+                    <Slider
+                        minimumValue={0.5}
+                        maximumValue={100}
+                        step={0.5}
+                        value={this.state.fetchingDistance}
+                        onValueChange={(fetchingDistance) => this.setState({fetchingDistance})}
+                    />
+                    <Text style={styles.sliderText}>Value: {this.state.fetchingDistance}</Text>
+                </View>
 
                     <View style={styles.buttonContainer}>
 
@@ -60,8 +73,6 @@ class Settings extends React.Component {
                             onPress={this.onSignOut}/>
 
                     </View>
-
-                </View>
 
             </SafeAreaView>
 

@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         height: '100%',
+        paddingHorizontal: padding.horizontal * 6,
     },
     emptyText: {
         color: color.text,

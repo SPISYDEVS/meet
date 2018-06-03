@@ -21,17 +21,11 @@ const styles = StyleSheet.create({
         color: color.text,
     },
 
-    inputContainer:{
-        width: windowWidth - 40,
-        height: normalize(65),
-        fontSize: fontSize.regular + 2,
-        fontFamily: fontFamily.bold,
-        borderBottomColor: "#A5A7A9"
+    sliderContainer: {
+        marginHorizontal: padding.horizontal * 2,
     },
-
-    buttonContainer: {
-        flex: 1,
-        justifyContent: "flex-end",
+    sliderText: {
+        color: color.text
     }
 });
 

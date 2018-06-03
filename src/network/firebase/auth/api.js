@@ -1,5 +1,6 @@
 import {auth, database, fbAuthProvider} from "../../../config/firebase";
 import {facebookLogin} from "../../facebookapi/oauth";
+import {DEFAULT_USER_SETTINGS} from "../../../config/constants";
 
 
 //Register the user using email and password
@@ -12,9 +13,15 @@ export function register(data, callback) {
 
 //Create the user object in realtime database
 export function createUser(user, callback) {
-    database.ref('users').child(user.uid).update({...user})
+
+    const updates = {};
+    updates['/users/' + user.uid] = {...user};
+    updates['/settings/' + user.uid] = DEFAULT_USER_SETTINGS;
+
+    database.ref().update(updates)
         .then(() => callback(true, null, null))
         .catch((error) => callback(false, null, {message: error}));
+
 }
 
 //Sign the user in with their email and password
@@ -32,10 +39,24 @@ export function getUser(user, callback) {
         const exists = (snapshot.val() !== null);
 
         //if the user exist in the DB, replace the user variable with the returned snapshot
-        if (exists) user = snapshot.val();
+        if (exists) {
 
-        const data = {exists, user};
-        callback(true, data, null);
+            user = snapshot.val();
+
+            database.ref('settings').child(user.uid).once('value').then((snapshot) => {
+
+                const settings = snapshot.val();
+                console.log("WHY");
+                console.log(settings);
+
+                callback(true, {exists, user, settings}, null);
+
+            }).catch(error => callback(false, null, error));
+
+        } else {
+            callback(true, {exists, user}, null);
+        }
+
     })
         .catch(error => callback(false, null, error));
 }

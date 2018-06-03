@@ -45,7 +45,6 @@ class HomeScreen extends React.Component {
     }
 
     _handleNotification = (notification) => {
-        console.log(JSON.stringify(notification.data));
         this.setState({notification: notification});
     };
 
@@ -192,7 +191,6 @@ class HomeScreen extends React.Component {
 
     render() {
 
-        console.log('im confused');
         return (
             <SafeAreaView style={styles.container}>
                 <View style={this.state.searchMode ? commonStyles.hidden : styles.container}>

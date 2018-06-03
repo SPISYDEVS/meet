@@ -2,19 +2,21 @@ import {AsyncStorage} from 'react-native';
 
 import * as t from '../network/firebase/auth/actionTypes';
 
-let initialState = {isLoggedIn: false, user: {}};
+let initialState = {isLoggedIn: false, user: {}, settings: {}};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case t.LOGGED_IN: {
-            const user = action.data;
+
+            const user = action.data.user;
+            const settings = action.data.settings;
 
             // Save token and data to Asyncstorage
             AsyncStorage.multiSet([
-                ['user', JSON.stringify(user)]
+                ['user', JSON.stringify(user)], ['settings', JSON.stringify(settings)]
             ]);
 
-            state = Object.assign({}, state, {isLoggedIn: true, user: user});
+            state = Object.assign({}, state, {isLoggedIn: true, user: user, settings: settings});
 
             return state;
         }
@@ -26,7 +28,7 @@ const authReducer = (state = initialState, action) => {
             return state;
         }
         case t.LOGGED_OUT: {
-            let keys = ['user'];
+            let keys = ['user', 'settings'];
             AsyncStorage.multiRemove(keys);
 
             state = Object.assign({}, state, {isLoggedIn: false, user: {}});

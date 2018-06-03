@@ -1,24 +1,17 @@
 import React from 'react';
 import {Avatar} from 'react-native-elements'
 import {connect} from 'react-redux';
-
-import {Actions} from 'react-native-router-flux';
 import styles from "./styles"
-import {ActivityIndicator, SafeAreaView, Text} from "react-native";
+import {ActivityIndicator, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from 'prop-types';
-
-import formStyles from "../../../../styles/formStyles";
-import Button from "react-native-elements/src/buttons/Button";
 import Modal from "react-native-modal";
-import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import {AVATAR_SIZE} from "../../../profile/constants";
-
 
 import {
     fetchUsers,
+    getProfileImage,
     revokeFriendship,
-    sendFriendRequest,
-    getProfileImage
+    sendFriendRequest
 } from "../../../../network/firebase/user/actions";
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
@@ -26,6 +19,7 @@ import {sendPushNotification} from "../../../../network/firebase/pushnotificatio
 import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventListView from "../../../event/components/EventCardListView/EventCardListView";
 import commonStyles from "../../../../styles/commonStyles";
+import headerStyles from "../../../../styles/headerStyles";
 
 const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
@@ -46,6 +40,10 @@ class SomeonesProfile extends React.Component {
     }
 
     componentDidMount() {
+
+        //fetch user
+        //establish the friendship status between the two users
+        //load the user's events if they are friends (events are only visible to friends)
 
         const user = this.props.people.byId[this.props.userId];
 
@@ -70,15 +68,45 @@ class SomeonesProfile extends React.Component {
 
     }
 
-    fetchFriendsAttendingEvents = (friendId, friendshipStatus) => {
+    setFriendshipStatus = () => {
 
-        if (friendshipStatus) {
+        const currentUser = this.props.currentUser;
+        let friendshipStatus = null;
+        let receivingFriendRequest = false;
+
+        //checks to see if the user is already a friend or has been requested to be a friend already
+        //true means they're friends
+        //false means current user has requested friendship
+        //null means they're literally strangers
+        if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
+            friendshipStatus = true;
+        }
+        else if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
+            friendshipStatus = false;
+        }
+        //user has received a friend request from that person
+        else if (currentUser.friendRequestsFrom !== undefined && this.props.userId in currentUser.friendRequestsFrom) {
+            receivingFriendRequest = true;
+        }
+        if (!this.state.attendingEventsFetched) {
+            this.fetchFriendsAttendingEvents(this.props.userId, friendshipStatus);
+            this.setState({
+                friendshipStatus: friendshipStatus,
+                receivingFriendRequest: receivingFriendRequest,
+            })
+        }
+
+    };
+
+    fetchFriendsAttendingEvents = () => {
+
+        if (!this.state.friendshipStatus) {
             this.setState({
                 attendingEventsFetched: true
             });
         } else {
 
-            let attending = this.props.people.byId[friendId].eventsAsAttendee;
+            let attending = this.props.people.byId[this.props.userId].eventsAsAttendee;
 
             if (attending) {
                 attending = Object.keys(attending);
@@ -111,36 +139,6 @@ class SomeonesProfile extends React.Component {
         });
     };
 
-    setFriendshipStatus = () => {
-
-        const currentUser = this.props.currentUser;
-        let friendshipStatus = null;
-        let receivingFriendRequest = false;
-
-        //checks to see if the user is already a friend or has been requested to be a friend already
-        //true means they're friends
-        //false means current user has requested friendship
-        //null means they're literally strangers
-        if (currentUser.friends !== undefined && this.props.userId in currentUser.friends) {
-            friendshipStatus = true;
-        }
-        else if (currentUser.friendRequestsTo !== undefined && this.props.userId in currentUser.friendRequestsTo) {
-            friendshipStatus = false;
-        }
-        //user has received a friend request from that person
-        else if (currentUser.friendRequestsFrom !== undefined && this.props.userId in currentUser.friendRequestsFrom) {
-            receivingFriendRequest = true;
-        }
-        if (!this.state.attendingEventsFetched) {
-            this.fetchFriendsAttendingEvents(this.props.userId, friendshipStatus);
-            this.setState({
-                friendshipStatus: friendshipStatus,
-                receivingFriendRequest: receivingFriendRequest,
-            })
-        }
-
-    };
-
     handleFriends = (fStatus) => {
 
         //if friends
@@ -154,6 +152,7 @@ class SomeonesProfile extends React.Component {
 
                 const currentUser = this.props.currentUser;
                 const name = currentUser.firstName + " " + currentUser.lastName;
+                this.setFriendshipStatus();
 
                 this.props.sendPushNotification([this.props.userId],
                     "Friend Request!",
@@ -185,6 +184,7 @@ class SomeonesProfile extends React.Component {
             <SafeAreaView style={{flex: 1}}>
 
                 <BackHeader simpleBackChevron/>
+
                 <View style={styles.container}>
                     <View style={styles.infoContainer}>
                         <View style={styles.infoContent}>
@@ -208,7 +208,20 @@ class SomeonesProfile extends React.Component {
                         <View style={commonStyles.loadingContainer}>
                             <ActivityIndicator animating color='white' size="large"/>
                         </View> :
-                        <EventListView eventIds={this.state.attendingEvents}/>
+
+                        !this.state.friendshipStatus ?
+
+                            <View style={commonStyles.loadingContainer}>
+                                <Text style={commonStyles.emptyText}> You must be {user.firstName}'s friend to see his
+                                    events </Text>
+                            </View>
+
+                            :
+
+                            <View style={styles.eventsContainer}>
+                                <Text style={headerStyles.headerText}> {user.firstName}'s Events</Text>
+                                <EventListView eventIds={this.state.attendingEvents}/>
+                            </View>
                     }
 
                     {
@@ -223,7 +236,7 @@ class SomeonesProfile extends React.Component {
                     {
                         !receivingFriendRequest &&
                         <RoundedButton
-                            title={friendshipStatus === null ? 'ADD AS FRIEND' : friendshipStatus ? 'FRIENDS!' : 'REQUESTED ALREADY'}
+                            title={friendshipStatus === null ? 'SEND FRIEND REQUEST' : friendshipStatus ? 'FRIENDS!' : 'FRIEND REQUEST SENT'}
                             disabled={friendshipStatus === false}
                             onPress={() => this.handleFriends(friendshipStatus)}/>
                     }
