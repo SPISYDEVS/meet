@@ -40,6 +40,7 @@ class ImagesCacheWithListener {
                 listenerFunc(key, value);
             }
 
+            delete listeners['keySet'];
             delete imagesCacheQueue[key];
         });
     };
