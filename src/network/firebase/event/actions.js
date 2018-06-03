@@ -145,6 +145,17 @@ export function checkInToEvent(eventId, successCB, errorCB) {
         });
     };
 }
+export function checkOutOfEvent(eventId, successCB, errorCB) {
+
+    return (dispatch) => {
+        api.checkOutOfEvent(eventId, function (success, data, error) {
+            if (success) {
+                dispatch({type: t.EVENT_FETCHED, data: data});
+                successCB();
+            } else if (error) errorCB(error)
+        });
+    };
+}
 
 export function respondToEventInvitation(eventId, accept, successCB, errorCB) {
     return (dispatch) => {

@@ -89,7 +89,11 @@ export function resetPassword(data, callback) {
         .catch((error) => callback(false, null, error));
 }
 
-export function signOut(callback) {
+export function signOut(user, settings, callback) {
+
+    const updates = {['/settings/' + user.uid]: settings};
+    database.ref().update(updates);
+
     auth.signOut()
         .then(() => {
             if (callback) callback(true, null, null)

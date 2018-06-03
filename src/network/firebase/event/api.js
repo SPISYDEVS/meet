@@ -203,6 +203,25 @@ export function checkInToEvent(eventId, callback) {
 
 }
 
+export function checkOutOfEvent(eventId, callback) {
+
+    let currentUser = auth.currentUser;
+    let userId = currentUser.uid;
+
+    const updates = {};
+
+    updates['/events/' + eventId + '/actualAttendees/' + userId] = null;
+
+    //update the data then pull the data afterwards
+    database.ref().update(updates).then(() => {
+        database.ref('events').child(eventId).once('value').then((snapshot) => {
+            callback(true, {[eventId]: snapshot.val()}, null)
+        })
+    }).catch(error => callback(false, null, error));
+
+
+}
+
 export function respondToEventInvitation(eventId, accept, callback) {
 
     let currentUser = auth.currentUser;

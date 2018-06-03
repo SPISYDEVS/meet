@@ -5,10 +5,10 @@ import * as api from './api';
 import * as peopleApi from '../user/api';
 
 
-export function fetchFeed(location, successCB, errorCB) {
+export function fetchFeed(location, fetchingDistance, successCB, errorCB) {
 
     return (dispatch) => {
-        api.fetchFeed(location, function (success, data, error) {
+        api.fetchFeed(location, fetchingDistance, function (success, data, error) {
             if (success) {
 
                 if (data === undefined) {

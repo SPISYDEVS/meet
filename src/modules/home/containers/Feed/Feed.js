@@ -43,7 +43,7 @@ class Feed extends React.Component {
 
     _getLocationAsync = async () => {
 
-        if(this.props.feedReducer.locFetched){
+        if (this.props.feedReducer.locFetched) {
             let location = await Location.getCurrentPositionAsync({});
 
             const lat = location.coords.latitude;
@@ -57,9 +57,10 @@ class Feed extends React.Component {
 
     fetchFeed = () => {
         const location = this.props.feedReducer.location;
+        const fetchingDistance = this.props.settings.fetchingDistance;
 
         //load events into store
-        this.props.fetchFeed(location, (data) => {
+        this.props.fetchFeed(location, fetchingDistance, (data) => {
             this.setState({
                 dataLoaded: true,
                 eventIds: Object.keys(data.events),
@@ -95,7 +96,7 @@ class Feed extends React.Component {
             return events[id] !== undefined;
         });
 
-        eventIds.sort(function(a,b) {
+        eventIds.sort(function (a, b) {
             if (events[a] !== undefined && events[b] !== undefined) {
                 return events[a].startDate - events[b].startDate;
             }
@@ -117,14 +118,15 @@ class Feed extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                {!hasEvents &&
-                <View style={styles.emptyContainer}>
-                    <Text style={styles.emptyText}>There aren't any events yet!</Text>
-                </View>
+                {
+                    !hasEvents &&
+                    <View style={styles.emptyContainer}>
+                        <Text style={styles.emptyText}>There aren't any events yet!</Text>
+                    </View>
                 }
 
                 <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
-                               scrollY={this.state.scrollY} animated/>
+                                   scrollY={this.state.scrollY} animated/>
 
                 <Animated.View
                     style={[headerStyles.padded, headerStyles.rowContainer, styles.headerWrapper, {
@@ -160,7 +162,8 @@ const mapStateToProps = (state) => {
         eventReducer: state.eventReducer,
         feedReducer: state.feedReducer,
         peopleReducer: state.peopleReducer,
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        settings: state.authReducer.settings,
     }
 };
 
