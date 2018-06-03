@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
 
     image:{
-        // backgroundColor: color.white,
+        // backgroundColor: 'transparent',
         // borderRadius: 50,
         marginBottom: padding.vertical,
         // resizeMode

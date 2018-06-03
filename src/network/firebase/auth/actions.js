@@ -119,7 +119,13 @@ export function oauthLogin(type, successCB, errorCB) {
     return (dispatch) => {
         api.oauthLogin(type, function (success, data, error) {
             if (success) {
-                dispatch({type: t.LOGGED_IN, data: data.user});
+                dispatch({
+                    type: t.LOGGED_IN,
+                    data: {
+                        user: data.user,
+                        settings: data.settings
+                    }
+                });
                 successCB(data);
             }
             else if (error) {

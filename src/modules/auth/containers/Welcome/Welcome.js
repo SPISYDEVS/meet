@@ -14,6 +14,7 @@ import {color} from "../../../../styles/theme";
 import {LinearGradient} from "expo";
 import TimerMixin from 'react-timer-mixin';
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
+const logo = require('../../../../assets/images/logo_circle.png');
 
 
 const mapStateToProps = (state) => {
@@ -117,22 +118,12 @@ class Welcome extends React.Component {
                 <SafeAreaView style={styles.container}>
 
                     <View style={styles.topContainer}>
-                        {/*<Avatar*/}
-                        {/*height={120}*/}
-                        {/*width={120}*/}
-                        {/*src={<Icon type='entypo' name='vk-with-circle'/>}*/}
-                        {/*// activeOpacity={0.7}*/}
-                        {/*rounded*/}
-                        {/*containerStyle={styles.image}*/}
-                        {/*/> */}
-                        <Icon
-                            size={120}
-                            type='entypo'
-                            name='vk-with-circle'
-                            color={color.white}
-                            // activeOpacity={0.7}
-                            rounded
-                            iconStyle={styles.image}
+                        <Avatar
+                        height={100}
+                        width={100}
+                        source={logo}
+                        rounded
+                        containerStyle={styles.image}
                         />
                         <Text style={styles.title}>LetsMeet</Text>
                     </View>
