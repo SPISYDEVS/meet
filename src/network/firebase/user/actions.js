@@ -127,23 +127,35 @@ export function search(searchTerm, successCB, errorCB) {
 
 export function getProfileImage(userId, successCB, errorCB) {
     return (dispatch) => {
-        cache.getItem(`profilePictures/${userId}`, function(err, data) {
+        let imageKey = `profilePictures/${userId}`;
+        cache.getItem(imageKey, function(err, data) {
             // Item not in cache -> fetch profile picture manually
             if (err === undefined) {
-                api.getProfilePic(userId, function(success, data, error) {
-                    if (success) {
-                        cache.setItem(`profilePictures/${userId}`, data, function(err) {
-                            if (err) {
-                                // Cache failed
-                                console.log(err);
-                            }
-                        });
+                // If in queue, wait for it to be set and fetch it
+                if (cache.isKeyInQueue(imageKey)) {
+                    console.log('key is in queue');
+                    cache.on('keySet', function (key, data) {
+                        console.log('key is set');
                         successCB(data);
-                    }
-                    else {
-                        errorCB(error);
-                    }
-                });
+                    });
+                }
+                else {
+                    cache.enqueueKey(imageKey);
+                    api.getProfilePic(userId, function (success, data, error) {
+                        if (success) {
+                            cache.setItem(`profilePictures/${userId}`, data, function (err) {
+                                if (err) {
+                                    // Cache failed
+                                    console.log(err);
+                                }
+                            });
+                            successCB(data);
+                        }
+                        else {
+                            errorCB(error);
+                        }
+                    });
+                }
             }
             // Item is in cache -> pass back the item
             else if (data !== undefined) {
