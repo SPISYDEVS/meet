@@ -1,12 +1,15 @@
 import axios from 'axios';
 import {SERVER_URL} from "../../../config/constants";
 
-export function fetchFeed(location, callback){
+export function fetchFeed(location, fetchingDistance, callback){
+
+    //miles to meters
+    fetchingDistance = fetchingDistance * 1609.34;
 
     axios.get(SERVER_URL + 'api/events/feed',
         {
             params: {
-                radius: 50000,
+                radius: fetchingDistance,
                 daysFromNow: 10,
                 lat: location.latitude,
                 lng: location.longitude,

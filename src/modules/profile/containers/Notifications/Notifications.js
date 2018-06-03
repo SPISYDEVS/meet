@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ScrollView, View} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 
 import FriendRequest from "../../../people/components/FriendRequest/FriendRequest";
 
@@ -11,6 +11,7 @@ import {fetchUsers} from "../../../../network/firebase/user/actions";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventInvitation from "../../../event/components/EventInvitation/EventInvitation";
 import {arraysEqual} from "../../../../utils/comparators";
+import commonStyles from "../../../../styles/commonStyles";
 
 
 class Notifications extends React.Component {
@@ -56,21 +57,31 @@ class Notifications extends React.Component {
 
     render() {
 
-        if(!this.state.dataLoaded){
+        if (!this.state.dataLoaded) {
             return <View/>
         }
 
         let friendNotifications = this.props.user.friendRequestsFrom === undefined ? [] : Object.keys(this.props.user.friendRequestsFrom);
         let eventNotifications = this.props.user.eventInvitations === undefined ? [] : Object.keys(this.props.user.eventInvitations);
+        let hasNotifications = friendNotifications.length + eventNotifications.length > 0;
 
         return (
             <ScrollView style={styles.container}>
                 {
+                    !hasNotifications &&
+                    <View style={commonStyles.emptyContainer}>
+                        <Text style={commonStyles.emptyText}>
+                            No Notifications
+                        </Text>
+                    </View>
+                }
+                {
+                    hasNotifications &&
                     friendNotifications.map((userId, i) => <FriendRequest key={userId} userId={userId}/>)
                 }
                 {
-                    eventNotifications.map((eventId, i) => <EventInvitation key={eventId}
-                                                                            eventId={eventId}/>)
+                    hasNotifications &&
+                    eventNotifications.map((eventId, i) => <EventInvitation key={eventId} eventId={eventId}/>)
                 }
             </ScrollView>
         );

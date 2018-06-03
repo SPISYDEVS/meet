@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {FlatList, Keyboard, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, FlatList, Keyboard, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 
 import {SearchBar} from 'react-native-elements'
 import styles from "./styles"
@@ -12,6 +12,7 @@ import {IndicatorViewPager, PagerTabIndicator} from "rn-viewpager";
 import EventListItem from "../../../event/components/EventListItem";
 import TagListItem from "../../components/TagListItem";
 import {debounce} from "lodash";
+import commonStyles from "../../../../styles/commonStyles";
 
 
 class ExploreSearch extends Component {
@@ -19,12 +20,13 @@ class ExploreSearch extends Component {
         super(props);
         this.state =
             {
+                initial: true,
                 selectedValue: '',
                 searchValue: '',
                 userResult: null,
                 eventResult: null,
                 tagResult: null,
-                dataLoaded: false,
+                dataLoaded: true,
             };
 
         this.debouncedHandleSearch = debounce(this.handleSearch, 500);
@@ -32,6 +34,9 @@ class ExploreSearch extends Component {
     }
 
     handleSearch = () => {
+
+        this.setState({dataLoaded: false});
+
         this.props.search(this.state.searchValue, (data) => {
             let userResult = null;
             if (data.users) {
@@ -57,17 +62,21 @@ class ExploreSearch extends Component {
                 }
             }
 
-            this.setState({eventResult: eventResult, userResult: userResult, tagResult: tagResult});
+            this.setState({
+                eventResult: eventResult,
+                userResult: userResult,
+                tagResult: tagResult,
+                dataLoaded: true,
+                initial: false
+            });
 
         }, (err) => console.log(err));
 
     };
 
     onChangeText = (text) => {
-
         this.setState({searchValue: text});
         this.debouncedHandleSearch();
-
     };
 
     renderUser = (item) => {
@@ -130,7 +139,6 @@ class ExploreSearch extends Component {
                         inputStyle={styles.searchInput}
                         containerStyle={styles.searchBar}
                         onSubmitEditing={(event) => this.handleSearch()}
-                        // onEndEditing={() => {this.props.searchUsers}
                         noIcon
                     />
 
@@ -147,36 +155,77 @@ class ExploreSearch extends Component {
                     {/*Event tab*/}
                     <View style={styles.resultsContainer}>
 
-                        <FlatList
-                            data={this.state.eventResult}
-                            renderItem={(item) => this.renderEvent(item)}
-                            keyExtractor={(eventId) => eventId}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            !this.state.dataLoaded ?
+
+                                <View style={commonStyles.loadingContainer}>
+                                    <ActivityIndicator animating color='white' size="large"/>
+                                </View>
+
+                                :
+
+                                this.state.eventResult === null ?
+                                    <View style={commonStyles.emptyContainer}>
+                                        <Text
+                                            style={commonStyles.emptyText}>{this.state.initial ? 'Search Something!' : 'No Results'}</Text>
+                                    </View> :
+                                    <FlatList
+                                        data={this.state.eventResult}
+                                        renderItem={(item) => this.renderEvent(item)}
+                                        keyExtractor={(eventId) => eventId}
+                                        showsVerticalScrollIndicator={false}
+                                    />
+                        }
 
                     </View>
 
                     {/*People tab*/}
                     <View style={styles.resultsContainer}>
 
-                        <FlatList
-                            data={this.state.userResult}
-                            renderItem={(item) => this.renderUser(item)}
-                            keyExtractor={(userId) => userId}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            !this.state.dataLoaded ?
+
+                                <View style={commonStyles.loadingContainer}>
+                                    <ActivityIndicator animating color='white' size="large"/>
+                                </View>
+                                :
+                                this.state.userResult === null ?
+                                    <View style={commonStyles.emptyContainer}>
+                                        <Text
+                                            style={commonStyles.emptyText}>{this.state.initial ? 'Search Something!' : 'No Results'}</Text>
+                                    </View> :
+                                    <FlatList
+                                        data={this.state.userResult}
+                                        renderItem={(item) => this.renderUser(item)}
+                                        keyExtractor={(userId) => userId}
+                                        showsVerticalScrollIndicator={false}
+                                    />
+                        }
 
                     </View>
 
                     {/*Tags tab*/}
                     <View style={styles.resultsContainer}>
 
-                        <FlatList
-                            data={this.state.tagResult}
-                            renderItem={(item) => this.renderTag(item)}
-                            keyExtractor={(tag) => tag}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            !this.state.dataLoaded ?
+
+                                <View style={commonStyles.loadingContainer}>
+                                    <ActivityIndicator animating color='white' size="large"/>
+                                </View>
+                                :
+                                this.state.tagResult === null ?
+                                    <View style={commonStyles.emptyContainer}>
+                                        <Text
+                                            style={commonStyles.emptyText}>{this.state.initial ? 'Search Something!' : 'No Results'}</Text>
+                                    </View> :
+                                    <FlatList
+                                        data={this.state.tagResult}
+                                        renderItem={(item) => this.renderTag(item)}
+                                        keyExtractor={(tag) => tag}
+                                        showsVerticalScrollIndicator={false}
+                                    />
+                        }
 
                     </View>
 

@@ -12,7 +12,7 @@ import ExploreSearch from "../ExploreSearch/ExploreSearch";
 import Feed from "../Feed/Feed";
 import {updateLocation} from "../../../../network/firebase/feed/actions";
 import haversine from "haversine";
-import {checkInToEvent, fetchEvents} from "../../../../network/firebase/event/actions";
+import {checkInToEvent, checkOutOfEvent, fetchEvents} from "../../../../network/firebase/event/actions";
 import moment from "moment";
 import {savePushToken} from "../../../../network/firebase/pushnotifications/actions";
 
@@ -180,7 +180,30 @@ class HomeScreen extends React.Component {
 
                             }
 
+                        } else {
+
+                            const startDate = event.startDate;
+
+                            //has the event started? can we check the user OUT?
+                            if (moment().valueOf() >= startDate) {
+
+                                const location = event.location;
+                                const distance = haversine(location, userLocation, {unit: 'meter'}).toFixed(1);
+
+                                //is the user within 120 meters of the event?
+                                if (distance > 120) {
+
+                                    //lets check them in!
+                                    this.props.checkOutOfEvent(eventId, () => {
+                                    }, (err) => {
+                                        console.log(err);
+                                    });
+
+                                }
+
+                            }
                         }
+
                     }
 
                 });
@@ -222,6 +245,7 @@ const actions = {
     signOut,
     updateLocation,
     checkInToEvent,
+    checkOutOfEvent,
     fetchEvents,
     savePushToken,
 };

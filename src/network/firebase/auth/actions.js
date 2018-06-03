@@ -31,6 +31,16 @@ export function createUser(user, successCB, errorCB) {
     };
 }
 
+export function updateSettings(settings, successCB, errorCB) {
+    return (dispatch) => {
+        dispatch({
+            type: t.SETTINGS_UPDATED,
+            data: settings
+        });
+
+    };
+}
+
 export function login(data, successCB, errorCB) {
     return (dispatch) => {
         api.login(data, function (success, data, error) {
@@ -72,9 +82,11 @@ export function resetPassword(data, successCB, errorCB) {
     };
 }
 
-export function signOut(successCB, errorCB) {
+export function signOut(settings, successCB, errorCB) {
+    let user = auth.currentUser;
+
     return (dispatch) => {
-        api.signOut(function (success, data, error) {
+        api.signOut(user, settings, function (success, data, error) {
             if (success) {
                 dispatch({type: t.LOGGED_OUT});
                 successCB();
@@ -119,7 +131,13 @@ export function oauthLogin(type, successCB, errorCB) {
     return (dispatch) => {
         api.oauthLogin(type, function (success, data, error) {
             if (success) {
-                dispatch({type: t.LOGGED_IN, data: data.user});
+                dispatch({
+                    type: t.LOGGED_IN,
+                    data: {
+                        user: data.user,
+                        settings: data.settings
+                    }
+                });
                 successCB(data);
             }
             else if (error) {

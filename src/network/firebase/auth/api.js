@@ -16,7 +16,6 @@ export function createUser(user, callback) {
 
     const updates = {};
     updates['/users/' + user.uid] = {...user};
-    updates['/settings/' + user.uid] = DEFAULT_USER_SETTINGS;
 
     database.ref().update(updates)
         .then(() => callback(true, null, null))
@@ -46,10 +45,18 @@ export function getUser(user, callback) {
             database.ref('settings').child(user.uid).once('value').then((snapshot) => {
 
                 const settings = snapshot.val();
-                console.log("WHY");
-                console.log(settings);
 
-                callback(true, {exists, user, settings}, null);
+                if(settings){
+                    callback(true, {exists, user, settings}, null);
+                } else {
+
+                    const updates = {['/settings/' + user.uid]: DEFAULT_USER_SETTINGS};
+
+                    database.ref().update(updates)
+                        .then(() => callback(true, {exists, user, settings}, null))
+                        .catch((error) => callback(false, null, {message: error}));
+
+                }
 
             }).catch(error => callback(false, null, error));
 
@@ -82,7 +89,11 @@ export function resetPassword(data, callback) {
         .catch((error) => callback(false, null, error));
 }
 
-export function signOut(callback) {
+export function signOut(user, settings, callback) {
+
+    const updates = {['/settings/' + user.uid]: settings};
+    database.ref().update(updates);
+
     auth.signOut()
         .then(() => {
             if (callback) callback(true, null, null)

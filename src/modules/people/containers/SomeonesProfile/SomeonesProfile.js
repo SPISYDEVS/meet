@@ -20,6 +20,7 @@ import {fetchEvents} from "../../../../network/firebase/event/actions";
 import EventListView from "../../../event/components/EventCardListView/EventCardListView";
 import commonStyles from "../../../../styles/commonStyles";
 import headerStyles from "../../../../styles/headerStyles";
+import {debounce} from "lodash";
 
 const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
 
@@ -37,6 +38,8 @@ class SomeonesProfile extends React.Component {
             receivingFriendRequest: false,
         };
 
+        this.debounceHandleFriends = debounce(handleFriends, 2000)
+
     }
 
     componentDidMount() {
@@ -46,6 +49,7 @@ class SomeonesProfile extends React.Component {
         //load the user's events if they are friends (events are only visible to friends)
         this.initializeFriendData();
         this.fetchProfilePicture();
+
     }
 
     initializeFriendData = () => {
@@ -68,11 +72,11 @@ class SomeonesProfile extends React.Component {
             this.setState({
                 userFetched: true
             });
-            this.setFriendshipStatus(() => this.fetchFriendsAttendingEvents());
+            this.setFriendshipStatus();
         }
      };
 
-    setFriendshipStatus = (callback) => {
+    setFriendshipStatus = () => {
 
         const currentUser = this.props.currentUser;
         let friendshipStatus = null;
@@ -98,17 +102,17 @@ class SomeonesProfile extends React.Component {
             receivingFriendRequest: receivingFriendRequest,
         });
 
-        if(callback) {
-            callback();
+        if(!this.state.attendingEventsFetched) {
+            this.fetchFriendsAttendingEvents(friendshipStatus);
         }
 
     };
 
-    fetchFriendsAttendingEvents = (userId, friendshipStatus) => {
+    fetchFriendsAttendingEvents = (friendshipStatus) => {
 
         if (friendshipStatus) {
 
-            let attending = this.props.people.byId[userId].eventsAsAttendee;
+            let attending = this.props.people.byId[this.props.userId].eventsAsAttendee;
 
             if (attending) {
                 attending = Object.keys(attending);
@@ -147,9 +151,9 @@ class SomeonesProfile extends React.Component {
 
     revokeFriendship = () => {
         this.props.revokeFriendship(this.props.userId, () => {
-            this.setFriendshipStatus();
             this.setState({
                 mVisible: false,
+                friendshipStatus: null
             });
         });
     };
@@ -167,10 +171,10 @@ class SomeonesProfile extends React.Component {
 
                 const currentUser = this.props.currentUser;
                 const name = currentUser.firstName + " " + currentUser.lastName;
-                this.setFriendshipStatus();
+                this.setState({
+                    friendshipStatus: false
+                });
 
-                console.log("HELLO");
-                console.log(currentUser);
                 this.props.sendPushNotification([this.props.userId],
                     "Friend Request!",
                     name + " wants to be friends",
@@ -188,14 +192,13 @@ class SomeonesProfile extends React.Component {
     render() {
 
         let {friendshipStatus, receivingFriendRequest, source} = this.state;
+        const user = this.props.people.byId[this.props.userId];
 
-        if (!this.state.userFetched) {
+        if (!this.state.userFetched || !user) {
             return <View style={commonStyles.loadingContainer}>
                 <ActivityIndicator animating color='white' size="large"/>
             </View>
         }
-
-        const user = this.props.people.byId[this.props.userId];
 
         return (
             <SafeAreaView style={{flex: 1}}>
@@ -255,7 +258,7 @@ class SomeonesProfile extends React.Component {
                         <RoundedButton
                             title={friendshipStatus === null ? 'SEND FRIEND REQUEST' : friendshipStatus ? 'FRIENDS!' : 'FRIEND REQUEST SENT'}
                             disabled={friendshipStatus === false}
-                            onPress={() => this.handleFriends(friendshipStatus)}/>
+                            onPress={() => this.debounceHandleFriends(friendshipStatus)}/>
                     }
 
                     <Modal style={styles.modal} isVisible={this.state.mVisible}

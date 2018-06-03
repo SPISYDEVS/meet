@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ActivityIndicator, FlatList, ScrollView, View} from "react-native";
+import {ActivityIndicator, FlatList, ScrollView, Text, View} from "react-native";
 
 import UserListItem from "../../components/UserListItem/UserListItem";
 
@@ -75,15 +75,28 @@ class Friends extends React.Component {
         }
 
         return (
-            <FlatList
-                style={styles.container}
-                data={friends}
-                renderItem={(item) => this.renderItem(item)}
-                keyExtractor={(userId) => userId}
-                initialNumToRender={5}
-                // refreshing={this.state.refreshing}
-                // onRefresh={() => this.props.onRefresh()}
-            />
+            <ScrollView style={{flex: 1}}>
+                {
+                    friends === null &&
+                    <View style={commonStyles.emptyContainer}>
+                        <Text style={commonStyles.emptyText}>
+                            Go make some friends!
+                        </Text>
+                    </View>
+                }
+                {
+                    friends !== null &&
+                    <FlatList
+                        style={styles.container}
+                        data={friends}
+                        renderItem={(item) => this.renderItem(item)}
+                        keyExtractor={(userId) => userId}
+                        initialNumToRender={5}
+                        // refreshing={this.state.refreshing}
+                        // onRefresh={() => this.props.onRefresh()}
+                    />
+                }
+            </ScrollView>
         );
     }
 }
