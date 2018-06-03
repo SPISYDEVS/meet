@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         paddingVertical: padding.vertical,
     },
     infoContainer: {
-        flex: 1,
+        // flex: 1,
     },
     infoContent: {
         flexDirection: 'row',

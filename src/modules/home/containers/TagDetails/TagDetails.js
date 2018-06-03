@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 import {ActivityIndicator, Animated, Platform, SafeAreaView, Text, View} from "react-native";
-import EventListView from "../../../event/components/EventListView/EventListView";
+import EventCardListView from "../../../event/components/EventCardListView/EventCardListView";
 import {Icon} from "react-native-elements";
 import commonStyles from "../../../../styles/commonStyles";
 import headerStyles from "../../../../styles/headerStyles";
@@ -71,7 +71,7 @@ class TagDetails extends React.Component {
                         #{this.props.title}
                     </Text>
                 </View>
-                <EventListView eventIds={eventIds} onRefresh={this.debouncedFetchTagEvents}/>
+                <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchTagEvents}/>
 
             </SafeAreaView>
         );

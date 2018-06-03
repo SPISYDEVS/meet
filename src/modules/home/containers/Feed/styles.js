@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
             backgroundColor: color.background,
             flex: 1,
         },
+        searchIconContainer: {
+            paddingHorizontal: padding.horizontal,
+            marginRight: -padding.horizontal
+        },
         emptyContainer: {
             justifyContent: 'center',
             alignItems: 'center',
