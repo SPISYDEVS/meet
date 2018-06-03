@@ -16,7 +16,8 @@ class RoundedButton extends Component {
                 raised
                 title={this.props.title}
                 containerViewStyle={[styles.containerView, styles.buttonContainer]}
-                buttonStyle={styles.button}
+                buttonStyle={this.props.disabled ? [styles.button, styles.disabled] : styles.button}
+                disabled={this.props.disabled}
                 textStyle={[styles.buttonText, {color: this.props.textColor}]}
                 onPress={this.props.onPress}/>
         );
@@ -31,6 +32,7 @@ RoundedButton.propTypes = {
 
 RoundedButton.defaultProps = {
     textColor: color.background,
+    disabled: false,
 };
 
 export default RoundedButton;

@@ -7,7 +7,7 @@ import {Actions} from 'react-native-router-flux'
 import TabButtons from "../../../common/components/TabButtons";
 import styles from "./styles";
 import {fetchEvents} from "../../../../network/firebase/event/actions";
-import EventListView from "../../components/EventListView/EventListView";
+import EventListView from "../../components/EventCardListView/EventCardListView";
 import headerStyles from "../../../../styles/headerStyles";
 import {color} from "../../../../styles/theme";
 import {Icon} from "react-native-elements";
@@ -109,6 +109,8 @@ class MyEvents extends Component {
 
                     <Icon type='ionicon' name="md-add"
                           color={color.text}
+                          containerStyle={styles.createIconContainer}
+                          underlayColor={color.underlay}
                           size={35} onPress={() => Actions.push('EventForm')}/>
                 </View>
 

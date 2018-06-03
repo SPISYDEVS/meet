@@ -24,6 +24,7 @@ class ExploreSearch extends Component {
                 userResult: null,
                 eventResult: null,
                 tagResult: null,
+                dataLoaded: false,
             };
 
         this.debouncedHandleSearch = debounce(this.handleSearch, 500);

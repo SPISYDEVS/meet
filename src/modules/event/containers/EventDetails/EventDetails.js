@@ -88,9 +88,11 @@ class EventDetails extends React.Component {
         startDate = moment(startDate).format(DATE_FORMAT);
         endDate = endDate ? moment(endDate).format(DATE_FORMAT) : '';
 
+        tags = tags ? Object.keys(tags) : undefined;
+
         Actions.push('EditEvent', {
             editMode: true,
-            tags: Object.keys(tags),
+            tags: tags,
             title: title,
             startDate: startDate,
             endDate: endDate,
@@ -238,11 +240,11 @@ class EventDetails extends React.Component {
                                         Object.keys(tags).map(tag => {
                                             return (
                                                 <Tag
+                                                    onPress={() => Actions.push('TagDetails', {title: tag})}
                                                     key={tag}
                                                     title={tag}
                                                     textColor={backgroundGradient[1]}
                                                     editMode={false}
-                                                    onPress={() => {}}
                                                 />
                                             );
                                         })

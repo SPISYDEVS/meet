@@ -70,7 +70,8 @@ const color = {
 
 
     text: 'white',
-    transparent: 'transparent'
+    transparent: 'transparent',
+    underlay: '#414141',
 
 };
 

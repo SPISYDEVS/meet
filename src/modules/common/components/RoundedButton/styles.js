@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
 
+    disabled: {
+        opacity: 0.82,
+    },
+
     buttonText: {
         fontSize: fontSize.regular + 2,
         fontFamily: fontFamily.medium,

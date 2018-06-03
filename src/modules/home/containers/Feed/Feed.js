@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {ActivityIndicator, Animated, Platform, SafeAreaView, Text, View} from "react-native";
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
-import EventListView from "../../../event/components/EventListView/EventListView";
+import EventCardListView from "../../../event/components/EventCardListView/EventCardListView";
 import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
@@ -14,6 +14,7 @@ import headerStyles from "../../../../styles/headerStyles";
 import {HEADER_HEIGHT} from "../../../../config/constants";
 import {Icon} from "react-native-elements";
 import {debounce} from "lodash";
+import {color} from "../../../../styles/theme";
 
 class Feed extends React.Component {
     constructor(props) {
@@ -122,7 +123,7 @@ class Feed extends React.Component {
                 </View>
                 }
 
-                <EventListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
+                <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
                                scrollY={this.state.scrollY} animated/>
 
                 <Animated.View
@@ -133,6 +134,8 @@ class Feed extends React.Component {
                     <Text style={headerStyles.headerText}>Feed</Text>
 
                     <Icon type='ionicon' name="md-search" size={35} color={"white"}
+                          underlayColor={color.underlay}
+                          containerStyle={styles.searchIconContainer}
                           onPress={() => this.props.onSearchIconPress()}/>
                 </Animated.View>
 

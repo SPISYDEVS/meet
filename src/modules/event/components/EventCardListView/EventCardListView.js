@@ -8,7 +8,7 @@ import {padding} from "../../../../styles/theme";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class EventListView extends Component {
+class EventCardListView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,8 +41,12 @@ class EventListView extends Component {
 
     render() {
 
-        const eventIds = this.props.eventIds;
-        // console.log(eventIds);
+        let eventIds = this.props.eventIds;
+
+        // if(eventIds.length === 0){
+        //     eventIds = null;
+        // }
+
         return (
             <AnimatedFlatList
                 style={styles.container}
@@ -68,16 +72,17 @@ class EventListView extends Component {
     }
 }
 
-EventListView.propTypes = {
+EventCardListView.propTypes = {
+    eventIds: PropTypes.array.isRequired,
     onRefresh: PropTypes.func,
     animated: PropTypes.bool
 };
 
-EventListView.defaultProps = {
+EventCardListView.defaultProps = {
     onRefresh: () => {
     },
     scrollY: 0,
     animated: false
 };
 
-export default EventListView;
+export default EventCardListView;

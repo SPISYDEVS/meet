@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
         backgroundColor: color.background,
         paddingHorizontal: 0,
     },
+    createIconContainer: {
+        paddingHorizontal: padding.horizontal,
+        marginRight: -padding.horizontal
+    },
     content: {
         flex: 1,
     },

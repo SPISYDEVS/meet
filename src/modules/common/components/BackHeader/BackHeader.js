@@ -6,6 +6,7 @@ import {Icon} from "react-native-elements";
 import {SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from "prop-types";
 import styles from "./styles";
+import {Platform} from "react-native";
 
 class BackHeader extends React.Component {
     constructor(props) {
@@ -30,7 +31,12 @@ class BackHeader extends React.Component {
                     {
                         this.props.simpleBackChevron &&
                         <TouchableOpacity onPress={() => Actions.pop()}>
-                            <Icon name='chevron-thin-left' type='entypo' color={color.text} size={25}/>
+                            <Icon
+                                name={Platform.OS === 'ios' ? 'chevron-thin-left' : 'arrow-back'}
+                                type={Platform.OS === 'ios' ? 'entypo' : 'material'}
+                                color={color.text}
+                                size={25}
+                            />
                         </TouchableOpacity>
                     }
                     {

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: color.white
+        backgroundColor: color.background
     },
 
     wrapper:{
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     image:{
         height: 100,
         width: 100,
-        backgroundColor: color.grey,
+        // backgroundColor: color.grey,
         marginBottom: padding.vertical,
         resizeMode
     },
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         fontSize:fontSize.large + 5,
         lineHeight:fontSize.large + 7,
         fontFamily: fontFamily.medium,
-        color: "#FF553F",
+        color: color.white,
         letterSpacing: 1
     },
 
