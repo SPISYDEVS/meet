@@ -14,16 +14,6 @@ const styles = StyleSheet.create({
             paddingHorizontal: padding.horizontal,
             marginRight: -padding.horizontal
         },
-        emptyContainer: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-        },
-        emptyText: {
-            color: color.text,
-            fontSize: fontSize.large,
-            opacity: 0.75
-        },
         headerWrapper: {
             position: 'absolute',
             top: 0,
