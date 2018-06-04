@@ -242,6 +242,8 @@ export function respondToEventInvitation(eventId, accept, callback) {
         updates['/events/' + eventId + '/plannedAttendees/' + currentUser.uid] = true;
     }
 
-    database.ref().update(updates);
+    database.ref().update(updates).then(() => {
+        callback(true, {eventId: eventId, plannedAttendees: {[currentUser.uid]: true}}, null);
+    });
 
 }

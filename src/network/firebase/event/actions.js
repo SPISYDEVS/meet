@@ -161,7 +161,7 @@ export function respondToEventInvitation(eventId, accept, successCB, errorCB) {
     return (dispatch) => {
         api.respondToEventInvitation(eventId, accept, function (success, data, error) {
             if (success) {
-                // dispatch({type: t.EVENT_RSVP, data: data});
+                dispatch({type: t.EVENT_RSVP, data: data});
                 successCB();
             } else if (error) errorCB(error)
         });
