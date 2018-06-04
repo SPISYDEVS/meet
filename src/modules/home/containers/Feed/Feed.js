@@ -11,7 +11,7 @@ import {fetchUsers} from "../../../../network/firebase/user/actions";
 import styles from "./styles";
 import commonStyles from "../../../../styles/commonStyles";
 import headerStyles from "../../../../styles/headerStyles";
-import {HEADER_HEIGHT} from "../../../../config/constants";
+import {DEFAULT_USER_SETTINGS, HEADER_HEIGHT} from "../../../../config/constants";
 import {Icon} from "react-native-elements";
 import {debounce} from "lodash";
 import {color} from "../../../../styles/theme";
@@ -58,7 +58,12 @@ class Feed extends React.Component {
 
     fetchFeed = () => {
         const location = this.props.feedReducer.location;
-        const fetchingDistance = this.props.settings.fetchingDistance;
+
+        let fetchingDistance = DEFAULT_USER_SETTINGS.fetchingDistance;
+
+        if(this.props.settings !== null){
+            fetchingDistance = this.props.settings.fetchingDistance;
+        }
 
         //load events into store
         this.props.fetchFeed(location, fetchingDistance, (data) => {
