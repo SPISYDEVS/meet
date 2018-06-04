@@ -147,7 +147,7 @@ class Feed extends React.Component {
             <SafeAreaView style={styles.container}>
                 {
                     !hasEvents ?
-                        <ScrollView style={commonStyles.emptyContainer} onRefresh={this.debouncedFetchFeed}>
+                        <ScrollView contentContainerStyle={commonStyles.emptyContainer} onRefresh={this.debouncedFetchFeed}>
                             <Text style={commonStyles.emptyText}>There aren't any events yet!</Text>
                         </ScrollView> :
                         <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
