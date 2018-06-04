@@ -99,7 +99,7 @@ export function commentOnEvent(eventId, comment, successCB, errorCB) {
     return (dispatch) => {
         api.commentOnEvent(eventId, commentObj, function (success, data, error) {
             if (success) {
-                dispatch({type: t.COMMENT_ON_EVENT, data: {eventId: eventId, comment:data}});
+                // dispatch({type: t.COMMENT_ON_EVENT, data: {eventId: eventId, comment:data}});
                 successCB();
             } else if (error) errorCB(error)
         });

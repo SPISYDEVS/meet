@@ -49,7 +49,6 @@ class Event extends React.PureComponent {
         Actions.push('EventDetails', {eventId: this.props.eventId});
     };
 
-
     fetchProfilePicture = (userId) => {
         this.props.getProfileImage(userId,
             (profile) => {
@@ -61,7 +60,6 @@ class Event extends React.PureComponent {
                 console.log(error);
             });
     };
-
 
     render() {
 

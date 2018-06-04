@@ -156,9 +156,9 @@ export function rsvpEvent(eventId, user, callback) {
 }
 
 export function fetchEventComments(eventId, callback) {
-    database.ref('comments').child(eventId).once('value').then((snapshot) => {
+    database.ref('comments').child(eventId).on('value', (snapshot) => {
         callback(true, snapshot.val(), null);
-    }).catch(error => callback(false, null, error));
+    }, error => callback(false, null, error));
 }
 
 export function commentOnEvent(eventId, comment, callback) {

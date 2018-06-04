@@ -10,6 +10,7 @@ const commonStyles = StyleSheet.create({
         alignItems: 'center',
     },
     emptyContainer: {
+        marginHorizontal: padding.horizontal * 3,
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,

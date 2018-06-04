@@ -231,7 +231,7 @@ class SomeonesProfile extends React.Component {
 
                         !this.state.friendshipStatus ?
 
-                            <View style={commonStyles.loadingContainer}>
+                            <View style={commonStyles.emptyContainer}>
                                 <Text style={commonStyles.emptyText}> You must be {user.firstName}'s friend to see his
                                     events </Text>
                             </View>
