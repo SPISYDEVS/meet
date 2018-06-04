@@ -272,26 +272,44 @@ class EventForm extends React.Component {
         this.setState(state);
     };
 
+    isAlphaNumeric(char) {
+        let chr = char.toLowerCase();
+        let alphaNumeric = (chr >= 'a' && chr <= 'z') || (chr >= '0' && chr <= '9');
+        return char.length === 1 && alphaNumeric;
+    };
+
     onDescriptionChange = (newDescription, blur) => {
 
         const state = {...this.state};
+        state['description']['value'] = newDescription;
+        this.setState(state);
 
         const words = newDescription.replace( /\n/g, ' ').split(' ');
-
-        let descriptionWithoutTags = [];
 
         let tags = [];
 
         for (let i = 1; i < words.length; i++) {
 
+            let index = words[i - 1].indexOf('#');
+
             //check if a space is preceeded by a hashtagged word
-            if (words[i] === "" && words[i - 1].startsWith('#') && words[i - 1].length > 1) {
+            if (index !== -1 && words[i - 1].length > 1) {
 
                 //push the word without the hashtag to the list of tags
-                tags.push(words[i - 1].slice(-(words[i - 1].length - 1)).toLowerCase());
+                let indexOfNonAlphanumeric = words[i-1].length;
+                for (let j = index+1; j < words[i-1].length; j++) {
+                    let char = String(words[i-1].charAt(j));
+                    if (!this.isAlphaNumeric(char)) {
+                        indexOfNonAlphanumeric = j;
+                        break;
+                    }
+                }
 
-            } else {
-                descriptionWithoutTags.push(words[i - 1]);
+                let tag = words[i - 1].slice(index + 1, indexOfNonAlphanumeric).toLowerCase();
+                if (tag.length !== 0) {
+                    tags.push(tag);
+                }
+
             }
 
         }
@@ -303,33 +321,13 @@ class EventForm extends React.Component {
 
             tags.push(lastWord.slice(-(lastWord.length - 1)).toLowerCase());
 
-        } else {
-
-            //last word will always be an uncompleted word unless the user exits the description input
-            descriptionWithoutTags.push(words[words.length - 1]);
-
         }
-
-        console.log(tags);
-        console.log(descriptionWithoutTags);
-        descriptionWithoutTags = descriptionWithoutTags.join(' ');
-
-        //add in new tags
-        const oldTags = state['tags']['value'];
-        state['tags']['value'] = oldTags.concat(tags.filter(tag => !oldTags.includes(tag)));
-
-        //update description appropriately
-        state['description']['value'] = descriptionWithoutTags;
+        state['tags']['value'] = tags;
 
         this.setState(state);
 
     };
 
-    removeTag = (tag) => {
-        const state = {...this.state};
-        state['tags']['value'] = state['tags']['value'].filter(t => t !== tag);
-        this.setState(state);
-    };
 
     onChange = (key, data) => {
         const state = {...this.state};
@@ -398,6 +396,7 @@ class EventForm extends React.Component {
 
         let backgroundGradient = [color.background, color.background];
 
+        console.log(this.state['description']['value']);
         if (this.state[startDate]['value']) {
             backgroundGradient = fetchBackgroundGradient(moment(this.state[startDate]['value'], DATE_FORMAT).valueOf());
         }
@@ -484,7 +483,7 @@ class EventForm extends React.Component {
                                         {...form.fields[description]['options']}
                                         onChangeText={(text) => this.onDescriptionChange(text, false)}
                                         onBlur={(e) => this.onDescriptionChange(this.state[description]['value'], true)}
-                                        value={this.state[description]['value']}
+                                        value={this.state['description']['value']}
                                         error={this.state['error'][description]}
                                     />
                                 </View>
@@ -498,7 +497,8 @@ class EventForm extends React.Component {
                                             {
                                                 this.state[tags]['value'].map(tag => {
                                                     return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
-                                                                onPress={() => this.removeTag(tag)}/>
+                                                                editMode={false}
+                                                                onPress={() => {}}/>
                                                 })
                                             }
                                         </ScrollView>
