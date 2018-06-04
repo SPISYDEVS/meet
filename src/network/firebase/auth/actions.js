@@ -1,6 +1,7 @@
 import * as t from './actionTypes';
 import * as api from './api';
 import {auth} from "../../../config/firebase";
+import {cache} from '../../../config/cache';
 
 import {AsyncStorage} from 'react-native';
 import {DEFAULT_USER_SETTINGS} from "../../../config/constants";
