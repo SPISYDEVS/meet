@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ActivityIndicator, FlatList, ScrollView, Text, View} from "react-native";
+import {ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, View} from "react-native";
 
 import UserListItem from "../../components/UserListItem/UserListItem";
 
