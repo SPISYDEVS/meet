@@ -12,20 +12,36 @@ import {Actions} from 'react-native-router-flux';
 
 const schools = [
     {
+        title: 'UCB',
+        value: 'UCB'
+    },
+    {
+        title: 'UCD',
+        value: 'UCD'
+    },
+    {
         title: 'UCI',
         value: 'UCI'
     },
     {
-        title: 'UCSD',
-        value: 'UCSD'
+        title: 'UCR',
+        value: 'UCR'
+    },
+    {
+        title: 'UCLA',
+        value: 'UCLA'
     },
     {
         title: 'UCSB',
         value: 'UCSB'
     },
     {
-        title: 'UCLA',
-        value: 'UCLA'
+        title: 'UCSC',
+        value: 'UCSC'
+    },
+    {
+        title: 'UCSD',
+        value: 'UCSD'
     },
 ];
 

@@ -130,6 +130,7 @@ export function getProfileImage(userId, successCB, errorCB) {
         cache.getItem(`profilePictures/${userId}`, function(err, data) {
             // Item not in cache -> fetch profile picture manually
             if (err === undefined) {
+                console.log(`fetching profilePictures/${userId}`);
                 api.getProfilePic(userId, function(success, data, error) {
                     if (success) {
                         cache.setItem(`profilePictures/${userId}`, data, function(err) {
