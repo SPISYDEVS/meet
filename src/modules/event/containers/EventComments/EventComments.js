@@ -99,8 +99,7 @@ class EventComments extends React.Component {
         const commentValue = comment.comment;
         const timeAgo = moment.utc(comment.timestamp).local().fromNow();
         const {profiles} = this.state;
-        // console.log(profiles);
-        console.log('render comments');
+
         let hasProfile = profiles[comment.userId] !== null && profiles[comment.userId] !== undefined;
 
         return (
@@ -131,8 +130,7 @@ class EventComments extends React.Component {
 
     commentOnEvent = () => {
         this.props.commentOnEvent(this.props.eventId, this.state.comment,
-            () => {
-            },
+            () => {},
             (err) => console.log(err));
 
         this.setState({comment: ''});

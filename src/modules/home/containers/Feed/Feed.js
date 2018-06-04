@@ -3,7 +3,7 @@ import {Constants, Location, Permissions} from 'expo';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
-import {ActivityIndicator, Animated, Platform, SafeAreaView, Text, View} from "react-native";
+import {ActivityIndicator, Animated, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventCardListView from "../../../event/components/EventCardListView/EventCardListView";
@@ -80,7 +80,7 @@ class Feed extends React.Component {
 
         let fetchingDistance = DEFAULT_USER_SETTINGS.fetchingDistance;
 
-        if(this.props.settings !== null && this.props.settings !== undefined){
+        if (this.props.settings !== null && this.props.settings !== undefined) {
             fetchingDistance = this.props.settings.fetchingDistance;
         }
 
@@ -146,15 +146,13 @@ class Feed extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 {
-                    !hasEvents &&
-                    <View style={commonStyles.emptyContainer}>
-                        <Text style={commonStyles.emptyText}>There aren't any events yet!</Text>
-                    </View>
+                    !hasEvents ?
+                        <ScrollView style={commonStyles.emptyContainer} onRefresh={this.debouncedFetchFeed}>
+                            <Text style={commonStyles.emptyText}>There aren't any events yet!</Text>
+                        </ScrollView> :
+                        <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
+                                           scrollY={this.state.scrollY} animated/>
                 }
-
-                <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
-                                   scrollY={this.state.scrollY} animated/>
-
                 <Animated.View
                     style={[headerStyles.padded, headerStyles.rowContainer, styles.headerWrapper, {
                         opacity: opacity,
