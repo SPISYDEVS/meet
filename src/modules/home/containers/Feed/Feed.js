@@ -61,7 +61,7 @@ class Feed extends React.Component {
 
         let fetchingDistance = DEFAULT_USER_SETTINGS.fetchingDistance;
 
-        if(this.props.settings !== null){
+        if(this.props.settings !== null && this.props.settings !== undefined){
             fetchingDistance = this.props.settings.fetchingDistance;
         }
 
