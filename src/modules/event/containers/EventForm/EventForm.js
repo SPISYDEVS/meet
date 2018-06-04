@@ -394,7 +394,7 @@ class EventForm extends React.Component {
         const [title, description, tags, startDate, endDate, location, invitations] = Object.keys(this.form.fields);
         const address = this.state[location]['other']['address'];
         const invited = this.state[invitations]['value'];
-        const friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees);
+        let friendsToNotInclude = invited.map(invitee => invitee.id).concat(this.props.invitees).concat(this.props.plannedAttendees);
 
         let backgroundGradient = [color.background, color.background];
 

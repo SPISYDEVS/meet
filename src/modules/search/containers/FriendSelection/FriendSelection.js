@@ -40,8 +40,11 @@ class FriendSelection extends Component {
             });
         }
 
+        console.log(this.props.notIncluded);
+
         friends = friends.filter(id => !this.props.notIncluded.includes(id));
 
+        console.log(friends);
         this.setState({
             friends: friends
         });
