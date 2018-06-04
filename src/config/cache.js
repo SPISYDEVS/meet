@@ -2,20 +2,6 @@ import {Cache} from "react-native-cache";
 import {AsyncStorage} from 'react-native';
 import {database} from './firebase';
 
-
-database.ref('profilePictures').on('child_changed', function(profile) {
-    let userId = profile.key;
-    cache.removeItem(`profilePictures/${userId}`, function(err) {
-    });
-});
-
-database.ref('profilePictures').on('child_removed', function(profile) {
-    let userId = profile.key;
-    cache.removeItem(`profilePictures/${userId}`, function(err) {
-    });
-});
-
-
 // Wrapper around Cache
 class ImagesCacheWithListener {
     constructor(options) {
@@ -102,4 +88,17 @@ export const cache = new ImagesCacheWithListener({
         maxEntries: 100
     },
     backend: AsyncStorage
+});
+
+
+database.ref('profilePictures').on('child_changed', function(profile) {
+    let userId = profile.key;
+    cache.removeItem(`profilePictures/${userId}`, function(err) {
+    });
+});
+
+database.ref('profilePictures').on('child_removed', function(profile) {
+    let userId = profile.key;
+    cache.removeItem(`profilePictures/${userId}`, function(err) {
+    });
 });
