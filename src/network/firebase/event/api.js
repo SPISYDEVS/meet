@@ -72,8 +72,7 @@ export function editEvent(event, eventId, callback) {
         callback(true, eventId, null);
 
     }).catch(error => callback(false, null, error));
-
-
+    
 }
 
 export function fetchEvents(eventIds, callback) {
