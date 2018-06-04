@@ -53,7 +53,7 @@ export function getUser(user, callback) {
                     const updates = {['/settings/' + user.uid]: DEFAULT_USER_SETTINGS};
 
                     database.ref().update(updates)
-                        .then(() => callback(true, {exists, user, settings}, null))
+                        .then(() => callback(true, {exists, user, settings: DEFAULT_USER_SETTINGS}, null))
                         .catch((error) => callback(false, null, {message: error}));
 
                 }
