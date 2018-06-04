@@ -20,7 +20,10 @@ class Friends extends React.Component {
     }
 
     componentDidMount() {
+        this.fetchFriends();
+    }
 
+    fetchFriends() {
         if (this.props.user.friends === undefined) {
             this.setState({
                 dataLoaded: true
@@ -51,8 +54,11 @@ class Friends extends React.Component {
                 dataLoaded: true
             })
         }
+    };
 
-    }
+    onRefresh = () => {
+        this.fetchFriends();
+    };
 
     renderItem = (item) => {
         const userId = item.item;
@@ -75,7 +81,14 @@ class Friends extends React.Component {
         }
 
         return (
-            <ScrollView style={{flex: 1}}>
+            <ScrollView
+                style={{flex: 1}}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={!this.state.dataLoaded}
+                        onRefresh={this.onRefresh}
+                    />
+                }>
                 {
                     friends === null &&
                     <View style={commonStyles.emptyContainer}>

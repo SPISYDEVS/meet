@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         marginRight: padding.horizontal * 0.5,
         marginVertical: 0,
-        marginBottom: 3,
+        marginBottom: padding.horizontal * 0.5,
         paddingLeft: padding.horizontal,
         paddingRight: padding.horizontal * 0.7,
         paddingVertical: 0,

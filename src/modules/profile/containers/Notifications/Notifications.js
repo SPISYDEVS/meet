@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import styles from "./styles"
 
-import {ScrollView, Text, View} from "react-native";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
 
 import FriendRequest from "../../../people/components/FriendRequest/FriendRequest";
 
@@ -55,6 +55,12 @@ class Notifications extends React.Component {
 
     };
 
+    onRefresh = () => {
+        const friendRequestsFrom = this.props.user.friendRequestsFrom;
+        const eventInvitations = this.props.user.eventInvitations;
+        this.fetchNotifications(friendRequestsFrom, eventInvitations);
+    };
+
     render() {
 
         if (!this.state.dataLoaded) {
@@ -66,7 +72,14 @@ class Notifications extends React.Component {
         let hasNotifications = friendNotifications.length + eventNotifications.length > 0;
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView
+                style={styles.container}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={!this.state.dataLoaded}
+                        onRefresh={this.onRefresh}
+                    />
+                }>
                 {
                     !hasNotifications &&
                     <View style={commonStyles.emptyContainer}>

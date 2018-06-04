@@ -496,7 +496,7 @@ class EventForm extends React.Component {
                                 {
                                     tags &&
                                     <View style={styles.tagContainer}>
-                                        
+
                                         <FlatList
                                             contentContainerStyle={styles.tagFlatList}
                                             data={this.state[tags]['value']}

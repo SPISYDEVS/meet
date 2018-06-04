@@ -218,7 +218,8 @@ class EventDetails extends React.Component {
                                         refreshing={this.state.refreshing}
                                         onRefresh={this.onRefresh}
                                     />
-                                }>
+                                }
+                                showsVerticalScrollIndicator={false}>
 
                         <View style={styles.header}>
 
@@ -250,14 +251,13 @@ class EventDetails extends React.Component {
                         {
                             tags &&
                             <View style={styles.tagContainer}>
-
                                 <FlatList
                                     contentContainerStyle={styles.tagFlatList}
                                     data={Object.keys(tags)}
                                     renderItem={(tag) => (
                                         <Tag key={tag.item} title={tag.item} textColor={backgroundGradient[1]}
                                              editMode={false}
-                                             onPress={() => {}}
+                                             onPress={() => Actions.push('TagDetails', {title: tag.item})}
                                         />
                                     )}
                                 />
