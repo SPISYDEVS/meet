@@ -16,6 +16,7 @@ export function createUser(user, callback) {
 
     const updates = {};
     updates['/users/' + user.uid] = {...user};
+    updates['/settings/' + user.uid] = DEFAULT_USER_SETTINGS;
 
     database.ref().update(updates)
         .then(() => callback(true, null, null))

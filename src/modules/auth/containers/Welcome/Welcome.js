@@ -134,19 +134,12 @@ class Welcome extends React.Component {
                                 raised
                                 button
                                 type='facebook'
-                                title='SIGN UP WITH FACEBOOK'
+                                title='SIGN IN WITH FACEBOOK'
                                 iconSize={19}
                                 style={[styles.containerView, styles.socialButton]}
                                 fontStyle={styles.socialButtonText}
                                 onPress={() => this.onSignInWithFacebook()}/>
 
-                            {/*<Button*/}
-                                {/*raised*/}
-                                {/*title={'SIGN UP WITH E-MAIL'}*/}
-                                {/*containerViewStyle={[styles.containerView, styles.socialButton]}*/}
-                                {/*buttonStyle={styles.button}*/}
-                                {/*textStyle={styles.buttonText}*/}
-                                {/*onPress={Actions.Register}/>*/}
                                 <RoundedButton
                                     title={'SIGN UP WITH E-MAIL'}
                                     onPress={Actions.Register}/>

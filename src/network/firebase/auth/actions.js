@@ -109,7 +109,11 @@ export function checkLoginStatus(callback) {
                     if (user === null) isLoggedIn = false; //set the loggedIn value to false
                     else {
                         AsyncStorage.getItem('settings', (err, settings) => {
-                            console.log(settings);
+
+                            if(settings === null){
+                                settings = DEFAULT_USER_SETTINGS;
+                            }
+
                             dispatch({
                                 type: t.LOGGED_IN, data: {
                                     user: JSON.parse(user),
