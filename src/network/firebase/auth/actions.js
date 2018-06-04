@@ -65,6 +65,7 @@ export function persistCurrentUser(successCB, errorCB) {
     let user = auth.currentUser;
 
     return (dispatch) => {
+        console.log('i am persisting');
         api.persistUser(user, function (success, data, error) {
             if (success) {
                 if (data.exists) dispatch({type: t.USER_UPDATED, data: data.user});
@@ -104,10 +105,11 @@ export function checkLoginStatus(callback) {
             if (isLoggedIn) {
                 //get the user object from the Async storage
                 AsyncStorage.getItem('user', (err, user) => {
-
+                    console.log(user);
                     if (user === null) isLoggedIn = false; //set the loggedIn value to false
                     else {
                         AsyncStorage.getItem('settings', (err, settings) => {
+                            console.log(settings);
                             dispatch({
                                 type: t.LOGGED_IN, data: {
                                     user: JSON.parse(user),

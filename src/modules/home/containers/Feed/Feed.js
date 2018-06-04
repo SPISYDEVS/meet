@@ -31,6 +31,7 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
+        console.log('mount my ass');
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
         } else {

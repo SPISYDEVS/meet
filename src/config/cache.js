@@ -20,19 +20,17 @@ class ImagesCacheWithListener {
         let imagesCacheQueue = this.imagesCacheQueue;
         let listeners = this.listeners;
 
-        this.cache.setItem(key, value, function(err) {
-            callback(err);
 
-            if (listeners['keySet'][key] !== undefined) {
-                for (let listenerFunc of listeners['keySet'][key]) {
-                    listenerFunc(key, value);
-                }
+        this.cache.setItem(key, value, callback);
 
-                delete listeners['keySet'][key];
+        if (listeners['keySet'][key] !== undefined) {
+            for (let listenerFunc of listeners['keySet'][key]) {
+                listenerFunc(key, value);
             }
 
-            delete imagesCacheQueue[key];
-        });
+            delete listeners['keySet'][key];
+        }
+        delete imagesCacheQueue[key];
     };
 
 
@@ -62,7 +60,19 @@ class ImagesCacheWithListener {
 
 
     clearAll(callback) {
-        this.cache.clearAll(callback);
+        let cache = this.cache;
+        this.cache.getAll(function(err, entries) {
+            for (let key in entries) {
+                if (key.startsWith('profilePictures')) {
+                    cache.removeItem(key, (err) => {});
+                }
+            }
+        });
+    }
+
+
+    getAll(callback) {
+        this.cache.getAll(callback);
     }
 
 
@@ -89,6 +99,9 @@ export const cache = new ImagesCacheWithListener({
     },
     backend: AsyncStorage
 });
+
+
+cache.clearAll((err) => {});
 
 
 database.ref('profilePictures').on('child_changed', function(profile) {

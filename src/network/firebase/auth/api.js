@@ -45,9 +45,10 @@ export function getUser(user, callback) {
             database.ref('settings').child(user.uid).once('value').then((snapshot) => {
 
                 const settings = snapshot.val();
+                console.log(settings);
 
                 if(settings){
-                    callback(true, {exists, user, settings}, null);
+                    callback(true, {exists, user, settings: settings}, null);
                 } else {
 
                     const updates = {['/settings/' + user.uid]: DEFAULT_USER_SETTINGS};
@@ -61,7 +62,7 @@ export function getUser(user, callback) {
             }).catch(error => callback(false, null, error));
 
         } else {
-            callback(true, {exists, user}, null);
+            callback(true, {exists, user, settings: DEFAULT_USER_SETTINGS}, null);
         }
 
     })

@@ -16,7 +16,7 @@ import styles, {commentStyles} from "./styles";
 import commonStyles from '../../../../styles/commonStyles';
 import {connect} from "react-redux";
 
-import {fetchUsers} from '../../../../network/firebase/user/actions';
+import {fetchUsers, getProfileImages} from '../../../../network/firebase/user/actions';
 import {commentOnEvent, fetchEventComments} from '../../../../network/firebase/event/actions';
 import {LinearGradient} from 'expo';
 import BackHeader from "../../../common/components/BackHeader/BackHeader";
@@ -24,6 +24,9 @@ import {color} from "../../../../styles/theme";
 import handleViewProfile from "../../../people/utils/handleViewProfile";
 import {Avatar} from "react-native-elements";
 import moment from "moment";
+
+const defaultImage = require('../../../../assets/images/default_profile_picture.jpg');
+
 
 class EventComments extends React.Component {
     constructor(props) {
@@ -33,7 +36,8 @@ class EventComments extends React.Component {
             offset: 0,
             upScroll: true,
             commenting: false,
-            comment: ''
+            comment: '',
+            profiles: {}
         };
     }
 
@@ -50,12 +54,16 @@ class EventComments extends React.Component {
 
             //handle lazily loading user data from firebase if the users aren't loaded into the client yet
             let usersToFetch = [];
+            let usersToFetchProfiles = [];
 
             comments.forEach(comment => {
                 if (!(comment.userId in this.props.peopleReducer.byId)) {
                     usersToFetch.push(id);
                 }
+                usersToFetchProfiles.push(comment.userId);
             });
+
+            this.fetchProfileImages(usersToFetchProfiles);
 
             if (usersToFetch.length > 0) {
 
@@ -69,18 +77,36 @@ class EventComments extends React.Component {
 
         }, (err) => console.log(err));
 
-    }
+    };
+
+    fetchProfileImages = (userIds) => {
+        console.log(userIds);
+        this.props.getProfileImages(userIds,
+            (profiles) => {
+            console.log(profiles);
+                this.setState({
+                    profiles: profiles
+                });
+            },
+            (error) => {
+                console.log(error);
+            });
+    };
 
     renderComment = (comment) => {
 
         const user = this.props.peopleReducer.byId[comment.userId];
         const commentValue = comment.comment;
         const timeAgo = moment.utc(comment.timestamp).local().fromNow();
+        const {profiles} = this.state;
+        // console.log(profiles);
+        console.log('render comments');
+        let hasProfile = profiles[comment.userId] !== null && profiles[comment.userId] !== undefined;
 
         return (
             <TouchableOpacity style={commentStyles.container} onPress={() => handleViewProfile(user.uid)}>
                 <Avatar rounded
-                        source={{uri: user.profile === undefined ? '' : user.profile.source}}
+                        source={hasProfile ? {uri: profiles[comment.userId].source} : defaultImage}
                         onPress={() => handleViewProfile(user.uid)}
                         activeOpacity={0.7}/>
                 <View style={commentStyles.comment}>
@@ -124,6 +150,7 @@ class EventComments extends React.Component {
             </LinearGradient>
         }
 
+        console.log('rerendered');
         const comments = this.props.eventReducer.byId[this.props.eventId]['comments'];
 
         if (comments === undefined || comments.length === 0) {
@@ -182,6 +209,7 @@ class EventComments extends React.Component {
                         <View style={styles.container}>
                             <FlatList
                                 data={comments}
+                                extraData={this.state}
                                 renderItem={(comment) => this.renderComment(comment.item)}
                                 keyExtractor={comment => (comment.userId + comment.timestamp)}
                             />
@@ -232,7 +260,8 @@ const mapStateToProps = (state) => {
 const actions = {
     fetchUsers,
     commentOnEvent,
-    fetchEventComments
+    fetchEventComments,
+    getProfileImages
 };
 
 export default connect(mapStateToProps, actions)(EventComments);

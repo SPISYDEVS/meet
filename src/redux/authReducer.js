@@ -26,9 +26,13 @@ const authReducer = (state = initialState, action) => {
         case t.USER_UPDATED: {
             const user = action.data;
 
-            state = Object.assign({}, state, {isLoggedIn: true, user: user});
+            // state = Object.assign({}, state, {isLoggedIn: true, user: user});
 
-            return state;
+            // return state;
+            return {
+                ...state,
+                user: user
+            };
         }
         case t.SETTINGS_UPDATED: {
             const settings = action.data;
@@ -44,8 +48,6 @@ const authReducer = (state = initialState, action) => {
         case t.LOGGED_OUT: {
             let keys = ['user', 'settings'];
             AsyncStorage.multiRemove(keys);
-
-            state = Object.assign({}, state, {isLoggedIn: false, user: {}});
 
             return {
                 ...state,
