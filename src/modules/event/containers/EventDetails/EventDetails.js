@@ -82,8 +82,9 @@ class EventDetails extends React.Component {
 
         //navigates to the edit event screen, passing the event data to the form
         const event = this.props.eventReducer.byId[this.props.eventId];
-        let {title, startDate, endDate, location, tags, address, description, hostId, invitations} = event;
+        let {title, startDate, endDate, location, tags, plannedAttendees, address, description, hostId, invitations} = event;
 
+        plannedAttendees = plannedAttendees ? Object.keys(plannedAttendees) : [];
         let invitees = invitations ? Object.keys(invitations) : [];
 
         startDate = moment(startDate).format(DATE_FORMAT);
@@ -101,6 +102,7 @@ class EventDetails extends React.Component {
             address: address,
             description: description,
             invitees: invitees,
+            plannedAttendees: plannedAttendees,
             eventId: this.props.eventId
         });
     };
@@ -216,7 +218,8 @@ class EventDetails extends React.Component {
                                         refreshing={this.state.refreshing}
                                         onRefresh={this.onRefresh}
                                     />
-                                }>
+                                }
+                                showsVerticalScrollIndicator={false}>
 
                         <View style={styles.header}>
 
@@ -248,25 +251,16 @@ class EventDetails extends React.Component {
                         {
                             tags &&
                             <View style={styles.tagContainer}>
-
-                                <ScrollView horizontal>
-
-                                    {
-                                        Object.keys(tags).map(tag => {
-                                            return (
-                                                <Tag
-                                                    onPress={() => Actions.push('TagDetails', {title: tag})}
-                                                    key={tag}
-                                                    title={tag}
-                                                    textColor={backgroundGradient[1]}
-                                                    editMode={false}
-                                                />
-                                            );
-                                        })
-                                    }
-
-
-                                </ScrollView>
+                                <FlatList
+                                    contentContainerStyle={styles.tagFlatList}
+                                    data={Object.keys(tags)}
+                                    renderItem={(tag) => (
+                                        <Tag key={tag.item} title={tag.item} textColor={backgroundGradient[1]}
+                                             editMode={false}
+                                             onPress={() => Actions.push('TagDetails', {title: tag.item})}
+                                        />
+                                    )}
+                                />
 
                             </View>
                         }
