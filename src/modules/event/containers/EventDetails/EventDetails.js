@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {ActivityIndicator, FlatList, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, RefreshControl, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 import styles from "./styles";
 import commonStyles from '../../../../styles/commonStyles';
@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import {Actions} from 'react-native-router-flux';
 
 import {fetchUsers} from '../../../../network/firebase/user/actions';
-import {cancelRsvpEvent, rsvpEvent} from '../../../../network/firebase/event/actions';
+import {cancelRsvpEvent, fetchEvent, rsvpEvent} from '../../../../network/firebase/event/actions';
 import moment from "moment";
 import UserListItem from "../../../people/components/UserListItem/UserListItem";
 import {LinearGradient} from 'expo';
@@ -29,6 +29,7 @@ class EventDetails extends React.Component {
             dataLoaded: false,
             offset: 0,
             upScroll: true,
+            refreshing: false,
         };
     }
 
@@ -127,6 +128,13 @@ class EventDetails extends React.Component {
         this.setState({offset: currentOffset, upScroll: upScroll});
     };
 
+    onRefresh = () => {
+        this.setState({refreshing: true});
+        this.props.fetchEvent(this.props.eventId, () => {
+            this.setState({refreshing: false}, err => console.log(err));
+        });
+    };
+
     generateHeaderProps = (isHost) => {
 
         const rightHeaderButtons = [{
@@ -197,11 +205,18 @@ class EventDetails extends React.Component {
                             style={{flex: 1}}
                             start={[.5, .15]}>
 
-                <SafeAreaView style={{flex:1}}>
+                <SafeAreaView style={{flex: 1}}>
 
                     <BackHeader {...headerProps}/>
 
-                    <ScrollView style={styles.container} onScrollBeginDrag={this.onScroll}>
+                    <ScrollView style={styles.container}
+                                onScrollBeginDrag={this.onScroll}
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.refreshing}
+                                        onRefresh={this.onRefresh}
+                                    />
+                                }>
 
                         <View style={styles.header}>
 
@@ -341,6 +356,7 @@ const mapStateToProps = (state) => {
 
 const actions = {
     fetchUsers,
+    fetchEvent,
     rsvpEvent,
     cancelRsvpEvent
 };

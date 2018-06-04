@@ -41,9 +41,11 @@ export function editEvent(event, eventId, callback) {
 
     database.ref('events').child(eventId).once('value').then((snapshot) => {
 
-        const oldTags = snapshot.val().tags;
+        const oldEvent = snapshot.val();
 
-        if(oldTags){
+        const oldTags = oldEvent.tags;
+
+        if (oldTags) {
 
             //get rid of the old tags
             Object.keys(oldTags).forEach(tag => {
@@ -64,7 +66,10 @@ export function editEvent(event, eventId, callback) {
 
         updates['/events/' + eventId] = event;
 
-        database.ref().update(updates);
+        database.ref().update({
+            ...oldEvent,
+            ...updates
+        });
 
         //store location as a separate child
         geofireRef.set(eventId, [event.location.latitude, event.location.longitude]);
