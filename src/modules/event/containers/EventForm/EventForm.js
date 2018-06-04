@@ -287,6 +287,7 @@ class EventForm extends React.Component {
         const words = newDescription.replace( /\n/g, ' ').split(' ');
 
         let tags = [];
+        let tagsMap = {};
 
         for (let i = 1; i < words.length; i++) {
 
@@ -307,7 +308,10 @@ class EventForm extends React.Component {
 
                 let tag = words[i - 1].slice(index + 1, indexOfNonAlphanumeric).toLowerCase();
                 if (tag.length !== 0) {
-                    tags.push(tag);
+                    if (tagsMap[tag] === undefined) {
+                        tags.push(tag);
+                        tagsMap[tag] = true;
+                    }
                 }
 
             }
@@ -492,16 +496,17 @@ class EventForm extends React.Component {
                                 {
                                     tags &&
                                     <View style={styles.tagContainer}>
-
-                                        <ScrollView horizontal>
-                                            {
-                                                this.state[tags]['value'].map(tag => {
-                                                    return <Tag key={tag} title={tag} textColor={backgroundGradient[1]}
-                                                                editMode={false}
-                                                                onPress={() => {}}/>
-                                                })
-                                            }
-                                        </ScrollView>
+                                        
+                                        <FlatList
+                                            contentContainerStyle={styles.tagFlatList}
+                                            data={this.state[tags]['value']}
+                                            renderItem={(tag) => (
+                                                <Tag key={tag.item} title={tag.item} textColor={backgroundGradient[1]}
+                                                     editMode={false}
+                                                     onPress={() => {}}
+                                                />
+                                            )}
+                                        />
 
                                     </View>
                                 }

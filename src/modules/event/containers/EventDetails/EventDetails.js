@@ -251,24 +251,16 @@ class EventDetails extends React.Component {
                             tags &&
                             <View style={styles.tagContainer}>
 
-                                <ScrollView horizontal>
-
-                                    {
-                                        Object.keys(tags).map(tag => {
-                                            return (
-                                                <Tag
-                                                    onPress={() => Actions.push('TagDetails', {title: tag})}
-                                                    key={tag}
-                                                    title={tag}
-                                                    textColor={backgroundGradient[1]}
-                                                    editMode={false}
-                                                />
-                                            );
-                                        })
-                                    }
-
-
-                                </ScrollView>
+                                <FlatList
+                                    contentContainerStyle={styles.tagFlatList}
+                                    data={Object.keys(tags)}
+                                    renderItem={(tag) => (
+                                        <Tag key={tag.item} title={tag.item} textColor={backgroundGradient[1]}
+                                             editMode={false}
+                                             onPress={() => {}}
+                                        />
+                                    )}
+                                />
 
                             </View>
                         }

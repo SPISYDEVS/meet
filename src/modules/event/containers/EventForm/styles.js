@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         marginBottom: padding.vertical * 2
     },
     tagContainer: {
-        height: 30,
+        marginTop: 4,
         marginBottom: padding.vertical * 2
     },
     inputContainer: {
@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         shadowOpacity: 0,
         width: (windowWidth - 40)
+    },
+    tagFlatList: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     }
 });
 
