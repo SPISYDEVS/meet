@@ -43,7 +43,7 @@ export function editEvent(event, user, eventId, successCB, errorCB) {
     return (dispatch) => {
         api.editEvent(event, eventId, function (success, data, error) {
             if (success) {
-                dispatch({type: t.EVENT_CREATED, data: {event: event, eventId: data}});
+                dispatch({type: t.EVENT_EDITED, data: {event: event, eventId: data}});
                 successCB();
             } else if (error) errorCB(error)
         });

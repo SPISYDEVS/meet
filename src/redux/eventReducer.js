@@ -26,6 +26,34 @@ const eventReducer = (state = initialState, action) => {
                 allIds: newIds,
             };
         }
+        case t.EVENT_EDITED: {
+            const event = action.data.event;
+            const eventId = action.data.eventId;
+
+            const newIds = [...state.allIds];
+
+            let newEvent = event;
+            if (!newIds.includes(eventId)) {
+                newIds.push(eventId);
+            } else {
+                newEvent = {
+                    ...newEvent,
+                    ...state.byId[eventId]
+                }
+            }
+
+            return {
+                ...state,
+                byId: {
+                    ...state.byId,
+                    [eventId]: {
+                        ...state.byId[eventId],
+                        ...event
+                    }
+                },
+                allIds: newIds,
+            };
+        }
         case t.EVENT_FETCHED:
         case t.EVENTS_FETCHED: {
             const events = action.data;
