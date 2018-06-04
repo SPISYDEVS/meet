@@ -67,8 +67,12 @@ export function editEvent(event, eventId, callback) {
         updates['/events/' + eventId] = event;
 
         database.ref().update({
-            ...oldEvent,
             ...updates
+        });
+
+        database.ref('events').child(eventId).update({
+            ...oldEvent,
+            ...event
         });
 
         //store location as a separate child
