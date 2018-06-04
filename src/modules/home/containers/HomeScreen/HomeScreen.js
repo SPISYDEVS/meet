@@ -102,13 +102,18 @@ class HomeScreen extends React.Component {
 
         //handle lazily loading event data from firebase if the events aren't loaded into the client yet
         if (eventsToFetch.length > 0) {
+            console.log('fetching attendee events');
             this.props.fetchEvents(eventsToFetch, () => {
-                this.watchLocation();
-            }, () => {
+                console.log('calling this');
+
+            }, (error) => {
+                console.log('calling that');
             });
+
         } else {
-            this.watchLocation();
+            console.log('not fetching atendee events');
         }
+        this.watchLocation();
 
     };
 
