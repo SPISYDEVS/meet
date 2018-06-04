@@ -111,7 +111,7 @@ export function checkLoginStatus(callback) {
                         AsyncStorage.getItem('settings', (err, settings) => {
 
                             if(settings === null){
-                                settings = DEFAULT_USER_SETTINGS;
+                                settings = JSON.stringify(DEFAULT_USER_SETTINGS);
                             }
 
                             dispatch({
