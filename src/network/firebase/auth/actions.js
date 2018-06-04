@@ -1,6 +1,7 @@
 import * as t from './actionTypes';
 import * as api from './api';
 import {auth} from "../../../config/firebase";
+import {cache} from '../../../config/cache';
 
 import {AsyncStorage} from 'react-native';
 import {DEFAULT_USER_SETTINGS} from "../../../config/constants";
@@ -89,6 +90,7 @@ export function signOut(settings, successCB, errorCB) {
         api.signOut(user, settings, function (success, data, error) {
             if (success) {
                 dispatch({type: t.LOGGED_OUT});
+                cache.clearAll(function(err){})
                 successCB();
             } else if (error) errorCB(error)
         });

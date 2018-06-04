@@ -107,6 +107,10 @@ class Profile extends React.Component {
     };
 
     onUpdateProfile = () => {
+        this.fetchProfilePicture();
+    };
+
+    onErrorUpdatingProfile = (error) => {
 
     };
 
@@ -125,8 +129,7 @@ class Profile extends React.Component {
                 }
             };
 
-            this.props.updateProfile(data, this.onUpdateProfile, () => {
-            });
+            this.props.updateProfile(data, this.onUpdateProfile, this.onErrorUpdatingProfile);
         });
     };
 
@@ -154,7 +157,8 @@ class Profile extends React.Component {
     };
 
 
-    fetchProfilePicture = (user) => {
+    fetchProfilePicture = () => {
+        const {user} = this.props;
         if (user.uid !== undefined) {
             this.props.getProfileImage(user.uid,
                 (profile) => {
@@ -170,8 +174,7 @@ class Profile extends React.Component {
 
 
     componentDidMount() {
-        const {user} = this.props;
-        this.fetchProfilePicture(user);
+        this.fetchProfilePicture();
     }
 
 
