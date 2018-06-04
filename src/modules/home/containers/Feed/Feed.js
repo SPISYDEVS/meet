@@ -1,5 +1,5 @@
 import React from 'react';
-import {Constants, Location} from 'expo';
+import {Constants, Location, Permissions} from 'expo';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
@@ -31,12 +31,17 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mount my ass');
+        // console.log('mount my ass');
         if (Platform.OS === 'android' && !Constants.isDevice) {
             console.log("IT DIDN'T WORK");
+            this.fetchFeed();
         } else {
             this._getLocationAsync().then(() => {
-                this.fetchFeed()
+                console.log('can fetch location');
+                this.fetchFeed();
+            }).catch(err => {
+                console.log('cannot fetch location');
+                this.fetchFeed();
             });
         }
     };
@@ -45,14 +50,28 @@ class Feed extends React.Component {
     _getLocationAsync = async () => {
 
         if (this.props.feedReducer.locFetched) {
-            let location = await Location.getCurrentPositionAsync({});
+            let {status} = await Permissions.askAsync(Permissions.LOCATION);
 
-            const lat = location.coords.latitude;
-            const lng = location.coords.longitude;
+            if (status === 'granted') {
+                console.log('getting location');
+                let location = await Promise.race([
+                    new Promise((resolver) => {
+                        setTimeout(resolver, 5000, null);
+                    }),
+                    Location.getCurrentPositionAsync({}),
+                ]);
+                const lat = location.coords.latitude;
+                const lng = location.coords.longitude;
 
-            //update location in store
-            this.props.updateLocation({latitude: lat, longitude: lng});
+                console.log(lat);
+                //update location in store
+                this.props.updateLocation({latitude: lat, longitude: lng});
+                console.log('done getting location');
+            }
+
         }
+
+        console.log("end of get location async");
 
     };
 
@@ -64,6 +83,8 @@ class Feed extends React.Component {
         if(this.props.settings !== null && this.props.settings !== undefined){
             fetchingDistance = this.props.settings.fetchingDistance;
         }
+
+        console.log(fetchingDistance);
 
         //load events into store
         this.props.fetchFeed(location, fetchingDistance, (data) => {

@@ -4,7 +4,7 @@ import {SERVER_URL} from "../../../config/constants";
 export function fetchFeed(location, fetchingDistance, callback){
 
     //miles to meters
-    fetchingDistance = fetchingDistance * 1609.34;
+    fetchingDistance = fetchingDistance * 1.60934;
 
     axios.get(SERVER_URL + 'api/events/feed',
         {
