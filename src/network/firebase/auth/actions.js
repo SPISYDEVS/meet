@@ -90,7 +90,6 @@ export function signOut(settings, successCB, errorCB) {
         api.signOut(user, settings, function (success, data, error) {
             if (success) {
                 dispatch({type: t.LOGGED_OUT});
-                cache.clearAll(function(err){})
                 successCB();
             } else if (error) errorCB(error)
         });
