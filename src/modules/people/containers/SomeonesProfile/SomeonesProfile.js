@@ -247,7 +247,7 @@ class SomeonesProfile extends React.Component {
                     {
                         receivingFriendRequest &&
                         <RoundedButton
-                            title={user.firstName + " " + user.lastName + " has sent you a friend request!"}
+                            title={user.firstName + " sent you a friend request!"}
                             disabled
                             onPress={() => {
                             }}/>

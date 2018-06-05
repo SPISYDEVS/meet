@@ -70,7 +70,6 @@ class FriendSelection extends Component {
     render() {
         let {profiles, friends} = this.state;
 
-
         //pass in a list of friend objects
         friends = friends.map(id => {
             if (id in this.props.peopleReducer.byId) {
