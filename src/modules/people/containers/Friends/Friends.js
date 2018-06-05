@@ -15,7 +15,8 @@ class Friends extends React.Component {
     constructor() {
         super();
         this.state = {
-            dataLoaded: false
+            dataLoaded: false,
+            refresh: false
         }
     }
 
@@ -24,9 +25,14 @@ class Friends extends React.Component {
     }
 
     fetchFriends() {
+        this.setState({
+            refresh: true
+        });
+
         if (this.props.user.friends === undefined) {
             this.setState({
-                dataLoaded: true
+                dataLoaded: true,
+                refresh: false
             });
             return;
         }
@@ -44,15 +50,17 @@ class Friends extends React.Component {
         if (usersToFetch.length > 0) {
             this.props.fetchUsers(usersToFetch, () => {
                 this.setState({
-                    dataLoaded: true
-                })
+                    dataLoaded: true,
+                    refresh: false
+                });
             }, (error) => {
                 console.log(error);
             });
         } else {
             this.setState({
-                dataLoaded: true
-            })
+                dataLoaded: true,
+                refresh:false
+            });
         }
     };
 
@@ -85,7 +93,7 @@ class Friends extends React.Component {
                 style={{flex: 1}}
                 refreshControl={
                     <RefreshControl
-                        refreshing={!this.state.dataLoaded}
+                        refreshing={this.state.refresh}
                         onRefresh={this.onRefresh}
                     />
                 }>

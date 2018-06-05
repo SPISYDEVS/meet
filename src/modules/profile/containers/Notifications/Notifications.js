@@ -19,6 +19,7 @@ class Notifications extends React.Component {
         super();
         this.state = {
             dataLoaded: false,
+            refresh: false
         }
     }
 
@@ -29,6 +30,9 @@ class Notifications extends React.Component {
     }
 
     fetchNotifications = (friendRequestsFrom, eventInvitations) => {
+        this.setState({
+            refresh: true
+        });
 
         if (eventInvitations) {
             eventInvitations = Object.keys(this.props.user.eventInvitations);
@@ -39,18 +43,30 @@ class Notifications extends React.Component {
 
         if (eventInvitations && friendRequestsFrom) {
             this.props.fetchEvents(eventInvitations, () => {
-                this.props.fetchUsers(friendRequestsFrom, () => this.setState({dataLoaded: true}), () => {
+                this.props.fetchUsers(friendRequestsFrom, () => this.setState({
+                    dataLoaded: true,
+                    refresh: false
+                }), () => {
                 })
             }, () => {
             })
         } else if (eventInvitations) {
-            this.props.fetchEvents(eventInvitations, () => this.setState({dataLoaded: true}), () => {
+            this.props.fetchEvents(eventInvitations, () => this.setState({
+                dataLoaded: true,
+                refresh: false
+            }), () => {
             })
         } else if (friendRequestsFrom) {
-            this.props.fetchUsers(friendRequestsFrom, () => this.setState({dataLoaded: true}), () => {
+            this.props.fetchUsers(friendRequestsFrom, () => this.setState({
+                dataLoaded: true,
+                refresh: false
+            }), () => {
             })
         } else {
-            this.setState({dataLoaded: true});
+            this.setState({
+                dataLoaded: true,
+                refresh: false
+            });
         }
 
     };
@@ -76,7 +92,7 @@ class Notifications extends React.Component {
                 style={styles.container}
                 refreshControl={
                     <RefreshControl
-                        refreshing={!this.state.dataLoaded}
+                        refreshing={this.state.refresh}
                         onRefresh={this.onRefresh}
                     />
                 }>
