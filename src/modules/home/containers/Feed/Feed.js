@@ -3,7 +3,10 @@ import {Constants, Location, Permissions} from 'expo';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
-import {ActivityIndicator, Animated, Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
+import {
+    ActivityIndicator, Animated, Platform, RefreshControl, SafeAreaView, ScrollView, Text,
+    View
+} from "react-native";
 import {persistCurrentUser, signOut} from '../../../../network/firebase/auth/actions';
 import {fetchFeed, updateLocation} from '../../../../network/firebase/feed/actions';
 import EventCardListView from "../../../event/components/EventCardListView/EventCardListView";
@@ -147,7 +150,13 @@ class Feed extends React.Component {
             <SafeAreaView style={styles.container}>
                 {
                     !hasEvents ?
-                        <ScrollView contentContainerStyle={commonStyles.emptyContainer} onRefresh={this.debouncedFetchFeed}>
+                        <ScrollView contentContainerStyle={commonStyles.emptyContainer}
+                                    refreshControl={
+                                        <RefreshControl
+                                            refreshing={this.state.refreshing}
+                                            onRefresh={this.debouncedFetchFeed}
+                                        />}
+                        >
                             <Text style={commonStyles.emptyText}>There aren't any events yet!</Text>
                         </ScrollView> :
                         <EventCardListView eventIds={eventIds} onRefresh={this.debouncedFetchFeed}
