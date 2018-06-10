@@ -98,16 +98,17 @@ export function editUser(user, callback) {
 
 
 export function uploadProfilePic(userId, profile, callback) {
-    database.ref('profilePictures').child(userId).update({
+    let data = {
         width: profile.width,
         height: profile.height,
         source: profile.source
-    }, function (error) {
+    };
+    database.ref('profilePictures').child(userId).update(data, function(error) {
         if (error) {
-            callback(false, {message: error});
+            callback(false, null, {message: error});
         }
         else {
-            callback(true, null);
+            callback(true, data, null);
         }
     });
 }

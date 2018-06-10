@@ -48,10 +48,15 @@ export function revokeFriendship(friendId, accept, successCB, errorCB) {
     };
 }
 
-export function updateProfile(user, successCB, errorCB) {
+export function updateProfile(user, successCB, errorCB, uploadCB) {
+    if (uploadCB === undefined)
+        uploadCB = (success, data, error) => {};
+
     return (dispatch) => {
         if (user.profile) {
-            api.uploadProfilePic(user.uid, user.profile, (error) => {});
+            api.uploadProfilePic(user.uid, user.profile, (success, data, error) => {
+                uploadCB(success, data, error);
+            });
             user.profile = {
                 path: `profilePictures/${user.uid}`
             }
