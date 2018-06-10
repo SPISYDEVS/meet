@@ -83,7 +83,6 @@ class EventComments extends React.Component {
         console.log(userIds);
         this.props.getProfileImages(userIds,
             (profiles) => {
-            console.log(profiles);
                 this.setState({
                     profiles: profiles
                 });
@@ -130,7 +129,9 @@ class EventComments extends React.Component {
 
     commentOnEvent = () => {
         this.props.commentOnEvent(this.props.eventId, this.state.comment,
-            () => {},
+            () => {
+            this.fetchProfileImages()
+            },
             (err) => console.log(err));
 
         this.setState({comment: ''});
