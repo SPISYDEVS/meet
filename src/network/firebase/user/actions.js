@@ -135,7 +135,7 @@ export function getProfileImage(userId, successCB, errorCB) {
         let imageKey = `profilePictures/${userId}`;
         cache.getItem(imageKey, function(err, data) {
             // Item not in cache -> fetch profile picture manually
-            if (err === undefined) {
+            if (data === undefined) {
                 // If in queue, wait for it to be set and fetch it
                 if (cache.isKeyInQueue(imageKey)) {
                     cache.on(imageKey, 'keySet', function (key, data) {
