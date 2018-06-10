@@ -1,5 +1,6 @@
 import * as t from './actionTypes';
 import * as api from './api';
+import * as userApi from '../user/api';
 import {auth} from "../../../config/firebase";
 import {cache} from '../../../config/cache';
 
@@ -17,6 +18,13 @@ export function register(data, successCB, errorCB) {
 
 export function createUser(user, successCB, errorCB) {
     return (dispatch) => {
+        if (user.profile) {
+            userApi.uploadProfilePic(user.uid, user.profile, (error) => {});
+            user.profile = {
+                path: `profilePictures/${user.uid}`
+            }
+        }
+
         api.createUser(user, function (success, data, error) {
             if (success) {
                 dispatch({
