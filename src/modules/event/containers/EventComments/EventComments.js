@@ -49,33 +49,34 @@ class EventComments extends React.Component {
         //fetch the comments associated with the event
         this.props.fetchEventComments(eventId, (comments) => {
 
-            //after the comments are fetched, fetch the user profiles associated with the comments
-            comments = Object.values(comments);
+            if (comments) {
+                //after the comments are fetched, fetch the user profiles associated with the comments
+                comments = Object.values(comments);
+            } else {
+                comments = [];
+            }
 
-            if(comments) {
+            //handle lazily loading user data from firebase if the users aren't loaded into the client yet
+            let usersToFetch = [];
+            let usersToFetchProfiles = [];
 
-                //handle lazily loading user data from firebase if the users aren't loaded into the client yet
-                let usersToFetch = [];
-                let usersToFetchProfiles = [];
-
-                comments.forEach(comment => {
-                    if (!(comment.userId in this.props.peopleReducer.byId)) {
-                        usersToFetch.push(comment.userId);
-                    }
-                    usersToFetchProfiles.push(comment.userId);
-                });
-
-                this.fetchProfileImages(usersToFetchProfiles);
-
-                if (usersToFetch.length > 0) {
-
-                    this.props.fetchUsers(usersToFetch, () => {
-                        this.setState({dataLoaded: true});
-                    }, (err) => console.log(err));
-
-                } else {
-                    this.setState({dataLoaded: true});
+            comments.forEach(comment => {
+                if (!(comment.userId in this.props.peopleReducer.byId)) {
+                    usersToFetch.push(comment.userId);
                 }
+                usersToFetchProfiles.push(comment.userId);
+            });
+
+            this.fetchProfileImages(usersToFetchProfiles);
+
+            if (usersToFetch.length > 0) {
+
+                this.props.fetchUsers(usersToFetch, () => {
+                    this.setState({dataLoaded: true});
+                }, (err) => console.log(err));
+
+            } else {
+                this.setState({dataLoaded: true});
             }
 
         }, (err) => console.log(err));
@@ -155,7 +156,7 @@ class EventComments extends React.Component {
     commentOnEvent = () => {
         this.props.commentOnEvent(this.props.eventId, this.state.comment,
             () => {
-            this.fetchUsers();
+                this.fetchUsers();
             },
             (err) => console.log(err));
 

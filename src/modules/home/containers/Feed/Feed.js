@@ -80,8 +80,6 @@ class Feed extends React.Component {
             fetchingDistance = this.props.settings.fetchingDistance;
         }
 
-        console.log(fetchingDistance);
-
         //load events into store
         this.props.fetchFeed(location, fetchingDistance, (data) => {
             this.setState({

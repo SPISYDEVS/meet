@@ -133,7 +133,8 @@ class EventDetails extends React.Component {
     onRefresh = () => {
         this.setState({refreshing: true});
         this.props.fetchEvent(this.props.eventId, () => {
-            this.setState({refreshing: false}, err => console.log(err));
+            this.setState({refreshing: false},
+                err => console.log(err));
         });
     };
 

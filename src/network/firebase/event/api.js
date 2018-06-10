@@ -184,6 +184,7 @@ export function cancelRsvpEvent(eventId, user, callback) {
 
     updates['/users/' + user.uid + '/eventsAsAttendee/' + eventId] = null;
     updates['/events/' + eventId + '/plannedAttendees/' + user.uid] = null;
+    updates['/events/' + eventId + '/actualAttendees/' + user.uid] = null;
 
     database.ref().update(updates).then(() => {
         callback(true, {eventId: eventId, userId: user.uid}, null);

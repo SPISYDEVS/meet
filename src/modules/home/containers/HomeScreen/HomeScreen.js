@@ -127,7 +127,8 @@ class HomeScreen extends React.Component {
         }
 
         Location.watchPositionAsync({
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
+            timeInterval: 5000,
             distanceInterval: 50,
         }, (loc) => {
 
@@ -195,10 +196,10 @@ class HomeScreen extends React.Component {
                                 const location = event.location;
                                 const distance = haversine(location, userLocation, {unit: 'meter'}).toFixed(1);
 
-                                //is the user within 120 meters of the event?
+                                //is the user not within 120 meters of the event?
                                 if (distance > 120) {
 
-                                    //lets check them in!
+                                    //lets check them out!
                                     this.props.checkOutOfEvent(eventId, () => {
                                     }, (err) => {
                                         console.log(err);

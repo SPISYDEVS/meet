@@ -63,11 +63,12 @@ class Event extends React.PureComponent {
 
     render() {
 
-        if (!this.state.dataLoaded) {
+        const event = this.props.eventReducer.byId[this.props.eventId];
+
+        if (!this.state.dataLoaded || !event) {
             return <View/>
         }
 
-        const event = this.props.eventReducer.byId[this.props.eventId];
         const host = this.props.peopleReducer.byId[event.hostId];
 
         this.fetchProfilePicture(event.hostId);

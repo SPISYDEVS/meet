@@ -156,6 +156,20 @@ const eventReducer = (state = initialState, action) => {
                 event.plannedAttendees = {};
             }
 
+            //update the event actualAttendees with the new data
+            if (event.actualAttendees !== undefined) {
+
+                event.actualAttendees = Object.keys(event.actualAttendees).reduce((result, key) => {
+                    if (key !== userId) {
+                        result[key] = [key];
+                    }
+                    return result;
+                }, {});
+
+            } else {
+                event.actualAttendees = {};
+            }
+
             return {
                 ...state,
                 byId: {

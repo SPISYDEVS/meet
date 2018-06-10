@@ -21,7 +21,7 @@ const peopleReducer = (state = initialState, action) => {
             }
         }
         case authT.LOGGED_IN: {
-            const user = action.data;
+            const user = action.data.user;
 
             const newIds = [...state.allIds];
 
