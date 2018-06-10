@@ -16,6 +16,18 @@ export function fetchUsers(userIds, callback) {
         });
 }
 
+export function fetchUser(userId, callback) {
+    return database.ref('users').child(userId).on('value',
+        (snapshot) => {
+            const user = snapshot.val();
+            callback(true, {[snapshot.key]: user}, null)
+        })
+        .catch((error) => {
+            callback(false, null, {message: error})
+        });
+
+}
+
 export function sendFriendRequest(requesteeId, callback) {
     let currentUser = auth.currentUser;
     database.ref('users').child(currentUser.uid).child('friendRequestsTo').child(requesteeId).once('value', function (snapshot) {
@@ -90,7 +102,7 @@ export function uploadProfilePic(userId, profile, callback) {
         width: profile.width,
         height: profile.height,
         source: profile.source
-    }, function(error) {
+    }, function (error) {
         if (error) {
             callback(false, {message: error});
         }
@@ -98,18 +110,6 @@ export function uploadProfilePic(userId, profile, callback) {
             callback(true, null);
         }
     });
-}
-
-
-//Get the user object from the realtime database
-export function fetchUser(userId, callback) {
-    database.ref('users').child(userId).once('value').then((snapshot) => {
-
-        let user = snapshot.val();
-
-        callback(true, {[snapshot.key]: user}, null);
-    })
-        .catch(error => callback(false, null, error));
 }
 
 //Get the user object from the realtime database
@@ -176,7 +176,7 @@ export function search(searchTerm, callback) {
 }
 
 export function getProfilePic(userId, callback) {
-    database.ref('profilePictures').child(userId).once('value', function(snapshot) {
+    database.ref('profilePictures').child(userId).once('value', function (snapshot) {
         let profile = snapshot.val();
 
         if (profile !== null) {

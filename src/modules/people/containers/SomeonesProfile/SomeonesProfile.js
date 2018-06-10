@@ -59,7 +59,7 @@ class SomeonesProfile extends React.Component {
         //lazily load the person's profile
         if (user === undefined) {
 
-            this.props.fetchUsers([this.props.userId],
+            this.props.fetchUser(this.props.userId,
                 () => {
                     this.setState({
                         userFetched: true
@@ -294,7 +294,7 @@ const mapStateToProps = (state) => {
 };
 
 const actions = {
-    fetchUsers,
+    fetchUser,
     fetchEvents,
     sendFriendRequest,
     revokeFriendship,
