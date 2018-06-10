@@ -8,6 +8,7 @@ import Modal from "react-native-modal";
 import {AVATAR_SIZE} from "../../../profile/constants";
 
 import {
+    fetchUser,
     fetchUsers,
     getProfileImage,
     revokeFriendship,
