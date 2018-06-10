@@ -5,15 +5,16 @@ import {connect} from 'react-redux';
 
 
 import {createState, extractData, hasErrors} from "../../../common/utils/formUtils";
-import {View} from "react-native";
+import {Keyboard, TouchableWithoutFeedback, View} from "react-native";
 import TextInput from "../../../common/components/TextInput";
-import Button from "react-native-elements/src/buttons/Button";
-import formStyles from "../../../../styles/formStyles";
 
-
+import {isEmpty} from "../../../../utils/validate";
 import {resetPassword} from '../../../../network/firebase/auth/actions';
 import RoundedButton from "../../../common/components/RoundedButton/RoundedButton";
-
+import {LinearGradient} from "expo";
+import {color} from "../../../../styles/theme";
+import BackHeader from "../../../common/components/BackHeader/BackHeader";
+import styles from "./styles";
 
 class ForgotPassword extends React.Component {
     constructor() {
@@ -63,17 +64,25 @@ class ForgotPassword extends React.Component {
     render() {
 
         const [email] = Object.keys(this.fields);
+        const backgroundGradient = [color.welcome_gradient1, color.welcome_gradient7];
 
         return (
-            <View style={formStyles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <TextInput
-                    {...this.fields[email]}
-                    onChangeText={(text) => this.onChange(email, text)}
-                    value={this.state[email]['value']}
-                    error={this.state.error[email]}/>
+                <LinearGradient colors={backgroundGradient}
+                                style={{flex: 1}}>
 
-                {/*<Button*/}
+                    <BackHeader simpleBackX/>
+
+                    <View style={styles.container}>
+
+                    <TextInput
+                        {...this.fields[email]}
+                        onChangeText={(text) => this.onChange(email, text)}
+                        value={this.state[email]['value']}
+                        error={this.state.error[email]}/>
+
+                    {/*<Button*/}
                     {/*raised*/}
                     {/*title='Complete'*/}
                     {/*borderRadius={4}*/}
@@ -85,7 +94,9 @@ class ForgotPassword extends React.Component {
                         title={'Complete'}
                         onPress={this.onSubmit}/>
 
-            </View>
+                    </View>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
         );
     }
 }
