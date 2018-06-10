@@ -26,7 +26,8 @@ class Feed extends React.Component {
             dataLoaded: false,
             scrollY: new Animated.Value(0),
             eventIds: [],
-            events: {}
+            events: {},
+            refreshing: false
         };
 
         this.debouncedFetchFeed = debounce(this.fetchFeed, 3000);
@@ -36,14 +37,11 @@ class Feed extends React.Component {
     componentDidMount() {
         // console.log('mount my ass');
         if (Platform.OS === 'android' && !Constants.isDevice) {
-            console.log("IT DIDN'T WORK");
             this.fetchFeed();
         } else {
             this._getLocationAsync().then(() => {
-                console.log('can fetch location');
                 this.fetchFeed();
             }).catch(err => {
-                console.log('cannot fetch location');
                 this.fetchFeed();
             });
         }
@@ -56,7 +54,6 @@ class Feed extends React.Component {
             let {status} = await Permissions.askAsync(Permissions.LOCATION);
 
             if (status === 'granted') {
-                console.log('getting location');
                 let location = await Promise.race([
                     new Promise((resolver) => {
                         setTimeout(resolver, 5000, null);
@@ -66,15 +63,11 @@ class Feed extends React.Component {
                 const lat = location.coords.latitude;
                 const lng = location.coords.longitude;
 
-                console.log(lat);
                 //update location in store
                 this.props.updateLocation({latitude: lat, longitude: lng});
-                console.log('done getting location');
             }
 
         }
-
-        console.log("end of get location async");
 
     };
 
@@ -94,13 +87,18 @@ class Feed extends React.Component {
             this.setState({
                 dataLoaded: true,
                 eventIds: Object.keys(data.events),
-                events: data.events
+                events: data.events,
+                refreshing: false,
             })
         }, (error) => {
             console.log(error);
         })
     };
 
+    onRefresh = () => {
+        this.setState({refreshing: true});
+        this.fetchFeed();
+    };
 
     render() {
         let {eventIds} = this.state;
@@ -154,7 +152,7 @@ class Feed extends React.Component {
                                     refreshControl={
                                         <RefreshControl
                                             refreshing={this.state.refreshing}
-                                            onRefresh={this.debouncedFetchFeed}
+                                            onRefresh={this.onRefresh}
                                         />}
                         >
                             <Text style={commonStyles.emptyText}>There aren't any events yet!</Text>

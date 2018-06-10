@@ -143,7 +143,6 @@ class MyEvents extends Component {
 
                         <EventListView eventIds={eventsAsAttendee}/>
 
-
                     </View>
                 </View>
             </SafeAreaView>
