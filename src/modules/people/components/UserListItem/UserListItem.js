@@ -27,7 +27,6 @@ class UserListItem extends React.PureComponent {
     fetchProfilePicture = (userId) => {
         this.props.getProfileImage(userId,
             (profile) => {
-                console.log('i am here');
                 this.setState({
                     source: profile.source
                 });
