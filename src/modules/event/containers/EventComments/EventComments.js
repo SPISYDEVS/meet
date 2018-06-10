@@ -58,7 +58,7 @@ class EventComments extends React.Component {
 
             comments.forEach(comment => {
                 if (!(comment.userId in this.props.peopleReducer.byId)) {
-                    usersToFetch.push(id);
+                    usersToFetch.push(comment.userId);
                 }
                 usersToFetchProfiles.push(comment.userId);
             });
@@ -148,7 +148,6 @@ class EventComments extends React.Component {
             </LinearGradient>
         }
 
-        console.log('rerendered');
         const comments = this.props.eventReducer.byId[this.props.eventId]['comments'];
 
         if (comments === undefined || comments.length === 0) {
