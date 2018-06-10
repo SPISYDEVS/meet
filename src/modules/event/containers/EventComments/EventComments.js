@@ -79,8 +79,36 @@ class EventComments extends React.Component {
 
     };
 
+    fetchUsers = () => {
+        const eventId = this.props.eventId;
+        const event = this.props.eventReducer.byId[eventId];
+        const comments = event.comments;
+
+        //handle lazily loading user data from firebase if the users aren't loaded into the client yet
+        let usersToFetch = [];
+        let usersToFetchProfiles = [];
+
+        comments.forEach(comment => {
+            if (!(comment.userId in this.props.peopleReducer.byId)) {
+                usersToFetch.push(comment.userId);
+            }
+            usersToFetchProfiles.push(comment.userId);
+        });
+
+        this.fetchProfileImages(usersToFetchProfiles);
+
+        if (usersToFetch.length > 0) {
+
+            this.props.fetchUsers(usersToFetch, () => {
+                this.setState({dataLoaded: true});
+            }, (err) => console.log(err));
+
+        } else {
+            this.setState({dataLoaded: true});
+        }
+    };
+
     fetchProfileImages = (userIds) => {
-        console.log(userIds);
         this.props.getProfileImages(userIds,
             (profiles) => {
                 this.setState({
@@ -130,7 +158,7 @@ class EventComments extends React.Component {
     commentOnEvent = () => {
         this.props.commentOnEvent(this.props.eventId, this.state.comment,
             () => {
-            this.fetchProfileImages()
+            this.fetchUsers();
             },
             (err) => console.log(err));
 

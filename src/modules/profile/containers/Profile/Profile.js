@@ -106,12 +106,19 @@ class Profile extends React.Component {
         }
     };
 
-    onUpdateProfile = () => {
-        this.fetchProfilePicture();
+    onUpdateProfile = (success, data, error) => {
+        if (success) {
+            this.setState({
+                source: data.source
+            });
+        }
+        else {
+            alert('Error uploading profile image');
+        }
     };
 
     onErrorUpdatingProfile = (error) => {
-
+        alert(error.message);
     };
 
     onProfilePicPressed = () => {
@@ -129,7 +136,9 @@ class Profile extends React.Component {
                 }
             };
 
-            this.props.updateProfile(data, this.onUpdateProfile, this.onErrorUpdatingProfile);
+            this.props.updateProfile(data, () => {},
+                this.onErrorUpdatingProfile,
+                this.onUpdateProfile);
         });
     };
 
