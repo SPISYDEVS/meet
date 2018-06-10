@@ -49,7 +49,7 @@ class ForgotPassword extends React.Component {
         let errObj = this.state.error;
 
         if (error.hasOwnProperty("message")) {
-            errObj['general'] = error.message;
+            errObj['email'] = error.message;
         }
 
         this.setState({error: errObj});
