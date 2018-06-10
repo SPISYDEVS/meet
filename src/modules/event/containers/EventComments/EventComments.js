@@ -3,13 +3,14 @@ import React from 'react';
 import {
     ActivityIndicator,
     FlatList,
+    Keyboard,
     KeyboardAvoidingView,
     SafeAreaView,
     Text,
     TextInput,
-    TouchableOpacity, TouchableWithoutFeedback,
-    View,
-    Keyboard
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
 } from 'react-native';
 
 import styles, {commentStyles} from "./styles";
@@ -46,33 +47,35 @@ class EventComments extends React.Component {
         const eventId = this.props.eventId;
 
         //fetch the comments associated with the event
-        this.props.fetchEventComments(eventId, () => {
+        this.props.fetchEventComments(eventId, (comments) => {
 
             //after the comments are fetched, fetch the user profiles associated with the comments
-            const event = this.props.eventReducer.byId[eventId];
-            const comments = event.comments;
+            comments = Object.values(comments);
 
-            //handle lazily loading user data from firebase if the users aren't loaded into the client yet
-            let usersToFetch = [];
-            let usersToFetchProfiles = [];
+            if(comments) {
 
-            comments.forEach(comment => {
-                if (!(comment.userId in this.props.peopleReducer.byId)) {
-                    usersToFetch.push(comment.userId);
-                }
-                usersToFetchProfiles.push(comment.userId);
-            });
+                //handle lazily loading user data from firebase if the users aren't loaded into the client yet
+                let usersToFetch = [];
+                let usersToFetchProfiles = [];
 
-            this.fetchProfileImages(usersToFetchProfiles);
+                comments.forEach(comment => {
+                    if (!(comment.userId in this.props.peopleReducer.byId)) {
+                        usersToFetch.push(comment.userId);
+                    }
+                    usersToFetchProfiles.push(comment.userId);
+                });
 
-            if (usersToFetch.length > 0) {
+                this.fetchProfileImages(usersToFetchProfiles);
 
-                this.props.fetchUsers(usersToFetch, () => {
+                if (usersToFetch.length > 0) {
+
+                    this.props.fetchUsers(usersToFetch, () => {
+                        this.setState({dataLoaded: true});
+                    }, (err) => console.log(err));
+
+                } else {
                     this.setState({dataLoaded: true});
-                }, (err) => console.log(err));
-
-            } else {
-                this.setState({dataLoaded: true});
+                }
             }
 
         }, (err) => console.log(err));
@@ -149,12 +152,6 @@ class EventComments extends React.Component {
         )
     };
 
-    onScroll = (event) => {
-        const currentOffset = event.nativeEvent.contentOffset.y;
-        const upScroll = currentOffset < this.state.offset;
-        this.setState({offset: currentOffset, upScroll: upScroll});
-    };
-
     commentOnEvent = () => {
         this.props.commentOnEvent(this.props.eventId, this.state.comment,
             () => {
@@ -168,8 +165,9 @@ class EventComments extends React.Component {
     render() {
 
         const backgroundGradient = this.props.backgroundGradient;
+        const event = this.props.eventReducer.byId[this.props.eventId];
 
-        if (!this.state.dataLoaded) {
+        if (!this.state.dataLoaded || !event) {
             return <LinearGradient colors={backgroundGradient}
                                    style={[{flex: 1}, commonStyles.loadingContainer]}
                                    start={[.5, .15]}>
@@ -177,7 +175,7 @@ class EventComments extends React.Component {
             </LinearGradient>
         }
 
-        const comments = this.props.eventReducer.byId[this.props.eventId]['comments'];
+        const comments = event['comments'];
 
         if (comments === undefined || comments.length === 0) {
             return <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

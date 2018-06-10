@@ -80,7 +80,7 @@ export function fetchEventComments(eventId, successCB, errorCB) {
         api.fetchEventComments(eventId, function (success, data, error) {
             if (success) {
                 dispatch({type: t.EVENT_COMMENTS_FETCHED, data: {eventId: eventId, comments: data}});
-                successCB();
+                successCB(data);
             } else if (error) errorCB(error)
         });
     };

@@ -400,7 +400,6 @@ class EventForm extends React.Component {
 
         let backgroundGradient = [color.background, color.background];
 
-        console.log(this.state['description']['value']);
         if (this.state[startDate]['value']) {
             backgroundGradient = fetchBackgroundGradient(moment(this.state[startDate]['value'], DATE_FORMAT).valueOf());
         }
